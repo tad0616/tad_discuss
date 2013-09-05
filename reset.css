@@ -1,0 +1,36 @@
+.triangle-border dl,.triangle-border dt,.triangle-border dd,.triangle-border ul,.triangle-border ol,.triangle-border li,.triangle-border table th,.triangle-border table td {
+	margin: 0;
+	padding: 0;
+}
+
+.triangle-border dl,.triangle-border dt,.triangle-border dd,.triangle-border ul,.triangle-border ol,.triangle-border li{
+	line-height:180%;
+}
+
+.triangle-border table {
+	border-collapse: collapse;
+	border-spacing: 0;
+  border:1px solid rgb(176,176,176);
+}
+.triangle-border table td ,.triangle-border table th{
+  padding: 1px 2px;
+  border:1px solid rgb(176,176,176);
+}
+
+
+.triangle-border ul ,.triangle-border ul li ,.triangle-border  li ul li ,.mobilesty ul ,.mobilesty ul li ,.mobilesty li ul li{
+	list-style: disc inside none;
+}
+.triangle-border ol ,.triangle-border  ol li  ,.triangle-border  li ol li ,.mobilesty ol ,.mobilesty ol li ,.mobilesty li ol li {
+	list-style: decimal inside none;
+}
+.triangle-border li {
+	margin-left: 2em;
+	color:rgb(20,20,20);
+}
+.triangle-border li ul,.triangle-border  li ol {
+	margin-bottom: 0;
+}
+.triangle-border table caption,.triangle-border table  th {
+	text-align: left;
+}

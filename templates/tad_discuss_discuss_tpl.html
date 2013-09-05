@@ -1,0 +1,85 @@
+<{$bootstrap}>
+<{$jquery}>
+<{$toolbar}>
+
+
+<{if $op=="tad_discuss_form"}>
+
+  <{foreach item=discuss from=$form_data}>
+    <{includeq file="db:tad_discuss_form.html"}>
+  <{/foreach}>
+
+<{elseif $op=="show_one_tad_discuss"}>
+  <{$js}>
+  <h1><a href="discuss.php?BoardID=<{$BoardID}>"><{$BoardTitle}></a> / <{$DiscussTitle}></h1>
+  <{foreach item=discuss from=$discuss_data}>
+    <{if $display_mode=="top" || $display_mode=="bottom"}>
+      <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
+    <{elseif $display_mode=="mobile"}>
+      <{includeq file="db:tad_discuss_mobile.html"}>
+    <{elseif $display_mode=="clean"}>
+      <{includeq file="db:tad_discuss_clean.html"}>
+    <{else}>
+      <{includeq file="db:tad_discuss_talk_bubble.html"}>
+    <{/if}>
+  <{/foreach}>
+  <{foreach item=discuss from=$form_data}>
+    <{if $display_mode=="top" || $display_mode=="bottom"}>
+      <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
+    <{elseif $display_mode=="mobile"}>
+      <{includeq file="db:tad_discuss_mobile.html"}>
+    <{elseif $display_mode=="clean"}>
+      <{includeq file="db:tad_discuss_clean.html"}>
+    <{else}>
+      <{includeq file="db:tad_discuss_talk_bubble.html"}>
+    <{/if}>
+  <{/foreach}>
+  
+<{else}>
+
+
+  <h1><{$ShowBoardTitle}></h1>
+
+	<{$FooTableJS}>
+	<div class="well" style="background-color:white;">
+  	<table class="table table-striped table-hover">
+  	<thead>
+  	<tr>
+  		<th data-class="expand"><{$smarty.const._MD_TADDISCUS_DISCUSSTITLE}></th>
+  		<th data-hide="phone"><{$smarty.const._MD_TADDISCUS_DISCUSSRE}></th>
+  		<th data-hide="phone"><{$smarty.const._MD_TADDISCUS_UID}></th>
+  		<th data-hide="phone"><{$smarty.const._MD_TADDISCUS_LAST_RE}></th>
+  	</tr>
+  	</thead>
+
+  	<tbody>
+
+    <{if $main_data}>
+      <{foreach item=discuss from=$main_data}>
+        <tr>
+      		<td><img src="images/greenpoint.gif" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:#505050"><{$discuss.DiscussTitle}></a></td>
+      		<td class="text-center"><{$discuss.renum}></td>
+      		<td><div style="font-size:10px;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
+      		<td><div style="font-size:10px;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>
+    		</tr>
+      <{/foreach}>
+    <{else}>
+      <tr>
+        <td colspan=4 class="text-center">
+          <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
+          <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
+        </td>
+      </tr>
+    <{/if}>
+  	<tr>
+    	<td colspan=5>
+    	<{$post_tool}>
+      </td>
+    </tr>
+  	</tbody>
+  	</table>
+	</div>
+      <{$bar}>
+<{/if}>
+
+<{include file='db:system_notification_select.html'}>

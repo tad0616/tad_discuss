@@ -23,6 +23,14 @@
       <{includeq file="db:tad_discuss_talk_bubble.html"}>
     <{/if}>
   <{/foreach}>
+  <{$formValidator_code}>
+  <link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+  <script type="text/javascript" src="class/nicEdit.js"></script>
+  <script type="text/javascript">
+    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+  </script>
+  <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
+  <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data">
   <{foreach item=discuss from=$form_data}>
     <{if $display_mode=="top" || $display_mode=="bottom"}>
       <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>

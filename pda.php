@@ -36,6 +36,10 @@ function list_tad_discuss_board($show_function=1){
 
 	$all_content="";
 
+  if (mysql_num_rows($result) == 0) { 
+    $all_content.=_MD_TADDISCUS_BOARD_EMPTY;
+  }
+
 	while($all=$xoopsDB->fetchArray($result)){
 		//以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
 		foreach($all as $k=>$v){
@@ -256,12 +260,9 @@ function show_one_tad_discuss($DefDiscussID=""){
     //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
     foreach($all as $k=>$v){
       $$k=$v;
-    }
-    
+    }  
 
     $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$DiscussDate,'return',$Good,$Bad,$width);
-
-    $isMine=isMine();
 
     if($discuss_data['fun']){
         $form_data_edit.=tad_discuss_form($discuss_data['BoardID'],$discuss_data['DiscussID'],'','jqm');
@@ -638,8 +639,9 @@ switch($op){
   //更新資料
   case "update_tad_discuss":
   update_tad_discuss($DiscussID);
-  $ID=empty($ReDiscussID)?$DiscussID:$ReDiscussID;
-  header("location: {$_SERVER['PHP_SELF']}?op=show_one&DiscussID=$ID&BoardID=$BoardID");
+  //$ID=empty($ReDiscussID)?$DiscussID:$ReDiscussID;
+  //header("location: {$_SERVER['PHP_SELF']}?op=show_one&DiscussID=$ID&BoardID=$BoardID");
+  header("location: {$_SERVER['HTTP_REFERER']}");
   break;
 
 

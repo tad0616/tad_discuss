@@ -73,7 +73,7 @@ function list_tad_discuss_board($show_function=1){
           <div data-role='page' id='form_{$BoardID}'>
             <div data-theme='c' data-role='header' data-position='fixed'>
               <h3>{$title}</h3>
-              <a href='#showone' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
+              <a href='#index' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
             </div>
             <div data-role='content'>
               <div id='form-area'>
@@ -297,7 +297,7 @@ function show_one_tad_discuss($DefDiscussID=""){
     $page="
       <!-- showone -->
       $js
-      <div data-role='page' id='showone'>
+      <div data-role='page' id='index'>
         <div data-theme='c' data-role='header' data-position='fixed'>
           <a href='{$_SERVER['PHP_SELF']}' data-icon='arrow-l'>Back</a>
           <h3>{$title}</h3>
@@ -311,7 +311,7 @@ function show_one_tad_discuss($DefDiscussID=""){
     <div data-role='page' id='form'>
       <div data-theme='c' data-role='header' data-position='fixed'>
         <h3>{$title}</h3>
-        <a href='#showone' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
+        <a href='#index' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
       </div>
       <div data-role='content'>
         <div id='form-area'>
@@ -437,7 +437,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
     <div data-role='page' id='form_{$ID}'>
       <div data-theme='c' data-role='header' data-position='fixed'>
         <h3>{$title}</h3>
-        <a href='#showone' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
+        <a href='#index' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
       </div>
       <div data-role='content'>
         <div id='form-area'>

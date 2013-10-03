@@ -563,9 +563,13 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 //die($BoardTitle);
   $DiscussContent="  
   $formValidator_code
+  <script type='text/javascript' src='class/nicEdit.js'></script>
+  <script type='text/javascript'>
+    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+  </script>
   <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' enctype='multipart/form-data'>
   $DiscussTitle
-  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
+  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:320px; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
   <input type='hidden' name='BoardID' value='{$BoardID}'>
   <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>

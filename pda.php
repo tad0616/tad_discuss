@@ -12,7 +12,7 @@ include_once "up_file.php";
 
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($show_function=1){
-	global $xoopsDB , $xoopsModule , $xoopsUser;
+	global $xoopsDB , $isAdmin , $xoopsModule , $xoopsUser;
 
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
@@ -59,6 +59,8 @@ function list_tad_discuss_board($show_function=1){
     
     $add="<span class='ui-li-count'><a href='#form_{$BoardID}'><i class='icon-pencil'></i></span></a>";
 
+    $viewboard="<a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}'><i class='icon-chevron-right'></i></a>";
+
 
     $BoardNum=get_board_num($BoardID);
     $DiscussNum=get_board_num($BoardID,false);
@@ -86,7 +88,7 @@ function list_tad_discuss_board($show_function=1){
 
     $all_content.="
         <ul data-role='listview' data-inset='true' data-header-theme='c' data-divider-theme='c'>
-        <li data-role='list-divider'>{$BoardTitle} ({$BoardNum} · {$DiscussNum}) {$fun} {$add}</li>
+        <li data-role='list-divider'>{$fun} {$BoardTitle} ({$BoardNum} · {$DiscussNum}) {$viewboard} {$add}</li>
         {$list_tad_discuss}
         </ul>
     ";
@@ -119,17 +121,6 @@ function list_tad_discuss_board($show_function=1){
 function list_tad_discuss_short($BoardID=null,$limit=null){
   global $xoopsDB,$xoopsModule,$xoopsUser;
 
-  $member_handler = xoops_gethandler('member');
-  $user = $member_handler->getUser($uid);
-  if (is_object($user)) {
-    $ts = MyTextSanitizer::getInstance();
-    $uid_name=$ts->htmlSpecialChars($user->getVar('name'));
-    if(empty($uid_name))$uid_name=$ts->htmlSpecialChars($user->getVar('uname'));
-    $pic=$ts->htmlSpecialChars($user->getVar('user_avatar'));
-  }
-
-  $pic=(empty($pic) or $pic=='blank.gif')?"images/nobody.png":XOOPS_URL."/uploads/".$pic;
-
   $andBoardID=(empty($BoardID))?"":"and a.BoardID='$BoardID'";
   $andLimit=($limit > 0)?"limit 0,$limit":"";
   $sql = "select a.*,b.* from ".$xoopsDB->prefix("tad_discuss")." as a left join ".$xoopsDB->prefix("tad_discuss_board")." as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
@@ -144,6 +135,15 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
       $$k=$v;
     }
 
+    $member_handler = xoops_gethandler('member');
+    $user = $member_handler->getUser($uid);
+    if (is_object($user)) {
+      $ts = MyTextSanitizer::getInstance();
+      $pic_avatar=$ts->htmlSpecialChars($user->getVar('user_avatar'));
+    }
+
+    $pic_avatar=(empty($pic_avatar) or $pic_avatar=='blank.gif')?"images/nobody.png":XOOPS_URL."/uploads/".$pic_avatar;
+
     $renum=get_re_num($DiscussID);
     //$show_re_num=empty($renum)?"":sprintf(_MD_TADDISCUS_RE_DISCUSS,$renum);
 
@@ -153,7 +153,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
     $renum=_MD_TADDISCUS_DISCUSSRE.$renum;
 
     $main_data.="
-      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic}'>
+      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
       </li>
@@ -165,7 +165,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 
 //以流水號秀出某筆tad_discuss資料內容
 function show_one_tad_discuss($DefDiscussID=""){
-  global $xoopsDB,$xoopsModule,$xoopsUser,$xoopsModuleConfig;
+  global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig;
 
   $isAdmin=isAdmin();
 
@@ -305,6 +305,7 @@ function show_one_tad_discuss($DefDiscussID=""){
         </div>
         <div data-role='content'>
           {$main}
+          {$bar}
         </div>
       </div>
     <!-- formadd -->
@@ -324,6 +325,144 @@ function show_one_tad_discuss($DefDiscussID=""){
     ";
 
   return $page;
+}
+
+//列出所有tad_discuss資料
+function list_tad_discuss_m($DefBoardID=null){
+  global $xoopsDB,$xoopsModule,$xoopsUser,$xoopsModuleConfig,$isAdmin;
+  
+  //取得本模組編號
+  $module_id = $xoopsModule->getVar('mid');
+
+  //取得目前使用者的群組編號
+  if($xoopsUser) {
+    $uid=$xoopsUser->getVar('uid');
+    $groups=$xoopsUser->getGroups();
+  }else{
+    $uid=0;
+    $groups = XOOPS_GROUP_ANONYMOUS;
+  }
+  $gperm_handler =& xoops_gethandler('groupperm');
+  if(!$gperm_handler->checkRight('forum_read',$DefBoardID,$groups,$module_id)){
+    header('location:index.php');
+  }
+  
+
+  $andBoardID=(empty($DefBoardID))?"":"and a.BoardID='$DefBoardID'";
+  $andLimit=($limit > 0)?"limit 0,$limit":"";
+  $sql = "select a.*,b.* from ".$xoopsDB->prefix("tad_discuss")." as a left join ".$xoopsDB->prefix("tad_discuss_board")." as b on a.BoardID = b.BoardID where a.ReDiscussID='0' and b.BoardEnable='1' $andBoardID  order by a.LastTime desc";
+
+  //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+  $PageBar=getPageBar($sql , $xoopsModuleConfig['show_discuss_amount'] , 10);
+  $bar=$PageBar['bar'];
+  $sql=$PageBar['sql'];
+  $total=$PageBar['total'];
+
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  $main_data="";
+  $i=1;
+  while($all=$xoopsDB->fetchArray($result)){
+    //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
+    foreach($all as $k=>$v){
+      $$k=$v;
+    }
+
+    $member_handler = xoops_gethandler('member');
+    $user = $member_handler->getUser($uid);
+    if (is_object($user)) {
+      $ts = MyTextSanitizer::getInstance();
+      $pic_avatar=$ts->htmlSpecialChars($user->getVar('user_avatar'));
+    }
+
+    $pic_avatar=(empty($pic_avatar) or $pic_avatar=='blank.gif')?"images/nobody.png":XOOPS_URL."/uploads/".$pic_avatar;
+
+    $renum=get_re_num($DiscussID);
+    $renum=empty($renum)?"0":$renum;
+
+    $uid_name=XoopsUser::getUnameFromId($uid,1);
+    if(empty($uid_name))$uid_name=XoopsUser::getUnameFromId($uid,0);
+
+    //最後回應者
+    $sql2 = "select uid from ".$xoopsDB->prefix("tad_discuss")." where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
+    $result2 = $xoopsDB->queryF($sql2) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    //if($isAdmin)die($sql2);
+    list($last_uid)=$xoopsDB->fetchRow($result2);
+    //if($isAdmin and $BoardID==19)die("<div>$sql2</div>\$last_uid={$last_uid}");
+    if(empty($last_uid)){
+      $last_uid_name=$uid_name;
+    }else{
+      $last_uid_name=XoopsUser::getUnameFromId($last_uid,1);
+      if(empty($last_uid_name))$last_uid_name=XoopsUser::getUnameFromId($last_uid,0);
+    }
+
+    $LastTime=substr($LastTime,0,16);
+    $DiscussDate=substr($DiscussDate,0,16);
+    
+    $renum=_MD_TADDISCUS_DISCUSSRE.$renum;
+
+    $main_data.="
+      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar'>
+        <h2>{$DiscussTitle}</h2>
+        <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
+      </li>";
+
+  }
+
+  $Board=get_tad_discuss_board($DefBoardID);
+  if(!empty($DefBoardID)){
+  $title=$Board['BoardTitle'];
+  }
+
+  if($xoopsUser){
+      $form_data=tad_discuss_form($BoardID,'',$DefDiscussID);
+    } else {
+      $form_data=_MD_TADDISCUS_NEEDLOGIN;
+    }
+
+  if(empty($main_data))$main_data="<li>"._MD_TADDISCUS_DISCUSS_EMPTY."</li>";
+
+  $login=login_m();
+
+  $data="
+    <!-- index -->
+    <div data-role='page' id='index'>
+      <div data-theme='c' data-role='header' data-position='fixed'>
+        <a href='#login' data-icon='bars' data-iconpos='notext'>Menu</a>
+        <h3>{$title}</h3>
+        <a href='#form' data-icon='edit' data-iconpos='notext' class='ui-btn-right'>add</a>
+      </div>
+      <div data-role='content'>
+        <ul data-role='listview' data-inset='false' data-header-theme='c'>
+        {$main_data}
+        </ul>
+        <div style='margin-top:30px;'>{$bar}</div>
+      </div>
+      <div data-role='panel' data-position='left' data-display='push' id='login' data-theme='c'>
+        {$login}
+      </div>
+    </div>
+    <!-- formadd -->
+    <div data-role='page' id='form'>
+      <div data-theme='c' data-role='header' data-position='fixed'>
+        <h3>{$title}</h3>
+        <a href='#index' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
+      </div>
+      <div data-role='content'>
+        <div id='form-area'>
+          {$form_data}
+        </div>
+      </div>
+    </div>
+    {$form_data_edit}
+
+    ";
+  
+
+  //raised,corners,inset
+  //$main=div_3d($ShowBoardTitle,$data,"corners","width:100%");
+
+  return $data;
 }
 
 //tad_discuss編輯表單
@@ -395,9 +534,10 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   if(!file_exists(TADTOOLS_PATH."/formValidator.php")){
    redirect_header("pda.php",3, _MD_NEED_TADTOOLS);
   }
+  $ID=empty($DiscussID)?$BoardID:$DiscussID;
   include_once TADTOOLS_PATH."/formValidator.php";
-  $formValidator= new formValidator("#myForm",true);
-  $formValidator_code=$formValidator->render();
+  $formValidator= new formValidator("#myForm{$ID}",true);
+  $formValidator_code=$formValidator->render('bottomLeft');
 
   $RE=!empty($DefReDiscussID)?get_tad_discuss($DefReDiscussID):array();
 
@@ -413,9 +553,9 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 //die($BoardTitle);
   $DiscussContent="  
   $formValidator_code
-  <form data-ajax='false' action='pda.php' method='post' id='myForm' enctype='multipart/form-data'>
+  <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' enctype='multipart/form-data'>
   $DiscussTitle
-  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required],minSize[5]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
+  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
   <input type='hidden' name='BoardID' value='{$BoardID}'>
   <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
@@ -431,7 +571,6 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 
   $discuss=get_tad_discuss($DefDiscussID);
   $title=empty($discuss['DiscussTitle'])?$Board['BoardTitle']:$discuss['DiscussTitle']; 
-  $ID=empty($DiscussID)?$BoardID:$DiscussID;
   $main.="
     <!-- form -->
     <div data-role='page' id='form_{$ID}'>
@@ -659,6 +798,11 @@ switch($op){
   //單一討論
   case "show_one":
   $main=show_one_tad_discuss($DiscussID);
+  break;
+
+  //單一討論區
+  case "show_board":
+  $main=list_tad_discuss_m($BoardID);
   break;  
 
   default:
@@ -723,9 +867,9 @@ echo "
     margin-top: 20px;
     text-align: center;
   }
-  .ui-content {
+  /*.ui-content {
     padding: 10px 5px !important;
-  }
+  }*/
   .content-head {}
   .content-box {
     border: 1px solid #B3B3B3;
@@ -786,12 +930,6 @@ echo "
       //$.mobile.page.prototype.options.addBackBtn = true;
       $.mobile.ajaxEnabled = false;
     });
-  </script>
-  <script>
-  $(document).bind('pagebeforeshow', '#index', function(){    
-    $('.ui-header').attr('data-position','fixed');
-    $('.ui-body-null').trigger('create');
-  });
   </script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
    

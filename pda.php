@@ -264,6 +264,14 @@ function show_one_tad_discuss($DefDiscussID=""){
 
     $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$DiscussDate,'return',$Good,$Bad,$width);
 
+    if($discuss_data['like']){
+      $like="
+      <div class='like-unlike'>
+      <span>{$Bad}</span> <a href='javascript:like(\"unlike\",{$discuss_data['DiscussID']});'><i class='icon-thumbs-down'></i></a> | <a href='javascript:like(\"like\",{$discuss_data['DiscussID']});'><i class='icon-thumbs-up'></i></a> <span>{$Good}</span>
+      </div>
+      ";
+      }
+
     if($discuss_data['fun']){
         $form_data_edit.=tad_discuss_form($discuss_data['BoardID'],$discuss_data['DiscussID'],'','jqm');
       }
@@ -280,7 +288,9 @@ function show_one_tad_discuss($DefDiscussID=""){
     <div class='content-box'>
       {$discuss_data['DiscussContent']}
       <div class='content-files'>{$discuss_data['files']}</div>
-      {$edit}
+      <div class='content-footer'>
+      {$like}{$edit}
+      <div class='clearfix'></div></div>
     </div>";
 
     $i++;
@@ -296,7 +306,6 @@ function show_one_tad_discuss($DefDiscussID=""){
 
     $page="
       <!-- showone -->
-      $js
       <div data-role='page' id='index'>
         <div data-theme='c' data-role='header' data-position='fixed'>
           <a href='{$_SERVER['PHP_SELF']}' data-icon='arrow-l'>Back</a>
@@ -304,6 +313,7 @@ function show_one_tad_discuss($DefDiscussID=""){
           <a href='#form' data-icon='edit' data-iconpos='notext' class='ui-btn-right'>Menu</a>
         </div>
         <div data-role='content'>
+        $js
           {$main}
           {$bar}
         </div>
@@ -911,8 +921,14 @@ echo "
       clear: both;
       visibility: hidden;
   }
-  .content-files{}
+  .content-files {}
+  .content-footer {}
   .edit-area {
+    float: left;
+    margin-top: 20px;
+  }
+  .like-unlike{
+    float: right;
     margin-top: 20px;
   }
   .clearfix {display: inline-block;}

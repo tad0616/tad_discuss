@@ -563,7 +563,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 //die($BoardTitle);
   $DiscussContent="  
   $formValidator_code
-  <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' enctype='multipart/form-data'>
+  <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' class='myForm' enctype='multipart/form-data'>
   $DiscussTitle
   <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:320px; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
   <input type='hidden' name='BoardID' value='{$BoardID}'>
@@ -951,7 +951,7 @@ echo "
   </script>
    <script>
     $(document).bind('pageinit', function(){
-      $('form>div,.nicEdit-main').css('width','100%');
+      $('.myForm>div,.nicEdit-main').css('width','100%');
     });
   </script>
   <script type='text/javascript' src='class/nicEdit.js'></script>

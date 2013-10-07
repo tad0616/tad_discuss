@@ -39,7 +39,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
 
 
 	$like=(!empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
-	$fun=(isMine($uid) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
+	$fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
   $files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
 
   if($xoopsModuleConfig['display_mode']=="mobile")$DiscussDate=substr($DiscussDate,0,16);

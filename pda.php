@@ -561,6 +561,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
     $BoardTitle=get_board_title($BoardID);
   }
 //die($BoardTitle);
+  $files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
   $DiscussContent="  
   $formValidator_code
   <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' class='myForm' enctype='multipart/form-data'>
@@ -571,7 +572,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'><button type='submit' class=''>"._TAD_SAVE."</button></span>
-  ".list_del_file("DiscussID",$DefDiscussID)."</form>";
+  <div class='showfiles'>".list_del_file("DiscussID",$DefDiscussID)."{$files}</div></form>";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 
@@ -945,13 +946,14 @@ echo "
   <script>
     $(document).bind('mobileinit', function(){
       $.mobile.defaultPageTransition = 'slide';
-      //$.mobile.page.prototype.options.addBackBtn = true;
       $.mobile.ajaxEnabled = false;
+      $.mobile.ignoreContentEnabled = true;
     });
   </script>
    <script>
-    $(document).bind('pageinit', function(){
+    $(document).on('pagecreate', function(){
       $('.myForm>div,.nicEdit-main').css('width','100%');
+      $('.showfiles :input').attr('data-role','none');
     });
   </script>
   <script type='text/javascript' src='class/nicEdit.js'></script>

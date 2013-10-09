@@ -960,6 +960,7 @@ echo "
   <script type='text/javascript'>
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
   </script>
+  <script src='".XOOPS_URL."/modules/tadtools/multiple-file-upload/jquery.MultiFile.js'></script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
    
 </head>

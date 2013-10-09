@@ -572,7 +572,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'><button type='submit' class=''>"._TAD_SAVE."</button></span>
-  <div class='showfiles'>".list_del_file("DiscussID",$DefDiscussID)."{$files}</div></form>";
+  <div class='showfiles'><input type='file' name='upfile[]' class='multi'>".list_del_file("DiscussID",$DefDiscussID)."{$files}</div></form>";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 

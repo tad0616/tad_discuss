@@ -167,7 +167,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 function show_one_tad_discuss($DefDiscussID=""){
   global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig;
 
-  $isAdmin=isAdmin();
+  //$isAdmin=isAdmin();
 
   if(empty($DefDiscussID)){
     return;
@@ -734,15 +734,16 @@ function add_tad_discuss_counter($DiscussID=''){
 }
 
 function login_m(){
-  global $xoopsDB,$xoopsUser;
+  global $xoopsDB,$xoopsUser,$isAdmin;
 
+$admin_menu=$isAdmin?"<li><a title='Administration Menu' href='".XOOPS_URL."/admin.php' rel='external'>Administration Menu</a></li>":"";
 if($xoopsUser){
   $main="
 <ul data-role='listview' data-theme='c' data-divider-theme='c' style='margin-top:-16px;'>
     <li data-icon='delete' style='background-color:#111;'>
       <a href='#' data-rel='close'>User Menu</a>
     </li>
-    <li><a title='Administration Menu' href='".XOOPS_URL."/admin.php' rel='external'>Administration Menu</a></li>
+    {$admin_menu}
     <li><a title='View Account' href='".XOOPS_URL."/user.php' rel='external'>View Account</a></li>
     <li><a title='Edit Account' href='".XOOPS_URL."/edituser.php' rel='external'>Edit Account</a></li>
     <li><a title='Notifications' href='".XOOPS_URL."/notifications.php' rel='external'>Notifications</a></li>

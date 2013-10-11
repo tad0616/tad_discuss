@@ -167,7 +167,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 function show_one_tad_discuss($DefDiscussID=""){
   global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig;
 
-  $isAdmin=isAdmin();
+  //$isAdmin=isAdmin();
 
   if(empty($DefDiscussID)){
     return;
@@ -561,6 +561,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
     $BoardTitle=get_board_title($BoardID);
   }
 //die($BoardTitle);
+  $files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
   $DiscussContent="  
   $formValidator_code
   <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' class='myForm' enctype='multipart/form-data'>
@@ -571,7 +572,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'><button type='submit' class=''>"._TAD_SAVE."</button></span>
-  ".list_del_file("DiscussID",$DefDiscussID)."</form>";
+  <div class='showfiles'><input type='file' name='upfile[]' class='multi'>".list_del_file("DiscussID",$DefDiscussID)."{$files}</div></form>";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 
@@ -733,15 +734,16 @@ function add_tad_discuss_counter($DiscussID=''){
 }
 
 function login_m(){
-  global $xoopsDB,$xoopsUser;
+  global $xoopsDB,$xoopsUser,$isAdmin;
 
+$admin_menu=$isAdmin?"<li><a title='Administration Menu' href='".XOOPS_URL."/admin.php' rel='external'>Administration Menu</a></li>":"";
 if($xoopsUser){
   $main="
 <ul data-role='listview' data-theme='c' data-divider-theme='c' style='margin-top:-16px;'>
     <li data-icon='delete' style='background-color:#111;'>
       <a href='#' data-rel='close'>User Menu</a>
     </li>
-    <li><a title='Administration Menu' href='".XOOPS_URL."/admin.php' rel='external'>Administration Menu</a></li>
+    {$admin_menu}
     <li><a title='View Account' href='".XOOPS_URL."/user.php' rel='external'>View Account</a></li>
     <li><a title='Edit Account' href='".XOOPS_URL."/edituser.php' rel='external'>Edit Account</a></li>
     <li><a title='Notifications' href='".XOOPS_URL."/notifications.php' rel='external'>Notifications</a></li>
@@ -945,19 +947,21 @@ echo "
   <script>
     $(document).bind('mobileinit', function(){
       $.mobile.defaultPageTransition = 'slide';
-      //$.mobile.page.prototype.options.addBackBtn = true;
       $.mobile.ajaxEnabled = false;
+      $.mobile.ignoreContentEnabled = true;
     });
   </script>
    <script>
-    $(document).bind('pageinit', function(){
+    $(document).on('pagecreate', function(){
       $('.myForm>div,.nicEdit-main').css('width','100%');
+      $('.showfiles :input').attr('data-role','none');
     });
   </script>
   <script type='text/javascript' src='class/nicEdit.js'></script>
   <script type='text/javascript'>
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
   </script>
+  <script src='".XOOPS_URL."/modules/tadtools/multiple-file-upload/jquery.MultiFile.js'></script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
    
 </head>

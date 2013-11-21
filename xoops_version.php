@@ -20,10 +20,10 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2013-07-05';
+$modversion['release_date'] = '2013-10-28';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
-$modversion['module_status'] = 'release';
+$modversion['module_status'] = 'RC4';
 $modversion['author_website_url'] = 'http://tad0616.net';
 $modversion['author_website_name'] = _MI_TAD_WEB;
 $modversion['min_php']= 5.2;

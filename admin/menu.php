@@ -27,6 +27,12 @@ $adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU2 ;
 $adminmenu[$i]['icon'] = "images/admin/copy_doc.png";
 
 $i++;
+$adminmenu[$i]['title'] = _MI_TADDISCUS_ADMENU4;
+$adminmenu[$i]['link'] = "admin/copycbox.php";
+$adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU4 ;
+$adminmenu[$i]['icon'] = "images/admin/copy_doc.png";
+
+$i++;
 $adminmenu[$i]['title'] = _MI_TAD_ADMIN_ABOUT;
 $adminmenu[$i]['link'] = 'admin/about.php';
 $adminmenu[$i]['desc'] = _MI_TAD_ADMIN_ABOUT_DESC;

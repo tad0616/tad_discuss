@@ -36,7 +36,7 @@ function list_tad_discuss_board($show_function=1){
 
 	$all_content="";
 
-  if (mysql_num_rows($result) == 0) { 
+  if (mysql_num_rows($result) == 0) {
     $all_content.=_MD_TADDISCUS_BOARD_EMPTY;
   }
 
@@ -45,7 +45,7 @@ function list_tad_discuss_board($show_function=1){
 		foreach($all as $k=>$v){
 			$$k=$v;
 		}
-		
+
 		if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id))continue;
 
     $pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
@@ -56,7 +56,7 @@ function list_tad_discuss_board($show_function=1){
 
     $fun=($show_function)?"
     <a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID' rel='external'><i class='icon-wrench'></i></a>":"";
-    
+
     $add="<span class='ui-li-count'><a href='#form_{$BoardID}'><i class='icon-pencil'></i></span></a>";
 
     $viewboard="<a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}'><i class='icon-chevron-right'></i></a>";
@@ -82,7 +82,7 @@ function list_tad_discuss_board($show_function=1){
                 "._MD_TADDISCUS_NEEDLOGIN."
               </div>
             </div>
-          </div>        
+          </div>
         ";
       }
 
@@ -172,10 +172,10 @@ function show_one_tad_discuss($DefDiscussID=""){
   if(empty($DefDiscussID)){
     return;
   }else{
-  
+
     $DefDiscussID=intval($DefDiscussID);
     $discuss=get_tad_discuss($DefDiscussID);
-    
+
 
 
     //取得本模組編號
@@ -194,7 +194,7 @@ function show_one_tad_discuss($DefDiscussID=""){
       header('location:index.php');
     }
 
-    
+
     if($discuss['ReDiscussID']!=0){
       header("location: {$_SERVER['PHP_SELF']}?DiscussID={$discuss['ReDiscussID']}&BoardID={$discuss['BoardID']}");
     }
@@ -212,7 +212,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   }
 
   add_tad_discuss_counter($DefDiscussID);
-  
+
   $js="
   <script type='text/javascript' src='".XOOPS_URL."/modules/tadtools/jqueryCookie/jquery.cookie.js'></script>
   <link rel='stylesheet' type='text/css' media='screen' href='reset.css' />
@@ -241,7 +241,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $Board=get_tad_discuss_board($discuss['BoardID']);
 
 
-  
+
   $sql = "select * from ".$xoopsDB->prefix("tad_discuss")." where DiscussID='$DefDiscussID' or ReDiscussID='$DefDiscussID' order by ReDiscussID , DiscussDate";
 
   //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
@@ -249,7 +249,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $bar=$PageBar['bar'];
   $sql=$PageBar['sql'];
   $total=$PageBar['total'];
-  
+
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   $discuss_data="";
@@ -260,7 +260,7 @@ function show_one_tad_discuss($DefDiscussID=""){
     //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
     foreach($all as $k=>$v){
       $$k=$v;
-    }  
+    }
 
     $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$DiscussDate,'return',$Good,$Bad,$width);
 
@@ -340,7 +340,7 @@ function show_one_tad_discuss($DefDiscussID=""){
 //列出所有tad_discuss資料
 function list_tad_discuss_m($DefBoardID=null){
   global $xoopsDB,$xoopsModule,$xoopsUser,$xoopsModuleConfig,$isAdmin;
-  
+
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
 
@@ -356,7 +356,7 @@ function list_tad_discuss_m($DefBoardID=null){
   if(!$gperm_handler->checkRight('forum_read',$DefBoardID,$groups,$module_id)){
     header('location:index.php');
   }
-  
+
 
   $andBoardID=(empty($DefBoardID))?"":"and a.BoardID='$DefBoardID'";
   $andLimit=($limit > 0)?"limit 0,$limit":"";
@@ -408,7 +408,7 @@ function list_tad_discuss_m($DefBoardID=null){
 
     $LastTime=substr($LastTime,0,16);
     $DiscussDate=substr($DiscussDate,0,16);
-    
+
     $renum=_MD_TADDISCUS_DISCUSSRE.$renum;
 
     $main_data.="
@@ -467,10 +467,6 @@ function list_tad_discuss_m($DefBoardID=null){
     {$form_data_edit}
 
     ";
-  
-
-  //raised,corners,inset
-  //$main=div_3d($ShowBoardTitle,$data,"corners","width:100%");
 
   return $data;
 }
@@ -482,7 +478,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   if(empty($xoopsUser)){
     redirect_header("pda.php",3, _MD_TADDISCUS_NEEDLOGIN);
   }
-  
+
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
 
@@ -562,7 +558,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   }
 //die($BoardTitle);
   $files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
-  $DiscussContent="  
+  $DiscussContent="
   $formValidator_code
   <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' class='myForm' enctype='multipart/form-data'>
   $DiscussTitle
@@ -576,12 +572,12 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 
-    
+
   //$all[0]=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$DiscussDate,'return',null,null,$width);
 
 
   $discuss=get_tad_discuss($DefDiscussID);
-  $title=empty($discuss['DiscussTitle'])?$Board['BoardTitle']:$discuss['DiscussTitle']; 
+  $title=empty($discuss['DiscussTitle'])?$Board['BoardTitle']:$discuss['DiscussTitle'];
   $main.="
     <!-- form -->
     <div data-role='page' id='form_{$ID}'>
@@ -609,7 +605,7 @@ function insert_tad_discuss(){
 
   //取得使用者編號
   if(!$xoopsUser)return;
-  
+
    $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
 
   $myts = MyTextSanitizer::getInstance();
@@ -622,7 +618,7 @@ function insert_tad_discuss(){
       $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
       $myip = $myip[0];
   }
-  
+
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
 
   $sql = "insert into ".$xoopsDB->prefix("tad_discuss")."   (`ReDiscussID` , `uid` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
@@ -631,7 +627,7 @@ function insert_tad_discuss(){
 
   //取得最後新增資料的流水編號
   $DiscussID=$xoopsDB->getInsertId();
-  
+
   $xoopsUser->incrementPost();
   upload_file("DiscussID" , $DiscussID , 500);
 
@@ -646,7 +642,7 @@ function insert_tad_discuss(){
   //全局
   $extra_tags['DISCUSS_TITLE'] = $_POST['DiscussTitle'];
   $extra_tags['DISCUSS_CONTENT'] = strip_tags($_POST['DiscussContent']);
-  
+
   $extra_tags['DISCUSS_URL'] = XOOPS_URL."/modules/tad_discuss/discuss.php?DiscussID={$ToDiscussID}&BoardID={$_POST['BoardID']}";
   $notification_handler =& xoops_gethandler('notification');
   $notification_handler->triggerEvent("global", null , "new_discuss", $extra_tags , null, null,0);
@@ -658,7 +654,7 @@ function insert_tad_discuss(){
     $notification_handler =& xoops_gethandler('notification');
     $notification_handler->triggerEvent("board", $_POST['BoardID'] , "new_board_discuss", $extra_tags , null, null,0);
   }
-  
+
   if(!empty($_POST['ReDiscussID']))return $_POST['ReDiscussID'];
   return $DiscussID;
 }
@@ -679,7 +675,7 @@ function update_tad_discuss($DiscussID=""){
   }
 
   $anduid=onlyMine();
-  
+
 
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
 
@@ -690,7 +686,7 @@ function update_tad_discuss($DiscussID=""){
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  
+
   upload_file("DiscussID" , $DiscussID , 500);
   return $DiscussID;
 }
@@ -701,7 +697,7 @@ function delete_tad_discuss($DiscussID=""){
   global $xoopsDB,$xoopsUser,$isAdmin;
 
   if(!$xoopsUser)return;
-  
+
   $uid=$xoopsUser->getVar('uid');
   $anduid=onlyMine();
 
@@ -815,7 +811,7 @@ switch($op){
   //單一討論區
   case "show_board":
   $main=list_tad_discuss_m($BoardID);
-  break;  
+  break;
 
   default:
   $isAdmin=isAdmin();
@@ -833,8 +829,8 @@ echo "
 <head>
   <meta charset='"._CHARSET."'>
   <meta name='viewport' content='initial-scale=1.0, user-scalable=no'>
-  <title>{$title}</title>  
-  <link href='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css' rel='stylesheet' type='text/css'/>  
+  <title>{$title}</title>
+  <link href='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css' rel='stylesheet' type='text/css'/>
   <link href='".XOOPS_URL."/modules/tadtools/bootstrap/css/bootstrap.css' rel='stylesheet' type='text/css'/>
   <style>
   /*.ui-header .ui-title {
@@ -862,7 +858,7 @@ echo "
   .inner-content li{
     background-color: transparent;
     border: 0;
-  }  
+  }
   .inner-body {
     white-space: normal;
   }
@@ -942,7 +938,7 @@ echo "
   .clearfix {display: block;}
   /* End hide from IE-mac */
   </style>
-  
+
   <script src='".XOOPS_URL."/modules/tadtools/jquery/jquery.js' type='text/javascript'></script>
   <script>
     $(document).bind('mobileinit', function(){
@@ -963,7 +959,7 @@ echo "
   </script>
   <script src='".XOOPS_URL."/modules/tadtools/multiple-file-upload/jquery.MultiFile.js'></script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
-   
+
 </head>
 <body>
 <!-- Home -->

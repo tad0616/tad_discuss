@@ -12,7 +12,7 @@ $modversion['name'] = _MI_TADDISCUS_NAME;
 $modversion['version']	= '1.0';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author'] = _MI_TADDISCUS_AUTHOR;
-$modversion['credits']	= _MI_TADDISCUS_CREDITS;
+$modversion['credits']	= 'geek01';
 $modversion['help'] = 'page=help';
 $modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
 $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
@@ -20,10 +20,10 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2013-10-28';
+$modversion['release_date'] = '2013-12-12';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
-$modversion['module_status'] = 'RC4';
+$modversion['module_status'] = 'release';
 $modversion['author_website_url'] = 'http://tad0616.net';
 $modversion['author_website_name'] = _MI_TAD_WEB;
 $modversion['min_php']= 5.2;
@@ -53,6 +53,11 @@ $modversion['adminmenu'] = "admin/menu.php";
 
 //---使用者主選單設定---//
 $modversion['hasMain'] = 1;
+
+//---安裝設定---//
+$modversion['onInstall'] = "include/onInstall.php";
+$modversion['onUpdate'] = "include/onUpdate.php";
+$modversion['onUninstall'] = "include/onUninstall.php";
 
 //---搜尋設定---//
 $modversion['hasSearch'] = 1;
@@ -94,6 +99,9 @@ $modversion['templates'][$i]['description'] = 'tad_discuss_clean.html';
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_discuss_talk_bubble_vertical.html';
 $modversion['templates'][$i]['description'] = 'tad_discuss_talk_bubble_vertical.html';
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_discuss_adm_copycbox.html';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copycbox.html';
 
 
 //---區塊設定---//
@@ -113,6 +121,13 @@ $modversion['blocks'][2]['template'] = "tad_discuss_hot.html";
 $modversion['blocks'][2]['edit_func'] = "tad_discuss_hot_edit";
 $modversion['blocks'][2]['options'] = "10|30";
 
+$modversion['blocks'][3]['file'] = "tad_discuss_cbox.php";
+$modversion['blocks'][3]['name'] = _MI_TADDISCUS_BNAME3;
+$modversion['blocks'][3]['description'] = _MI_TADDISCUS_BDESC3;
+$modversion['blocks'][3]['show_func'] = "tad_discuss_cbox";
+$modversion['blocks'][3]['template'] = "tad_discuss_cbox.html";
+$modversion['blocks'][3]['edit_func'] = "tad_discuss_cbox_edit";
+$modversion['blocks'][3]['options'] = "";
 
 $modversion['config'][0]['name']	= 'display_mode';
 $modversion['config'][0]['title']	= '_MI_TADDISCUS_DISPLAY_MODE';

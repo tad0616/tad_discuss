@@ -599,66 +599,6 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   }
 }
 
-//新增資料到tad_discuss中
-function insert_tad_discuss(){
-  global $xoopsDB,$xoopsUser;
-
-  //取得使用者編號
-  if(!$xoopsUser)return;
-
-   $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
-
-  $myts = MyTextSanitizer::getInstance();
-  $_POST['DiscussTitle']=$myts->addSlashes($_POST['DiscussTitle']);
-  $_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
-
-  if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $myip = $_SERVER['REMOTE_ADDR'];
-  } else {
-      $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-      $myip = $myip[0];
-  }
-
-  //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
-
-  $sql = "insert into ".$xoopsDB->prefix("tad_discuss")."   (`ReDiscussID` , `uid` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
-  values('{$_POST['ReDiscussID']}' , '{$uid}' , '{$_POST['DiscussTitle']}' , '{$_POST['DiscussContent']}' , now() , '{$_POST['BoardID']}' , now() , '{$_POST['Counter']}', '$myip')";
-  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-
-  //取得最後新增資料的流水編號
-  $DiscussID=$xoopsDB->getInsertId();
-
-  $xoopsUser->incrementPost();
-  upload_file("DiscussID" , $DiscussID , 500);
-
-  $ToDiscussID= $DiscussID;
-  if(!empty($_POST['ReDiscussID'])){
-    $sql = "update ".$xoopsDB->prefix("tad_discuss")." set `LastTime` = now()
-    where `DiscussID` = '{$_POST['ReDiscussID']}' or `ReDiscussID` = '{$_POST['ReDiscussID']}'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-    $ToDiscussID=$_POST['ReDiscussID'];
-  }
-
-  //全局
-  $extra_tags['DISCUSS_TITLE'] = $_POST['DiscussTitle'];
-  $extra_tags['DISCUSS_CONTENT'] = strip_tags($_POST['DiscussContent']);
-
-  $extra_tags['DISCUSS_URL'] = XOOPS_URL."/modules/tad_discuss/discuss.php?DiscussID={$ToDiscussID}&BoardID={$_POST['BoardID']}";
-  $notification_handler =& xoops_gethandler('notification');
-  $notification_handler->triggerEvent("global", null , "new_discuss", $extra_tags , null, null,0);
-
-  //分類
-  if(!empty($_POST['BoardID'])){
-    $Board=get_tad_discuss_board($_POST['BoardID']);
-    $extra_tags['BOARD_TITLE'] = $Board['BoardTitle'];
-    $notification_handler =& xoops_gethandler('notification');
-    $notification_handler->triggerEvent("board", $_POST['BoardID'] , "new_board_discuss", $extra_tags , null, null,0);
-  }
-
-  if(!empty($_POST['ReDiscussID']))return $_POST['ReDiscussID'];
-  return $DiscussID;
-}
-
 //更新tad_discuss某一筆資料
 function update_tad_discuss($DiscussID=""){
   global $xoopsDB,$xoopsUser;
@@ -689,26 +629,6 @@ function update_tad_discuss($DiscussID=""){
 
   upload_file("DiscussID" , $DiscussID , 500);
   return $DiscussID;
-}
-
-
-//刪除tad_discuss某筆資料
-function delete_tad_discuss($DiscussID=""){
-  global $xoopsDB,$xoopsUser,$isAdmin;
-
-  if(!$xoopsUser)return;
-
-  $uid=$xoopsUser->getVar('uid');
-  $anduid=onlyMine();
-
-  $sql = "delete from ".$xoopsDB->prefix("tad_discuss")." where DiscussID='$DiscussID' $anduid";
-  $result=$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  $total=get_re_num($DiscussID);
-
-  if($total >0 ){
-    $sql = "delete from ".$xoopsDB->prefix("tad_discuss")." where ReDiscussID='$DiscussID'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  }
 }
 
 //判斷是否為管理員

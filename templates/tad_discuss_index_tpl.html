@@ -26,7 +26,7 @@
       <a href="discuss.php?op=tad_discuss_form&BoardID=<{$bb.BoardID}>" style="float:right;" class="btn btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
       <a href="discuss.php?BoardID=<{$bb.BoardID}>" style="font-size:130%"><{$bb.BoardTitle}></a> <{$bb.fun}>
       <div style="margin:10px auto;font-size:12px;">
-        <div><img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.BoardNum}>"><{$bb.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.DiscussNum}>"><{$bb.DiscussNum}></div>
+        <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.BoardNum}>"><{$bb.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.DiscussNum}>"><{$bb.DiscussNum}>  / <span style="font-size:11px;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$bb.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$bb.BoardManager}></span>
       </div>
       </td>
     </tr>
@@ -53,7 +53,7 @@
     <div class="hero-unit">
     <a href="admin/main.php?op=tad_discuss_board_form"><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></a>
     </div>
-  
-<{/if}>	
-	
+
+<{/if}>
+
 <{include file="db:system_notification_select.html"}>

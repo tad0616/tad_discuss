@@ -41,7 +41,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
     $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
   }
 
-  $files=isPublic($onlyTo,$uid)?$files:"";
+  $files=isPublic($onlyTo,$uid,$BoardID)?$files:"";
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
   if($xoopsModuleConfig['display_mode']=="mobile"){
     $DiscussDate=substr($DiscussDate,0,16);
@@ -60,7 +60,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   $all['uid_name']=$uid_name;
   $all['DiscussDate']=$DiscussDate;
   //$all['DiscussContent']=$DiscussContent;
-  $all['DiscussContent']=isPublic($onlyTo,$uid)?$DiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
+  $all['DiscussContent']=isPublic($onlyTo,$uid,$BoardID)?$DiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
   $all['DiscussID']=$DiscussID;
   $all['BoardID']=$BoardID;
   $all['Bad']=$Bad;
@@ -147,7 +147,7 @@ function list_tad_discuss($DefBoardID=null){
     $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
     $DiscussDate=substr($DiscussDate,0,16);
 
-    $isPublic=isPublic($onlyTo,$uid);
+    $isPublic=isPublic($onlyTo,$uid,$DefBoardID);
     $onlyToName=getOnlyToName($onlyTo);
 
     $main_data[$i]['LastTime']=$LastTime;
@@ -249,10 +249,13 @@ function get_re_num($DiscussID=""){
 function isMine($discuss_uid=null,$BoardID=null){
   global $xoopsUser,$isAdmin;
   if(empty($xoopsUser))return false;
+
   $board=get_tad_discuss_board($BoardID);
   $BoardManagerArr=explode(',',$board['BoardManager']);
+//die("aa".var_export($board));
+  $uid=$xoopsUser->uid();
 
-  $uid=is_object($xoopsUser)?$xoopsUser->getVar('uid'):"0";
+  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
   if($isAdmin){
     return true;
   }elseif(in_array($uid,$BoardManagerArr)){
@@ -261,6 +264,19 @@ function isMine($discuss_uid=null,$BoardID=null){
     return true;
   }
   return false;
+}
+
+//取得版主姓名
+function getBoardManager($BoardID="",$mode=""){
+  if(empty($BoardID))return false;
+  $board=get_tad_discuss_board($BoardID);
+  $BoardManagerArr=explode(',',$board['BoardManager']);
+  foreach($BoardManagerArr as $uid){
+    $BoardManagerName=XoopsUser::getUnameFromId($uid,1);
+    if(empty($BoardManagerName) or $mode=="uname")$BoardManagerName=XoopsUser::getUnameFromId($uid,0);
+    $name[]=$BoardManagerName;
+  }
+  return $name;
 }
 
 //更新刪除時是否限制身份

@@ -14,7 +14,7 @@ $TadUpFiles=new TadUpFiles("tad_discuss");
 
 
 //列出所有tad_discuss_board資料
-function list_tad_discuss_board($show_function=1){
+function list_tad_discuss_board(){
 	global $xoopsDB , $xoopsModule , $isAdmin, $xoopsUser, $xoopsTpl , $TadUpFiles;
 
   //取得本模組編號
@@ -41,7 +41,7 @@ function list_tad_discuss_board($show_function=1){
 		foreach($all as $k=>$v){
 			$$k=$v;
 		}
-		
+
 		if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id))continue;
 
     //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
@@ -51,13 +51,14 @@ function list_tad_discuss_board($show_function=1){
 
     $list_tad_discuss=list_tad_discuss_short($BoardID,7);
 
-		$fun=($show_function)?"
-		<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='"._TAD_EDIT."'></a>":"";
-
+    //$isMine=isMine(NULL,$BoardID);
+    //echo "<p>{$BoardID}:{$isMine}</p>";
+    $fun=($isAdmin)?"<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='"._TAD_EDIT."'></a>":"";
+    $BoardManager=implode(' , ',getBoardManager($BoardID,"uname"));
 
     $BoardNum=get_board_num($BoardID);
     $DiscussNum=get_board_num($BoardID,false);
-    
+
 		$all_content[$i]['pic']=$pic;
 		$all_content[$i]['BoardTitle']=$BoardTitle;
 		$all_content[$i]['BoardID']=$BoardID;
@@ -65,6 +66,10 @@ function list_tad_discuss_board($show_function=1){
 		$all_content[$i]['BoardNum']=sprintf(_MD_TADDISCUS_BOARD_DISCUSS,number_format($BoardNum));
 		$all_content[$i]['DiscussNum']=sprintf(_MD_TADDISCUS_ALL_DISCUSS,number_format($DiscussNum));
 		$all_content[$i]['list_tad_discuss']=$list_tad_discuss;
+    //$all_content[$i]['isMine']=$isMine;
+    $all_content[$i]['BoardManager']=$BoardManager;
+
+
 		$i++;
 	}
 
@@ -79,7 +84,7 @@ function list_tad_discuss_board($show_function=1){
 
 	$xoopsTpl->assign('FooTableJS',$FooTableJS);
 	$xoopsTpl->assign('all_content',$all_content);
-	
+
 	if($xoopsUser){
 	 $xoopsTpl->assign('login',true);
 	}else{
@@ -113,12 +118,17 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
     $uid_name=XoopsUser::getUnameFromId($uid,1);
     $LastTime=substr($LastTime,0,10);
 
+    $isPublic=isPublic($onlyTo,$uid,$BoardID);
+    $onlyToName=getOnlyToName($onlyTo);
+    $DiscussTitle=$isPublic?$DiscussTitle:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
+
 		$main_data[$i]['LastTime']=$LastTime;
 		$main_data[$i]['DiscussID']=$DiscussID;
 		$main_data[$i]['BoardID']=$BoardID;
 		$main_data[$i]['DiscussTitle']=$DiscussTitle;
 		$main_data[$i]['uid_name']=$uid_name;
 		$main_data[$i]['renum']=$renum;
+
     $i++;
 	}
 	return $main_data;
@@ -139,7 +149,7 @@ $xoopsTpl->assign( "jquery" , get_jquery(true)) ;
 switch($op){
 
 	default:
-	list_tad_discuss_board($isAdmin);
+	list_tad_discuss_board();
 	break;
 }
 

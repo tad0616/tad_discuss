@@ -45,7 +45,7 @@ function tad_discuss_hot($options){
     $DiscussDate=substr($DiscussDate,0,16);
     $class=$i%2?'odd':'even';
 
-    $isPublic=isPublic($onlyTo,$uid);
+    $isPublic=isPublic($onlyTo,$uid,$BoardID);
     $onlyToName=getOnlyToName($onlyTo);
     $DiscussTitle=$isPublic?$DiscussTitle:sprintf(_MB_TADDISCUS_ONLYTO,$onlyToName);
 

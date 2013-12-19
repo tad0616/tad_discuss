@@ -47,7 +47,7 @@ function tad_discuss_new($options){
 
     $class=$i%2?'odd':'even';
 
-    $isPublic=isPublic($onlyTo,$uid);
+    $isPublic=isPublic($onlyTo,$uid,$BoardID);
     $onlyToName=getOnlyToName($onlyTo);
     $DiscussTitle=$isPublic?$DiscussTitle:sprintf(_MB_TADDISCUS_ONLYTO,$onlyToName);
 

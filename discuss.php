@@ -287,7 +287,7 @@ function show_one_tad_discuss($DefDiscussID=""){
 
 
   $onlyToName=getOnlyToName($onlyTo1);
-  $discuss['DiscussTitle']=isPublic($onlyTo1,$uid)?$discuss['DiscussTitle']:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
+  $discuss['DiscussTitle']=isPublic($onlyTo1,$uid,$BoardID)?$discuss['DiscussTitle']:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
 
   $xoopsTpl->assign('BoardID',$Board['BoardID']);
   $xoopsTpl->assign('BoardTitle',$Board['BoardTitle']);
@@ -298,7 +298,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $xoopsTpl->assign('discuss_data',$discuss_data);
   $xoopsTpl->assign('form_data',$form_data);
   $xoopsTpl->assign('bar',$bar);
-  $xoopsTpl->assign('isPublic', isPublic($onlyTo1,$uid));
+  $xoopsTpl->assign('isPublic', isPublic($onlyTo1,$uid,$BoardID));
 }
 
 

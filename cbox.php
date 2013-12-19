@@ -160,7 +160,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
     if($show_tool and $isAdmin){
       $tool="<img src='".XOOPS_URL."/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
     }
-    $re_button=isPublic($onlyTo,$uid)?"<button type='button' style='font-size:11px;border:1px solid gray;float:right;' onClick=\"window.open('".XOOPS_URL."/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">"._MD_TADDISCUS_DISCUSSRE."</button>":"";
+    $re_button=isPublic($onlyTo,$uid,$DefBoardID)?"<button type='button' style='font-size:11px;border:1px solid gray;float:right;' onClick=\"window.open('".XOOPS_URL."/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">"._MD_TADDISCUS_DISCUSSRE."</button>":"";
 
 
 
@@ -174,11 +174,11 @@ function list_tad_discuss_cbox($DefBoardID=""){
       $titleColor="darkblue";
     }
 
-    $isPublic=isPublic($onlyTo,$uid);
+    $isPublic=isPublic($onlyTo,$uid,$DefBoardID);
     $onlyToName=getOnlyToName($onlyTo);
     $MainDiscussTitle=$isPublic?$MainDiscussTitle:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
     $MainDiscussContent=$isPublic?$MainDiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
-    $files=isPublic($onlyTo,$uid)?$files:"";
+    $files=isPublic($onlyTo,$uid,$DefBoardID)?$files:"";
 
     $MainDiscussContent=strip_word_html($MainDiscussContent);
 
@@ -238,8 +238,8 @@ function list_tad_discuss_cbox($DefBoardID=""){
       }
 
       $onlyToName=getOnlyToName($onlyTo);
-      $DiscussContent=isPublic($onlyTo,$uid)?$DiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
-      $files=isPublic($onlyTo,$uid)?$files:"";
+      $DiscussContent=isPublic($onlyTo,$uid,$DefBoardID)?$DiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
+      $files=isPublic($onlyTo,$uid,$DefBoardID)?$files:"";
 
       $re.="
       <div class='triangle-border' style='line-height:150%;'>

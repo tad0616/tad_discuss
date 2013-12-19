@@ -292,6 +292,13 @@ function get_tad_discuss_board_menu_options($default_BoardID="0"){
 //刪除tad_discuss_board某筆資料資料
 function delete_tad_discuss_board($BoardID=""){
   global $xoopsDB , $isAdmin , $TadUpFiles;
+  $sql = "select DiscussID from ".$xoopsDB->prefix("tad_discuss")." where BoardID='$BoardID' and ReDiscussID=0";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  while(list($DiscussID)=$xoopsDB->fetchRow($result)){
+    delete_tad_discuss($DiscussID);
+  }
+
   $sql = "delete from `".$xoopsDB->prefix("tad_discuss_board")."` where `BoardID` = '{$BoardID}'";
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   //del_files('' , "BoardID" , $BoardID);

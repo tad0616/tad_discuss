@@ -41,6 +41,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
     $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
   }
 
+  $files=isPublic($onlyTo,$uid)?$files:"";
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
   if($xoopsModuleConfig['display_mode']=="mobile"){
     $DiscussDate=substr($DiscussDate,0,16);
@@ -327,7 +328,7 @@ function insert_tad_discuss($nl2br=false){
     $myip = $myip[0];
   }
 
-  $ReDiscussID=intval($_POST['ReDiscussID']);
+  $ReDiscussID=isset($_POST['ReDiscussID'])?intval($_POST['ReDiscussID']):0;
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
   $Discuss=get_tad_discuss($ReDiscussID);
   $DiscussTitle=empty($_POST['DiscussTitle'])?"RE:".$Discuss['DiscussTitle']:$_POST['DiscussTitle'];
@@ -339,7 +340,9 @@ function insert_tad_discuss($nl2br=false){
   if($nl2br)$DiscussContent=nl2br($DiscussContent);
 
   $onlyTo="";
-  if($_POST['only_root']=='1'){
+  if($_POST['only_root']=='1' and !empty($ReDiscussID)){
+    $onlyTo=$Discuss['uid'];
+  }elseif($_POST['only_root']=='1'){
     $adminusers = $member_handler->getUsersByGroup(1);
     $onlyTo=implode(',',$adminusers);
   }

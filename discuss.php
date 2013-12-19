@@ -45,9 +45,6 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
     $DBV=array();
   }
 
-  //預設值設定
-
-
   //設定「DiscussID」欄位預設值
   $DiscussID=(!isset($DBV['DiscussID']))?$DefDiscussID:$DBV['DiscussID'];
 
@@ -76,6 +73,9 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   //設定「Counter」欄位預設值
   $Counter=(!isset($DBV['Counter']))?"":$DBV['Counter'];
 
+  //設定「onlyTo」欄位預設值
+  $onlyTo=(!isset($DBV['onlyTo']))?"":$DBV['onlyTo'];
+
   $op=(empty($DiscussID))?"insert_tad_discuss":"update_tad_discuss";
   //$op="replace_tad_discuss";
 
@@ -101,6 +101,12 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   $TadUpFiles->set_col("DiscussID",$DefDiscussID); //若 $show_list_del_file ==true 時一定要有
   $upform=$TadUpFiles->upform(true,"upfile",100,true);
 
+  $checked=!empty($onlyTo)?"checked":"";
+  if($DefReDiscussID){
+    $RE=get_tad_discuss($DefReDiscussID);
+    $checked=!empty($RE['onlyTo'])?"checked":"";
+  }
+
   $DiscussContent="
   $DiscussTitle
   <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
@@ -108,7 +114,12 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
-  <span style='display:block;float:right;'><button type='submit' class='btn btn-info'>"._TAD_SAVE."</button></span>
+  <span style='display:block;float:right;'>
+  <label class='radio inline'>
+  <input type='checkbox' name='only_root' value='1' $checked>"._MD_TADDISCUS_ONLY_ROOT."
+  </label>
+  <button type='submit' class='btn btn-info'>"._TAD_SAVE."</button>
+  </span>
   {$upform}";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));

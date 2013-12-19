@@ -8,6 +8,8 @@
 //區塊主函式 (最熱門討論(tad_discuss_hot))
 function tad_discuss_hot($options){
 	global $xoopsDB,$xoopsUser;
+  include_once XOOPS_ROOT_PATH."/modules/tad_discuss/function_block.php";
+  $now_uid=is_object($xoopsUser)?$xoopsUser->getVar('uid'):"0";
 
 	$andLimit=($options[0] > 0)?"limit 0,$options[0]":"";
 	$sql = "select a.*,b.* from ".$xoopsDB->prefix("tad_discuss")." as a left join ".$xoopsDB->prefix("tad_discuss_board")." as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.Counter desc $andLimit";
@@ -43,6 +45,10 @@ function tad_discuss_hot($options){
     $DiscussDate=substr($DiscussDate,0,16);
     $class=$i%2?'odd':'even';
 
+    $isPublic=isPublic($onlyTo,$uid);
+    $onlyToName=getOnlyToName($onlyTo);
+    $DiscussTitle=$isPublic?$DiscussTitle:sprintf(_MB_TADDISCUS_ONLYTO,$onlyToName);
+
 
     $block['discuss'][$i]['class']=$class;
     $block['discuss'][$i]['DiscussTitle']=$DiscussTitle;
@@ -53,6 +59,7 @@ function tad_discuss_hot($options){
     $block['discuss'][$i]['uid_name']=$uid_name;
     $block['discuss'][$i]['LastTime']=$LastTime;
     $block['discuss'][$i]['last_uid_name']=$last_uid_name;
+    $block['discuss'][$i]['isPublic']=$isPublic;
 
 		$i++;
 	}

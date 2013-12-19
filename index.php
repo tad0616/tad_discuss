@@ -8,13 +8,14 @@
 include "header.php";
 $xoopsOption['template_main'] = "tad_discuss_index_tpl.html";
 include_once XOOPS_ROOT_PATH."/header.php";
-include_once "up_file.php";
+include_once XOOPS_ROOT_PATH."/modules/tadtools/TadUpFiles.php" ;
+$TadUpFiles=new TadUpFiles("tad_discuss");
 /*-----------function區--------------*/
 
 
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($show_function=1){
-	global $xoopsDB , $xoopsModule , $isAdmin, $xoopsUser, $xoopsTpl;
+	global $xoopsDB , $xoopsModule , $isAdmin, $xoopsUser, $xoopsTpl , $TadUpFiles;
 
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
@@ -43,7 +44,9 @@ function list_tad_discuss_board($show_function=1){
 		
 		if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id))continue;
 
-    $pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
+    //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
+    $TadUpFiles->set_col('BoardID' , $BoardID);
+    $pic=$TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
     $pic=empty($pic)?"images/board.png":$pic;
 
     $list_tad_discuss=list_tad_discuss_short($BoardID,7);

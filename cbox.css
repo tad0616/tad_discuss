@@ -1,3 +1,7 @@
+font{
+  font-size:12px;
+}
+
 
 .triangle-border {
   position:relative;
@@ -45,28 +49,17 @@
 div.cbox {
   background-color: #FFFFFF;
 }
-/* 留言簿表格樣式 */
-table#cbox_show_tbl {
-  width: 100%;
-  padding: 8px;
-  border-collapse: collapse;
-  background-color: #FFFFFF;
-}
-/* 留言簿留言基本樣式  */
-table#cbox_show_tbl td {
-  padding: 4px;
-  border-bottom: 1px solid rgb(255,255,255);
-  font-size: 12px;
-}
+
 
 /* 留言簿「日期」樣式 */
 .cbox_date {
   font-size: 10px;
   color: rgb(102,204,255);
-  text-align: right;
+  text-align: left;
   font-family: Arial;
   margin-bottom: 2px;
 }
+
 /* 留言簿「IP」樣式 */
 .cbox_ip {
   font-size: 10px;
@@ -74,21 +67,25 @@ table#cbox_show_tbl td {
   font-family: Arial;
   margin-bottom: 2px;
 }
+
 /* 留言簿「發佈者」樣式 */
 .cbox_publisher {
   color: rgb(80,80,80);
   font-weight: normal;
   display: inline;
 }
+
 /* 留言簿「私密留言」樣式 */
 .lock_msg {
   color: red;
 }
+
 /* 留言簿「回覆留言」樣式 */
 div.remsg {
   color: rgb(102,153,0);
   display: inline;
 }
+
 /* 留言簿表格樣式 */
 table.cbox_tbl {
   width: 100%;
@@ -96,11 +93,13 @@ table.cbox_tbl {
   border-collapse: collapse;
   background-color: #FFFFFF;
 }
+
 /* 有表單的儲存格樣式 */
 table.cbox_tbl td {
   padding: 1px;
   font-size: 12px;
 }
+
 /* 有表單的「標題」儲存格樣式 */
 table.cbox_tbl td.title {
   background-color: transparent;
@@ -112,12 +111,7 @@ table.cbox_tbl td.title {
 table.cbox_tbl td.col {
   background-color: transparent;
 }
-/* 有表單的「工具列」儲存格樣式 */
-table#cbox_show_tbl td.bar {
-  text-align: center;
-  color: rgb(0,0,153);
-  background-color: #f8f8ff;
-}
+
 /* 有表單的「工具列」儲存格樣式 */
 table.cbox_tbl input.name {
   font-size: 12px;
@@ -199,4 +193,19 @@ textarea#DiscussContent {
 }
 td#smile {
   background-color: rgb(240,240,240);
+}
+
+
+
+.error_bg{
+  background: rgb(255,255,255); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(243,243,243,1)), color-stop(51%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+
 }

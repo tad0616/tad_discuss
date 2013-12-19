@@ -29,3 +29,10 @@ define("_MB_TADDISCUS_CBOX_EDIT_BITEM7","公佈欄CSS設定");
 define("_MB_TADDISCUS_CBOX_VIEW_ALL","觀看所有留言");
 define("_MB_TADDISCUS_SELECT_BOARD","請選擇欲呈現的討論區：");
 define("_MB_TADDISCUS_ALL_BOARD","所有討論區");
+define("_MB_TADDISCUS_ONLYTO","這是給「%s」的悄悄話喔！");
+define("_MB_TADDISCUS_HEIGHT","顯示留言框的高度：");
+define("_MB_TADDISCUS_BORDER_COLOR","回覆對話框的邊框顏色：");
+define("_MB_TADDISCUS_BG_COLOR","回覆對話框的背景顏色：");
+define("_MB_TADDISCUS_FONT_COLOR","回覆對話框的文字顏色：");
+define("_MB_TADDISCUS_APPLY_RULE","套用「自動切換討論區」設定？");
+?>

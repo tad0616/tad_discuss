@@ -8,19 +8,6 @@
 //需加入模組語系
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
-
-define("_MD_INPUT_VALID","「%s」欄位檢查");
-define("_MD_INPUT_VALIDATOR","請輸入「%s」欄位");
-define("_MD_INPUT_VALIDATOR_ERROR","「%s」資料不正確");
-define("_MD_INPUT_VALIDATOR_CHK","最少 %s 個字，最多 %s 個字");
-define("_MD_INPUT_VALIDATOR_MIN","最少 %s 個字");
-define("_MD_INPUT_VALIDATOR_MAX","最多 %s 個字");
-define("_MD_INPUT_VALIDATOR_EQUAL","限定 %s 個字");
-define("_MD_INPUT_VALIDATOR_NEED","不可空白");
-define("_MD_INPUT_VALIDATOR_RANGE","範圍： %s ∼ %s");
-define("_MD_INPUT_VALIDATOR_RANGE_MIN","最小： %s");
-define("_MD_INPUT_VALIDATOR_RANGE_MAX","最大： %s");
-
 define("_MD_TADDISCUS_SMNAME1", "討論區列表");
 define("_MD_TADDISCUS_SMNAME2", "所有討論");
 
@@ -54,6 +41,8 @@ define("_MD_TADDISCUS_RE_DISCUSS","%s 篇回文");
 define("_MD_TADDISCUS_BOARD_DISCUSS","%s 個主題");
 define("_MD_TADDISCUS_ALL_DISCUSS","%s 則討論");
 define("_MD_TADDISCUS_NEEDLOGIN","要先登入才能發表。");
+define("_MD_TADDISCUS_RELOAD","重整");
+define("_MD_TADDISCUS_NEED_LOGIN","要先<a href='".XOOPS_URL."/user.php' target='_top'>登入</a>才能發表。<span onclick=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID=%s','discussCboxMain');window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID=%s','discussCboxForm');\" style='cursor:pointer;color:#3366CC'><img src='images/reload.png' alt='reload' align='absmiddle' hspace=2>"._MD_TADDISCUS_RELOAD."</span>");
 define("_MD_TADDISCUS_SELECT_DEL","選取欲刪除檔案");
 define("_MD_TADDISCUS_TALK","說道：");
 define("_MD_TADDISCUS_HAD_LIKE","您已經針對過此篇討論文章表態過囉！");
@@ -73,5 +62,7 @@ define("_MD_TADDISCUS_MSG_MAX","最多只能 %s 個字，你多輸入了'+(nowCh
 define("_MD_TADDISCUS_INPUT_CODE","左圖數字為：");
 define("_MD_TADCBOX_SECURITY_CODE_ERROR","認證碼不正確喔！");
 define("_MD_TADDISCUS_ADD_MSG","「%s」的留言：");
-define("_MD_TADDISCUS_RELOAD","重整");
+define("_MD_TADDISCUS_ONLYTO","這是給「%s」的悄悄話喔！");
+define("_MD_TADDISCUS_NEED_BOARDID","請先從上方下拉選單選擇一個適當的討論區才能發布訊息，或直接按 <button type='button' style='font-size:11px;border:1px solid gray;'>"._MD_TADDISCUS_DISCUSSRE."</button> 也行！<div onclick=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID=%s','discussCboxMain');window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID=%s','discussCboxForm');\" style='cursor:pointer;color:#3366CC'><img src='images/reload.png' alt='reload' align='absmiddle' hspace=2>"._MD_TADDISCUS_RELOAD."</div>");
+
 ?>

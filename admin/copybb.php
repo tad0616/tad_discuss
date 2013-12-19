@@ -120,8 +120,8 @@ function copyBoard($BoardID=""){
 
 
   $sql = "replace into `".$xoopsDB->prefix("tad_discuss_board")."`
-  (`BoardID`,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)
-  values('{$forum_id}' ,'{$forum_name}' , '{$forum_desc}' , '{$BoardManager}' , '{$forum_order}' , '1')";
+  (`BoardID`, `ofBoardID` ,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)
+  values('{$forum_id}' , '{$parent_forum}' ,  '{$forum_name}' , '{$forum_desc}' , '{$BoardManager}' , '{$forum_order}' , '1')";
   $xoopsDB->queryF($sql) or die($sql);
 
   return $BoardID;
@@ -197,6 +197,15 @@ function batch_del($batch_del=array()){
 }
 
 
+function get_name_from_uid($uid=""){
+  global $xoopsDB;
+  $sql = "select uname,name from `".$xoopsDB->prefix("users")."` where uid ='{$uid}'";
+  $result = $xoopsDB->queryF($sql) or die($sql);
+  list($uname,$name)=$xoopsDB->fetchRow($result);
+  if(!empty($name))return $name;
+  return $uname;
+}
+
 
 function copyDiscuss($BoardID='',$mode=""){
   global $xoopsDB , $xoopsModule , $isAdmin;
@@ -227,10 +236,11 @@ function copyDiscuss($BoardID='',$mode=""){
     $topic_time=date("Y-m-d H:i:s",$topic_time);
     $LastTime=getLastTime($topic_last_post_id);
     $poster_ip=long2ip($poster_ip);
+    $publisher=get_name_from_uid($topic_poster);
 
     //主題
-    $sql = "replace into ".$xoopsDB->prefix("tad_discuss")."  (`DiscussID` , `ReDiscussID` , `uid` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
-    values('{$post_id}','0' , '{$topic_poster}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
+    $sql = "replace into ".$xoopsDB->prefix("tad_discuss")."  (`DiscussID` , `ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
+    values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
 
     $xoopsDB->queryF($sql) or die($sql);
 
@@ -252,10 +262,11 @@ function copyDiscuss($BoardID='',$mode=""){
 
       $post_time=date("Y-m-d H:i:s",$post_time);
       $poster_ip=long2ip($poster_ip);
+      $publisher=get_name_from_uid($uid);
 
       //主題
-      $sql = "replace into ".$xoopsDB->prefix("tad_discuss")."  (`DiscussID` , `ReDiscussID` , `uid` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
-      values('{$post_id}','{$ReDiscussID}' , '{$uid}' , '{$subject}' , '{$post_text}' , '{$post_time}' , '{$BoardID}' , '{$LastTime}' , '0', '$poster_ip')";
+      $sql = "replace into ".$xoopsDB->prefix("tad_discuss")."  (`DiscussID` , `ReDiscussID` , `uid` , `publisher`  , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
+      values('{$post_id}','{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$subject}' , '{$post_text}' , '{$post_time}' , '{$BoardID}' , '{$LastTime}' , '0', '$poster_ip')";
       $xoopsDB->queryF($sql) or die($sql);
     }
   }

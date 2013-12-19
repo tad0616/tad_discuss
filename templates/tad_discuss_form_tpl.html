@@ -1,14 +1,21 @@
 <h2><{$BoardTitle}></h2>
+
 <{$formValidator_code}>
+
 <link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+
 <script type="text/javascript" src="class/nicEdit.js"></script>
+
 <script type="text/javascript">
 	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
 </script>
+
 <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
+
 <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data">
+
 <{if $display_mode=="mobile"}>
-    <table>
+  <table>
     <tr>
       <td style="border:1px solid #cfcfcf; width:<{$discuss.width}>px;height:<{$discuss.width}>px;background: transparent url(<{$discuss.pic}>) no-repeat center;background-size:cover;<{$discuss.pic_css}>" <{$discuss.pic_js}>>
       </td>

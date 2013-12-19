@@ -12,7 +12,7 @@ CREATE TABLE `tad_discuss` (
   `FromIP` varchar(255) NOT NULL default '' COMMENT 'IP',
   `Good` smallint(6) unsigned NOT NULL default 0 COMMENT '讚',
   `Bad` smallint(6) unsigned NOT NULL default 0 COMMENT '爛',
-  `onlyTo` smallint(6) unsigned NOT NULL default 0 COMMENT '悄悄話',
+  `onlyTo` varchar(255) NOT NULL default '' COMMENT '悄悄話',
 PRIMARY KEY (`DiscussID`)
 ) ENGINE=MyISAM;
 
@@ -32,12 +32,24 @@ CREATE TABLE `tad_discuss_files_center` (
   `col_name` varchar(255) NOT NULL default '' COMMENT '欄位名稱',
   `col_sn` smallint(5) unsigned NOT NULL default 0 COMMENT '欄位編號',
   `sort` smallint(5) unsigned NOT NULL default 0 COMMENT '排序',
-  `kind` enum('img' , 'file') NOT NULL default 'img' COMMENT '檔案種類',
+  `kind` enum('img','file') NOT NULL default 'img' COMMENT '檔案種類',
   `file_name` varchar(255) NOT NULL default '' COMMENT '檔案名稱',
   `file_type` varchar(255) NOT NULL default '' COMMENT '檔案類型',
   `file_size` int(10) unsigned NOT NULL default 0 COMMENT '檔案大小',
-  `description` text NOT NULL default '' COMMENT '檔案說明',
+  `description` text NOT NULL COMMENT '檔案說明',
   `counter` mediumint(8) unsigned NOT NULL default 0 COMMENT '下載人次',
+  `original_filename` varchar(255) NOT NULL default '' COMMENT '檔案名稱',
+  `hash_filename` varchar(255) NOT NULL default '' COMMENT '加密檔案名稱',
+  `sub_dir` varchar(255) NOT NULL default '' COMMENT '檔案子路徑',
   PRIMARY KEY (`files_sn`)
-) ENGINE=MyISAM COMMENT='檔案資料表';
+) ENGINE=MyISAM COMMENT='tad_discuss 檔案資料表';
 
+
+CREATE TABLE `tad_discuss_cbox_setup` (
+  `setupID` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '設定流水號',
+  `setupName` varchar(255) NOT NULL default '' COMMENT '註記',
+  `setupRule` varchar(255) NOT NULL default '' COMMENT '偵測字串',
+  `BoardID` smallint(6) unsigned NOT NULL default 0 COMMENT '討論版編號',
+  `setupSort` smallint(6) unsigned NOT NULL default 0 COMMENT '規則優先權',
+PRIMARY KEY (`setupID`)
+) ENGINE=MyISAM;

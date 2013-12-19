@@ -30,7 +30,7 @@ define("_MA_TADDISCUS_IMPORT_FORM_CBOX","開始匯入即時留言簿轉換內容");
 define("_MA_TADDISCUS_CBOX","即時留言簿");
 define("_MA_TADDISCUS_CBOX_DESC","從即時留言簿轉換過來的內容");
 define("_MA_TADDISCUS_CBOX_EXIST","已發現<a href='../discuss.php?BoardID=%s'>即時留言簿</a>內容，無須再匯入");
-
+define("_MA_TADDISCUS_CBOX_FORCE_UPDATE","<p style='text-align:center;'><a href='copycbox.php?op=forceUpdate&BoardID=%s' class='btn btn-primary'>我要重新匯入即時留言簿</a></p>");
 define("_MA_TADDISCUS_COPY_DISCUSS","開始複製內容");
 define("_MA_TADDISCUS_COPY","複製");
 define("_MA_TADDISCUS_COPY_AMOUNT","已轉移主題/文章數");
@@ -42,7 +42,11 @@ define("_MA_TADDISCUS_POWER_STATUS","權限轉移");
 define("_MA_TADDISCUS_POWER_OK","已完成");
 define("_MA_TADDISCUS_BATCH_DEL","批次刪除");
 define("_MA_TADDISCUS_COPY_DISCUSS_FORCE","清除重匯（適用已匯入後再次重匯）");
-
 define("_MA_TADDISCUS_ADD_BOARD","新增討論區");
-
+define("_MA_TADDISCUS_SETUPID","設定流水號");
+define("_MA_TADDISCUS_SETUPNAME","規則名稱或說明");
+define("_MA_TADDISCUS_SETUPRULE","當區塊在網址偵測到這些字串時");
+define("_MA_TADDISCUS_TO_BOARDID","便自動切換到：");
+define("_MA_TADDISCUS_RULE_SETUP","留言簿「自動切換討論區」設定");
+define("_MA_TADDISCUS_SETUPSORT","規則優先權");
 ?>

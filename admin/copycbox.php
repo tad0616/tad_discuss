@@ -32,6 +32,7 @@ function list_cbox(){
   if(!empty($BoardID)){
     $xoopsTpl->assign('show_error','1');
     $xoopsTpl->assign('msg', sprintf(_MA_TADDISCUS_CBOX_EXIST,$BoardID));
+    $xoopsTpl->assign('other_msg', sprintf(_MA_TADDISCUS_CBOX_FORCE_UPDATE,$BoardID));
     return;
   }
 
@@ -76,9 +77,8 @@ function get_uid_from_uname($publisher=""){
 }
 
 
-
 //新增資料到tad_discuss_board中
-function copycbox(){
+function copycbox($BoardID=""){
   global $xoopsDB,$xoopsUser,$xoopsModule;
   set_time_limit(0);
   $myts =& MyTextSanitizer::getInstance();
@@ -86,34 +86,40 @@ function copycbox(){
   //取得目前使用者uid
   $root_uid=$xoopsUser->uid();
 
-  //取得最大排序
-  $sql="select max(`BoardSort`) from ".$xoopsDB->prefix("tad_discuss_board")." group by BoardSort";
-  $result=$xoopsDB->queryf($sql);
-  list($sort)=$xoopsDB->fetchRow($result);
-  $sort++;
+  if(empty($BoardID)){
+    //取得最大排序
+    $sql="select max(`BoardSort`) from ".$xoopsDB->prefix("tad_discuss_board")." group by BoardSort";
+    $result=$xoopsDB->queryf($sql);
+    list($sort)=$xoopsDB->fetchRow($result);
+    $sort++;
 
-  //建立討論區
-  $sql="insert into ".$xoopsDB->prefix("tad_discuss_board")." (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES(0 , '"._MA_TADDISCUS_CBOX."' , '"._MA_TADDISCUS_CBOX_DESC."' , '{$root_uid}' ,'{$sort}' , '1')";
-  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+    //建立討論區
+    $sql="insert into ".$xoopsDB->prefix("tad_discuss_board")." (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES(0 , '"._MA_TADDISCUS_CBOX."' , '"._MA_TADDISCUS_CBOX_DESC."' , '{$root_uid}' ,'{$sort}' , '1')";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
 
-  //取得最後新增資料的流水編號
-  $BoardID=$xoopsDB->getInsertId();
+    //取得最後新增資料的流水編號
+    $BoardID=$xoopsDB->getInsertId();
 
-  //轉移權限（新權限）
-  $mid=$xoopsModule->getVar('mid');
-  //讀取權限
-  $sql="insert into `".$xoopsDB->prefix("group_permission")."` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_read'),('2', '{$BoardID}', '{$mid}', 'forum_read'),('3', '{$BoardID}', '{$mid}', 'forum_read')";
-  $xoopsDB->queryF($sql) or die($sql);
+    //轉移權限（新權限）
+    $mid=$xoopsModule->getVar('mid');
+    //讀取權限
+    $sql="insert into `".$xoopsDB->prefix("group_permission")."` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_read'),('2', '{$BoardID}', '{$mid}', 'forum_read'),('3', '{$BoardID}', '{$mid}', 'forum_read')";
+    $xoopsDB->queryF($sql) or die($sql);
 
-  //寫入權限
-  $sql="insert into `".$xoopsDB->prefix("group_permission")."` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_post'),('2', '{$BoardID}', '{$mid}', 'forum_post')";
-  $xoopsDB->queryF($sql) or die($sql);
+    //寫入權限
+    $sql="insert into `".$xoopsDB->prefix("group_permission")."` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_post'),('2', '{$BoardID}', '{$mid}', 'forum_post')";
+    $xoopsDB->queryF($sql) or die($sql);
+
+  }else{
+    $sql="delete from ".$xoopsDB->prefix("tad_discuss")." where BoardID='{$BoardID}'";
+    $xoopsDB->queryF($sql) or die($sql);
+  }
 
   //讀取留言簿資料
   $sql="select * from ".$xoopsDB->prefix("tad_cbox")." order by post_date ";
   $result=$xoopsDB->queryf($sql);
   while(list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg)=$xoopsDB->fetchRow($result)){
-    $onlyTo=($only_root)?$uid:"";
+    $onlyTo=($only_root)?$root_uid:"";
     $DiscussTitle=xoops_substr($msg, 0, 60);
 
     $uid=get_uid_from_uname($publisher);
@@ -124,9 +130,9 @@ function copycbox(){
     $sql="insert into ".$xoopsDB->prefix("tad_discuss")." ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES(0 , '{$uid}', '$publisher' , '{$DiscussTitle}' , '{$msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' ,'{$onlyTo}')";
     $xoopsDB->queryF($sql);
     $DiscussID=$xoopsDB->getInsertId();
-
+    $onlyToUid=($only_root)?$uid:"";
     if($root_msg){
-      $sql="insert into ".$xoopsDB->prefix("tad_discuss")." ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES('{$DiscussID}' , '{$root_uid}', '{$publisher}' , 'RE:{$DiscussTitle}' , '{$root_msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' ,$uid)";
+      $sql="insert into ".$xoopsDB->prefix("tad_discuss")." ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES('{$DiscussID}' , '{$root_uid}', '{$publisher}' , 'RE:{$DiscussTitle}' , '{$root_msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' , '{$onlyToUid}')";
       $xoopsDB->queryF($sql);
     }
   }
@@ -145,6 +151,11 @@ switch($op){
 
   case "copycbox":
   $BoardID=copycbox();
+  header("location: ../discuss.php?BoardID={$BoardID}");
+  break;
+
+  case "forceUpdate":
+  copycbox($BoardID);
   header("location: ../discuss.php?BoardID={$BoardID}");
   break;
 

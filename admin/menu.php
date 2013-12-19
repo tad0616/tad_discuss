@@ -20,6 +20,12 @@ $adminmenu[$i]['link'] = "admin/groupperm.php";
 $adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU3 ;
 $adminmenu[$i]['icon'] = "images/admin/group_full_security_32.png";
 
+
+$adminmenu[$i]['title'] = _MI_TADDISCUS_ADMENU5;
+$adminmenu[$i]['link'] = "admin/cbox_setup.php";
+$adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU5 ;
+$adminmenu[$i]['icon'] = "images/admin/book_edit.png";
+
 $i++;
 $adminmenu[$i]['title'] = _MI_TADDISCUS_ADMENU2;
 $adminmenu[$i]['link'] = "admin/copybb.php";
@@ -30,7 +36,7 @@ $i++;
 $adminmenu[$i]['title'] = _MI_TADDISCUS_ADMENU4;
 $adminmenu[$i]['link'] = "admin/copycbox.php";
 $adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU4 ;
-$adminmenu[$i]['icon'] = "images/admin/copy_doc.png";
+$adminmenu[$i]['icon'] = "images/admin/copy_cbox.png";
 
 $i++;
 $adminmenu[$i]['title'] = _MI_TAD_ADMIN_ABOUT;

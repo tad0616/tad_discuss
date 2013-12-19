@@ -1,46 +1,47 @@
 <?php
 //  ------------------------------------------------------------------------ //
-// Â¥Â»Â¼Ã’Â²Ã•Â¥Ã‘ tad Â»sÂ§@
-// Â»sÂ§@Â¤Ã©Â´ÃÂ¡G2012-10-23
+// ¥»¼Ò²Õ¥Ñ tad »s§@
+// »s§@¤é´Á¡G2012-10-23
 // $Id:$
 // ------------------------------------------------------------------------- //
 include_once XOOPS_ROOT_PATH."/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
-define("_MI_TADDISCUS_NAME","Â¤Â¬Â°ÃŠÂ°QÂ½Ã—Â°Ã");
+define("_MI_TADDISCUS_NAME","¤¬°Ê°Q½×°Ï");
 define("_MI_TADDISCUS_AUTHOR","tad");
 define("_MI_TADDISCUS_CREDITS","tad");
-define("_MI_TADDISCUS_DESC","Ã‚Â²Â©Ã¶ÂªÂºÂ°QÂ½Ã—Â¯dÂ¨Â¥Â¼Ã’Â²Ã•");
+define("_MI_TADDISCUS_DESC","Â²©öªº°Q½×¯d¨¥¼Ò²Õ");
 
-define("_MI_TADDISCUS_ADMENU1", "Â¥DÂºÃžÂ²zÂ¤Â¶Â­Â±");
-define("_MI_TADDISCUS_ADMENU2", "Â½Ã—Â¾Ã‚Ã‚Ã Â²Â¾");
-define("_MI_TADDISCUS_ADMENU3", "Ã…vÂ­Â­Â³]Â©w");
-define("_MI_TADDISCUS_ADMENU4", "Â¾Ã£Â¦XÂ¯dÂ¨Â¥ÃƒÂ¯");
-define("_MI_TADDISCUS_TEMPLATE_DESC1", "tad_discuss_index_tpl.htmlÂªÂºÂ¼Ã‹ÂªOÃ€Ã‰Â¡C");
-define("_MI_TADDISCUS_TEMPLATE_DESC2", "tad_discuss_discuss_tpl.htmlÂªÂºÂ¼Ã‹ÂªOÃ€Ã‰Â¡C");
-define("_MI_TADDISCUS_SMNAME2", "Â°QÂ½Ã—Â±MÂ°Ã");
-define("_MI_TADDISCUS_BNAME1","Â³ÃŒÂ·sÂ°QÂ½Ã—");
-define("_MI_TADDISCUS_BDESC1","Â³ÃŒÂ·sÂ°QÂ½Ã—(tad_discuss_new)");
-define("_MI_TADDISCUS_BNAME2","Â³ÃŒÂ¼Ã¶ÂªÃ¹Â°QÂ½Ã—");
-define("_MI_TADDISCUS_BDESC2","Â³ÃŒÂ¼Ã¶ÂªÃ¹Â°QÂ½Ã—(tad_discuss_hot)");
-define("_MI_TADDISCUS_BNAME3","Â§YÂ®Ã‰Â¯dÂ¨Â¥ÃƒÂ¯");
-define("_MI_TADDISCUS_BDESC3","Â§YÂ®Ã‰Â¯dÂ¨Â¥ÃƒÂ¯(tad_discuss_cbox)");
-define("_MI_TADDISCUS_DISPLAY_MODE","Â°QÂ½Ã—Â°ÃÃ…Ã£Â¥ÃœÂ¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_DISPLAY_MODE_DESC","Â³]Â©wÂ°Â¾Â¦nÂªÂºÂ°QÂ½Ã—Â°ÃÃ…Ã£Â¥ÃœÂ¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_CONF0_OPT1","Â¥ÂªÂ¥kÂ¹Ã¯Â¸ÃœÂ¼Ã’Â¦Â¡Â¡]Â¹wÂ³]Â¡^");
-define("_MI_TADDISCUS_CONF0_OPT2","Ã€YÂ¹Â³Â¦bÂ¥ÂªÂ¹Ã¯Â¸ÃœÂ¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_CONF0_OPT3","Ã€YÂ¹Â³Â¦bÂ¤WÂ¹Ã¯Â¸ÃœÂ¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_CONF0_OPT4","Mobile01Â½Ã—Â¾Ã‚Â¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_CONF0_OPT5","Â²MÂ²nÂ½Ã—Â¾Ã‚Â¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_CONF0_OPT6","Ã€YÂ¹Â³Â¦bÂ¤UÂ¹Ã¯Â¸ÃœÂ¼Ã’Â¦Â¡");
-define("_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT","Â¨CÂ­Â¶Ã…Ã£Â¥ÃœÂ´XÂ½gÂ°QÂ½Ã—Â¥DÃƒD");
-define("_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT_DESC","Â³]Â©wÂ¨CÂ­Â¶Ã…Ã£Â¥ÃœÂ´XÂ½gÂ°QÂ½Ã—Â¥DÃƒDÂ¥HÂ¶iÂ¦Ã¦Â¤Ã€Â­Â¶");
-define("_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT","Â¨CÂ­Â¶Ã…Ã£Â¥ÃœÂ´XÂ½gÂ°QÂ½Ã—Â¹Ã¯Â¸Ãœ");
-define("_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DESC","Â³]Â©wÂ¨CÂ­Â¶Ã…Ã£Â¥ÃœÂ´XÂ½gÂ°QÂ½Ã—Â¹Ã¯Â¸ÃœÂ¥HÂ¶iÂ¦Ã¦Â¤Ã€Â­Â¶");
-define('_MI_TADDISCUS_GLOBAL_NOTIFY' , 'Â¥Ã¾Â§Â½Â³qÂªÂ¾');
-define('_MI_TADDISCUS_BOARD_NOTIFY' , 'Â°QÂ½Ã—Â°ÃÂ³qÂªÂ¾');
-define('_MI_TADDISCUS_GLOBAL_NOTIFY_ME' , 'Â¦Â³Â·sÂ°QÂ½Ã—Â´NÂ³qÂªÂ¾Â§Ãš');
-define('_MI_TADDISCUS_GLOBAL_NOTIFY_SUBJECT' , '[{X_SITENAME}] {X_MODULE} Â¦Â³Â·sÂªÂºÂ°QÂ½Ã—Â¤Ã¥Â³Â¹');
-define('_MI_TADDISCUS_BOARD_NOTIFY_ME' , 'Â¸Ã“Â°QÂ½Ã—Â°ÃÂ¦Â³Â·sÂ°QÂ½Ã—Â´NÂ³qÂªÂ¾Â§Ãš');
-define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT' , '[{X_SITENAME}] {X_MODULE} Â«Ã¼Â©wÂªÂºÂ°QÂ½Ã—Â°ÃÂ¤UÂ¦Â³Â·sÂªÂºÂ°QÂ½Ã—');
+define("_MI_TADDISCUS_ADMENU1", "¥DºÞ²z¤¶­±");
+define("_MI_TADDISCUS_ADMENU2", "½×¾ÂÂà²¾");
+define("_MI_TADDISCUS_ADMENU3", "Åv­­³]©w");
+define("_MI_TADDISCUS_ADMENU4", "¾ã¦X¯d¨¥Ã¯");
+define("_MI_TADDISCUS_ADMENU5", "³]©w¯d¨¥Ã¯");
+define("_MI_TADDISCUS_TEMPLATE_DESC1", "tad_discuss_index_tpl.htmlªº¼ËªOÀÉ¡C");
+define("_MI_TADDISCUS_TEMPLATE_DESC2", "tad_discuss_discuss_tpl.htmlªº¼ËªOÀÉ¡C");
+define("_MI_TADDISCUS_SMNAME2", "°Q½×±M°Ï");
+define("_MI_TADDISCUS_BNAME1","³Ì·s°Q½×");
+define("_MI_TADDISCUS_BDESC1","³Ì·s°Q½×(tad_discuss_new)");
+define("_MI_TADDISCUS_BNAME2","³Ì¼öªù°Q½×");
+define("_MI_TADDISCUS_BDESC2","³Ì¼öªù°Q½×(tad_discuss_hot)");
+define("_MI_TADDISCUS_BNAME3","§Y®É¯d¨¥Ã¯");
+define("_MI_TADDISCUS_BDESC3","§Y®É¯d¨¥Ã¯(tad_discuss_cbox)");
+define("_MI_TADDISCUS_DISPLAY_MODE","°Q½×°ÏÅã¥Ü¼Ò¦¡");
+define("_MI_TADDISCUS_DISPLAY_MODE_DESC","³]©w°¾¦nªº°Q½×°ÏÅã¥Ü¼Ò¦¡");
+define("_MI_TADDISCUS_CONF0_OPT1","¥ª¥k¹ï¸Ü¼Ò¦¡¡]¹w³]¡^");
+define("_MI_TADDISCUS_CONF0_OPT2","ÀY¹³¦b¥ª¹ï¸Ü¼Ò¦¡");
+define("_MI_TADDISCUS_CONF0_OPT3","ÀY¹³¦b¤W¹ï¸Ü¼Ò¦¡");
+define("_MI_TADDISCUS_CONF0_OPT4","Mobile01½×¾Â¼Ò¦¡");
+define("_MI_TADDISCUS_CONF0_OPT5","²M²n½×¾Â¼Ò¦¡");
+define("_MI_TADDISCUS_CONF0_OPT6","ÀY¹³¦b¤U¹ï¸Ü¼Ò¦¡");
+define("_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT","¨C­¶Åã¥Ü´X½g°Q½×¥DÃD");
+define("_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT_DESC","³]©w¨C­¶Åã¥Ü´X½g°Q½×¥DÃD¥H¶i¦æ¤À­¶");
+define("_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT","¨C­¶Åã¥Ü´X½g°Q½×¹ï¸Ü");
+define("_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DESC","³]©w¨C­¶Åã¥Ü´X½g°Q½×¹ï¸Ü¥H¶i¦æ¤À­¶");
+define('_MI_TADDISCUS_GLOBAL_NOTIFY' , '¥þ§½³qª¾');
+define('_MI_TADDISCUS_BOARD_NOTIFY' , '°Q½×°Ï³qª¾');
+define('_MI_TADDISCUS_GLOBAL_NOTIFY_ME' , '¦³·s°Q½×´N³qª¾§Ú');
+define('_MI_TADDISCUS_GLOBAL_NOTIFY_SUBJECT' , '[{X_SITENAME}] {X_MODULE} ¦³·sªº°Q½×¤å³¹');
+define('_MI_TADDISCUS_BOARD_NOTIFY_ME' , '¸Ó°Q½×°Ï¦³·s°Q½×´N³qª¾§Ú');
+define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT' , '[{X_SITENAME}] {X_MODULE} «ü©wªº°Q½×°Ï¤U¦³·sªº°Q½×');
 
 ?>

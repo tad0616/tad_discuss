@@ -6,13 +6,14 @@ if(file_exists("mainfile.php")){
   include_once "../../mainfile.php";
 }
 include_once "function.php";
-include_once "up_file.php";
+include_once XOOPS_ROOT_PATH."/modules/tadtools/TadUpFiles.php" ;
+$TadUpFiles=new TadUpFiles("tad_discuss");
 /*-----------function區--------------*/
 
 
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($show_function=1){
-	global $xoopsDB , $isAdmin , $xoopsModule , $xoopsUser;
+	global $xoopsDB , $isAdmin , $xoopsModule , $xoopsUser , $TadUpFiles;
 
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
@@ -48,7 +49,8 @@ function list_tad_discuss_board($show_function=1){
 
 		if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id))continue;
 
-    $pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
+    $TadUpFiles->set_col('BoardID' , $BoardID,1);
+    $pic=$TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
     $pic=empty($pic)?"images/board.png":$pic;
 
     $list_tad_discuss=list_tad_discuss_short($BoardID,7);
@@ -262,7 +264,7 @@ function show_one_tad_discuss($DefDiscussID=""){
       $$k=$v;
     }
 
-    $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$DiscussDate,'return',$Good,$Bad,$width);
+    $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
 
     if($discuss_data['like']){
       $like="
@@ -473,7 +475,7 @@ function list_tad_discuss_m($DefBoardID=null){
 
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=""){
-  global $xoopsDB,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsModule,$xoopsTpl;
+  global $xoopsDB,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsModule,$xoopsTpl,$TadUpFiles;
 
   if(empty($xoopsUser)){
     redirect_header("pda.php",3, _MD_TADDISCUS_NEEDLOGIN);
@@ -557,7 +559,14 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
     $BoardTitle=get_board_title($BoardID);
   }
 //die($BoardTitle);
-  $files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
+  //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
+
+  $TadUpFiles->set_col("DiscussID" , $DiscussID );
+  $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
+
+  $TadUpFiles->set_col("DiscussID",$DefDiscussID); //若 $show_list_del_file ==true 時一定要有
+  $upform=$TadUpFiles->upform(false,"upfile",100,true);
+
   $DiscussContent="
   $formValidator_code
   <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' class='myForm' enctype='multipart/form-data'>
@@ -568,7 +577,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'><button type='submit' class=''>"._TAD_SAVE."</button></span>
-  <div class='showfiles'><input type='file' name='upfile[]' class='multi'>".list_del_file("DiscussID",$DefDiscussID)."{$files}</div></form>";
+  <div class='showfiles'>{$upform}{$files}</div></form>";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 
@@ -601,7 +610,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 
 //更新tad_discuss某一筆資料
 function update_tad_discuss($DiscussID=""){
-  global $xoopsDB,$xoopsUser;
+  global $xoopsDB,$xoopsUser,$TadUpFiles;
 
   $myts = MyTextSanitizer::getInstance();
   $_POST['DiscussTitle']=$myts->addSlashes($_POST['DiscussTitle']);
@@ -627,7 +636,8 @@ function update_tad_discuss($DiscussID=""){
   where DiscussID='$DiscussID' $anduid";
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-  upload_file("DiscussID" , $DiscussID , 500);
+  $TadUpFiles->set_col("DiscussID" , $DiscussID);
+  $TadUpFiles->upload_file("upfile",1024,120,NULL,"",true);
   return $DiscussID;
 }
 

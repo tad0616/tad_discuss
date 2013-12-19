@@ -15,6 +15,7 @@ define("_MI_TADDISCUS_ADMENU1", "主管理介面");
 define("_MI_TADDISCUS_ADMENU2", "論壇轉移");
 define("_MI_TADDISCUS_ADMENU3", "權限設定");
 define("_MI_TADDISCUS_ADMENU4", "整合留言簿");
+define("_MI_TADDISCUS_ADMENU5", "設定留言簿");
 define("_MI_TADDISCUS_TEMPLATE_DESC1", "tad_discuss_index_tpl.html的樣板檔。");
 define("_MI_TADDISCUS_TEMPLATE_DESC2", "tad_discuss_discuss_tpl.html的樣板檔。");
 define("_MI_TADDISCUS_SMNAME2", "討論專區");

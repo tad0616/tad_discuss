@@ -2,7 +2,8 @@
 
 /*-----------引入檔案區--------------*/
 include_once "header.php";
-include_once "up_file.php";
+include_once XOOPS_ROOT_PATH."/modules/tadtools/TadUpFiles.php" ;
+$TadUpFiles=new TadUpFiles("tad_discuss");
 /*-----------function區--------------*/
 
 if($_GET['mode']=="mkpic"){
@@ -20,13 +21,22 @@ if($_GET['mode']=="mkpic"){
 
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
-  global $xoopsDB,$xoopsUser,$xoopsModuleConfig,$xoopsModule;
+  global $xoopsDB,$xoopsUser,$xoopsModuleConfig,$xoopsModule,$TadUpFiles;
 
   if(empty($xoopsUser)){
-    $main="<div class='need_login'>"._MD_TADDISCUS_NEEDLOGIN."</div>";
+    $main="<body class='error_bg'><div style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div></body>";
     return $main;
     exit;
   }
+
+  if(empty($BoardID)){
+    $main="<body class='error_bg'><div class='error_bg' style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_BOARDID,$BoardID,$BoardID)."</div></body>";
+    return $main;
+    exit;
+  }
+
+  $TadUpFiles->set_col("DiscussID",$DiscussID); //若 $show_list_del_file ==true 時一定要有
+  $upform=$TadUpFiles->upform(false,"upfile",100,false);
 
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
@@ -41,7 +51,7 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
   }
   $gperm_handler =& xoops_gethandler('groupperm');
   if(!$gperm_handler->checkRight('forum_post',$BoardID,$groups,$module_id)){
-    $main="<div class='need_login'>"._MD_TADDISCUS_NEEDLOGIN."</div>";
+    $main="<div class='need_login'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div>";
     return $main;
     exit;
   }
@@ -75,12 +85,9 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
   }
   */
 
-  $loginname=$xoopsUser->getVar('loginname');
   $name=$xoopsUser->getVar('name');
   if(!empty($name)){
     $publisher=$name;
-  }elseif(!empty($loginname)){
-    $publisher=$loginname;
   }else{
     $publisher=$xoopsUser->getVar('uname');
   }
@@ -160,6 +167,7 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
   </tr>":"";
 
   $main="
+  <body bgcolor='#FCFCFC'>
   {$jquery}
   <script type='text/javascript' src='".XOOPS_URL."/modules/tad_discuss/class/jcarousellite_1.0.1.min.js'></script>
 
@@ -187,7 +195,7 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
     </td>
     <td>
       <img src='images/reload.png' alt='reload' align='absmiddle' hspace=2 onclick=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');\">
-      <font onclick=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');\" style='cursor:pointer;color:#3366CC'>"._MD_TADDISCUS_RELOAD."</font>
+      <span onclick=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');\" style='cursor:pointer;color:#3366CC'>"._MD_TADDISCUS_RELOAD."</span>
   </td>
   </tr>
 
@@ -207,16 +215,19 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
       <input type='hidden' name='BoardID' value='{$BoardID}'>
       <input type='hidden' name='DiscussID' value='{$DiscussID}'>
       <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
+      <input type='hidden' name='publisher' value='{$publisher}'>
       <input type='hidden' name='op' value='insert_tad_discuss'>
 
       <input type='button' value='"._TAD_SAVE."' style='height:100%' onClick='check();'>
+      $upform
     </td>
   </tr>
 
   $smile_all
 
   </table>
-  </form></div>";
+  </form></div>
+  </body>";
 
 
   return $main;
@@ -243,7 +254,7 @@ switch($op){
 
   //新增資料
   case "insert_tad_discuss":
-  insert_tad_discuss();
+  insert_tad_discuss(true);
   header("location: {$_SERVER['PHP_SELF']}?op=reload&BoardID=$BoardID");
   break;
 
@@ -271,12 +282,8 @@ if(!empty($_GET['msg'])){
 }
 
 
-echo "
-
-</head>
-<body bgcolor='#FFFFFF'>";
+echo "</head>";
 echo $main;
-echo "</body>
-</html>";
+echo "</html>";
 
 ?>

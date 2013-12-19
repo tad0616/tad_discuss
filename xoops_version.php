@@ -45,6 +45,7 @@ $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 $modversion['tables'][1] = "tad_discuss";
 $modversion['tables'][2] = "tad_discuss_board";
 $modversion['tables'][3] = "tad_discuss_files_center";
+$modversion['tables'][4] = "tad_discuss_cbox";
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
@@ -102,6 +103,9 @@ $modversion['templates'][$i]['description'] = 'tad_discuss_talk_bubble_vertical.
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_discuss_adm_copycbox.html';
 $modversion['templates'][$i]['description'] = 'tad_discuss_adm_copycbox.html';
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_discuss_adm_cbox_setup.html';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_cbox_setup.html';
 
 
 //---區塊設定---//
@@ -127,7 +131,7 @@ $modversion['blocks'][3]['description'] = _MI_TADDISCUS_BDESC3;
 $modversion['blocks'][3]['show_func'] = "tad_discuss_cbox";
 $modversion['blocks'][3]['template'] = "tad_discuss_cbox.html";
 $modversion['blocks'][3]['edit_func'] = "tad_discuss_cbox_edit";
-$modversion['blocks'][3]['options'] = "";
+$modversion['blocks'][3]['options'] = "|350|#B4C58D|#FFFFFF|#000000|0";
 
 $modversion['config'][0]['name']	= 'display_mode';
 $modversion['config'][0]['title']	= '_MI_TADDISCUS_DISPLAY_MODE';

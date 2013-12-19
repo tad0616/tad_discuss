@@ -8,7 +8,8 @@
 include "header.php";
 $xoopsOption['template_main'] = "tad_discuss_discuss_tpl.html";
 include_once XOOPS_ROOT_PATH."/header.php";
-include_once "up_file.php";
+include_once XOOPS_ROOT_PATH."/modules/tadtools/TadUpFiles.php" ;
+$TadUpFiles=new TadUpFiles("tad_discuss");
 /*-----------function區--------------*/
 
 

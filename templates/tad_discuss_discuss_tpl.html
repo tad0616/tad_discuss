@@ -42,7 +42,7 @@
       <{includeq file="db:tad_discuss_talk_bubble.html"}>
     <{/if}>
   <{/foreach}>
-  
+
 <{else}>
 
 
@@ -65,7 +65,7 @@
     <{if $main_data}>
       <{foreach item=discuss from=$main_data}>
         <tr>
-      		<td><img src="images/greenpoint.gif" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:#505050"><{$discuss.DiscussTitle}></a></td>
+      		<td><img src="images/<{if $discuss.isPublic}>greenpoint.gif<{else}>lock.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:#505050"><{$discuss.DiscussTitle}></a></td>
       		<td class="text-center"><{$discuss.renum}></td>
       		<td><div style="font-size:10px;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
       		<td><div style="font-size:10px;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>

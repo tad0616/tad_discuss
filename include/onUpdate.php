@@ -5,6 +5,8 @@ function xoops_module_update_tad_discuss(&$module, $old_version) {
     if(chk_chk1()) go_update1();
     if(chk_chk2()) go_update2();
     if(chk_chk3()) go_update3();
+    if(chk_chk4()) go_update4();
+    if(chk_chk5()) go_update5();
 
     return true;
 }
@@ -21,7 +23,7 @@ function chk_chk1(){
 
 function go_update1(){
   global $xoopsDB;
-  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_discuss")." ADD `onlyTo` smallint(6) unsigned NOT NULL default 0";
+  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_discuss")." ADD `onlyTo` varchar(255) NOT NULL default ''";
   $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
   return true;
 }
@@ -57,23 +59,42 @@ function go_update3(){
   global $xoopsDB;
   $sql="ALTER TABLE ".$xoopsDB->prefix("tad_discuss")." ADD `publisher` varchar(255) NOT NULL default '' after `uid`";
   $xoopsDB->queryF($sql);
-//echo "<p>$sql</p>";
   $sql="select `uid` from ".$xoopsDB->prefix("tad_discuss")." group by uid";
-//echo "<p>$sql</p>";
   $result=$xoopsDB->query($sql);
   while(list($uid)=$xoopsDB->fetchRow($result)){
     $publisher=get_name_from_uid($uid);
-//echo "<p>$publisher</p>";
     if($publisher){
       $sql="update ".$xoopsDB->prefix("tad_discuss")." set `publisher`='{$publisher}' where `uid`='{$uid}'";
-//echo "<p>$sql</p>";
       $xoopsDB->queryF($sql);
     }
   }
-  //exit;
   return true;
 }
 
+
+
+//新增original_filename欄位
+function chk_chk4(){
+  global $xoopsDB;
+  $sql="select count(`original_filename`) from ".$xoopsDB->prefix("tad_discuss_files_center");
+  $result=$xoopsDB->query($sql);
+  if(empty($result)) return true;
+  return false;
+}
+
+
+function go_update4(){
+  global $xoopsDB;
+  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_discuss_files_center")."
+  ADD `original_filename` varchar(255) NOT NULL default '',
+  ADD `hash_filename` varchar(255) NOT NULL default '',
+  ADD `sub_dir` varchar(255) NOT NULL default ''";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
+
+  $sql="update ".$xoopsDB->prefix("tad_discuss_files_center")." set
+  `original_filename`=`description`";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
+}
 
 
 function get_name_from_uid($uid=""){
@@ -86,6 +107,29 @@ function get_name_from_uid($uid=""){
 }
 
 
+
+//新增設定表格
+function chk_chk5(){
+  global $xoopsDB;
+  $sql="select count(*) from ".$xoopsDB->prefix("tad_discuss_cbox_setup");
+  $result=$xoopsDB->query($sql);
+  if(empty($result)) return true;
+  return false;
+}
+
+function go_update5(){
+  global $xoopsDB;
+
+  $sql="CREATE TABLE `".$xoopsDB->prefix("tad_discuss_cbox_setup")."` (
+    `setupID` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+    `setupName` varchar(255) NOT NULL default '',
+    `setupRule` varchar(255) NOT NULL default '',
+    `BoardID` smallint(6) unsigned NOT NULL default 0,
+    `setupSort` smallint(6) unsigned NOT NULL default 0,
+  PRIMARY KEY (`setupID`)
+  ) ENGINE=MyISAM;";
+  $xoopsDB->queryF($sql);
+}
 
 
 //建立目錄

@@ -164,7 +164,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 }
 
 //以流水號秀出某筆tad_discuss資料內容
-function show_one_tad_discuss($DefDiscussID=""){
+function show_one_tad_discuss($DefDiscussID="",$g2p){
   global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig;
 
   //$isAdmin=isAdmin();
@@ -253,7 +253,8 @@ function show_one_tad_discuss($DefDiscussID=""){
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   $discuss_data="";
-  $i=1;
+  
+  $i=$xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
 
   $member_handler = xoops_gethandler('member');
   while($all=$xoopsDB->fetchArray($result)){
@@ -694,6 +695,7 @@ $op=empty($_REQUEST['op'])?"":$_REQUEST['op'];
 $DiscussID=empty($_REQUEST['DiscussID'])?"":intval($_REQUEST['DiscussID']);
 $BoardID=empty($_REQUEST['BoardID'])?"":intval($_REQUEST['BoardID']);
 $files_sn=empty($_REQUEST['files_sn'])?"":intval($_REQUEST['files_sn']);
+$g2p=empty($_REQUEST['g2p'])?"1":intval($_REQUEST['g2p']);
 
 switch($op){
 
@@ -725,7 +727,7 @@ switch($op){
 
   //單一討論
   case "show_one":
-  $main=show_one_tad_discuss($DiscussID);
+  $main=show_one_tad_discuss($DiscussID,$g2p);
   break;
 
   //單一討論區

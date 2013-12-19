@@ -99,7 +99,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   }
 
   $TadUpFiles->set_col("DiscussID",$DefDiscussID); //若 $show_list_del_file ==true 時一定要有
-  $upform=$TadUpFiles->upform(false,"upfile",100,true);
+  $upform=$TadUpFiles->upform(true,"upfile",100,true);
 
   $DiscussContent="
   $DiscussTitle
@@ -142,7 +142,6 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
     $xoopsTpl->assign('display_mode',$xoopsModuleConfig['display_mode']);
     $xoopsTpl->assign('formValidator_code',$formValidator_code);
     $xoopsTpl->assign('op',$_REQUEST['op']);
-    $xoopsTpl->assign('formValidator_code',$formValidator_code);
     $xoopsTpl->assign('form_data',$all);
   }
 }
@@ -308,7 +307,7 @@ function update_tad_discuss($DiscussID=""){
       $myip = $myip[0];
   }
 
-  $anduid=onlyMine();
+  $anduid=onlyMine($DiscussID);
 
 
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
@@ -319,6 +318,7 @@ function update_tad_discuss($DiscussID=""){
    `LastTime` = '$time',
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";
+  //die($sql);
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   $TadUpFiles->set_col("DiscussID" , $DiscussID);

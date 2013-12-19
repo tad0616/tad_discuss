@@ -623,7 +623,7 @@ function update_tad_discuss($DiscussID=""){
       $myip = $myip[0];
   }
 
-  $anduid=onlyMine();
+  $anduid=onlyMine($DiscussID);
 
 
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));

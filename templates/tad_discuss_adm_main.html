@@ -80,9 +80,9 @@
   </script>
 
   <{if $all_content}>
-  
+
     <div id="save_msg"></div>
-    
+
     <table class="table table-striped">
     <tr>
       <th colspan=2><{$smarty.const._MA_TADDISCUS_BOARDTITLE}></th>
@@ -95,7 +95,7 @@
     <tbody id="sort">
       <{foreach item=all from=$all_content}>
       <tr id="tr_<{$all.BoardID}>" style="background-color:<{$all.color}>;">
-        <td><img src="<{$all.pic}>" alt="<{$all.BoardTitle}>" title="<{$all.BoardTitle}>" class="img-polaroid"></td>
+        <td><img src="<{$all.pic}>" alt="<{$all.BoardTitle}>" title="<{$all.BoardTitle}>" class="img-polaroid" width="120"></td>
         <td>
         <div><a href="main.php?BoardID=<{$all.BoardID}>"><{$all.BoardTitle}></a></div>
         <div style="width:300px;font-size:12px;color:gray;margin:8px 0px"><{$all.BoardDesc}></div>
@@ -111,8 +111,8 @@
       <{/foreach}>
     </tbody>
 
-    </table> 
+    </table>
   <{/if}>
-    
+
   <a href="main.php?op=tad_discuss_board_form" class="btn btn-info"><{$smarty.const._MA_TADDISCUS_ADD_BOARD}></a>
 <{/if}>

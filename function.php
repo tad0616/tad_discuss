@@ -36,9 +36,10 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   $like=(!empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
   $fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
   //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
-  $TadUpFiles->set_col("DiscussID" , $DiscussID );
-  $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
-
+  if($_REQUEST['op']!='tad_discuss_form'){
+    $TadUpFiles->set_col("DiscussID" , $DiscussID );
+    $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
+  }
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
   if($xoopsModuleConfig['display_mode']=="mobile"){
@@ -262,12 +263,13 @@ function isMine($discuss_uid=null,$BoardID=null){
 }
 
 //更新刪除時是否限制身份
-function onlyMine(){
+function onlyMine($DiscussID=""){
   global $xoopsUser,$isAdmin;
-  $uid=is_object($xoopsUser)?$xoopsUser->getVar('uid'):"0";
-  $board=get_tad_discuss_board($BoardID);
+  $uid=is_object($xoopsUser)?$xoopsUser->uid():"0";
+  $Discuss=get_tad_discuss($DiscussID);
+  $board=get_tad_discuss_board($Discuss['BoardID']);
   $BoardManagerArr=explode(',',$board['BoardManager']);
-
+//die(var_export($BoardManagerArr));
   if($isAdmin){
     return;
   }elseif(in_array($uid,$BoardManagerArr)){
@@ -280,20 +282,25 @@ function onlyMine(){
 
 //刪除tad_discuss某筆資料資料
 function delete_tad_discuss($DiscussID=""){
-  global $xoopsDB,$xoopsUser,$isAdmin;
+  global $xoopsDB,$xoopsUser,$isAdmin,$TadUpFiles;
 
   if(!$xoopsUser)return;
 
-  $uid=$xoopsUser->getVar('uid');
-  $anduid=onlyMine();
+  $anduid=onlyMine($DiscussID);
 
   $sql = "delete from ".$xoopsDB->prefix("tad_discuss")." where DiscussID='$DiscussID' $anduid";
-  $result=$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  $total=get_re_num($DiscussID);
+  if($xoopsDB->queryF($sql)){
 
-  if($total >0 ){
-    $sql = "delete from ".$xoopsDB->prefix("tad_discuss")." where ReDiscussID='$DiscussID'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    $TadUpFiles->set_col('DiscussID',$DiscussID); //若要整個刪除
+    $TadUpFiles->del_files();
+
+    $sql = "select DiscussID from ".$xoopsDB->prefix("tad_discuss")." where ReDiscussID='$DiscussID'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    while(list($DiscussID)=$xoopsDB->fetchRow($result)){
+      delete_tad_discuss($DiscussID);
+    }
+  }else{
+    redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   }
 }
 
@@ -348,6 +355,7 @@ function insert_tad_discuss($nl2br=false){
   $xoopsUser->incrementPost();
 
   $TadUpFiles->set_col("DiscussID" , $DiscussID);
+//$TadUpFiles->upload_file($upname,$width,$thumb_width,$files_sn,$desc,$safe_name=false,$hash=false);
   $TadUpFiles->upload_file("upfile",1024,120,NULL,"",true);
 
   $ToDiscussID= $DiscussID;

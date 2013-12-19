@@ -143,9 +143,8 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $TadUpFiles->set_col("DiscussID" , $DiscussID );
     $allfiles=$TadUpFiles->get_file();
     foreach($allfiles as $ff){
-      $files.=($ff['kind']=="img")?"<a href='{$ff['path']}' class='fancybox_Discuss' rel='DiscussID_{$DiscussID}' target='_top'><img src='{$ff['tb_path']}'></a>":"<a href='{$ff['path']}'><img src='images/file.png'></a>";
+      $files.=($ff['kind']=="img")?"<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='DiscussID_{$DiscussID}' target='_top'><img src='{$ff['tb_path']}' alt='{$ff['description']}'></a>":"<a href='{$ff['path']}'><img src='images/file.png'></a>";
     }
-
     //以uid取得使用者名稱
     $publisher=XoopsUser::getUnameFromId($uid,1);
     if(empty($publisher))$publisher=XoopsUser::getUnameFromId($uid,0);
@@ -333,6 +332,7 @@ echo "
   <head>
   <meta http-equiv='content-type' content='text/html; charset="._CHARSET."'>
   $jquery
+
   <script type='text/javascript' src='".XOOPS_URL."/modules/tadtools/fancyBox/lib/jquery.mousewheel-3.0.6.pack.js'></script>
   <script type='text/javascript' language='javascript' src='".XOOPS_URL."/modules/tadtools/fancyBox/source/jquery.fancybox.js?v=2.1.4'></script>
   <link rel='stylesheet' href='".XOOPS_URL."/modules/tadtools/fancyBox/source/jquery.fancybox.css?v=2.1.4' type='text/css' media='screen' />
@@ -343,12 +343,13 @@ echo "
   <script type='text/javascript' src='".XOOPS_URL."/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-media.js?v=1.0.5'></script>
     <script type='text/javascript'>
     $(document).ready(function() {
-    $('.fancybox_Discuss').fancybox({
-      openEffect  : 'none',
-      closeEffect : 'none',
-      autoPlay  : true
+      $('.fancybox_Discuss').fancybox({
+        openEffect  : 'none',
+        closeEffect : 'none',
+        autoPlay  : true
+      });
+
     });
-  });
   </script>
   <link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tad_discuss/cbox.css' />
 </head>

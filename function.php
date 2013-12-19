@@ -273,8 +273,8 @@ function getBoardManager($BoardID="",$mode=""){
   $BoardManagerArr=explode(',',$board['BoardManager']);
   foreach($BoardManagerArr as $uid){
     $BoardManagerName=XoopsUser::getUnameFromId($uid,1);
-    if(empty($BoardManagerName) or $mode=="uname")$BoardManagerName=XoopsUser::getUnameFromId($uid,0);
-    $name[]=$BoardManagerName;
+    if(empty($BoardManagerName))$BoardManagerName=XoopsUser::getUnameFromId($uid,0);
+    $name[]="<a href='".XOOPS_URL."/userinfo.php?uid={$uid}'>{$BoardManagerName}</a>";
   }
   return $name;
 }

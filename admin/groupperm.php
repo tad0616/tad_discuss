@@ -29,7 +29,7 @@ while($all=$xoopsDB->fetchArray($result)){
 
   //權限項目陣列
 	$item_list[$BoardID]=$BoardTitle;
-	
+
 }
 
 

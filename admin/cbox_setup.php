@@ -124,10 +124,12 @@ function list_tad_discuss_cbox_setup(){
   $sql = "select * from `".$xoopsDB->prefix("tad_discuss_cbox_setup")."` order by `setupSort`";
 
   //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+  /*
   $PageBar=getPageBar($sql,20,10);
   $bar=$PageBar['bar'];
   $sql=$PageBar['sql'];
   $total=$PageBar['total'];
+  */
 
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
@@ -149,12 +151,13 @@ function list_tad_discuss_cbox_setup(){
     $i++;
   }
 
-  //刪除確認的JS
 
-  $xoopsTpl->assign('bar' , $bar);
+  //$xoopsTpl->assign('bar' , $bar);
   $xoopsTpl->assign('action' , $_SERVER['PHP_SELF']);
   $xoopsTpl->assign('isAdmin' , $isAdmin);
   $xoopsTpl->assign('all_content' , $all_content);
+
+  $xoopsTpl->assign('jquery',get_jquery(true));
   //$xoopsTpl->assign('now_op' , 'list_tad_discuss_cbox_setup');
 }
 

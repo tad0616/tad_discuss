@@ -45,6 +45,9 @@ function tad_discuss_hot($options){
     $DiscussDate=substr($DiscussDate,0,16);
     $class=$i%2?'odd':'even';
 
+    $showDiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussTitle);
+    $showDiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$showDiscussTitle);
+
     $isPublic=isPublic($onlyTo,$uid,$BoardID);
     $onlyToName=getOnlyToName($onlyTo);
     $DiscussTitle=$isPublic?$DiscussTitle:sprintf(_MB_TADDISCUS_ONLYTO,$onlyToName);
@@ -52,6 +55,7 @@ function tad_discuss_hot($options){
 
     $block['discuss'][$i]['class']=$class;
     $block['discuss'][$i]['DiscussTitle']=$DiscussTitle;
+    $block['discuss'][$i]['showDiscussTitle']=$showDiscussTitle;
     $block['discuss'][$i]['renum']=$renum;
     $block['discuss'][$i]['DiscussID']=$DiscussID;
     $block['discuss'][$i]['BoardID']=$BoardID;

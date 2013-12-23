@@ -140,8 +140,11 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   }elseif($xoopsModuleConfig['display_mode']=='clean'){
     $dir='';
     $width=50;
-  }else{
+  }elseif($xoopsModuleConfig['display_mode']=='default'){
     $dir=$i%2?"left":"right";
+    $width=100;
+  }else{
+    $dir='';
     $width=100;
   }
 
@@ -168,7 +171,6 @@ function show_one_tad_discuss($DefDiscussID=""){
 
     $DefDiscussID=intval($DefDiscussID);
     $discuss=get_tad_discuss($DefDiscussID);
-
 
 
     //取得本模組編號
@@ -232,7 +234,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $bar=$PageBar['bar'];
   $sql=$PageBar['sql'];
   $total=$PageBar['total'];
-
+  if(empty($total))redirect_header($_SERVER['PHP_SELF'],3,_MD_TADDISCUS_THE_DISCUSS_EMPTY);
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   $discuss_data="";
@@ -265,8 +267,11 @@ function show_one_tad_discuss($DefDiscussID=""){
     }elseif($xoopsModuleConfig['display_mode']=='clean'){
       $dir='';
       $width=50;
-    }else{
+    }elseif($xoopsModuleConfig['display_mode']=='default'){
       $dir=$i%2?"left":"right";
+      $width=100;
+    }else{
+      $dir='';
       $width=100;
     }
 
@@ -308,24 +313,27 @@ function update_tad_discuss($DiscussID=""){
   global $xoopsDB,$xoopsUser,$TadUpFiles;
 
   $myts = MyTextSanitizer::getInstance();
-  $_POST['DiscussTitle']=$myts->addSlashes($_POST['DiscussTitle']);
-  $_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
+  $DiscussTitle=$myts->addSlashes($_POST['DiscussTitle']);
+  $DiscussContent=$myts->addSlashes($_POST['DiscussContent']);
 
   if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $myip = $_SERVER['REMOTE_ADDR'];
+    $myip = $_SERVER['REMOTE_ADDR'];
   } else {
-      $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-      $myip = $myip[0];
+    $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+    $myip = $myip[0];
   }
 
   $anduid=onlyMine($DiscussID);
+
+  if(chk_spam($DiscussTitle))redirect_header($_SERVER['PHP_SELF'],3, _MD_TADDISCUS_FOUND_SPAM);
+  if(chk_spam($DiscussContent))redirect_header($_SERVER['PHP_SELF'],3, _MD_TADDISCUS_FOUND_SPAM);
 
 
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
   $time=date("Y-m-d H:i:s");
   $sql = "update ".$xoopsDB->prefix("tad_discuss")." set
-   `DiscussTitle` = '{$_POST['DiscussTitle']}' ,
-   `DiscussContent` = '{$_POST['DiscussContent']}' ,
+   `DiscussTitle` = '{$DiscussTitle}' ,
+   `DiscussContent` = '{$DiscussContent}' ,
    `LastTime` = '$time',
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";

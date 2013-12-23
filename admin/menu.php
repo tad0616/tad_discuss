@@ -21,6 +21,12 @@ $adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU3 ;
 $adminmenu[$i]['icon'] = "images/admin/group_full_security_32.png";
 
 $i++;
+$adminmenu[$i]['title'] = _MI_TADDISCUS_ADMENU6;
+$adminmenu[$i]['link'] = "admin/spam.php";
+$adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU6 ;
+$adminmenu[$i]['icon'] = "images/admin/spam.png";
+
+$i++;
 $adminmenu[$i]['title'] = _MI_TADDISCUS_ADMENU5;
 $adminmenu[$i]['link'] = "admin/cbox_setup.php";
 $adminmenu[$i]['desc'] = _MI_TADDISCUS_ADMENU5 ;

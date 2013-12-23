@@ -7,13 +7,15 @@
 </script>
 <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
 <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data">
-    <{if $display_mode=="top" || $display_mode=="bottom"}>
-      <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
-    <{elseif $display_mode=="mobile"}>
-      <{includeq file="db:tad_discuss_mobile.html"}>
-    <{elseif $display_mode=="clean"}>
-      <{includeq file="db:tad_discuss_clean.html"}>
-    <{else}>
-      <{includeq file="db:tad_discuss_talk_bubble.html"}>
-    <{/if}>
+  <{if $display_mode=="top" || $display_mode=="bottom"}>
+    <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
+  <{elseif $display_mode=="mobile"}>
+    <{includeq file="db:tad_discuss_mobile.html"}>
+  <{elseif $display_mode=="clean"}>
+    <{includeq file="db:tad_discuss_clean.html"}>
+  <{elseif $display_mode=="default"}>
+    <{includeq file="db:tad_discuss_talk_bubble.html"}>
+  <{else}>
+    <{includeq file="db:tad_discuss_bootstrap.html"}>
+  <{/if}>
 </form>

@@ -1,0 +1,23 @@
+<div class="row-fluid">
+  <div class="span2">
+    <img src="<{$discuss.pic}>" width=100 class="img-rounded">
+    <span style="font-size:10px"><{$discuss.DiscussDate}></span>
+    <div><a href="userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a></div>
+  </div>
+  <div class="well span10" style="background-color:white;">
+    <{$discuss.DiscussContent}>
+      <div class="text-right">
+      <{if $discuss.fun}>
+        <a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);" class="btn"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a>
+        <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="btn"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>
+      <{/if}>
+      <{if $discuss.like}>
+        <a href="javascript:like('unlike',<{$discuss.DiscussID}>)" id="unlike<{$discuss.DiscussID}>" class="btn"><span style="color:#FF6600"><{$discuss.Bad}></span> <img src="images/unlike.png" alt="unlike" align="absmiddle"></a>
+
+        <a href="javascript:like('like',<{$discuss.DiscussID}>)" id="like<{$discuss.DiscussID}>" class="btn"><img src="images/like.png" alt="like" align="absmiddle" >
+        <span style="color:#0066FF"><{$discuss.Good}></span></a>
+      <{/if}>
+    </div>
+  </div>
+  <{$discuss.files}>
+</div>

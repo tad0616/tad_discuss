@@ -7,16 +7,11 @@
 
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
-
-
-define("_MA_TADDISCUS_BOARDID","討論區編號");
 define("_MA_TADDISCUS_BOARDTITLE","討論區名稱");
 define("_MA_TADDISCUS_BOARDDESC","討論區說明");
 define("_MA_TADDISCUS_BOARDMANAGER","板主");
 define("_MA_TADDISCUS_BOARDENABLE","啟動");
 define("_MA_TAD_DISCUSS_BOARD_FORM","討論區設定");
-define("_MA_TADDISCUS_BOARDPIC","討論區代表圖");
-define("_MA_TADDISCUS_SELECT_DEL","選取欲刪除檔案");
 define("_MA_TADDISCUS_BOARD_DISCUSS","有 %s 個主題");
 define("_MA_TADDISCUS_ALL_DISCUSS","共 %s 則討論");
 define("_MA_TADDISCUS_UPDATE_ERROR","更新失敗！ ");
@@ -43,10 +38,9 @@ define("_MA_TADDISCUS_POWER_OK","已完成");
 define("_MA_TADDISCUS_BATCH_DEL","批次刪除");
 define("_MA_TADDISCUS_COPY_DISCUSS_FORCE","清除重匯（適用已匯入後再次重匯）");
 define("_MA_TADDISCUS_ADD_BOARD","新增討論區");
-define("_MA_TADDISCUS_SETUPID","設定流水號");
 define("_MA_TADDISCUS_SETUPNAME","規則名稱或說明");
 define("_MA_TADDISCUS_SETUPRULE","當區塊在網址偵測到這些字串時");
 define("_MA_TADDISCUS_TO_BOARDID","便自動切換到：");
 define("_MA_TADDISCUS_RULE_SETUP","留言簿「自動切換討論區」設定");
-define("_MA_TADDISCUS_SETUPSORT","規則優先權");
+define("_MA_TADDISCUS_NEW_SPAM_KEYWORD","可輸入新的關鍵字，可多個，用「,」隔開即可");
 ?>

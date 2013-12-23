@@ -53,6 +53,12 @@ function list_cbox(){
     foreach($all as $k=>$v){
       $$k=$v;
       $all_content[$i][$k]=$v;
+      if($only_root==1){
+        preg_match_all("/\(by (.*?)\)/", $root_msg , $match);
+        $root_name=$match[1][0];
+        $root_uid=get_uid_from_uname($root_name);
+        $all_content[$i]['only_root']=$root_name." ({$root_uid})";
+      }
     }
 
     $all_content[$i]['uid']=get_uid_from_uname($publisher);
@@ -130,8 +136,20 @@ function copycbox($BoardID=""){
     $sql="insert into ".$xoopsDB->prefix("tad_discuss")." ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES(0 , '{$uid}', '$publisher' , '{$DiscussTitle}' , '{$msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' ,'{$onlyTo}')";
     $xoopsDB->queryF($sql);
     $DiscussID=$xoopsDB->getInsertId();
-    $onlyToUid=($only_root)?$uid:"";
+
     if($root_msg){
+
+      preg_match_all("/\(by (.*?)\)/", $root_msg , $match);
+      $publisher=$match[1][0];
+      if(empty($publisher)){
+        $publisher=$xoopsUser->name();
+      }else{
+        $root_uid=get_uid_from_uname($publisher);
+      }
+
+
+      $onlyToUid=($only_root)?$uid:"";
+      if(empty($publisher))$publisher=$xoopsUser->uname();
       $sql="insert into ".$xoopsDB->prefix("tad_discuss")." ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES('{$DiscussID}' , '{$root_uid}', '{$publisher}' , 'RE:{$DiscussTitle}' , '{$root_msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' , '{$onlyToUid}')";
       $xoopsDB->queryF($sql);
     }

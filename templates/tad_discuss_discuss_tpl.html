@@ -19,8 +19,10 @@
       <{includeq file="db:tad_discuss_mobile.html"}>
     <{elseif $display_mode=="clean"}>
       <{includeq file="db:tad_discuss_clean.html"}>
-    <{else}>
+    <{elseif $display_mode=="default"}>
       <{includeq file="db:tad_discuss_talk_bubble.html"}>
+    <{else}>
+      <{includeq file="db:tad_discuss_bootstrap.html"}>
     <{/if}>
   <{/foreach}>
   <{$formValidator_code}>
@@ -31,17 +33,20 @@
   </script>
   <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
   <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data">
-  <{foreach item=discuss from=$form_data}>
-    <{if $display_mode=="top" || $display_mode=="bottom"}>
-      <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
-    <{elseif $display_mode=="mobile"}>
-      <{includeq file="db:tad_discuss_mobile.html"}>
-    <{elseif $display_mode=="clean"}>
-      <{includeq file="db:tad_discuss_clean.html"}>
-    <{else}>
-      <{includeq file="db:tad_discuss_talk_bubble.html"}>
-    <{/if}>
-  <{/foreach}>
+    <{foreach item=discuss from=$form_data}>
+      <{if $display_mode=="top" || $display_mode=="bottom"}>
+        <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
+      <{elseif $display_mode=="mobile"}>
+        <{includeq file="db:tad_discuss_mobile.html"}>
+      <{elseif $display_mode=="clean"}>
+        <{includeq file="db:tad_discuss_clean.html"}>
+      <{elseif $display_mode=="default"}>
+        <{includeq file="db:tad_discuss_talk_bubble.html"}>
+      <{else}>
+        <{includeq file="db:tad_discuss_bootstrap.html"}>
+      <{/if}>
+    <{/foreach}>
+  </form>
 
 <{else}>
 

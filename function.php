@@ -57,6 +57,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   $all['pic_js']=$pic_js;
   $all['fun']=$fun;
   $all['like']=$like;
+  $all['uid']=$uid;
   $all['uid_name']=$uid_name;
   $all['DiscussDate']=$DiscussDate;
   //$all['DiscussContent']=$DiscussContent;
@@ -149,6 +150,10 @@ function list_tad_discuss($DefBoardID=null){
 
     $isPublic=isPublic($onlyTo,$uid,$DefBoardID);
     $onlyToName=getOnlyToName($onlyTo);
+
+
+    $DiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussTitle);
+    $DiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussTitle);
 
     $main_data[$i]['LastTime']=$LastTime;
     $main_data[$i]['DiscussID']=$DiscussID;
@@ -255,7 +260,7 @@ function isMine($discuss_uid=null,$BoardID=null){
 //die("aa".var_export($board));
   $uid=$xoopsUser->uid();
 
-  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
+//  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
   if($isAdmin){
     return true;
   }elseif(in_array($uid,$BoardManagerArr)){
@@ -281,12 +286,17 @@ function getBoardManager($BoardID="",$mode=""){
 
 //更新刪除時是否限制身份
 function onlyMine($DiscussID=""){
-  global $xoopsUser,$isAdmin;
+  global $xoopsUser,$isAdmin,$xoopsModule;
   $uid=is_object($xoopsUser)?$xoopsUser->uid():"0";
   $Discuss=get_tad_discuss($DiscussID);
   $board=get_tad_discuss_board($Discuss['BoardID']);
   $BoardManagerArr=explode(',',$board['BoardManager']);
-//die(var_export($BoardManagerArr));
+
+  if ($xoopsUser) {
+    $module_id = $xoopsModule->getVar('mid');
+    $isAdmin=$xoopsUser->isAdmin($module_id);
+  }
+
   if($isAdmin){
     return;
   }elseif(in_array($uid,$BoardManagerArr)){
@@ -306,6 +316,7 @@ function delete_tad_discuss($DiscussID=""){
   $anduid=onlyMine($DiscussID);
 
   $sql = "delete from ".$xoopsDB->prefix("tad_discuss")." where DiscussID='$DiscussID' $anduid";
+  //die($sql);
   if($xoopsDB->queryF($sql)){
 
     $TadUpFiles->set_col('DiscussID',$DiscussID); //若要整個刪除
@@ -321,7 +332,18 @@ function delete_tad_discuss($DiscussID=""){
   }
 }
 
-
+//檢查是否有不當言論
+function chk_spam($content=""){
+  global $xoopsModuleConfig;
+  $keys=explode(",",$xoopsModuleConfig['spam_keyword']);
+  foreach($keys as $key){
+    $strpos=strpos($content, $key);
+    if($strpos!==false){
+      return true;
+    }
+  }
+  return false;
+}
 
 //新增資料到tad_discuss中
 function insert_tad_discuss($nl2br=false){
@@ -354,6 +376,10 @@ function insert_tad_discuss($nl2br=false){
 
   $DiscussContent=$myts->addSlashes($_POST['DiscussContent']);
   if($nl2br)$DiscussContent=nl2br($DiscussContent);
+
+  if(chk_spam($DiscussTitle))redirect_header($_SERVER['PHP_SELF'],3, _MD_TADDISCUS_FOUND_SPAM);
+  if(chk_spam($DiscussContent))redirect_header($_SERVER['PHP_SELF'],3, _MD_TADDISCUS_FOUND_SPAM);
+
 
   $onlyTo="";
   if($_POST['only_root']=='1' and !empty($ReDiscussID)){

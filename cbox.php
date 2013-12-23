@@ -62,7 +62,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
   if($isAdmin){
     $del_js="
     function delete_tad_discuss_func(DiscussID){
-      var sure = window.confirm('"._BP_DEL_CHK."');
+      var sure = window.confirm('"._TAD_DEL_CONFIRM."');
       if (!sure)  return;
       location.href=\"{$_SERVER['PHP_SELF']}?BoardID={$DefBoardID}&op=delete_tad_discuss&DiscussID=\" + DiscussID;
     }";
@@ -148,6 +148,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
     //以uid取得使用者名稱
     $publisher=XoopsUser::getUnameFromId($uid,1);
     if(empty($publisher))$publisher=XoopsUser::getUnameFromId($uid,0);
+
     $MainDiscussTitle=$DiscussTitle;
 
     $bgcss=($i%2)?"color:#000000;background-color:#FAFBFC":"color:#000000;background-color:#EDF3F7";
@@ -163,6 +164,8 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $re_button=isPublic($onlyTo,$uid,$DefBoardID)?"<button type='button' style='font-size:11px;border:1px solid gray;float:right;' onClick=\"window.open('".XOOPS_URL."/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">"._MD_TADDISCUS_DISCUSSRE."</button>":"";
 
 
+    $MainDiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$MainDiscussTitle);
+    $MainDiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$MainDiscussTitle);
 
     $MainDiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
     $MainDiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$MainDiscussContent);
@@ -176,6 +179,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
 
     $isPublic=isPublic($onlyTo,$uid,$DefBoardID);
     $onlyToName=getOnlyToName($onlyTo);
+
     $MainDiscussTitle=$isPublic?$MainDiscussTitle:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
     $MainDiscussContent=$isPublic?$MainDiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
     $files=isPublic($onlyTo,$uid,$DefBoardID)?$files:"";
@@ -183,14 +187,17 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $MainDiscussContent=strip_word_html($MainDiscussContent);
 
     $dot=$isPublic?"greenpoint":"lock";
-    $mainDiscuss="
+    //die("{$DiscussTitle}<br>{$DiscussContent}");
+    $showTitle=($DiscussTitle == $DiscussContent)?"":"
     <div style='padding:8px 1px;'>
-      $re_button
-      <img src='images/$dot.gif'>
+      {$re_button}<img src='images/$dot.gif'>
       <a href='discuss.php?DiscussID={$DiscussID}' style='text-decoration:none;color:{$titleColor};border-bottom:1px dotted gray;' target='_top'>{$MainDiscussTitle}</a>
-    </div>
+    </div>";
+    $re_button2=($DiscussTitle == $DiscussContent)?$re_button:"";
 
-    <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>
+    $mainDiscuss="
+    $showTitle
+    <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>{$re_button2}
       <div class='cbox_publisher'>{$publisher}</div>: {$MainDiscussContent}
     </div>
     {$files}

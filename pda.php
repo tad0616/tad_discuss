@@ -154,6 +154,9 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 
     $renum=_MD_TADDISCUS_DISCUSSRE.$renum;
 
+
+    $DiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussTitle);
+    $DiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussTitle);
     $main_data.="
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}'>
         <h2>{$DiscussTitle}</h2>
@@ -264,6 +267,9 @@ function show_one_tad_discuss($DefDiscussID=""){
       $$k=$v;
     }
 
+    $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
+    $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);
+
     $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
 
     if($discuss_data['like']){
@@ -305,6 +311,9 @@ function show_one_tad_discuss($DefDiscussID=""){
     }
 
   $title=$discuss['DiscussTitle'];
+
+  $title=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$title);
+  $title=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$title);
 
     $page="
       <!-- showone -->
@@ -413,6 +422,8 @@ function list_tad_discuss_m($DefBoardID=null){
 
     $renum=_MD_TADDISCUS_DISCUSSRE.$renum;
 
+    $DiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussTitle);
+    $DiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussTitle);
     $main_data.="
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar'>
         <h2>{$DiscussTitle}</h2>

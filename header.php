@@ -6,13 +6,21 @@
 // ------------------------------------------------------------------------- //
 
 include_once "../../mainfile.php";
+
+if($xoopsModuleConfig['use_pda']=='1'){
+  if(file_exists(XOOPS_ROOT_PATH."/modules/tadtools/mobile_device_detect.php")){
+    include_once XOOPS_ROOT_PATH."/modules/tadtools/mobile_device_detect.php";
+    mobile_device_detect(true, false, true, true, true, true, true, 'pda.php', false);
+  }
+}
+
 include_once "function.php";
 
 //判斷是否對該模組有管理權限
 $isAdmin=false;
 if ($xoopsUser) {
-    $module_id = $xoopsModule->getVar('mid');
-    $isAdmin=$xoopsUser->isAdmin($module_id);
+  $module_id = $xoopsModule->getVar('mid');
+  $isAdmin=$xoopsUser->isAdmin($module_id);
 }
 
 $interface_menu[_MD_TADDISCUS_SMNAME1]="index.php";

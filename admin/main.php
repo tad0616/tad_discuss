@@ -115,50 +115,6 @@ function tad_discuss_board_form($BoardID=""){
 
 
 
-//新增資料到tad_discuss_board中
-function insert_tad_discuss_board(){
-  global $xoopsDB,$xoopsUser,$TadUpFiles;
-
-
-  $myts = MyTextSanitizer::getInstance();
-  $_POST['BoardDesc']=$myts->addSlashes($_POST['BoardDesc']);
-
-  $BoardManager=is_array($_POST['BoardManager'])?implode(',',$_POST['BoardManager']):$_POST['BoardManager'];
-
-  $sql = "insert into `".$xoopsDB->prefix("tad_discuss_board")."`
-  (`ofBoardID` , `BoardTitle` , `BoardDesc` , `BoardManager` , `BoardEnable`)
-  values('{$_POST['ofBoardID']}' , '{$_POST['BoardTitle']}' , '{$_POST['BoardDesc']}' , '{$BoardManager}' , '{$_POST['BoardEnable']}')";
-  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-
-  //取得最後新增資料的流水編號
-  $BoardID = $xoopsDB->getInsertId();
-
-  //寫入權限
-  saveItem_Permissions($_POST['forum_read'], $BoardID, 'forum_read');
-  saveItem_Permissions($_POST['forum_post'], $BoardID, 'forum_post');
-
-  $TadUpFiles->set_col("BoardID" , $BoardID);
-  $TadUpFiles->upload_file("upfile",1024,120,NULL,"",true);
-  return $BoardID;
-}
-
-
-//儲存權限
-function saveItem_Permissions($groups, $itemid, $perm_name) {
-  global $xoopsModule;
-  $module_id = $xoopsModule->getVar('mid');
-  $gperm_handler =& xoops_gethandler('groupperm');
-
-  // First, if the permissions are already there, delete them
-  $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
-
-  // Save the new permissions
-  if (count($groups) > 0) {
-      foreach ($groups as $group_id) {
-          $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
-      }
-  }
-}
 
 
 //更新tad_discuss_board某一筆資料
@@ -282,7 +238,7 @@ function get_tad_discuss_board_menu_options($default_BoardID="0"){
   $option="";
   while(list($BoardID , $ofBoardID , $BoardTitle)=$xoopsDB->fetchRow($result)){
     if($BoardID==$default_BoardID)continue;
-    $option.="<option value=$BoardID $selected>{$BoardTitle}</option>";
+    $option.="<option value=$BoardID>{$BoardTitle}</option>";
 
   }
   return $option;
@@ -351,7 +307,7 @@ switch($op){
 
   //新增資料
   case "insert_tad_discuss_board":
-  $BoardID=insert_tad_discuss_board();
+  $BoardID=insert_tad_discuss_board($_POST['BoardTitle']);
   header("location: {$_SERVER['PHP_SELF']}?BoardID=$BoardID");
   break;
 

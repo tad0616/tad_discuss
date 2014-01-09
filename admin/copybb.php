@@ -158,6 +158,7 @@ function listBoard($BoardID=''){
     $all_content[$i]['post_time']=$post_time;
     $all_content[$i]['topic_views']=$topic_views;
     $all_content[$i]['poster_ip']=$poster_ip;
+    $all_content[$i]['i']=$i;
     $i++;
 
   }

@@ -13,10 +13,11 @@
 	<a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID}>&mode=force" class="btn btn-large btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
 	</div>
   <div class="clearfix"></div>
-	
+
 	<form action="copybb.php" method="post" class="form">
 	<table class="table table-striped table-bordered table-hover">
 	<tr>
+    <th>#</th>
 		<th>DiscussID</th>
 		<th>uid</th>
 		<th>DiscussTitle</th>
@@ -30,8 +31,9 @@
 	<tbody>
 	<{foreach item=bb from=$all_content}>
 		<tr>
-      <td><a href="copybb.php?op=delXforum&topic_id=<{$bb.topic_id}>&BoardID=<{$bb.BoardID}>" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-      <{$bb.topic_id}></td>
+      <td><{$bb.i}></td>
+      <td><a href="copybb.php?op=delXforum&topic_id=<{$bb.topic_id}>&BoardID=<{$bb.BoardID}>" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a></td>
+      <td><{$bb.topic_id}></td>
 			<td><{$bb.topic_poster}></td>
 			<td>
       <label class="checkbox inline">
@@ -69,9 +71,9 @@
 	</tr>
 
 	<tbody>
-	
+
 	<{foreach item=bb from=$all_content}>
-	
+
 	<tr>
       <td><{$bb.forum_id}></td>
 			<td><{$bb.forum_name}></td>
@@ -86,8 +88,8 @@
 		</tr>
   <{/foreach}>
 
-	
-	
+
+
 	</tbody>
 
 	<tr>

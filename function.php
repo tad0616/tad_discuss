@@ -76,6 +76,56 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
 
 
 
+//新增資料到tad_discuss_board中
+function insert_tad_discuss_board($BoardTitle=""){
+  global $xoopsDB,$xoopsUser,$TadUpFiles;
+
+  $myts = MyTextSanitizer::getInstance();
+  $BoardTitle=$myts->addSlashes($BoardTitle);
+  $_POST['BoardDesc']=$myts->addSlashes($_POST['BoardDesc']);
+
+  $BoardManager=is_array($_POST['BoardManager'])?implode(',',$_POST['BoardManager']):$_POST['BoardManager'];
+  if(empty($BoardManager))$BoardManager=$xoopsUser->uid();
+  if(!isset($_POST['BoardEnable']))$_POST['BoardEnable']=1;
+  if(!isset($_POST['forum_read']))$_POST['forum_read']=array(1,2,3);
+  if(!isset($_POST['forum_post']))$_POST['forum_post']=array(1,2);
+
+  $sql = "insert into `".$xoopsDB->prefix("tad_discuss_board")."`
+  (`ofBoardID` , `BoardTitle` , `BoardDesc` , `BoardManager` , `BoardEnable`)
+  values('{$_POST['ofBoardID']}' , '{$BoardTitle}' , '{$_POST['BoardDesc']}' , '{$BoardManager}' , '{$_POST['BoardEnable']}')";
+  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  //取得最後新增資料的流水編號
+  $BoardID = $xoopsDB->getInsertId();
+
+  //寫入權限
+  saveItem_Permissions($_POST['forum_read'], $BoardID, 'forum_read');
+  saveItem_Permissions($_POST['forum_post'], $BoardID, 'forum_post');
+
+  $TadUpFiles->set_col("BoardID" , $BoardID);
+  $TadUpFiles->upload_file("upfile",1024,120,NULL,"",true);
+
+  return $BoardID;
+}
+
+
+//儲存權限
+function saveItem_Permissions($groups, $itemid, $perm_name) {
+  global $xoopsModule;
+  $module_id = $xoopsModule->getVar('mid');
+  $gperm_handler =& xoops_gethandler('groupperm');
+
+  // First, if the permissions are already there, delete them
+  $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
+
+  // Save the new permissions
+  if (count($groups) > 0) {
+      foreach ($groups as $group_id) {
+          $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
+      }
+  }
+}
+
 //列出所有tad_discuss資料
 function list_tad_discuss($DefBoardID=null){
   global $xoopsDB,$xoopsModule,$xoopsUser,$xoopsModuleConfig,$isAdmin,$xoopsTpl;
@@ -212,16 +262,6 @@ function get_tad_discuss($DiscussID=""){
   global $xoopsDB;
   if(empty($DiscussID))return;
   $sql = "select * from ".$xoopsDB->prefix("tad_discuss")." where DiscussID='$DiscussID'";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  $data=$xoopsDB->fetchArray($result);
-  return $data;
-}
-
-//以流水號取得某筆tad_discuss_board資料
-function get_tad_discuss_board($BoardID=""){
-  global $xoopsDB;
-  if(empty($BoardID))return;
-  $sql = "select * from `".$xoopsDB->prefix("tad_discuss_board")."` where `BoardID` = '{$BoardID}'";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   $data=$xoopsDB->fetchArray($result);
   return $data;

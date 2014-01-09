@@ -42,6 +42,6 @@ define('_MI_TADDISCUS_BOARD_NOTIFY_ME' , '該討論區有新討論就通知我');
 define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT' , '[{X_SITENAME}] {X_MODULE} 指定的討論區下有新的討論');
 define("_MI_TADDISCUS_SPAM_KEYWORD","控管詞彙");
 define("_MI_TADDISCUS_SPAM_KEYWORD_DESC","將不希望出現在討論區裡的關鍵字列出，以便搜尋或防治（請用,隔開）");
-define("_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT","交友,兼差,援交,叫妹,約茶,愛愛,好濕,胸圍,快速賺錢,網約,做愛");
+define("_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT","交友,兼差,援交,叫妹,約茶,愛愛,好濕,胸圍,快速賺錢,網約,做愛,寫真,一夜情,約妹,叫小姐,身材,狂歡");
 
 ?>

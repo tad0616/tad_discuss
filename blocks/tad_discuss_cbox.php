@@ -24,13 +24,15 @@ function tad_discuss_cbox($options){
   if($apply_rule){
     $url="http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'];
     $all_rule=get_rule();
-    foreach($all_rule as $toBoardID => $patten){
-      //echo "<div>patten: $patten</div>";
-      //echo "<div>url: $url</div>";
-      if(strpos($url,$patten)){
-        $block['BoardID']=$DefBoardID=$toBoardID;
-        //echo "<div>toBoardID: $toBoardID</div>";
-        break;
+    foreach($all_rule as $toBoardID => $patten_arr){
+      foreach($patten_arr as $patten){
+        //echo "<div>patten: $patten</div>";
+        //echo "<div>url: $url</div>";
+        if(strpos($url,$patten)){
+          $block['BoardID']=$DefBoardID=$toBoardID;
+          //echo "<div>toBoardID: $toBoardID</div>";
+          break 2;
+        }
       }
     }
   }
@@ -151,7 +153,7 @@ if(!function_exists("get_rule")){
         $$k=$v;
       }
 
-      $all_content[$BoardID]=addslashes($setupRule);
+      $all_content[$BoardID][]=addslashes($setupRule);
     }
 
     return $all_content;

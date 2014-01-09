@@ -3,6 +3,8 @@
 $xoopsOption['template_main'] = "tad_discuss_adm_cbox_setup.html";
 include_once "header.php";
 include_once "../function.php";
+include_once XOOPS_ROOT_PATH."/modules/tadtools/TadUpFiles.php" ;
+$TadUpFiles=new TadUpFiles("tad_discuss");
 /*-----------function區--------------*/
 //tad_discuss_cbox_setup編輯表單
 function tad_discuss_cbox_setup_form($setupID=""){
@@ -76,7 +78,7 @@ function tad_discuss_cbox_setup_form($setupID=""){
 
 //新增資料到tad_discuss_cbox_setup中
 function insert_tad_discuss_cbox_setup(){
-  global $xoopsDB,$xoopsUser;
+  global $xoopsDB,$xoopsUser,$TadUpFiles;
 
   //取得使用者編號
   $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
@@ -84,11 +86,17 @@ function insert_tad_discuss_cbox_setup(){
   $myts =& MyTextSanitizer::getInstance();
   $_POST['setupName']=$myts->addSlashes($_POST['setupName']);
   $_POST['setupRule']=$myts->addSlashes($_POST['setupRule']);
+  $_POST['newBorard']=$myts->addSlashes($_POST['newBorard']);
 
+  if(!empty($_POST['newBorard'])){
+    $BoardID=insert_tad_discuss_board($_POST['newBorard']);
+  }else{
+    $BoardID=$_POST['BoardID'];
+  }
 
   $sql = "insert into `".$xoopsDB->prefix("tad_discuss_cbox_setup")."`
   (`setupName` , `setupRule` , `BoardID` , `setupSort`)
-  values('{$_POST['setupName']}' , '{$_POST['setupRule']}' , '{$_POST['BoardID']}' , '{$_POST['setupSort']}')";
+  values('{$_POST['setupName']}' , '{$_POST['setupRule']}' , '{$BoardID}' , '{$_POST['setupSort']}')";
   $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   //取得最後新增資料的流水編號
@@ -239,7 +247,7 @@ switch($op){
     //新增資料
     case "insert_tad_discuss_cbox_setup":
     $setupID=insert_tad_discuss_cbox_setup();
-    header("location: {$_SERVER['PHP_SELF']}?setupID=$setupID");
+    header("location: {$_SERVER['PHP_SELF']}");
     break;
 
     //更新資料

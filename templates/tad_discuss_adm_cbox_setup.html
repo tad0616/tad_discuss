@@ -28,17 +28,22 @@
         <input type="text" name="setupRule" id="setupRule" class="span12 validate[]" value="<{$setupRule}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPRULE}>">
       </div>
     </div>
+
     <div class="row-fluid">
       <label class="span3 text-right">
         <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
       </label>
-      <div class="span3">
+      <div class="span2">
         <select name="BoardID" class="span12 " size=1>
           <option value="" <{if $BoardID == ""}>selected="selected"<{/if}>></option>
           <{foreach from=$option item=option}>
             <option value="<{$option.BoardID}>" <{if $BoardID == $option.BoardID}>selected="selected"<{/if}>><{$option.BoardTitle}></option>
           <{/foreach}>
         </select>
+      </div>
+
+      <div class="span2">
+        <input type="text" name="newBorard" id="newBorard" class="span12 validate[]" placeholder="<{$smarty.const._MA_TADDISCUS_ADD_BOARD}>">
       </div>
 
       <div class="span2">

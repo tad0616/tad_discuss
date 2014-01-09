@@ -38,4 +38,19 @@ if(!function_exists('getOnlyToName')){
     return $nameStr;
   }
 }
+
+
+
+//以流水號取得某筆tad_discuss_board資料
+if(!function_exists('get_tad_discuss_board')){
+  function get_tad_discuss_board($BoardID=""){
+    global $xoopsDB;
+    if(empty($BoardID))return;
+    $sql = "select * from `".$xoopsDB->prefix("tad_discuss_board")."` where `BoardID` = '{$BoardID}'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    $data=$xoopsDB->fetchArray($result);
+    return $data;
+  }
+}
+
 ?>

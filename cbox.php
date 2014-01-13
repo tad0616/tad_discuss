@@ -87,18 +87,22 @@ function list_tad_discuss_cbox($DefBoardID=""){
     border-color:$bg_color transparent;
   }
 
-  .triangle-border.left {
-    border:5px solid $cbox_root_msg_color;
-    background:$cbox_root_msg_color;
+  .MainDiscussContent {
+    position: relative;
+    padding: 15px;
+    margin: 1em 0 3em;
+    border: 5px solid $cbox_root_msg_color;
+    color: $font_color;
+    text-align: left;
+    background: $bg_color;
+  /* css3 */
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
   }
 
-  .triangle-border.left:before {
-    border-color: transparent $cbox_root_msg_color;
-  }
 
-  .triangle-border.left:after {
-    border-color: transparent $cbox_root_msg_color;
-  }
+
 
 
   </style>
@@ -139,6 +143,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $MainDiscussTitle=$DiscussTitle;
 
     $bgcss=($i%2)?"color:#000000;background-color:#FAFBFC":"color:#000000;background-color:#EDF3F7";
+    $FBG_color=($i%2)?"#0080C0":"#C00080";
 
     $post_date=substr(date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($DiscussDate))),0,16);
     //$post_date=substr($date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($DiscussDate))),0,16);
@@ -184,12 +189,12 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $mainDiscuss="
     <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>
       {$re_button2}
-      <span class='f'> 1F </span>
+      <span class='f' style='background-color:{$FBG_color}'> 1F </span>
       <div class='cbox_publisher'>{$publisher}</div>: {$showTitle}
       <div class='cbox_date'>
         {$post_date}{$tool}
       </div>
-      <div class='triangle-border left' style='line-height:150%;'>
+      <div class='MainDiscussContent' style='line-height:150%;'>
         {$MainDiscussContent}
         {$files}
       </div>
@@ -244,7 +249,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
 
       $re.="
       $re_button
-      <span class='f'> {$f}F </span>
+      <span class='f' style='background-color:{$FBG_color}'> {$f}F </span>
       <div class='cbox_publisher'>{$publisher}</div>:
       <div class='cbox_date'>
         <span style='border-bottom:1px dotted #FF0080;color:gray;'>{$post_date}{$tool}</span>

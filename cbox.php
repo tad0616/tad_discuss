@@ -101,10 +101,6 @@ function list_tad_discuss_cbox($DefBoardID=""){
     border-radius: 10px;
   }
 
-
-
-
-
   </style>
   $jquery
   <script type='text/javascript'>
@@ -218,7 +214,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
       $TadUpFiles->set_col("DiscussID" , $DiscussID );
       $allfiles=$TadUpFiles->get_file();
       foreach($allfiles as $ff){
-        $files.=($ff['kind']=="img")?"<a href='{$ff['path']}' class='fancybox_Discuss' rel='DiscussID_{$DiscussID}' target='_parent'><img src='{$ff['tb_path']}'></a>":"<a href='{$ff['path']}'><img src='images/file.png'></a>";
+        $files.=($ff['kind']=="img")?"<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='DiscussID_{$DiscussID}' target='_parent'><img src='{$ff['tb_path']}'></a>":"<a href='{$ff['path']}'><img src='images/file.png'></a>";
       }
 
       //以uid取得使用者名稱

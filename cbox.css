@@ -2,6 +2,15 @@ font{
   font-size:12px;
 }
 
+span.f{
+  font-size:10px;
+  display:block-inline;
+  background-color:#0080C0;
+  color:white;border-radius: 3px;
+  padding:1px 3px;
+  margin-right:4px;
+}
+
 .thumb{
   width:90px;
   height:60px;
@@ -18,63 +27,138 @@ font{
 
 
 .triangle-border {
-  position:relative;
-  padding:15px;
-  margin:1em 0 3em;
-  /*border:5px solid #5a8f00;*/
-  color:#333;
-  background:#fff;
-  /* css3 */
-  -webkit-border-radius:10px;
-  -moz-border-radius:10px;
-  border-radius:10px;
+  position: relative;
+  padding: 15px;
+  margin: 1em 0 3em;
+  border: 5px solid rgb(204,204,255);
+  color: #333;
+  text-align: left;
+  background: #fff;
+/* css3 */
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 
 
+/* Variant: for left positioned triangle------------------------------------------ */
+.triangle-border.left {
+  margin-left: 30px;
+}
+/* Variant: for right positioned triangle------------------------------------------ */
+.triangle-border.right {
+  margin-right: 30px;
+}
+/* THE TRIANGLE------------------------------------------------------------------------------------------------------------------------------- */
 .triangle-border:before {
-  content:"";
-  position:absolute;
-  bottom:-20px; /* value = - border-top-width - border-bottom-width */
-  left:40px; /* controls horizontal position */
-  border-width:20px 20px 0;
-  border-style:solid;
-  /*border-color:#5a8f00 transparent;*/
-  /* reduce the damage in FF3.0 */
-  display:block;
-  width:0;
+  content: "";
+  position: absolute;
+  bottom: -20px;
+/* value = - border-top-width - border-bottom-width */
+  left: 40px;
+/* controls horizontal position */
+  border-width: 20px 20px 0;
+  border-style: solid;
+  border-color: rgb(204,204,255) transparent;
+/* reduce the damage in FF3.0 */
+  display: block;
+  width: 0;
 }
-
 /* creates the smaller  triangle */
 .triangle-border:after {
-  content:"";
-  position:absolute;
-  bottom:-13px; /* value = - border-top-width - border-bottom-width */
-  left:47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
-  border-width:13px 13px 0;
-  border-style:solid;
-  border-color:#fff transparent;
-    /* reduce the damage in FF3.0 */
-    display:block;
-    width:0;
+  content: "";
+  position: absolute;
+  bottom: -13px;
+/* value = - border-top-width - border-bottom-width */
+  left: 47px;
+/* value = (: before left) + (: before border-left) - (: after border-left) */
+  border-width: 13px 13px 0;
+  border-style: solid;
+  border-color: #fff transparent;
+/* reduce the damage in FF3.0 */
+  display: block;
+  width: 0;
+}
+/* Variant: top------------------------------------------ */
+/* creates the larger triangle */
+.triangle-border.top:before {
+  top: -20px;
+/* value = - border-top-width - border-bottom-width */
+  bottom: auto;
+  right: auto;
+  left: 40px;
+/* controls horizontal position */
+  border-width: 0 20px 20px;
+}
+/* creates the smaller  triangle */
+.triangle-border.top:after {
+  top: -13px;
+/* value = - border-top-width - border-bottom-width */
+  bottom: auto;
+  right: auto;
+  left: 47px;
+/* value = (: before right) + (: before border-right) - (: after border-right) */
+  border-width: 0 13px 13px;
+}
+/* Variant: left------------------------------------------ */
+/* creates the larger triangle */
+.triangle-border.left:before {
+  top: 10px;
+/* controls vertical position */
+  bottom: auto;
+  left: -30px;
+/* value = - border-left-width - border-right-width */
+  border-width: 15px 30px 15px 0;
+}
+/* creates the smaller  triangle */
+.triangle-border.left:after {
+  top: 16px;
+/* value = (: before top) + (: before border-top) - (: after border-top) */
+  bottom: auto;
+  left: -21px;
+/* value = - border-left-width - border-right-width */
+  border-width: 9px 21px 9px 0;
+}
+/* Variant: right------------------------------------------ */
+/* creates the larger triangle */
+.triangle-border.right:before {
+  top: 10px;
+/* controls vertical position */
+  bottom: auto;
+  left: auto;
+  right: -30px;
+/* value = - border-left-width - border-right-width */
+  border-width: 15px 0 15px 30px;
+  border-color: transparent rgb(204,204,255);
+}
+/* creates the smaller  triangle */
+.triangle-border.right:after {
+  top: 16px;
+/* value = (: before top) + (: before border-top) - (: after border-top) */
+  bottom: auto;
+  left: auto;
+  right: -21px;
+/* value = - border-left-width - border-right-width */
+  border-width: 9px 0 9px 21px;
+  border-color: transparent #fff;
 }
 
-
-/************************** è¡¨å–®è¡¨æ ¼æ¨£å¼ **************************/
+/************************** ±í†Î±í¸ñ˜ÓÊ½ **************************/
 div.cbox {
   background-color: #FFFFFF;
 }
 
 
-/* ç•™è¨€ç°¿ã€Œæ—¥æœŸã€æ¨£å¼ */
+/* ÁôÑÔ²¾¡¸ÈÕÆÚ¡¹˜ÓÊ½ */
 .cbox_date {
   font-size: 10px;
-  color: rgb(102,204,255);
-  text-align: left;
+  text-align: right;
   font-family: Arial;
-  margin-bottom: 2px;
+  margin: 8px 0px 2px;
+  color:#a0a0a0;
 }
 
-/* ç•™è¨€ç°¿ã€ŒIPã€æ¨£å¼ */
+/* ÁôÑÔ²¾¡¸IP¡¹˜ÓÊ½ */
 .cbox_ip {
   font-size: 10px;
   color: rgb(204,102,0);
@@ -82,25 +166,25 @@ div.cbox {
   margin-bottom: 2px;
 }
 
-/* ç•™è¨€ç°¿ã€Œç™¼ä½ˆè€…ã€æ¨£å¼ */
+/* ÁôÑÔ²¾¡¸°lÑÕß¡¹˜ÓÊ½ */
 .cbox_publisher {
   color: rgb(80,80,80);
   font-weight: normal;
   display: inline;
 }
 
-/* ç•™è¨€ç°¿ã€Œç§å¯†ç•™è¨€ã€æ¨£å¼ */
+/* ÁôÑÔ²¾¡¸Ë½ÃÜÁôÑÔ¡¹˜ÓÊ½ */
 .lock_msg {
   color: red;
 }
 
-/* ç•™è¨€ç°¿ã€Œå›è¦†ç•™è¨€ã€æ¨£å¼ */
+/* ÁôÑÔ²¾¡¸»Ø¸²ÁôÑÔ¡¹˜ÓÊ½ */
 div.remsg {
   color: rgb(102,153,0);
   display: inline;
 }
 
-/* ç•™è¨€ç°¿è¡¨æ ¼æ¨£å¼ */
+/* ÁôÑÔ²¾±í¸ñ˜ÓÊ½ */
 table.cbox_tbl {
   width: 100%;
   padding: 0px;
@@ -108,25 +192,25 @@ table.cbox_tbl {
   background-color: #FFFFFF;
 }
 
-/* æœ‰è¡¨å–®çš„å„²å­˜æ ¼æ¨£å¼ */
+/* ÓĞ±í†ÎµÄƒ¦´æ¸ñ˜ÓÊ½ */
 table.cbox_tbl td {
   padding: 1px;
   font-size: 12px;
 }
 
-/* æœ‰è¡¨å–®çš„ã€Œæ¨™é¡Œã€å„²å­˜æ ¼æ¨£å¼ */
+/* ÓĞ±í†ÎµÄ¡¸˜Ëî}¡¹ƒ¦´æ¸ñ˜ÓÊ½ */
 table.cbox_tbl td.title {
   background-color: transparent;
   color: rgb(0,0,0);
   text-align: right;
   vertical-align: middle;
 }
-/* æœ‰è¡¨å–®çš„ã€Œè¼¸å…¥æ¬„ä½ã€å„²å­˜æ ¼æ¨£å¼ */
+/* ÓĞ±í†ÎµÄ¡¸İ”Èë™ÚÎ»¡¹ƒ¦´æ¸ñ˜ÓÊ½ */
 table.cbox_tbl td.col {
   background-color: transparent;
 }
 
-/* æœ‰è¡¨å–®çš„ã€Œå·¥å…·åˆ—ã€å„²å­˜æ ¼æ¨£å¼ */
+/* ÓĞ±í†ÎµÄ¡¸¹¤¾ßÁĞ¡¹ƒ¦´æ¸ñ˜ÓÊ½ */
 table.cbox_tbl input.name {
   font-size: 12px;
   background-color: rgb(237,243,247);
@@ -143,7 +227,7 @@ textarea#DiscussContent {
   color: rgb(80,80,80);
   padding: 1px 3px 1px 3px;
 }
-/* éœ€ç™»å…¥æ‰èƒ½ç•™è¨€çš„è¨Šæ¯æ¡† */
+/* ĞèµÇÈë²ÅÄÜÁôÑÔµÄÓÏ¢¿ò */
 .need_login {
   font-size: 11pt;
   color: rgb(51,102,0);

@@ -73,44 +73,31 @@ function list_tad_discuss_cbox($DefBoardID=""){
 
   $data="
   <style>
-  .triangle-border {
-      position:relative;
-      padding:15px;
-      margin:1em 0 3em;
-      border:5px solid $cbox_root_msg_color;
-      color:#333;
-      background:$bg_color;
-      /* css3 */
-      -webkit-border-radius:10px;
-      -moz-border-radius:10px;
-      border-radius:10px;
+
+  .triangle-border.top {
+    border:5px solid $cbox_root_msg_color;
+    background:$bg_color;
   }
 
-  .triangle-border:before {
-      content:'';
-      position:absolute;
-      bottom:-20px; /* value = - border-top-width - border-bottom-width */
-      left:40px; /* controls horizontal position */
-      border-width:20px 20px 0;
-      border-style:solid;
-      border-color:$cbox_root_msg_color transparent;
-      /* reduce the damage in FF3.0 */
-      display:block;
-      width:0;
+  .triangle-border.top:before {
+    border-color:$cbox_root_msg_color transparent;
   }
 
-  /* creates the smaller  triangle */
-  .triangle-border:after {
-      content:'';
-      position:absolute;
-      bottom:-13px; /* value = - border-top-width - border-bottom-width */
-      left:47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
-      border-width:13px 13px 0;
-      border-style:solid;
-      border-color:$bg_color transparent;
-      /* reduce the damage in FF3.0 */
-      display:block;
-      width:0;
+  .triangle-border.top:after {
+    border-color:$bg_color transparent;
+  }
+
+  .triangle-border.left {
+    border:5px solid $cbox_root_msg_color;
+    background:$cbox_root_msg_color;
+  }
+
+  .triangle-border.left:before {
+    border-color: transparent $cbox_root_msg_color;
+  }
+
+  .triangle-border.left:after {
+    border-color: transparent $cbox_root_msg_color;
   }
 
 
@@ -189,19 +176,26 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $dot=$isPublic?"greenpoint":"lock";
     //die("{$DiscussTitle}<br>{$DiscussContent}");
     $showTitle=($DiscussTitle == $DiscussContent)?"":"
-    <div style='padding:8px 1px;'>
-      {$re_button}<img src='images/$dot.gif'>
+      {$re_button}
       <a href='discuss.php?DiscussID={$DiscussID}' style='text-decoration:none;color:{$titleColor};border-bottom:1px dotted gray;' target='_top'>{$MainDiscussTitle}</a>
-    </div>";
+    ";
     $re_button2=($DiscussTitle == $DiscussContent)?$re_button:"";
 
     $mainDiscuss="
-    $showTitle
-    <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>{$re_button2}
-      <div class='cbox_publisher'>{$publisher}</div>: {$MainDiscussContent}
+    <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>
+      {$re_button2}
+      <span class='f'> 1F </span>
+      <div class='cbox_publisher'>{$publisher}</div>: {$showTitle}
+      <div class='cbox_date'>
+        {$post_date}{$tool}
+      </div>
+      <div class='triangle-border left' style='line-height:150%;'>
+        {$MainDiscussContent}
+        {$files}
+      </div>
     </div>
-    {$files}
-    <div class='cbox_date'><span style='display:block-inline;background-color:#0080C0;color:white;border-radius: 3px;padding:1px 3px;margin-right:4px;'> 1F </span> <span style='border-bottom:1px dotted #FF0080'>{$post_date}{$tool}</span></div>";
+    <div style='clear:both;'></div>
+    ";
 
 
 
@@ -249,17 +243,17 @@ function list_tad_discuss_cbox($DefBoardID=""){
       $files=isPublic($onlyTo,$uid,$DefBoardID)?$files:"";
 
       $re.="
-      <div class='triangle-border' style='line-height:150%;'>
+      $re_button
+      <span class='f'> {$f}F </span>
+      <div class='cbox_publisher'>{$publisher}</div>:
+      <div class='cbox_date'>
+        <span style='border-bottom:1px dotted #FF0080;color:gray;'>{$post_date}{$tool}</span>
+      </div>
+      <div class='triangle-border top' style='line-height:150%;'>
         <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;color:{$ContentColor}'>
           {$DiscussContent}
-          $re_button
         </div>
-      </div>
       {$files}
-      <div class='cbox_date'>
-        <span style='display:block-inline;background-color:#0080C0;color:white;border-radius: 3px;padding:1px 3px;margin-right:4px;'> {$f}F </span>
-        <div class='cbox_publisher'>{$publisher}</div>
-        <span style='border-bottom:1px dotted #FF0080'>{$post_date}{$tool}</span>
       </div>
       <div style='clear:both;'></div>
       ";

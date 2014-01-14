@@ -172,7 +172,8 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $MainDiscussContent=$isPublic?$MainDiscussContent:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
     $files=isPublic($onlyTo,$uid,$DefBoardID)?$files:"";
 
-    $MainDiscussContent=strip_word_html($MainDiscussContent);
+
+    //$MainDiscussContent=strip_word_html($MainDiscussContent);
 
     $dot=$isPublic?"greenpoint":"lock";
     //die("{$DiscussTitle}<br>{$DiscussContent}");
@@ -210,6 +211,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
         $$k=$v;
       }
 
+
       $files="";
       $TadUpFiles->set_col("DiscussID" , $DiscussID );
       $allfiles=$TadUpFiles->get_file();
@@ -231,7 +233,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
       $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
       $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);
 
-      $DiscussContent=strip_word_html($DiscussContent);
+      //$DiscussContent=strip_word_html($DiscussContent);
 
       if($onlyTo){
         $ContentColor="red";
@@ -269,11 +271,11 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $i++;
   }
 
-
-
   return $data;
 }
 
+
+//過濾word的格式
 function strip_word_html($text, $allowed_tags = '<b><i><sup><sub><em><strong><u><br><img><div><p><iframe><ul><ol><li><a>')
 {
   mb_regex_encoding('UTF-8');

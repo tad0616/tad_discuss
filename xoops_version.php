@@ -1,15 +1,9 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADDISCUS_NAME;
-$modversion['version']	= '1.1';
+$modversion['version']	= '1.2';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author'] = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']	= 'geek01';
@@ -20,7 +14,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2013-12-23';
+$modversion['release_date'] = '2014-01-15';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -174,6 +168,13 @@ $modversion['config'][4]['description'] = '_MI_TADDISCUS_SPAM_KEYWORD_DESC';
 $modversion['config'][4]['formtype']  = 'textarea';
 $modversion['config'][4]['valuetype'] = 'text';
 $modversion['config'][4]['default'] = _MI_TADDISCUS_SPAM_KEYWORD_DEFAULT;
+
+$modversion['config'][5]['name']  = 'display_fast_setup';
+$modversion['config'][5]['title'] = '_MI_TADDISCUS_DISPLAY_FAST_SETUP';
+$modversion['config'][5]['description'] = '_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC';
+$modversion['config'][5]['formtype']  = 'yesno';
+$modversion['config'][5]['valuetype'] = 'int';
+$modversion['config'][5]['default'] = '0';
 
 
 

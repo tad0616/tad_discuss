@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 define("_MA_TADDISCUS_BOARDTITLE","討論區名稱");
@@ -39,8 +33,8 @@ define("_MA_TADDISCUS_BATCH_DEL","批次刪除");
 define("_MA_TADDISCUS_COPY_DISCUSS_FORCE","清除重匯（適用已匯入後再次重匯）");
 define("_MA_TADDISCUS_ADD_BOARD","新增討論區");
 define("_MA_TADDISCUS_SETUPNAME","規則名稱或說明");
-define("_MA_TADDISCUS_SETUPRULE","當區塊在網址偵測到這些字串時");
-define("_MA_TADDISCUS_TO_BOARDID","便自動切換到：");
-define("_MA_TADDISCUS_RULE_SETUP","留言簿「自動切換討論區」設定");
+define("_MA_TADDISCUS_SETUPRULE","網址特徵值");
+define("_MA_TADDISCUS_TO_BOARDID","便自動跳轉到：");
+define("_MA_TADDISCUS_RULE_SETUP","即時留言簿「自動跳轉討論區」設定");
 define("_MA_TADDISCUS_NEW_SPAM_KEYWORD","可輸入新的關鍵字，可多個，用「,」隔開即可");
 ?>

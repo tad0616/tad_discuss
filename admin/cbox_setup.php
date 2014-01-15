@@ -76,33 +76,6 @@ function tad_discuss_cbox_setup_form($setupID=""){
 
 
 
-//新增資料到tad_discuss_cbox_setup中
-function insert_tad_discuss_cbox_setup(){
-  global $xoopsDB,$xoopsUser,$TadUpFiles;
-
-  //取得使用者編號
-  $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
-
-  $myts =& MyTextSanitizer::getInstance();
-  $_POST['setupName']=$myts->addSlashes($_POST['setupName']);
-  $_POST['setupRule']=$myts->addSlashes($_POST['setupRule']);
-  $_POST['newBorard']=$myts->addSlashes($_POST['newBorard']);
-
-  if(!empty($_POST['newBorard'])){
-    $BoardID=insert_tad_discuss_board($_POST['newBorard']);
-  }else{
-    $BoardID=$_POST['BoardID'];
-  }
-
-  $sql = "insert into `".$xoopsDB->prefix("tad_discuss_cbox_setup")."`
-  (`setupName` , `setupRule` , `BoardID` , `setupSort`)
-  values('{$_POST['setupName']}' , '{$_POST['setupRule']}' , '{$BoardID}' , '{$_POST['setupSort']}')";
-  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-
-  //取得最後新增資料的流水編號
-  $setupID = $xoopsDB->getInsertId();
-  return $setupID;
-}
 
 //更新tad_discuss_cbox_setup某一筆資料
 function update_tad_discuss_cbox_setup($setupID=""){
@@ -220,14 +193,6 @@ function show_one_tad_discuss_cbox_setup($setupID=""){
   $xoopsTpl->assign('setupSort',$setupSort);
 }
 
-//自動取得tad_discuss_cbox_setup的最新排序
-function tad_discuss_cbox_setup_max_sort(){
-  global $xoopsDB;
-  $sql = "select max(`setupSort`) from `".$xoopsDB->prefix("tad_discuss_cbox_setup")."`";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  list($sort)=$xoopsDB->fetchRow($result);
-  return ++$sort;
-}
 
 /*-----------執行動作判斷區----------*/
 $op = empty($_REQUEST['op'])? "":$_REQUEST['op'];
@@ -246,7 +211,7 @@ switch($op){
 
     //新增資料
     case "insert_tad_discuss_cbox_setup":
-    $setupID=insert_tad_discuss_cbox_setup();
+    insert_tad_discuss_cbox_setup($_POST['setupName'],$_POST['setupRule'],$_POST['newBorard'],$_POST['BoardID']);
     header("location: {$_SERVER['PHP_SELF']}");
     break;
 

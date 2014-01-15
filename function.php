@@ -109,6 +109,44 @@ function insert_tad_discuss_board($BoardTitle=""){
 }
 
 
+//新增資料到tad_discuss_cbox_setup中
+function insert_tad_discuss_cbox_setup($setupName="",$setupRule="",$newBorard="",$BoardID=""){
+  global $xoopsDB,$xoopsUser,$TadUpFiles;
+
+  //取得使用者編號
+  $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
+
+  $myts =& MyTextSanitizer::getInstance();
+  $setupName=$myts->addSlashes($setupName);
+  $setupRule=$myts->addSlashes($setupRule);
+  $newBorard=$myts->addSlashes($newBorard);
+
+  if(!empty($newBorard)){
+    $BoardID=insert_tad_discuss_board($newBorard);
+  }
+
+  $setupSort=tad_discuss_cbox_setup_max_sort();
+
+  $sql = "insert into `".$xoopsDB->prefix("tad_discuss_cbox_setup")."`
+  (`setupName` , `setupRule` , `BoardID` , `setupSort`)
+  values('{$setupName}' , '{$setupRule}' , '{$BoardID}' , '{$setupSort}')";
+  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  //取得最後新增資料的流水編號
+  //$setupID = $xoopsDB->getInsertId();
+  return $BoardID;
+}
+
+//自動取得tad_discuss_cbox_setup的最新排序
+function tad_discuss_cbox_setup_max_sort(){
+  global $xoopsDB;
+  $sql = "select max(`setupSort`) from `".$xoopsDB->prefix("tad_discuss_cbox_setup")."`";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  list($sort)=$xoopsDB->fetchRow($result);
+  return ++$sort;
+}
+
+
 //儲存權限
 function saveItem_Permissions($groups, $itemid, $perm_name) {
   global $xoopsModule;

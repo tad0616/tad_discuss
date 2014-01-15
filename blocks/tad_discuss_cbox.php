@@ -21,16 +21,16 @@ function tad_discuss_cbox($options){
   $block['now_uid']=$uid;
   $block['BoardID']=$DefBoardID=$options[0];
   $block['apply_rule']=$apply_rule=$options[5];
+
   if($apply_rule){
     $url="http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'];
     $all_rule=get_rule();
     foreach($all_rule as $toBoardID => $patten_arr){
       foreach($patten_arr as $patten){
-        //echo "<div>patten: $patten</div>";
-        //echo "<div>url: $url</div>";
-        if(strpos($url,$patten)){
+        $patten_arr=explode("?",$patten);
+
+        if(strpos($url,$patten_arr[0]) and (preg_match("/{$patten_arr[1]}&/",$url) or preg_match("/{$patten_arr[1]}$/",$url))){
           $block['BoardID']=$DefBoardID=$toBoardID;
-          //echo "<div>toBoardID: $toBoardID</div>";
           break 2;
         }
       }
@@ -85,6 +85,12 @@ function tad_discuss_cbox($options){
   $block['border_color']=urlencode($options[2]);
   $block['bg_color']=urlencode($options[3]);
   $block['font_color']=urlencode($options[4]);
+
+
+  $setupRule=str_replace(XOOPS_URL,"","http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
+  $setupRule=str_replace("/modules/","",$setupRule);
+  $block['setupRule']=$setupRule;
+
   return $block;
 }
 

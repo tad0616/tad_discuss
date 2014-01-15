@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 //需加入模組語系
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
@@ -40,4 +34,7 @@ define("_MD_TADDISCUS_NEED_BOARDID","請先從上方下拉選單選擇一個適�
 define('_MD_TADDISCUS_BOARD_EMPTY' , "目前沒有任何討論版！");
 define('_MD_TADDISCUS_THE_DISCUSS_EMPTY' , "已無此文！！");
 define('_MD_TADDISCUS_FOUND_SPAM' , "內含不當詞彙或言論，無法新增資料。");
+define("_MD_TADDISCUS_INPUT_BOARDTITLE","請輸入討論區名稱");
+define("_MD_TADDISCUS_ADD_BOARD","快速建立討論區並設定自動跳轉");
+define("_MD_TADDISCUS_SETUPRULE","網址特徵值（若空值則僅建立討論區，不建立自動跳轉規則）");
 ?>

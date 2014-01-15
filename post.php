@@ -21,7 +21,7 @@ if($_GET['mode']=="mkpic"){
 
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
-  global $xoopsDB,$xoopsUser,$xoopsModuleConfig,$xoopsModule,$TadUpFiles;
+  global $xoopsDB,$xoopsUser,$xoopsModuleConfig,$xoopsModule,$TadUpFiles,$isAdmin;
 
   if(empty($xoopsUser)){
     $main="<body class='error_bg'><div style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div></body>";
@@ -30,7 +30,41 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
   }
 
   if(empty($BoardID)){
-    $main="<body class='error_bg'><div class='error_bg' style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_BOARDID,$BoardID,$BoardID)."</div></body>";
+    $add_fourm="";
+    if($isAdmin and $xoopsModuleConfig['display_fast_setup']=='1'){
+
+      if(!file_exists(TADTOOLS_PATH."/formValidator.php")){
+        redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+      }
+      include_once TADTOOLS_PATH."/formValidator.php";
+      $formValidator= new formValidator("#myForm",true);
+      $formValidator_code=$formValidator->render();
+
+      $boardTitle=_MD_TADDISCUS_INPUT_BOARDTITLE;
+      $setupRule=$_GET['setupRule'];
+
+      $main="
+      <body class='error_bg'>
+        <div class='error_bg' style='color:#6C0000;font-size:12px;line-height:150%;padding:10px 10px;'>
+        ".sprintf(_MD_TADDISCUS_NEED_BOARDID,$BoardID,$BoardID)."
+          $formValidator_code
+          <form action='post.php' method='post'>
+            <input type='text' name='boardTitle' id='boardTitle' style='width:100%'; class='validate[required]' value='$boardTitle' onClick=\"if(this.value=='"._MD_TADDISCUS_INPUT_BOARDTITLE."'){this.value='';}\">
+            <input type='text' name='setupRule' id='setupRule' style='width:100%'; class='validate[required]' value='$setupRule'>
+            <input type='hidden' name='op' value='fast_add_borard'>
+            <div>"._MD_TADDISCUS_SETUPRULE."</div>
+            <input type='submit' value='"._MD_TADDISCUS_ADD_BOARD."'>
+          </form>
+        </div>
+      </body>";
+    }else{
+      $main="
+      <body class='error_bg'>
+        <div class='error_bg' style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>
+        ".sprintf(_MD_TADDISCUS_NEED_BOARDID,$BoardID,$BoardID)."
+        </div>
+      </body>";
+    }
     return $main;
     exit;
   }
@@ -55,35 +89,6 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
     return $main;
     exit;
   }
-
-  /*
-  //秀出管理員回覆訊息，當開啟辨識身份時，要抓取使用者名稱
-  if($xoopsModuleConfig['auto_id']=='1' and !empty($xoopsUser) ){
-    $loginname=$xoopsUser->getVar('loginname');
-    $name=$xoopsUser->getVar('name');
-    if(!empty($name)){
-      $publisher=$name;
-    }elseif(!empty($loginname)){
-      $publisher=$loginname;
-    }else{
-      $publisher=$xoopsUser->getVar('uname');
-    }
-    $publisher_txt=(!empty($sn))?"<div class='remsg'>".sprintf(_MD_TADDISCUS_RE_MSG,$sn)."</div>":"<div class='remsg'>".sprintf(_MD_TADDISCUS_ADD_MSG,$publisher)."</div>";
-    $publisher_txt.="<input type='hidden' name='publisher' value='$publisher'>";
-  }else{
-    $publisher=(empty($_SESSION['publisher']))?_MD_TADDISCUS_DEFAULT_PUBLISHER:$_SESSION['publisher'];
-    $publisher_txt=(!empty($sn))?"<div class='remsg'>".sprintf(_MD_TADDISCUS_RE_MSG,$sn)."</div>":"<input type='text' class='name' name='publisher' value='$publisher' style='width: 100%' onClick=\"if(this.value=='"._MD_TADDISCUS_DEFAULT_PUBLISHER."')this.value=''\">";
-  }
-
-  //檢查是否是屬於不需要認證的群組
-
-  $no_chk=is_no_chk();
-  if($xoopsModuleConfig['security_images']=='1' and !$no_chk){
-    $security_images="<tr><td colspan=2 class='col'><img src='".XOOPS_URL."/modules/tad_discuss/post.php?mode=mkpic' align=absmiddle hspace=3>"._MD_TADDISCUS_INPUT_CODE."<input type='text' name='security_images' size=2></td></tr>";
-  }else{
-    $security_images="";
-  }
-  */
 
   $name=$xoopsUser->getVar('name');
   if(!empty($name)){
@@ -244,6 +249,8 @@ function mkpic($num=0){
   imagedestroy($im);
 }
 
+
+
 /*-----------執行動作判斷區----------*/
 $op=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $BoardID=(empty($_REQUEST['BoardID']))?"":intval($_REQUEST['BoardID']);
@@ -257,6 +264,12 @@ switch($op){
   insert_tad_discuss(true);
   header("location: {$_SERVER['PHP_SELF']}?op=reload&BoardID=$BoardID");
   break;
+
+  case "fast_add_borard":
+  $BoardID=insert_tad_discuss_cbox_setup($_POST['boardTitle'],$_POST['setupRule'],$_POST['boardTitle']);
+  header("location: {$_SERVER['PHP_SELF']}?op=reload&BoardID=$BoardID");
+  break;
+
 
   default:
   $main=tad_discuss_form($BoardID,$DiscussID,$ReDiscussID);

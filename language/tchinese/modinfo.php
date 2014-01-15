@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
-// »s§@¤é´Á¡G2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
 include_once XOOPS_ROOT_PATH."/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
 define("_MI_TADDISCUS_NAME","¤¬°Ê°Q½×°Ï");
@@ -14,7 +9,7 @@ define("_MI_TADDISCUS_ADMENU1", "¥DºÞ²z¤¶­±");
 define("_MI_TADDISCUS_ADMENU2", "½×¾ÂÂà²¾");
 define("_MI_TADDISCUS_ADMENU3", "Åv­­³]©w");
 define("_MI_TADDISCUS_ADMENU4", "¾ã¦X¯d¨¥Ã¯");
-define("_MI_TADDISCUS_ADMENU5", "³]©w¯d¨¥Ã¯");
+define("_MI_TADDISCUS_ADMENU5", "¸õÂà³]©w");
 define("_MI_TADDISCUS_ADMENU6", "©U§£¯d¨¥ºÞ²z");
 define("_MI_TADDISCUS_BNAME1","³Ì·s°Q½×");
 define("_MI_TADDISCUS_BDESC1","³Ì·s°Q½×(tad_discuss_new)");
@@ -43,5 +38,7 @@ define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT' , '[{X_SITENAME}] {X_MODULE} «ü©wªº°
 define("_MI_TADDISCUS_SPAM_KEYWORD","±±ºÞµü·J");
 define("_MI_TADDISCUS_SPAM_KEYWORD_DESC","±N¤£§Æ±æ¥X²{¦b°Q½×°Ï¸ÌªºÃöÁä¦r¦C¥X¡A¥H«K·j´M©Î¨¾ªv¡]½Ð¥Î,¹j¶}¡^");
 define("_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT","¥æ¤Í,­Ý®t,´©¥æ,¥s©f,¬ù¯ù,·R·R,¦nÀã,¯Ý³ò,§Ö³tÁÈ¿ú,ºô¬ù,°µ·R,¼g¯u,¤@©]±¡,¬ù©f,¥s¤p©j,¨­§÷,¨gÅw");
+define("_MI_TADDISCUS_DISPLAY_FAST_SETUP","¦b§Y®É¯d¨¥Ã¯±Ò¥Î§Ö³t·s¼W°Q½×°Ï¥\¯à");
+define("_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC","¦¹¥\¯à¶ÈºÞ²z­û¥i¨£¡A¥i¨ÑºÞ²z­û§Ö³t·s¼W°Q½×°Ï¤Î·s¼W¦Û°ÊÂà¦V³]©w");
 
 ?>

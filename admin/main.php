@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = "tad_discuss_adm_main.html";
 include_once "header.php";
@@ -31,6 +25,9 @@ function tad_discuss_board_form($BoardID=""){
   //設定「BoardID」欄位預設值
   $BoardID=(!isset($DBV['BoardID']))?$BoardID:$DBV['BoardID'];
 
+  //設定「ofBoardID」欄位預設值
+  $ofBoardID=(!isset($DBV['ofBoardID']))?0:$DBV['ofBoardID'];
+
   //設定「BoardTitle」欄位預設值
   $BoardTitle=(!isset($DBV['BoardTitle']))?null:$DBV['BoardTitle'];
 
@@ -51,17 +48,18 @@ function tad_discuss_board_form($BoardID=""){
   $member_handler = xoops_gethandler('member');
   $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
-  if ($usercount < 1000) {
+  if ($usercount < 2000) {
 
     $select = new XoopsFormSelect('', 'BoardManager',$BoardManagerArr, 5, true);
     $member_handler = xoops_gethandler('member');
     $criteria = new CriteriaCompo();
     $criteria->setSort('uname');
     $criteria->setOrder('ASC');
-    $criteria->setLimit(1000);
-    $criteria->setStart(1);
+    $criteria->setLimit(2000);
+    $criteria->setStart(0);
 
     $select->addOptionArray($member_handler->getUserList($criteria));
+    $select->setExtra("class='span12'");
     $user_menu=$select->render();
   }else{
     $user_menu="<textarea name='BoardManager' style='width:100%;'>$BoardManager</textarea>
@@ -79,10 +77,12 @@ function tad_discuss_board_form($BoardID=""){
 
   //可見群組
   $SelectGroup_name = new XoopsFormSelectGroup("", "forum_read", true,$read_group, 6, true);
+  $SelectGroup_name->setExtra("class='span12'");
   $enable_read_group = $SelectGroup_name->render();
 
   //可上傳群組
   $SelectGroup_name = new XoopsFormSelectGroup("", "forum_post", true,$post_group, 6, true);
+  $SelectGroup_name->setExtra("class='span12'");
   $enable_post_group = $SelectGroup_name->render();
 
 
@@ -100,6 +100,7 @@ function tad_discuss_board_form($BoardID=""){
 
   $xoopsTpl->assign('formValidator_code',$formValidator_code);
   $xoopsTpl->assign('BoardID',$BoardID);
+  $xoopsTpl->assign('ofBoardID',$ofBoardID);
   $xoopsTpl->assign('BoardTitle',$BoardTitle);
   $xoopsTpl->assign('BoardDesc',$BoardDesc);
   $xoopsTpl->assign('enable_read_group',$enable_read_group);
@@ -111,6 +112,18 @@ function tad_discuss_board_form($BoardID=""){
   $xoopsTpl->assign('next_op',$op);
 
   $xoopsTpl->assign('op','tad_discuss_board_form');
+
+  $notBoardID=empty($BoardID)?"":"and BoardID!='{$BoardID}'";
+  $ofBoardArr="";
+  $i=0;
+  $sql = "select BoardID,BoardTitle from `".$xoopsDB->prefix("tad_discuss_board")."` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while(list($BoardID,$BoardTitle)=$xoopsDB->fetchRow($result)){
+    $ofBoardArr[$i]['BoardID']=$BoardID;
+    $ofBoardArr[$i]['BoardTitle']=$BoardTitle;
+    $i++;
+  }
+  $xoopsTpl->assign('ofBoardArr',$ofBoardArr);
 }
 
 

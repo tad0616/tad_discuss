@@ -5,14 +5,26 @@
 <{if $op=="tad_discuss_board_form"}>
 <h1><{$smarty.const._MA_TAD_DISCUSS_BOARD_FORM}></h1>
 
-	<{$formValidator_code}>
+  <{$formValidator_code}>
   <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
-	<form action="main.php" method="post" id="myForm" enctype="multipart/form-data">
-	<div class="controls controls-row">
-  	<!--討論區名稱-->
-    <input type="text" name="BoardTitle" value="<{$BoardTitle}>" id="BoardTitle" class=" span6 validate[required]" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDTITLE}>" class="span8">
+  <form action="main.php" method="post" id="myForm" enctype="multipart/form-data">
+  <div class="row-fluid">
+    <!--討論區名稱-->
+    <label class="span1">
+      <{$smarty.const._MA_TADDISCUS_OFBOARDID}>
+    </label>
+    <div class="span2">
+      <select name="ofBoardID" class="span12">
+        <option value="0" <{if $of.BoardID==$ofBoardID}>selected<{/if}>></option>
+        <{foreach from=$ofBoardArr item=of}>
+          <option value="<{$of.BoardID}>" <{if $of.BoardID==$ofBoardID}>selected<{/if}>><{$of.BoardTitle}></option>
+        <{/foreach}>
+      </select>
+    </div>
+    <div class="span6">
+      <input type="text" name="BoardTitle" value="<{$BoardTitle}>" id="BoardTitle" class="span12 validate[required]" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDTITLE}>" >
+    </div>
 
-    <div class="span1"></div>
     <div class="span3">
       <!--狀態-->
       <label class="radio inline">
@@ -26,35 +38,35 @@
 
 
 
-	<div class="controls controls-row">
-  	<!--討論區說明-->
-    <textarea name="BoardDesc" cols="50" rows=4 id="BoardDesc" class="span6" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDDESC}>"><{$BoardDesc}></textarea>
-    <div class="span1"></div>
-  	<!--討論區圖片-->
-  	<div class="span5">
-  	<{$upform}>
+  <div class="row-fluid">
+    <!--討論區說明-->
+    <div class="span9">
+      <textarea name="BoardDesc" rows=3 id="BoardDesc" class="span12" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDDESC}>"><{$BoardDesc}></textarea>
+    </div>
+    <!--討論區圖片-->
+    <div class="span3">
+    <{$upform}>
+    </div>
+  </div>
+
+
+  <div class="row-fluid">
+    <!--讀取權限-->
+    <div class="span3"><label><{$smarty.const._MA_TADDISCUS_READ_POWER}></label><{$enable_read_group}></div>
+    <!--寫入權限-->
+    <div class="span3"><label><{$smarty.const._MA_TADDISCUS_POST_POWER}></label><{$enable_post_group}></div>
+    <!--板主-->
+    <div class="span3"><label><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}></label><{$user_menu}></div>
+    <div class="span3">
+      <input type="hidden" name="BoardID" value="<{$BoardID}>">
+      <input type="hidden" name="op" value="<{$next_op}>">
+      <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
     </div>
   </div>
 
 
 
-	<div class="controls controls-row">
-  	<!--讀取權限-->
-    <div class="span3"><{$smarty.const._MA_TADDISCUS_READ_POWER}><{$enable_read_group}></div>
-  	<!--寫入權限-->
-    <div class="span3"><{$smarty.const._MA_TADDISCUS_POST_POWER}><{$enable_post_group}></div>
-  	<!--板主-->
-    <div class="span3"><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}><{$user_menu}></div>
-  </div>
-
-	<div class="controls controls-row text-center">
-    <!--討論區編號-->
-  	<input type="hidden" name="BoardID" value="<{$BoardID}>">
-		<input type="hidden" name="op" value="<{$next_op}>">
-		<button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
-  </div>
-
-	</form>
+  </form>
 <{else}>
 
 
@@ -73,9 +85,9 @@
 
 
   function delete_tad_discuss_board_func(BoardID){
-  	var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-  	if (!sure)	return;
-  	location.href="main.php?op=delete_tad_discuss_board&BoardID=" + BoardID;
+    var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
+    if (!sure)  return;
+    location.href="main.php?op=delete_tad_discuss_board&BoardID=" + BoardID;
   }
   </script>
 

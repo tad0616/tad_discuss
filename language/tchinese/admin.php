@@ -3,6 +3,7 @@ include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.ph
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 define("_MA_TADDISCUS_BOARDTITLE","討論區名稱");
 define("_MA_TADDISCUS_BOARDDESC","討論區說明");
+define("_MA_TADDISCUS_OFBOARDID","父討論區");
 define("_MA_TADDISCUS_BOARDMANAGER","板主");
 define("_MA_TADDISCUS_BOARDENABLE","啟動");
 define("_MA_TAD_DISCUSS_BOARD_FORM","討論區設定");

@@ -754,6 +754,13 @@ switch($op){
   case "show_board":
   $main=list_tad_discuss_m($BoardID);
   break;
+  
+  //下載檔案
+  case "tufdl":
+  $files_sn=isset($_GET['files_sn'])?intval($_GET['files_sn']):"";
+  $TadUpFiles->add_file_counter($files_sn,$hash=false);
+  exit;
+  break;
 
   default:
   $isAdmin=isAdmin();

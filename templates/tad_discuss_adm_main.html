@@ -101,25 +101,102 @@
       <th><{$smarty.const._MA_TADDISCUS_AMOUNT}></th>
       <th><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}></th>
       <th><{$smarty.const._MA_TADDISCUS_BOARDENABLE}></th>
-      <{$function_title}>
+      <th><{$smarty.const._TAD_FUNCTION}></th>
     </tr>
 
     <tbody id="sort">
       <{foreach item=all from=$all_content}>
       <tr id="tr_<{$all.BoardID}>" style="background-color:<{$all.color}>;">
-        <td><img src="<{$all.pic}>" alt="<{$all.BoardTitle}>" title="<{$all.BoardTitle}>" class="img-polaroid" width="120"></td>
         <td>
-        <div><a href="main.php?BoardID=<{$all.BoardID}>"><{$all.BoardTitle}></a></div>
-        <div style="width:300px;font-size:12px;color:gray;margin:8px 0px"><{$all.BoardDesc}></div>
+          <img src="<{$all.pic}>" alt="<{$all.BoardTitle}>" title="<{$all.BoardTitle}>" class="img-polaroid" width="120">
         </td>
         <td>
-        <div style="margin:6px 0px;"><{$all.BoardNum}></div>
-        <div><{$all.BoardNum2}></div>
+          <a href="main.php?BoardID=<{$all.BoardID}>"><{$all.BoardTitle}></a>
+          <div style="width:300px;font-size:12px;color:gray;margin:8px 0px"><{$all.BoardDesc}></div>
+        </td>
+        <td>
+          <div style="margin:6px 0px;"><{$all.BoardNum}></div>
+          <div><{$all.BoardNum2}></div>
         </td>
         <td><{$all.BoardManager}></td>
         <td><{$all.BoardEnable}></td>
-        <{$all.fun}>
+        <td>
+            <{if $all.BoardEnable==1}>
+              <a href="main.php?op=changeBoardStatus&act=0&BoardID=$BoardID" class="link_button">
+              <img src="../images/cancel.png" alt="<{$smarty.const._TAD_UNABLE}>"><{$smarty.const._TAD_UNABLE}>
+            </a>
+            <{else}>
+              <a href="javascript:delete_tad_discuss_board_func(<{$all.BoardID}>);" class="link_button">
+                <img src="../images/delete.png" alt="<{$smarty.const._TAD_DEL}>"><{$smarty.const._TAD_DEL}>
+              </a>
+                <a href="main.php?op=changeBoardStatus&act=1&BoardID=<{$all.BoardID}>" class="link_button">
+                  <img src="../images/accept.png" alt="<{$smarty.const._TAD_ENABLE}>"><{$smarty.const._TAD_ENABLE}>
+                </a>
+            <{/if}>
+            <a href="main.php?op=tad_discuss_board_form&BoardID= <{$all.BoardID}>" class="link_button">
+              <img src="../images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"><{$smarty.const._TAD_EDIT}>
+            </a>
+
+            <form action="main.php" method="post">
+              <select name="NewBoardID" style="width:100px;">
+                <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
+                <{$all.get_tad_discuss_board_menu_options}>
+              </select>
+              <input type="hidden" name="BoardID" value="<{$all.BoardID}>">
+              <input type="hidden" name="op" value="moveToBoardID">
+              <button type="submit" class="btn btn-small btn-info"><{$smarty.const._MA_TADDISCUS_MERGE}></button>
+            </form>
+          </td>
       </tr>
+
+      <!--子分類-->
+      <{if $all.subBoard}>
+        <{foreach item=sb from=$all.subBoard}>
+          <tr id="tr_<{$sb.BoardID}>" style="background-color:<{$sb.color}>;">
+            <td>
+
+            </td>
+            <td>
+              <img src="<{$sb.pic}>" alt="<{$sb.BoardTitle}>" title="<{$sb.BoardTitle}>" class="img-polaroid" width="120">
+              <a href="main.php?BoardID=<{$sb.BoardID}>"><{$sb.BoardTitle}></a>
+              <div style="width:300px;font-size:12px;color:gray;margin:8px 0px"><{$sb.BoardDesc}></div>
+            </td>
+            <td>
+              <div style="margin:6px 0px;"><{$sb.BoardNum}></div>
+              <div><{$sb.BoardNum2}></div>
+            </td>
+            <td><{$sb.BoardManager}></td>
+            <td><{$sb.BoardEnable}></td>
+            <td>
+                <{if $sb.BoardEnable==1}>
+                  <a href="main.php?op=changeBoardStatus&act=0&BoardID=$BoardID" class="link_button">
+                  <img src="../images/cancel.png" alt="<{$smarty.const._TAD_UNABLE}>"><{$smarty.const._TAD_UNABLE}>
+                </a>
+                <{else}>
+                  <a href="javascript:delete_tad_discuss_board_func(<{$sb.BoardID}>);" class="link_button">
+                    <img src="../images/delete.png" alt="<{$smarty.const._TAD_DEL}>"><{$smarty.const._TAD_DEL}>
+                  </a>
+                    <a href="main.php?op=changeBoardStatus&act=1&BoardID=<{$sb.BoardID}>" class="link_button">
+                      <img src="../images/accept.png" alt="<{$smarty.const._TAD_ENABLE}>"><{$smarty.const._TAD_ENABLE}>
+                    </a>
+                <{/if}>
+                <a href="main.php?op=tad_discuss_board_form&BoardID= <{$sb.BoardID}>" class="link_button">
+                  <img src="../images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"><{$smarty.const._TAD_EDIT}>
+                </a>
+
+                <form action="main.php" method="post">
+                  <select name="NewBoardID" style="width:100px;">
+                    <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
+                    <{$sb.get_tad_discuss_board_menu_options}>
+                  </select>
+                  <input type="hidden" name="BoardID" value="<{$sb.BoardID}>">
+                  <input type="hidden" name="op" value="moveToBoardID">
+                  <button type="submit" class="btn btn-small btn-info"><{$smarty.const._MA_TADDISCUS_MERGE}></button>
+                </form>
+              </td>
+          </tr>
+          <{/foreach}>
+        <{/if}>
       <{/foreach}>
     </tbody>
 

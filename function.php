@@ -38,7 +38,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
   if($_REQUEST['op']!='tad_discuss_form'){
     $TadUpFiles->set_col("DiscussID" , $DiscussID );
-    $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
+    $files=$TadUpFiles->show_files("upfile",true,NULL,true,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
   }
 
   $files=isPublic($onlyTo,$uid,$BoardID)?$files:"";

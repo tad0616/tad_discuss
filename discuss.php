@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
 /*-----------引入檔案區--------------*/
 include "header.php";
 $xoopsOption['template_main'] = "tad_discuss_discuss_tpl.html";
@@ -275,6 +270,9 @@ function show_one_tad_discuss($DefDiscussID=""){
       $width=100;
     }
 
+
+    $discuss['DiscussTitle']=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$discuss['DiscussTitle']);
+    $discuss['DiscussTitle']=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$discuss['DiscussTitle']);
 
     $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
     $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);

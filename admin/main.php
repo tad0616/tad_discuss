@@ -160,13 +160,12 @@ function update_tad_discuss_board($BoardID=""){
 }
 
 //列出所有tad_discuss_board資料
-function list_tad_discuss_board($show_function=1){
+function list_tad_discuss_board($ofBoardID=0,$mode='tpl'){
   global $xoopsDB , $xoopsModule , $isAdmin ,$xoopsTpl,$TadUpFiles;
 
-  $sql = "select * from `".$xoopsDB->prefix("tad_discuss_board")."` order by BoardSort";
+  $sql = "select * from `".$xoopsDB->prefix("tad_discuss_board")."` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-  $function_title=($show_function)?"<th>"._TAD_FUNCTION."</th>":"";
 
   $all_content="";
   $i=0;
@@ -176,24 +175,9 @@ function list_tad_discuss_board($show_function=1){
       $$k=$v;
     }
 
-    $delbtn=($BoardEnable=='1')?"<a href='{$_SERVER['PHP_SELF']}?op=changeBoardStatus&act=0&BoardID=$BoardID' class='link_button'><img src='../images/cancel.png' alt='"._TAD_UNABLE."'>"._TAD_UNABLE."</a>":"<a href=\"javascript:delete_tad_discuss_board_func($BoardID);\" class='link_button'><img src='../images/delete.png' alt='"._TAD_DEL."'>"._TAD_DEL."</a><a href='{$_SERVER['PHP_SELF']}?op=changeBoardStatus&act=1&BoardID=$BoardID' class='link_button'><img src='../images/accept.png' alt='"._TAD_ENABLE."'>"._TAD_ENABLE."</a>";
+    $all_content[$i]['BoardEnable']=$BoardEnable;
+    $all_content[$i]['get_tad_discuss_board_menu_options']=get_tad_discuss_board_menu_options($BoardID);
 
-    $fun=($show_function)?"
-    <td>
-    $delbtn
-    <a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_board_form&BoardID=$BoardID' class='link_button'><img src='../images/edit.png' alt='"._TAD_EDIT."'>"._TAD_EDIT."</a>
-    <div>
-    <form action='main.php' method='post'>
-    <select name='NewBoardID' style='width:100px;'>
-    <option value=''>"._MA_TADDISCUS_MOVE."</option>
-    ".get_tad_discuss_board_menu_options($BoardID)."
-    </select>
-    <input type='hidden' name='BoardID' value='$BoardID'>
-    <input type='hidden' name='op' value='moveToBoardID'>
-    <input type='submit' value='"._MA_TADDISCUS_MERGE."'>
-    </form>
-    </div>
-    </td>":"";
 
     //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
 
@@ -230,12 +214,13 @@ function list_tad_discuss_board($show_function=1){
     $all_content[$i]['BoardNum2']=sprintf(_MA_TADDISCUS_ALL_DISCUSS,number_format($BoardNum2));
     $all_content[$i]['BoardManager']=$BoardManager;
     $all_content[$i]['BoardEnable']=$BoardEnable;
-    $all_content[$i]['fun']=$fun;
+    $all_content[$i]['subBoard']=list_tad_discuss_board($BoardID,"return");
+
     $i++;
   }
 
+  if($mode=="return") return $all_content;
 
-  $xoopsTpl->assign('function_title',$function_title);
   $xoopsTpl->assign('all_content',$all_content);
 
   $xoopsTpl->assign('jquery',get_jquery(true));
@@ -355,7 +340,7 @@ switch($op){
   //預設動作
   default:
   if(empty($BoardID)){
-    list_tad_discuss_board();
+    list_tad_discuss_board(0);
   }else{
     header("location: ../discuss.php?BoardID=$BoardID");
   }

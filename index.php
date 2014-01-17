@@ -30,7 +30,7 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
 
 
   $all_content="";
-
+  $i=0;
   while($all=$xoopsDB->fetchArray($result)){
     //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
     foreach($all as $k=>$v){
@@ -46,8 +46,6 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
 
     $list_tad_discuss=list_tad_discuss_short($BoardID,7);
 
-    //$isMine=isMine(NULL,$BoardID);
-    //echo "<p>{$BoardID}:{$isMine}</p>";
     $fun=($isAdmin)?"<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='"._TAD_EDIT."'></a>":"";
     $BoardManager=implode(' , ',getBoardManager($BoardID,"uname"));
 
@@ -63,7 +61,6 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
     $all_content[$i]['BoardNum']=sprintf(_MD_TADDISCUS_BOARD_DISCUSS,number_format($BoardNum));
     $all_content[$i]['DiscussNum']=sprintf(_MD_TADDISCUS_ALL_DISCUSS,number_format($DiscussNum));
     $all_content[$i]['list_tad_discuss']=$list_tad_discuss;
-    //$all_content[$i]['isMine']=$isMine;
     $all_content[$i]['BoardManager']=$BoardManager;
     $all_content[$i]['subBoard']=list_tad_discuss_board($BoardID,"return");
 
@@ -83,9 +80,9 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
   $xoopsTpl->assign('all_content',$all_content);
 
   if($xoopsUser){
-   $xoopsTpl->assign('login',true);
+    $xoopsTpl->assign('login',true);
   }else{
-   $xoopsTpl->assign('login',false);
+    $xoopsTpl->assign('login',false);
   }
 }
 
@@ -101,7 +98,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-  //$main_data="<table style='width:100%'>";
+  $main_data="";
   $i=0;
   while($all=$xoopsDB->fetchArray($result)){
     //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter

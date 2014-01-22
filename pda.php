@@ -576,6 +576,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   //files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
 
   $TadUpFiles->set_col("DiscussID",$DefDiscussID); //若 $show_list_del_file ==true 時一定要有
+  $TadUpFiles->set_thumb($thumb_width="120px",$thumb_height="70px",$thumb_bg_color="transparent");
   $upform=$TadUpFiles->upform(false,"upfile",100,true);
 
   $DiscussContent="

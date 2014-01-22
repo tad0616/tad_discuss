@@ -61,7 +61,7 @@ function list_tad_discuss_board($show_function=1){
 
     $add="<span class='ui-li-count'><a href='#form_{$BoardID}'><i class='icon-pencil'></i></span></a>";
 
-    $viewboard="<a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}'><i class='icon-chevron-right'></i></a>";
+    //$viewboard="<a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}'><i class='icon-chevron-right'></i></a>";
 
 
     $BoardNum=get_board_num($BoardID);
@@ -90,7 +90,7 @@ function list_tad_discuss_board($show_function=1){
 
     $all_content.="
         <ul data-role='listview' data-inset='true' data-header-theme='c' data-divider-theme='c'>
-        <li data-role='list-divider'>{$fun} {$BoardTitle} ({$BoardNum} · {$DiscussNum}) {$viewboard} {$add}</li>
+        <li data-role='list-divider'>{$fun} <a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}' style='color:#3E3E3E'>{$BoardTitle} ({$BoardNum} · {$DiscussNum})</a> {$add}</li>
         {$list_tad_discuss}
         </ul>
     ";
@@ -572,8 +572,8 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 //die($BoardTitle);
   //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
 
-  $TadUpFiles->set_col("DiscussID" , $DiscussID );
-  $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
+  //$TadUpFiles->set_col("DiscussID" , $DiscussID );
+  //files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
 
   $TadUpFiles->set_col("DiscussID",$DefDiscussID); //若 $show_list_del_file ==true 時一定要有
   $upform=$TadUpFiles->upform(false,"upfile",100,true);
@@ -588,7 +588,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'><button type='submit' class=''>"._TAD_SAVE."</button></span>
-  <div class='showfiles'>{$upform}{$files}</div></form>";
+  <div class='showfiles'>{$upform}</div></form>";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 
@@ -906,7 +906,6 @@ echo "
   <script type='text/javascript'>
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
   </script>
-  <script src='".XOOPS_URL."/modules/tadtools/multiple-file-upload/jquery.MultiFile.js'></script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
 
 </head>

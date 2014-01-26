@@ -61,7 +61,7 @@ function list_tad_discuss_board($show_function=1){
 
     $add="<span class='ui-li-count'><a href='#form_{$BoardID}'><i class='icon-pencil'></i></span></a>";
 
-    $viewboard="<a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}'><i class='icon-chevron-right'></i></a>";
+    //$viewboard="<a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}'><i class='icon-chevron-right'></i></a>";
 
 
     $BoardNum=get_board_num($BoardID);
@@ -90,7 +90,7 @@ function list_tad_discuss_board($show_function=1){
 
     $all_content.="
         <ul data-role='listview' data-inset='true' data-header-theme='c' data-divider-theme='c'>
-        <li data-role='list-divider'>{$fun} {$BoardTitle} ({$BoardNum} · {$DiscussNum}) {$viewboard} {$add}</li>
+        <li data-role='list-divider'>{$fun} <a href='{$_SERVER['PHP_SELF']}?op=show_board&BoardID={$BoardID}' style='color:#3E3E3E'>{$BoardTitle} ({$BoardNum} · {$DiscussNum})</a> {$add}</li>
         {$list_tad_discuss}
         </ul>
     ";
@@ -169,7 +169,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
 }
 
 //以流水號秀出某筆tad_discuss資料內容
-function show_one_tad_discuss($DefDiscussID=""){
+function show_one_tad_discuss($DefDiscussID="",$g2p){
   global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig;
 
   //$isAdmin=isAdmin();
@@ -258,7 +258,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   $discuss_data="";
-  $i=1;
+  $i=$xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
 
   $member_handler = xoops_gethandler('member');
   while($all=$xoopsDB->fetchArray($result)){
@@ -572,10 +572,11 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 //die($BoardTitle);
   //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
 
-  $TadUpFiles->set_col("DiscussID" , $DiscussID );
-  $files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
+  //$TadUpFiles->set_col("DiscussID" , $DiscussID );
+  //files=$TadUpFiles->show_files("upfile",true,NULL,false,false);  //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
 
   $TadUpFiles->set_col("DiscussID",$DefDiscussID); //若 $show_list_del_file ==true 時一定要有
+  $TadUpFiles->set_thumb($thumb_width="120px",$thumb_height="70px",$thumb_bg_color="transparent");
   $upform=$TadUpFiles->upform(false,"upfile",100,true);
 
   $DiscussContent="
@@ -588,7 +589,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'><button type='submit' class=''>"._TAD_SAVE."</button></span>
-  <div class='showfiles'>{$upform}{$files}</div></form>";
+  <div class='showfiles'>{$upform}</div></form>";
 
   $DiscussDate=date('Y-m-d H:i:s',xoops_getUserTimestamp(strtotime($DiscussDate)));
 
@@ -715,6 +716,7 @@ $op=empty($_REQUEST['op'])?"":$_REQUEST['op'];
 $DiscussID=empty($_REQUEST['DiscussID'])?"":intval($_REQUEST['DiscussID']);
 $BoardID=empty($_REQUEST['BoardID'])?"":intval($_REQUEST['BoardID']);
 $files_sn=empty($_REQUEST['files_sn'])?"":intval($_REQUEST['files_sn']);
+$g2p=empty($_REQUEST['g2p'])?"1":intval($_REQUEST['g2p']);
 
 switch($op){
 
@@ -746,12 +748,19 @@ switch($op){
 
   //單一討論
   case "show_one":
-  $main=show_one_tad_discuss($DiscussID);
+  $main=show_one_tad_discuss($DiscussID,$g2p);
   break;
 
   //單一討論區
   case "show_board":
   $main=list_tad_discuss_m($BoardID);
+  break;
+  
+  //下載檔案
+  case "tufdl":
+  $files_sn=isset($_GET['files_sn'])?intval($_GET['files_sn']):"";
+  $TadUpFiles->add_file_counter($files_sn,$hash=false);
+  exit;
   break;
 
   default:
@@ -898,7 +907,6 @@ echo "
   <script type='text/javascript'>
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
   </script>
-  <script src='".XOOPS_URL."/modules/tadtools/multiple-file-upload/jquery.MultiFile.js'></script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
 
 </head>

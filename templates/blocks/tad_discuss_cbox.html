@@ -1,58 +1,18 @@
 <{if $block}>
-  <style>
-    #tad_cbox_scrollup {
-    position: relative;overflow: hidden;height: 150px;width: 100%;
-  }
-
-  .headline {
-    position: absolute;
-    top: 210px;
-    left: 5px;
-    height: 30px;
-    width:100%;
-  }
-  </style>
-
   <{$block.jquery_path}>
+  <div class="row-fluid">
+    <{$block.SelectBoard}>
+  </div>
 
+  <div class="row-fluid">
+    <div id="cboxdiv" class="span12">
+      <iframe frameborder="0" width="100%" height="<{$block.height}>" src="<{$xoops_url}>/modules/tad_discuss/cbox.php?BoardID=<{$block.BoardID}>&amp;border_color=<{$block.border_color}>&amp;bg_color=<{$block.bg_color}>&amp;font_color=<{$block.font_color}>" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="discussCboxMain" style="border:#ababab 1px solid;" id="discussCboxMain"></iframe>
 
-  <script>
-   var headline_count;
-   var headline_interval;
-   var old_headline = 0;
-   var current_headline = 0;
+      <br/>
 
-   $(document).ready(function(){
-     headline_count = $("div.headline").size();
-     $("div.headline:eq("+current_headline+")").css('top','5px');
+      <iframe frameborder="0" width="100%" height="<{if $block.now_uid}>190<{else}>70<{/if}>" src="<{$xoops_url}>/modules/tad_discuss/post.php?BoardID=<{$block.BoardID}><{if $block.BoardID==0}>&setupRule=<{$block.setupRule}><{/if}>" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="discussCboxForm" style="border:#ababab 1px solid;border-top:0px" id="discussCboxForm"></iframe>
 
-     headline_interval = setInterval(headline_rotate,5000); //time in milliseconds
-     $('#tad_cbox_scrollup').hover(function() {
-       clearInterval(headline_interval);
-     }, function() {
-       headline_interval = setInterval(headline_rotate,5000); //time in milliseconds
-       headline_rotate();
-     });
-   });
-
-   function headline_rotate() {
-     current_headline = (old_headline + 1) % headline_count;
-     $("div.headline:eq(" + old_headline + ")").animate({top: -205},"slow", function() {
-       $(this).css('top','210px');
-     });
-     $("div.headline:eq(" + current_headline + ")").show().animate({top: 5},"slow");
-     old_headline = current_headline;
-   }
-  </script>
-
-  <{$block.SelectBoard}>
-  <div align='center' id='cboxdiv'>
-    <iframe frameborder='0' width='100%' height='<{$block.height}>' src='<{$xoops_url}>/modules/tad_discuss/cbox.php?BoardID=<{$block.BoardID}>&amp;border_color=<{$block.border_color}>&amp;bg_color=<{$block.bg_color}>&amp;font_color=<{$block.font_color}>' marginheight='2' marginwidth='2' scrolling='auto' allowtransparency='yes' name='discussCboxMain' style='border:#ababab 1px solid;' id='discussCboxMain'></iframe>
-
-    <br/>
-
-    <iframe frameborder='0' width='100%' height='<{if $block.now_uid}>190<{else}>70<{/if}>' src='<{$xoops_url}>/modules/tad_discuss/post.php?BoardID=<{$block.BoardID}><{if $block.BoardID==0}>&setupRule=<{$block.setupRule}><{/if}>' marginheight='2' marginwidth='2' scrolling='no' allowtransparency='yes' name='discussCboxForm' style='border:#ababab 1px solid;border-top:0px' id='discussCboxForm'></iframe>
-
-    <p style='text-align:right;'><a href='<{$xoops_url}>/modules/tad_discuss/discuss.php?BoardID=<{$block.BoardID}>'><{$snarty.const._MB_TADDISCUS_CBOX_VIEW_ALL}></a></p>
+      <p style="text-align:right;"><a href="<{$xoops_url}>/modules/tad_discuss/discuss.php?BoardID=<{$block.BoardID}>"><{$snarty.const._MB_TADDISCUS_CBOX_VIEW_ALL}></a></p>
+    </div>
   </div>
 <{/if}>

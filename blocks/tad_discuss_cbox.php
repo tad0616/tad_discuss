@@ -56,7 +56,7 @@ function tad_discuss_cbox($options){
   $form="";
   if(empty($DefBoardID)){
 
-    $form="<select name='BoardID' onChange=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
+    $form="<select class='span12' name='BoardID' onChange=\"window.open('".XOOPS_URL."/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('".XOOPS_URL."/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
       <option value=''>"._MB_TADDISCUS_ALL_BOARD."</option>";
     $sql = "select * from `".$xoopsDB->prefix("tad_discuss_board")."` where BoardEnable='1' order by BoardSort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());

@@ -365,11 +365,7 @@ $xoopsTpl->assign( "jquery" , get_jquery(true)) ;
 
 
 switch($op){
-  //替換資料
-  case "replace_tad_discuss":
-  replace_tad_discuss();
-  header("location: {$_SERVER['PHP_SELF']}");
-  break;
+
 
   //新增資料
   case "insert_tad_discuss":

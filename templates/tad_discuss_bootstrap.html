@@ -5,9 +5,23 @@
     <div><a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a></div>
   </div>
   <div class="span10">
-    <div class="well" style="background-color:white;">
+    <div class="well" style="background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;line-height:150%;">
       <{$discuss.DiscussContent}>
       <div class="text-right">
+      <{if $discuss.DiscussID}>
+        <{if $discuss.onlyTo}>
+          <{if $isAdmin or $now_uid==$discuss.uid}>
+            <a href="discuss.php?op=unlock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID}>" class="btn btn-danger" title="<{$smarty.const._MD_TADDISCUS_LOCK}>"><img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_LOCK}>"></a>
+          <{else}>
+            <img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_ONLY_ROOT}>">
+          <{/if}>
+        <{else}>
+          <{if $isAdmin or $now_uid==$discuss.uid}>
+            <a href="discuss.php?op=lock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID}>" class="btn" title="<{$smarty.const._MD_TADDISCUS_UNLOCK}>"><img src="images/unlock.png" alt="<{$smarty.const._MD_TADDISCUS_UNLOCK}>"></a>
+          <{/if}>
+        <{/if}>
+      <{/if}>
+
       <{if $discuss.fun}>
         <a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);" class="btn"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a>
         <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="btn"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>

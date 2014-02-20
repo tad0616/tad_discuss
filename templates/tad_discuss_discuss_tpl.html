@@ -19,7 +19,7 @@
       <{includeq file="db:tad_discuss_mobile.html"}>
     <{elseif $display_mode=="clean"}>
       <{includeq file="db:tad_discuss_clean.html"}>
-    <{elseif $display_mode=="default"}>
+    <{elseif $display_mode=="default" || $display_mode=="left"}>
       <{includeq file="db:tad_discuss_talk_bubble.html"}>
     <{else}>
       <{includeq file="db:tad_discuss_bootstrap.html"}>
@@ -32,6 +32,7 @@
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
   </script>
   <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
+
   <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data">
     <{foreach item=discuss from=$form_data}>
       <{if $display_mode=="top" || $display_mode=="bottom"}>
@@ -40,7 +41,7 @@
         <{includeq file="db:tad_discuss_mobile.html"}>
       <{elseif $display_mode=="clean"}>
         <{includeq file="db:tad_discuss_clean.html"}>
-      <{elseif $display_mode=="default"}>
+      <{elseif $display_mode=="default" || $display_mode=="left"}>
         <{includeq file="db:tad_discuss_talk_bubble.html"}>
       <{else}>
         <{includeq file="db:tad_discuss_bootstrap.html"}>
@@ -70,7 +71,9 @@
     <{if $main_data}>
       <{foreach item=discuss from=$main_data}>
         <tr>
-      		<td><img src="images/<{if $discuss.isPublic}>greenpoint.gif<{else}>lock.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:#505050"><{$discuss.DiscussTitle}></a></td>
+      		<td>
+            <img src="images/<{if $discuss.onlyTo}>lock.png<{else}>greenpoint.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:<{if $discuss.onlyTo}>maroon<{else}>#505050<{/if}>"><{$discuss.DiscussTitle}></a>
+          </td>
       		<td class="text-center"><{$discuss.renum}></td>
       		<td><div style="font-size:10px;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
       		<td><div style="font-size:10px;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>

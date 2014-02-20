@@ -37,4 +37,6 @@ define('_MD_TADDISCUS_FOUND_SPAM' , "內含不當詞彙或言論，無法新增�
 define("_MD_TADDISCUS_INPUT_BOARDTITLE","請輸入討論區名稱");
 define("_MD_TADDISCUS_ADD_BOARD","快速建立討論區並設定自動跳轉");
 define("_MD_TADDISCUS_SETUPRULE","網址特徵值（若空值則僅建立討論區，不建立自動跳轉規則）");
+define("_MD_TADDISCUS_LOCK","目前為私密狀態，點我解除私密狀態");
+define("_MD_TADDISCUS_UNLOCK","目前為公開狀態，點我改為私密狀態");
 ?>

@@ -302,6 +302,8 @@ function show_one_tad_discuss($DefDiscussID=""){
   $xoopsTpl->assign('form_data',$form_data);
   $xoopsTpl->assign('bar',$bar);
   $xoopsTpl->assign('isPublic', isPublic($onlyTo1,$uid,$BoardID));
+  $xoopsTpl->assign('onlyTo',$onlyTo);
+  $xoopsTpl->assign('ReDiscussID',$DefDiscussID);
 }
 
 
@@ -326,6 +328,15 @@ function update_tad_discuss($DiscussID=""){
   if(chk_spam($DiscussTitle))redirect_header($_SERVER['PHP_SELF'],3, _MD_TADDISCUS_FOUND_SPAM);
   if(chk_spam($DiscussContent))redirect_header($_SERVER['PHP_SELF'],3, _MD_TADDISCUS_FOUND_SPAM);
 
+  $onlyTo="";
+  $ReDiscussID=isset($_POST['ReDiscussID'])?intval($_POST['ReDiscussID']):0;
+  $Discuss=get_tad_discuss($ReDiscussID);
+  if($_POST['only_root']=='1' and !empty($ReDiscussID)){
+    $onlyTo=$Discuss['uid'];
+  }elseif($_POST['only_root']=='1'){
+    $adminusers = $member_handler->getUsersByGroup(1);
+    $onlyTo=implode(',',$adminusers);
+  }
 
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
   $time=date("Y-m-d H:i:s");
@@ -333,7 +344,8 @@ function update_tad_discuss($DiscussID=""){
    `DiscussTitle` = '{$DiscussTitle}' ,
    `DiscussContent` = '{$DiscussContent}' ,
    `LastTime` = '$time',
-   `FromIP` = '$myip'
+   `FromIP` = '$myip',
+   `onlyTo` = '$onlyTo'
   where DiscussID='$DiscussID' $anduid";
   //die($sql);
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
@@ -343,7 +355,33 @@ function update_tad_discuss($DiscussID=""){
   return $DiscussID;
 }
 
+function change_lock($lock,$BoardID,$DiscussID){
+  global $xoopsDB,$xoopsUser;
 
+  $anduid=onlyMine($DiscussID);
+
+  $onlyTo="";
+
+  if($lock){
+    $ReDiscussID=isset($_REQUEST['ReDiscussID'])?intval($_REQUEST['ReDiscussID']):0;
+    $Discuss=get_tad_discuss($ReDiscussID);
+    if($_POST['only_root']=='1' and !empty($ReDiscussID)){
+      $onlyTo=$Discuss['uid'];
+    }elseif($_POST['only_root']=='1'){
+      $adminusers = $member_handler->getUsersByGroup(1);
+      $onlyTo=implode(',',$adminusers);
+    }
+  }
+
+  $sql = "update ".$xoopsDB->prefix("tad_discuss")." set
+   `onlyTo` = '$onlyTo'
+  where DiscussID='$DiscussID' $anduid";
+  //die($sql);
+  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  return $DiscussID;
+
+}
 
 //新增tad_discuss計數器
 function add_tad_discuss_counter($DiscussID=''){
@@ -362,6 +400,13 @@ $files_sn=empty($_REQUEST['files_sn'])?"":intval($_REQUEST['files_sn']);
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
 $xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
 $xoopsTpl->assign( "jquery" , get_jquery(true)) ;
+$xoopsTpl->assign( "isAdmin" , $isAdmin) ;
+if($xoopsUser){
+  $xoopsTpl->assign( "now_uid" , $xoopsUser->uid()) ;
+}else{
+  $xoopsTpl->assign( "now_uid" , "--") ;
+}
+
 
 
 switch($op){
@@ -399,6 +444,15 @@ switch($op){
   exit;
   break;
 
+  case "unlock":
+  change_lock(false,$BoardID,$DiscussID);
+  header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
+  break;
+
+  case "lock":
+  change_lock(true,$BoardID,$DiscussID);
+  header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
+  break;
 
   //預設動作
   default:

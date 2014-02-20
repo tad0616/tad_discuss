@@ -67,6 +67,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   $all['Bad']=$Bad;
   $all['Good']=$Good;
   $all['files']=$files;
+  $all['onlyTo']=$onlyTo;
   if($mode=="return"){
     return $all;
   }else{
@@ -253,6 +254,7 @@ function list_tad_discuss($DefBoardID=null){
     $main_data[$i]['LastTime']=$LastTime;
     $main_data[$i]['last_uid_name']=$last_uid_name;
     $main_data[$i]['isPublic']=$isPublic;
+    $main_data[$i]['onlyTo']=$onlyTo;
     $i++;
 
   }

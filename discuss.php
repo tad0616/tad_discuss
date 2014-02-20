@@ -229,6 +229,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $bar=$PageBar['bar'];
   $sql=$PageBar['sql'];
   $total=$PageBar['total'];
+
   if(empty($total))redirect_header($_SERVER['PHP_SELF'],3,_MD_TADDISCUS_THE_DISCUSS_EMPTY);
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 

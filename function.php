@@ -480,7 +480,7 @@ function insert_tad_discuss($nl2br=false){
   $xoopsUser->incrementPost();
 
   $TadUpFiles->set_col("DiscussID" , $DiscussID);
-//$TadUpFiles->upload_file($upname,$width,$thumb_width,$files_sn,$desc,$safe_name=false,$hash=false);
+  //$TadUpFiles->upload_file($upname,$width,$thumb_width,$files_sn,$desc,$safe_name=false,$hash=false);
   $TadUpFiles->upload_file("upfile",1024,120,NULL,"",true);
 
   $ToDiscussID= $DiscussID;
@@ -494,10 +494,11 @@ function insert_tad_discuss($nl2br=false){
   //全局
   $extra_tags['DISCUSS_TITLE'] = $_POST['DiscussTitle'];
   $extra_tags['DISCUSS_CONTENT'] = strip_tags($_POST['DiscussContent']);
-
   $extra_tags['DISCUSS_URL'] = XOOPS_URL."/modules/tad_discuss/discuss.php?DiscussID={$ToDiscussID}&BoardID={$_POST['BoardID']}";
-  $notification_handler =& xoops_gethandler('notification');
-  $notification_handler->triggerEvent("global", null , "new_discuss", $extra_tags , null, null,0);
+
+  $notification_handler =xoops_gethandler('notification');
+  $notification_handler->triggerEvent("global", 0 , "new_discuss", $extra_tags , NULL, NULL,0);
+
 
   //分類
   if(!empty($_POST['BoardID'])){
@@ -507,11 +508,10 @@ function insert_tad_discuss($nl2br=false){
     $notification_handler->triggerEvent("board", $_POST['BoardID'] , "new_board_discuss", $extra_tags , null, null,0);
   }
 
-  if(!empty($ReDiscussID))return $ReDiscussID;
+  if(!empty($ReDiscussID)){
+    return $ReDiscussID;
+  }
   return $DiscussID;
 }
-
-
-
 
 ?>

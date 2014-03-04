@@ -110,7 +110,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
   <span style='display:block;float:right;'>
-  <label class='radio inline'>
+  <label class='checkbox inline'>
   <input type='checkbox' name='only_root' value='1' $checked>"._MD_TADDISCUS_ONLY_ROOT."
   </label>
   <button type='submit' class='btn btn-info'>"._TAD_SAVE."</button>
@@ -409,14 +409,13 @@ if($xoopsUser){
 }
 
 
-
 switch($op){
-
 
   //新增資料
   case "insert_tad_discuss":
   $DiscussID=insert_tad_discuss();
-  header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
+  header("location:discuss.php?DiscussID={$DiscussID}&BoardID={$BoardID}");
+  redirect_header("discuss.php?DiscussID={$DiscussID}&BoardID={$BoardID}",0, _MD_TADDISCUS_SAVE_OK);
   break;
 
   //更新資料

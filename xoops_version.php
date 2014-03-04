@@ -39,7 +39,7 @@ $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 $modversion['tables'][1] = "tad_discuss";
 $modversion['tables'][2] = "tad_discuss_board";
 $modversion['tables'][3] = "tad_discuss_files_center";
-$modversion['tables'][4] = "tad_discuss_cbox";
+$modversion['tables'][4] = "tad_discuss_cbox_setup";
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;

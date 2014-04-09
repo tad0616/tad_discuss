@@ -161,8 +161,10 @@ function list_tad_discuss_cbox($DefBoardID=""){
 
     if($onlyTo){
       $titleColor="red";
+      $contentColor="red";
     }else{
       $titleColor="darkblue";
+      $contentColor="black";
     }
 
     $isPublic=isPublic($onlyTo,$uid,$DefBoardID);
@@ -191,7 +193,7 @@ function list_tad_discuss_cbox($DefBoardID=""){
       <div class='cbox_date'>
         {$post_date}{$tool}
       </div>
-      <div class='MainDiscussContent' style='line-height:150%;'>
+      <div class='MainDiscussContent' style='line-height:150%;color:$contentColor'>
         {$MainDiscussContent}
         {$files}
       </div>

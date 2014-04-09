@@ -289,7 +289,6 @@ function show_one_tad_discuss($DefDiscussID=""){
   }
 
 
-
   $onlyToName=getOnlyToName($onlyTo1);
   $discuss['DiscussTitle']=isPublic($onlyTo1,$uid,$BoardID)?$discuss['DiscussTitle']:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
 

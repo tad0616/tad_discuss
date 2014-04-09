@@ -27,14 +27,16 @@ if(!function_exists('isPublic')){
 //將悄悄話的對象轉換為真實姓名
 if(!function_exists('getOnlyToName')){
   function getOnlyToName($onlyTo=""){
+    global $xoopsDB;
     if(empty($onlyTo))return;
-    $onlyToUidArr=explode(',',$onlyTo);
-    foreach($onlyToUidArr as $uid){
-      $onlyToName=XoopsUser::getUnameFromId($uid,1);
-      if(empty($onlyToName))$onlyToName=XoopsUser::getUnameFromId($uid,0);
-      $name[]=$onlyToName;
+
+    $sql="select name , uname from  `".$xoopsDB->prefix("users")."` where `uid` in('{$onlyTo}')";
+    $result = $xoopsDB->query($sql) or die(mysql_error());
+    $allname="";
+    while(list($name,$uname)=$xoopsDB->fetchRow($result)){
+      $allname[]=empty($name)?$uname:$name;
     }
-    $nameStr=implode(' , ',$name);
+    $nameStr=implode(' , ',$allname);
     return $nameStr;
   }
 }

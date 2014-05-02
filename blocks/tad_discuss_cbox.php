@@ -102,11 +102,11 @@ function tad_discuss_cbox_edit($options){
   $jquery=get_jquery();
   $form="
   $jquery
-  <script type='text/javascript' src='".XOOPS_URL."/modules/tad_discuss/class/mColorPicker/javascripts/mColorPicker.js' charset='UTF-8'></script>
+  <script type='text/javascript' src='".XOOPS_URL."/modules/tadtools/mColorPicker/javascripts/mColorPicker.js' charset='UTF-8'></script>
 
   <script type='text/javascript'>
     $('#color').mColorPicker({
-      imageFolder: '".XOOPS_URL."/modules/tad_discuss/class/mColorPicker/images/'
+      imageFolder: '".XOOPS_URL."/modules/tadtools/mColorPicker/images/'
     });
   </script>
 
@@ -133,9 +133,9 @@ function tad_discuss_cbox_edit($options){
 
   $form.="</select></div>
   <div>"._MB_TADDISCUS_HEIGHT."<input type='text' name='options[1]' value='{$options[1]}' size=4> px</div>
-  <div>"._MB_TADDISCUS_BORDER_COLOR."<input type='color' data-hex='true'  name='options[2]' value='{$options[2]}' size=10></div>
-  <div>"._MB_TADDISCUS_BG_COLOR."<input type='color' data-hex='true'  name='options[3]' value='{$options[3]}' size=10></div>
-  <div>"._MB_TADDISCUS_FONT_COLOR."<input type='color' data-hex='true'  name='options[4]' value='{$options[4]}' size=10></div>
+  <div>"._MB_TADDISCUS_BORDER_COLOR."<input type='text' data-hex='true'  name='options[2]' value='{$options[2]}' size=10></div>
+  <div>"._MB_TADDISCUS_BG_COLOR."<input type='text' data-hex='true'  name='options[3]' value='{$options[3]}' size=10></div>
+  <div>"._MB_TADDISCUS_FONT_COLOR."<input type='text' data-hex='true'  name='options[4]' value='{$options[4]}' size=10></div>
   <div><a href='".XOOPS_URL."/modules/tad_discuss/admin/cbox_setup.php' target='_blank'>"._MB_TADDISCUS_APPLY_RULE."</a>
   <input type='radio' name='options[5]' value='1' $options5_1>"._YES."
   <input type='radio' name='options[5]' value='0' $options5_0>"._NO."

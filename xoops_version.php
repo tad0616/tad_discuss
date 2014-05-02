@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADDISCUS_NAME;
-$modversion['version']	= '1.3';
+$modversion['version']	= '1.4';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author'] = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']	= 'geek01';

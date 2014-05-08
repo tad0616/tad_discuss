@@ -15,6 +15,7 @@ define("_MA_TADDISCUS_AMOUNT","文章數量");
 define("_MA_TADDISCUS_MOVE","整併此版文章至...");
 define("_MA_TADDISCUS_MERGE","整併");
 define("_MA_TADDISCUS_NO_XFORUM","沒安裝 Xforum 無需轉移討論文章。");
+define("_MA_TADDISCUS_NO_NEWBB","沒安裝 newbb 或 cbb 無需轉移討論文章。");
 define("_MA_TADDISCUS_NO_CBOX","沒安裝 Tad Cbox 即時留言簿無需整合。");
 define("_MA_TADDISCUS_IMPORT_FORM_CBOX","開始匯入即時留言簿轉換內容");
 define("_MA_TADDISCUS_CBOX","即時留言簿");

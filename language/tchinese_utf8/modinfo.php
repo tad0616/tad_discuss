@@ -6,11 +6,12 @@ define("_MI_TADDISCUS_AUTHOR","tad");
 define("_MI_TADDISCUS_DESC","簡易的討論留言模組");
 
 define("_MI_TADDISCUS_ADMENU1", "主管理介面");
-define("_MI_TADDISCUS_ADMENU2", "論壇轉移");
+define("_MI_TADDISCUS_ADMENU2", "轉移 Xforum");
 define("_MI_TADDISCUS_ADMENU3", "權限設定");
 define("_MI_TADDISCUS_ADMENU4", "整合留言簿");
 define("_MI_TADDISCUS_ADMENU5", "跳轉設定");
 define("_MI_TADDISCUS_ADMENU6", "垃圾留言管理");
+define("_MI_TADDISCUS_ADMENU7", "轉移 newbb");
 define("_MI_TADDISCUS_BNAME1","最新討論");
 define("_MI_TADDISCUS_BDESC1","最新討論(tad_discuss_new)");
 define("_MI_TADDISCUS_BNAME2","最熱門討論");

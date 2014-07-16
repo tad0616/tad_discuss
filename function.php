@@ -34,7 +34,11 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
 
 
   $like=(!empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
-  $fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
+  //$fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
+
+  $fun=(isMine($uid,$BoardID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
+
+
   //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
   if($_REQUEST['op']!='tad_discuss_form'){
     $TadUpFiles->set_col("DiscussID" , $DiscussID );
@@ -335,8 +339,12 @@ function isMine($discuss_uid=null,$BoardID=null){
   global $xoopsUser,$isAdmin;
   if(empty($xoopsUser))return false;
 
-  $board=get_tad_discuss_board($BoardID);
-  $BoardManagerArr=explode(',',$board['BoardManager']);
+  if($BoardID){
+    $board=get_tad_discuss_board($BoardID);
+    $BoardManagerArr=explode(',',$board['BoardManager']);
+  }else{
+    $BoardManagerArr=array();
+  }
 //die("aa".var_export($board));
   $uid=$xoopsUser->uid();
 

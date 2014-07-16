@@ -83,7 +83,15 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
 
   $RE=!empty($DefReDiscussID)?get_tad_discuss($DefReDiscussID):array();
 
-  $DiscussTitle=empty($DefReDiscussID)?"<input type='text' name='DiscussTitle' size='20' value='{$DiscussTitle}' id='DiscussTitle' class='validate[required]'  style='width:99%;border:1px solid #B0B0B0;background-color:#f5f5f5;' onClick=\"if(this.value=='"._MD_TADDISCUS_INPUT_TITLE."')this.value='';\"><br>":"<input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
+  if(empty($ReDiscussID)){
+    $board_option="<select name='BoardID' style='width:20%;'>".get_tad_discuss_board_option($BoardID)."</select>";
+    $twidth="76%";
+  }else{
+    $board_option="<input type='hidden' name='BoardID' value='{$BoardID}'>";
+    $twidth="99%";
+  }
+
+  $DiscussTitle=empty($DefReDiscussID)?"{$board_option}\n<input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='validate[required]'  style='width:{$twidth};border:1px solid #B0B0B0;background-color:#f5f5f5;' onClick=\"if(this.value=='"._MD_TADDISCUS_INPUT_TITLE."')this.value='';\"><br>":"<input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
 
   $Board=get_tad_discuss_board($BoardID);
   if($Board['BoardEnable']=='0')redirect_header('index.php',3,_MD_TADDISCUS_BOARD_UNABLE);
@@ -105,7 +113,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   $DiscussContent="
   $DiscussTitle
   <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
-  <input type='hidden' name='BoardID' value='{$BoardID}'>
+  <input type='hidden' name='OldBoardID' value='{$BoardID}'>
   <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
   <input type='hidden' name='op' value='{$op}'>
@@ -155,6 +163,40 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   }
 }
 
+
+//取得tad_discuss_board分類選單的選項（單層選單）
+function get_tad_discuss_board_option($default_BoardID="0"){
+  global $xoopsDB,$xoopsUser,$xoopsModule;
+
+  //取得本模組編號
+  $module_id = $xoopsModule->getVar('mid');
+
+  //取得目前使用者的群組編號
+  if($xoopsUser) {
+    $uid=$xoopsUser->getVar('uid');
+    $groups=$xoopsUser->getGroups();
+  }else{
+    $uid=0;
+    $groups = XOOPS_GROUP_ANONYMOUS;
+  }
+  $gperm_handler =& xoops_gethandler('groupperm');
+
+  $sql = "select `BoardID` , `ofBoardID` , `BoardTitle` from `".$xoopsDB->prefix("tad_discuss_board")."` order by `BoardSort`";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+
+  $option="";
+  while(list($BoardID , $ofBoardID , $BoardTitle)=$xoopsDB->fetchRow($result)){
+    if(!$gperm_handler->checkRight('forum_post',$BoardID,$groups,$module_id))continue;
+    $selected=($BoardID==$default_BoardID)?"selected":"";
+    // $option[$i]['selected']=$selected;
+    // $option[$i]['BoardID']=$BoardID;
+    // $option[$i]['ofBoardID']=$ofBoardID;
+    // $option[$i]['BoardTitle']=$BoardTitle;
+    $option.="<option value='{$BoardID}' {$selected}>{$BoardTitle}</option>";
+  }
+  return $option;
+}
 
 
 //以流水號秀出某筆tad_discuss資料內容
@@ -330,10 +372,14 @@ function update_tad_discuss($DiscussID=""){
 
   $onlyTo="";
   $ReDiscussID=isset($_POST['ReDiscussID'])?intval($_POST['ReDiscussID']):0;
+  $BoardID=isset($_POST['BoardID'])?intval($_POST['BoardID']):0;
+  $OldBoardID=isset($_POST['OldBoardID'])?intval($_POST['OldBoardID']):0;
+
   $Discuss=get_tad_discuss($ReDiscussID);
   if($_POST['only_root']=='1' and !empty($ReDiscussID)){
     $onlyTo=$Discuss['uid'];
   }elseif($_POST['only_root']=='1'){
+    $member_handler = xoops_gethandler('member');
     $adminusers = $member_handler->getUsersByGroup(1);
     $onlyTo=implode(',',$adminusers);
   }
@@ -341,14 +387,23 @@ function update_tad_discuss($DiscussID=""){
   //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
   $time=date("Y-m-d H:i:s");
   $sql = "update ".$xoopsDB->prefix("tad_discuss")." set
+   `BoardID` = '{$BoardID}' ,
    `DiscussTitle` = '{$DiscussTitle}' ,
    `DiscussContent` = '{$DiscussContent}' ,
    `LastTime` = '$time',
    `FromIP` = '$myip',
    `onlyTo` = '$onlyTo'
   where DiscussID='$DiscussID' $anduid";
+
   //die($sql);
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  if($OldBoardID!=$BoardID){
+    $sql = "update ".$xoopsDB->prefix("tad_discuss")." set
+     `BoardID` = '{$BoardID}'
+    where ReDiscussID='$DiscussID'";
+    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  }
 
   $TadUpFiles->set_col("DiscussID" , $DiscussID);
   $TadUpFiles->upload_file("upfile",1024,120,NULL,"",true);

@@ -7,6 +7,8 @@ function xoops_module_update_tad_discuss(&$module, $old_version) {
     if(chk_chk3()) go_update3();
     if(chk_chk4()) go_update4();
     if(chk_chk5()) go_update5();
+    if(chk_uid()) go_update_uid();
+    if(chk_files_center()) go_update_files_center();
 
     return true;
 }
@@ -131,6 +133,45 @@ function go_update5(){
   $xoopsDB->queryF($sql);
 }
 
+
+//修正uid欄位
+function chk_uid(){
+  global $xoopsDB;
+  $sql="SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE table_name = '".$xoopsDB->prefix("tad_discuss")."' AND COLUMN_NAME = 'uid'";
+  $result=$xoopsDB->query($sql);
+  list($type)=$xoopsDB->fetchRow($result);
+  if($type=='smallint')return true;
+  return false;
+}
+
+//執行更新
+function go_update_uid(){
+  global $xoopsDB;
+  $sql="ALTER TABLE `".$xoopsDB->prefix("tad_discuss")."` CHANGE `uid` `uid` mediumint(9) unsigned NOT NULL default 0";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+  return true;
+}
+
+
+//修正col_sn欄位
+function chk_files_center(){
+  global $xoopsDB;
+  $sql="SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE table_name = '".$xoopsDB->prefix("tad_discuss_files_center")."' AND COLUMN_NAME = 'col_sn'";
+  $result=$xoopsDB->query($sql);
+  list($type)=$xoopsDB->fetchRow($result);
+  if($type=='smallint')return true;
+  return false;
+}
+
+//執行更新
+function go_update_files_center(){
+  global $xoopsDB;
+  $sql="ALTER TABLE `".$xoopsDB->prefix("tad_discuss_files_center")."` CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+  return true;
+}
 
 //建立目錄
 function mk_dir($dir=""){

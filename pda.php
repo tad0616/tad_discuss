@@ -270,7 +270,7 @@ function show_one_tad_discuss($DefDiscussID="",$g2p){
     $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
     $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);
 
-    $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
+    $discuss_data=talk_bubble($BoardID,$DiscussID,$ReDiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
 
     if($discuss_data['like']){
       $like="
@@ -755,7 +755,7 @@ switch($op){
   case "show_board":
   $main=list_tad_discuss_m($BoardID);
   break;
-  
+
   //下載檔案
   case "tufdl":
   $files_sn=isset($_GET['files_sn'])?intval($_GET['files_sn']):"";

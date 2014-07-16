@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADDISCUS_NAME;
-$modversion['version']	= '1.4';
+$modversion['version']	= '1.6';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author'] = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']	= 'geek01';
@@ -14,7 +14,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2014-02-20';
+$modversion['release_date'] = '2014-06-25';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -82,9 +82,7 @@ $modversion['templates'][$i]['description'] = 'tad_discuss_adm_copynewbb.html';
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_discuss_adm_spam.html';
 $modversion['templates'][$i]['description'] = 'tad_discuss_adm_spam.html';
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_discuss_form_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_form_tpl.html';
+
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_discuss_form.html';
 $modversion['templates'][$i]['description'] = 'tad_discuss_form.html';

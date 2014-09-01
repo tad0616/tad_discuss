@@ -201,7 +201,7 @@ function get_tad_discuss_board_option($default_BoardID="0"){
 
 //以流水號秀出某筆tad_discuss資料內容
 function show_one_tad_discuss($DefDiscussID=""){
-  global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsTpl;
+  global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsTpl,$xoTheme;
   if(empty($DefDiscussID)){
     return;
   }else{
@@ -277,6 +277,7 @@ function show_one_tad_discuss($DefDiscussID=""){
 
   $discuss_data="";
   $i=1;
+  $first="";
 
   $member_handler = xoops_gethandler('member');
   while($all=$xoopsDB->fetchArray($result)){
@@ -313,6 +314,9 @@ function show_one_tad_discuss($DefDiscussID=""){
       $width=100;
     }
 
+    if(empty($first)){
+      $first=$DiscussContent;
+    }
 
     $discuss['DiscussTitle']=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$discuss['DiscussTitle']);
     $discuss['DiscussTitle']=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$discuss['DiscussTitle']);
@@ -346,6 +350,24 @@ function show_one_tad_discuss($DefDiscussID=""){
   $xoopsTpl->assign('isPublic', isPublic($onlyTo1,$uid,$BoardID));
   $xoopsTpl->assign('onlyTo',$onlyTo);
   $xoopsTpl->assign('ReDiscussID',$DefDiscussID);
+
+
+  $title=$discuss['DiscussTitle'];
+  $description=strip_tags($first);
+
+  $fb_tag="
+  <meta property=\"og:title\" content=\"{$title}\" />
+  <meta property=\"og:description\" content=\"{$description}\" />
+  ";
+  $xoopsTpl->assign( "xoops_module_header" , $fb_tag);
+  $xoopsTpl->assign("xoops_pagetitle",$title);
+  if (is_object($xoTheme)) {
+    $xoTheme->addMeta( 'meta', 'keywords', $title);
+    $xoTheme->addMeta( 'meta', 'description', $description) ;
+  } else {
+    $xoopsTpl->assign('xoops_meta_keywords','keywords',$title);
+    $xoopsTpl->assign('xoops_meta_description', $description);
+  }
 }
 
 

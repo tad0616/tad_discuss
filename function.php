@@ -445,7 +445,7 @@ function insert_tad_discuss($nl2br=false){
   $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
 
   $myts = MyTextSanitizer::getInstance();
-  $_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
+  //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
 
   if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $myip = $_SERVER['REMOTE_ADDR'];

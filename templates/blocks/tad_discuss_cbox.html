@@ -6,11 +6,11 @@
 
   <div class="row-fluid">
     <div id="cboxdiv" class="span12">
-      <iframe frameborder="0" width="100%" height="<{$block.height}>" src="<{$xoops_url}>/modules/tad_discuss/cbox.php?BoardID=<{$block.BoardID}>&amp;border_color=<{$block.border_color}>&amp;bg_color=<{$block.bg_color}>&amp;font_color=<{$block.font_color}>" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="discussCboxMain" style="border:#ababab 1px solid;" id="discussCboxMain"></iframe>
+      <iframe frameborder="0" title="show" width="100%" height="<{$block.height}>" src="<{$xoops_url}>/modules/tad_discuss/cbox.php?BoardID=<{$block.BoardID}>&amp;border_color=<{$block.border_color}>&amp;bg_color=<{$block.bg_color}>&amp;font_color=<{$block.font_color}>" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="discussCboxMain" style="border:#ababab 1px solid;" id="discussCboxMain"></iframe>
 
       <br/>
 
-      <iframe frameborder="0" width="100%" height="<{if $block.now_uid}>190<{else}>70<{/if}>" src="<{$xoops_url}>/modules/tad_discuss/post.php?BoardID=<{$block.BoardID}><{if $block.BoardID==0}>&setupRule=<{$block.setupRule}><{/if}>" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="discussCboxForm" style="border:#ababab 1px solid;border-top:0px" id="discussCboxForm"></iframe>
+      <iframe frameborder="0" title="post" width="100%" height="<{if $block.now_uid}>190<{else}>70<{/if}>" src="<{$xoops_url}>/modules/tad_discuss/post.php?BoardID=<{$block.BoardID}><{if $block.BoardID==0}>&setupRule=<{$block.setupRule}><{/if}>" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="discussCboxForm" style="border:#ababab 1px solid;border-top:0px" id="discussCboxForm"></iframe>
 
       <p style="text-align:right;"><a href="<{$xoops_url}>/modules/tad_discuss/discuss.php?BoardID=<{$block.BoardID}>"><{$snarty.const._MB_TADDISCUS_CBOX_VIEW_ALL}></a></p>
     </div>

@@ -158,7 +158,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
     $DiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussTitle);
     $DiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussTitle);
     $main_data.="
-      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}'>
+      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
       </li>
@@ -425,7 +425,7 @@ function list_tad_discuss_m($DefBoardID=null){
     $DiscussTitle=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussTitle);
     $DiscussTitle=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussTitle);
     $main_data.="
-      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar'>
+      <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
       </li>";

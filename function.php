@@ -11,7 +11,9 @@ include_once "function_block.php";
 
 //對話框格式
 function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$uid="",$publisher="",$DiscussDate='',$mode='',$Good=0,$Bad=0,$width=100,$onlyTo=""){
+
   global $xoopsUser,$xoopsTpl,$xoopsModuleConfig,$TadUpFiles;
+
   $member_handler = xoops_gethandler('member');
   $user = $member_handler->getUser($uid);
   if (is_object($user)) {
@@ -72,6 +74,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   $all['Good']=$Good;
   $all['files']=$files;
   $all['onlyTo']=$onlyTo;
+
   if($mode=="return"){
     return $all;
   }else{
@@ -185,10 +188,14 @@ function list_tad_discuss($DefBoardID=null){
     $uid=0;
     $groups = XOOPS_GROUP_ANONYMOUS;
   }
+
   $gperm_handler =& xoops_gethandler('groupperm');
   if(!$gperm_handler->checkRight('forum_read',$DefBoardID,$groups,$module_id)){
     header('location:index.php');
   }
+
+  $post=$gperm_handler->checkRight('forum_post',$DefBoardID,$groups,$module_id);
+  $xoopsTpl->assign('post',$post);
 
 
   $andBoardID=(empty($DefBoardID))?"":"and a.BoardID='$DefBoardID'";
@@ -267,7 +274,7 @@ function list_tad_discuss($DefBoardID=null){
   $xoopsTpl->assign('DefBoardID',$DefBoardID);
 
 
-  $post_tool=($xoopsUser and !empty($DefBoardID) )?"<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='link_button_r'><img src='images/edit.png' align='absmiddle' hspace=4 alt='"._MD_TADDISCUS_ADD_DISCUSS."'>"._MD_TADDISCUS_ADD_DISCUSS."</a>":"";
+  $post_tool=($post and !empty($DefBoardID))?"<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='link_button_r'><img src='images/edit.png' align='absmiddle' hspace=4 alt='"._MD_TADDISCUS_ADD_DISCUSS."'>"._MD_TADDISCUS_ADD_DISCUSS."</a>":"";
 
   if(file_exists(XOOPS_ROOT_PATH."/modules/tadtools/FooTable.php")){
     include_once XOOPS_ROOT_PATH."/modules/tadtools/FooTable.php";
@@ -438,11 +445,11 @@ function insert_tad_discuss($nl2br=false){
   global $xoopsDB,$xoopsUser,$TadUpFiles;
 
   //取得使用者編號
-  if(!$xoopsUser)return;
+  //if(!$xoopsUser)return;
 
   $member_handler =& xoops_gethandler('member');
 
-  $uid=($xoopsUser)?$xoopsUser->getVar('uid'):"";
+  $uid=($xoopsUser)?$xoopsUser->uid():0;
 
   $myts = MyTextSanitizer::getInstance();
   //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
@@ -485,7 +492,9 @@ function insert_tad_discuss($nl2br=false){
   //取得最後新增資料的流水編號
   $DiscussID=$xoopsDB->getInsertId();
 
-  $xoopsUser->incrementPost();
+  if($xoopsUser){
+    $xoopsUser->incrementPost();
+  }
 
   $TadUpFiles->set_col("DiscussID" , $DiscussID);
   //$TadUpFiles->upload_file($upname,$width,$thumb_width,$files_sn,$desc,$safe_name=false,$hash=false);

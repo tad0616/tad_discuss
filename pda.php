@@ -34,7 +34,6 @@ function list_tad_discuss_board($show_function=1){
 	$sql = "select * from `".$xoopsDB->prefix("tad_discuss_board")."` where BoardEnable='1' order by BoardSort";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-
 	$all_content="";
 
   if (mysql_num_rows($result) == 0) {
@@ -47,7 +46,9 @@ function list_tad_discuss_board($show_function=1){
 			$$k=$v;
 		}
 
-		if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id))continue;
+		if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id)){
+      continue;
+    }
 
     $TadUpFiles->set_col('BoardID' , $BoardID,1);
     $pic=$TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
@@ -71,22 +72,22 @@ function list_tad_discuss_board($show_function=1){
 		$DiscussNum=sprintf(_MD_TADDISCUS_ALL_DISCUSS,number_format($DiscussNum));
 
     if($xoopsUser){
-        $form_data.=tad_discuss_form($BoardID,'',$DefDiscussID,'jqm');
-      } else {
-        $form_data.="
-          <div data-role='page' id='form_{$BoardID}'>
-            <div data-theme='c' data-role='header' data-position='fixed'>
-              <h3>{$title}</h3>
-              <a href='#index' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
-            </div>
-            <div data-role='content'>
-              <div id='form-area'>
-                "._MD_TADDISCUS_NEEDLOGIN."
-              </div>
+      $form_data.=tad_discuss_form($BoardID,'',$DefDiscussID,'jqm');
+    } else {
+      $form_data.="
+        <div data-role='page' id='form_{$BoardID}'>
+          <div data-theme='c' data-role='header' data-position='fixed'>
+            <h3>{$title}</h3>
+            <a href='#index' data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Menu</a>
+          </div>
+          <div data-role='content'>
+            <div id='form-area'>
+              "._MD_TADDISCUS_NEEDLOGIN."
             </div>
           </div>
-        ";
-      }
+        </div>
+      ";
+    }
 
     $all_content.="
         <ul data-role='listview' data-inset='true' data-header-theme='c' data-divider-theme='c'>
@@ -97,23 +98,23 @@ function list_tad_discuss_board($show_function=1){
 
 	}
 
-    $login=login_m();
+  $login=login_m();
 
-    $page="
-    <!-- index -->
-    <div data-role='page' id='index'>
-      <div data-theme='c' data-role='header' data-position='fixed'>
-        <a href='#login' data-icon='bars' data-iconpos='notext'>Menu</a>
-        <h3>{$module_name}</h3>
-      </div>
-      <div data-role='content'>
-        {$all_content}
-      </div>
-      <div data-role='panel' data-position='left' data-display='push' id='login' data-theme='c'>
-        {$login}
-      </div>
+  $page="
+  <!-- index -->
+  <div data-role='page' id='index'>
+    <div data-theme='c' data-role='header' data-position='fixed'>
+      <a href='#login' data-icon='bars' data-iconpos='notext'>Menu</a>
+      <h3>{$module_name}</h3>
     </div>
-    {$form_data}
+    <div data-role='content'>
+      {$all_content}
+    </div>
+    <div data-role='panel' data-position='left' data-display='push' id='login' data-theme='c'>
+      {$login}
+    </div>
+  </div>
+  {$form_data}
   ";
 
   return $page;
@@ -194,6 +195,7 @@ function show_one_tad_discuss($DefDiscussID="",$g2p){
       $uid=0;
       $groups = XOOPS_GROUP_ANONYMOUS;
     }
+
     $gperm_handler =& xoops_gethandler('groupperm');
     if(!$gperm_handler->checkRight('forum_read',$discuss['BoardID'],$groups,$module_id)){
       header('location:index.php');
@@ -270,7 +272,8 @@ function show_one_tad_discuss($DefDiscussID="",$g2p){
     $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
     $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);
 
-    $discuss_data=talk_bubble($BoardID,$DiscussID,$ReDiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
+    $discuss_data=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
+
 
     if($discuss_data['like']){
       $like="
@@ -305,10 +308,10 @@ function show_one_tad_discuss($DefDiscussID="",$g2p){
   }
 
   if($xoopsUser){
-      $form_data=tad_discuss_form($BoardID,'',$DefDiscussID);
-    } else {
-      $form_data=_MD_TADDISCUS_NEEDLOGIN;
-    }
+    $form_data=tad_discuss_form($BoardID,'',$DefDiscussID);
+  } else {
+    $form_data=_MD_TADDISCUS_NEEDLOGIN;
+  }
 
   $title=$discuss['DiscussTitle'];
 
@@ -438,10 +441,10 @@ function list_tad_discuss_m($DefBoardID=null){
   }
 
   if($xoopsUser){
-      $form_data=tad_discuss_form($BoardID,'',$DefDiscussID);
-    } else {
-      $form_data=_MD_TADDISCUS_NEEDLOGIN;
-    }
+    $form_data=tad_discuss_form($BoardID,'',$DefDiscussID);
+  } else {
+    $form_data=_MD_TADDISCUS_NEEDLOGIN;
+  }
 
   if(empty($main_data))$main_data="<li>"._MD_TADDISCUS_DISCUSS_EMPTY."</li>";
 
@@ -488,23 +491,26 @@ function list_tad_discuss_m($DefBoardID=null){
 function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=""){
   global $xoopsDB,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsModule,$xoopsTpl,$TadUpFiles;
 
-  if(empty($xoopsUser)){
-    redirect_header("pda.php",3, _MD_TADDISCUS_NEEDLOGIN);
+  if(empty($BoardID)){
+    return;
   }
+
 
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
 
   //取得目前使用者的群組編號
   if($xoopsUser) {
-    $uid=$xoopsUser->getVar('uid');
+    $uid=$xoopsUser->uid();
     $groups=$xoopsUser->getGroups();
   }else{
     $uid=0;
     $groups = XOOPS_GROUP_ANONYMOUS;
   }
+
   $gperm_handler =& xoops_gethandler('groupperm');
   if(!$gperm_handler->checkRight('forum_post',$BoardID,$groups,$module_id)){
+    if($mode=="jqm")return;
     header('location:pda.php');
   }
 
@@ -527,7 +533,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$mode=
 
   //設定「uid」欄位預設值
   $uid=(!isset($DBV['uid']))?'':$DBV['uid'];
-  $uid=(is_object($xoopsUser) and empty($uid))?$xoopsUser->getVar('uid'):$uid;
+  $uid=(is_object($xoopsUser) and empty($uid))?$xoopsUser->uid():$uid;
 
   //設定「DiscussTitle」欄位預設值
   $DiscussTitle=(!isset($DBV['DiscussTitle']))?_MD_TADDISCUS_INPUT_TITLE:$DBV['DiscussTitle'];

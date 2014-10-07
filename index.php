@@ -37,7 +37,10 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
       $$k=$v;
     }
 
-    if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id))continue;
+    if(!$gperm_handler->checkRight('forum_read',$BoardID,$groups,$module_id)){
+      continue;
+    }
+    $post=$gperm_handler->checkRight('forum_post',$BoardID,$groups,$module_id);
 
     //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
     $TadUpFiles->set_col('BoardID' , $BoardID);
@@ -53,6 +56,7 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
     $DiscussNum=get_board_num($BoardID,false);
 
 
+    $all_content[$i]['post']=$post;
     $all_content[$i]['pic']=$pic;
     $all_content[$i]['BoardTitle']=$BoardTitle;
     $all_content[$i]['BoardID']=$BoardID;

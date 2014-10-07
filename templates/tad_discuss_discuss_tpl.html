@@ -11,7 +11,8 @@
 
 <{elseif $op=="show_one_tad_discuss"}>
   <{$js}>
-  <h1><a href="discuss.php?BoardID=<{$BoardID}>"><{$BoardTitle}></a> / <{$DiscussTitle}></h1>
+  <span class="label label-info"><a href="discuss.php?BoardID=<{$BoardID}>" style="color:white;"><{$BoardTitle}></a></span>
+  <h1><{$DiscussTitle}></h1>
   <{foreach item=discuss from=$discuss_data}>
     <{if $display_mode=="top" || $display_mode=="bottom"}>
       <{includeq file="db:tad_discuss_talk_bubble_vertical.html"}>
@@ -88,8 +89,10 @@
     <{else}>
       <tr>
         <td colspan=4 class="text-center">
-          <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
-          <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
+          <{if $post}>
+            <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
+            <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
+          <{/if}>
         </td>
       </tr>
     <{/if}>

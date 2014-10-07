@@ -11,7 +11,7 @@ define("_MD_TADDISCUS_DISCUSSTITLE","主題");
 define("_MD_TADDISCUS_DISCUSSRE","回覆");
 define("_MD_TADDISCUS_RE","我要回覆");
 define("_MD_TADDISCUS_INPUT_TITLE","請輸入標題");
-define("_MD_TADDISCUS_DISCUSS_EMPTY","尚無任何討論主題，您可以新增一篇留言試試∼");
+define("_MD_TADDISCUS_DISCUSS_EMPTY","尚無任何討論主題");
 define("_MD_TADDISCUS_ADD_DISCUSS","新增討論主題");
 define("_MD_TADDISCUS_RE_DISCUSS","%s 篇回文");
 define("_MD_TADDISCUS_BOARD_DISCUSS","%s 個主題");

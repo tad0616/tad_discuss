@@ -11,8 +11,12 @@ $TadUpFiles=new TadUpFiles("tad_discuss");
 function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="left",$mode=""){
   global $xoopsDB,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsModule,$xoopsTpl,$TadUpFiles;
 
-  if(empty($xoopsUser)){
-    redirect_header("index.php",3, _MD_TADDISCUS_NEEDLOGIN);
+  // if(empty($xoopsUser)){
+  //   redirect_header("index.php",3, _MD_TADDISCUS_NEEDLOGIN);
+  // }
+
+  if(empty($BoardID)){
+    return;
   }
 
   //取得本模組編號
@@ -20,7 +24,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
 
   //取得目前使用者的群組編號
   if($xoopsUser) {
-    $uid=$xoopsUser->getVar('uid');
+    $uid=$xoopsUser->uid();
     $groups=$xoopsUser->getGroups();
   }else{
     $uid=0;
@@ -28,10 +32,11 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
   }
 
   $gperm_handler =& xoops_gethandler('groupperm');
+
   if(!$gperm_handler->checkRight('forum_post',$BoardID,$groups,$module_id)){
+    if($mode=="return")return;
     header('location:index.php');
   }
-
 
   //抓取預設值
   if(!empty($DefDiscussID)){
@@ -202,10 +207,10 @@ function get_tad_discuss_board_option($default_BoardID="0"){
 //以流水號秀出某筆tad_discuss資料內容
 function show_one_tad_discuss($DefDiscussID=""){
   global $xoopsDB,$xoopsModule,$xoopsUser,$isAdmin,$xoopsModuleConfig,$xoopsTpl,$xoTheme;
+
   if(empty($DefDiscussID)){
     return;
   }else{
-
     $DefDiscussID=intval($DefDiscussID);
     $discuss=get_tad_discuss($DefDiscussID);
 
@@ -215,7 +220,7 @@ function show_one_tad_discuss($DefDiscussID=""){
 
     //取得目前使用者的群組編號
     if($xoopsUser) {
-      $now_uid=$xoopsUser->getVar('uid');
+      $now_uid=$xoopsUser->uid();
       $groups=$xoopsUser->getGroups();
     }else{
       $now_uid=0;
@@ -329,10 +334,10 @@ function show_one_tad_discuss($DefDiscussID=""){
   }
 
 
-  if($xoopsUser){
+  //if($xoopsUser){
     $dir=$i%2?"left":"right";
     $form_data=tad_discuss_form($BoardID,'',$DefDiscussID,$dir,'return');
-  }
+  //}
 
 
   $onlyToName=getOnlyToName($onlyTo1);

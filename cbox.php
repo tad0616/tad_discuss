@@ -17,7 +17,7 @@ switch($op){
 
 //列出所有tad_discuss資料
 function list_tad_discuss_cbox($DefBoardID=""){
-  global $xoopsDB,$xoopsModule,$xoopsModuleConfig,$xoopsUser,$TadUpFiles;
+  global $xoopsDB,$xoopsModule,$xoopsModuleConfig,$xoopsUser,$TadUpFiles,$isAdmin;
 
   //$cbox_show_num=empty($_SESSION['cbox_show_num'])?20:$_SESSION['cbox_show_num'];
   $limit=20;
@@ -46,14 +46,6 @@ function list_tad_discuss_cbox($DefBoardID=""){
 
   $sql = "select a.*,b.* from ".$xoopsDB->prefix("tad_discuss")." as a left join ".$xoopsDB->prefix("tad_discuss_board")." as b on a.BoardID = b.BoardID where a.ReDiscussID='0' and b.BoardEnable='1' $andBoardID  order by a.LastTime desc limit 0,10";
 
-
-  //判斷是否對該模組有管理權限
-  if ($xoopsUser) {
-    $isAdmin=$xoopsUser->isAdmin($module_id);
-  }else{
-    $isAdmin=false;
-
-  }
 
   $cbox_root_msg_color=empty($_GET['border_color'])?"#B4C58D":$_GET['border_color'];
   $bg_color=empty($_GET['bg_color'])?"#FFFFFF":$_GET['bg_color'];
@@ -175,8 +167,6 @@ function list_tad_discuss_cbox($DefBoardID=""){
     $files=isPublic($onlyTo,$uid,$DefBoardID)?$files:"";
 
 
-    //$MainDiscussContent=strip_word_html($MainDiscussContent);
-
     $dot=$isPublic?"greenpoint":"lock";
     //die("{$DiscussTitle}<br>{$DiscussContent}");
     $showTitle=($DiscussTitle == $DiscussContent)?"":"
@@ -235,7 +225,6 @@ function list_tad_discuss_cbox($DefBoardID=""){
       $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
       $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);
 
-      //$DiscussContent=strip_word_html($DiscussContent);
 
       if($onlyTo){
         $ContentColor="red";
@@ -276,42 +265,6 @@ function list_tad_discuss_cbox($DefBoardID=""){
   return $data;
 }
 
-
-//過濾word的格式
-function strip_word_html($text, $allowed_tags = '<b><i><sup><sub><em><strong><u><br><img><div><p><iframe><ul><ol><li><a>')
-{
-  mb_regex_encoding('UTF-8');
-  //replace MS special characters first
-  $search = array('/&lsquo;/u', '/&rsquo;/u', '/&ldquo;/u', '/&rdquo;/u', '/&mdash;/u');
-  $replace = array('\'', '\'', '"', '"', '-');
-  $text = preg_replace($search, $replace, $text);
-  //make sure _all_ html entities are converted to the plain ascii equivalents - it appears
-  //in some MS headers, some html entities are encoded and some aren't
-  $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-  //try to strip out any C style comments first, since these, embedded in html comments, seem to
-  //prevent strip_tags from removing html comments (MS Word introduced combination)
-  if(mb_stripos($text, '/*') !== FALSE){
-      $text = mb_eregi_replace('#/\*.*?\*/#s', '', $text, 'm');
-  }
-  //introduce a space into any arithmetic expressions that could be caught by strip_tags so that they won't be
-  //'<1' becomes '< 1'(note: somewhat application specific)
-  $text = preg_replace(array('/<([0-9]+)/'), array('< $1'), $text);
-  $text = strip_tags($text, $allowed_tags);
-  //eliminate extraneous whitespace from start and end of line, or anywhere there are two or more spaces, convert it to one
-  $text = preg_replace(array('/^\s\s+/', '/\s\s+$/', '/\s\s+/u'), array('', '', ' '), $text);
-  //strip out inline css and simplify style tags
-  $search = array('#<(strong|b)[^>]*>(.*?)</(strong|b)>#isu', '#<(em|i)[^>]*>(.*?)</(em|i)>#isu', '#<u[^>]*>(.*?)</u>#isu');
-  $replace = array('<b>$2</b>', '<i>$2</i>', '<u>$1</u>');
-  $text = preg_replace($search, $replace, $text);
-  //on some of the ?newer MS Word exports, where you get conditionals of the form 'if gte mso 9', etc., it appears
-  //that whatever is in one of the html comments prevents strip_tags from eradicating the html comment that contains
-  //some MS Style Definitions - this last bit gets rid of any leftover comments */
-  $num_matches = preg_match_all("/\<!--/u", $text, $matches);
-  if($num_matches){
-        $text = preg_replace('/\<!--(.)*--\>/isu', '', $text);
-  }
-  return $text;
-}
 
 /*-----------執行動作判斷區----------*/
 $op=(empty($_REQUEST['op']))?"":$_REQUEST['op'];

@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADDISCUS_NAME;
-$modversion['version']	= '1.7';
+$modversion['version']	= '1.8';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author'] = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']	= 'geek01';
@@ -14,7 +14,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2014-10-02';
+$modversion['release_date'] = '2014-10-13';
 $modversion['module_website_url'] = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -176,6 +176,13 @@ $modversion['config'][5]['description'] = '_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC
 $modversion['config'][5]['formtype']  = 'yesno';
 $modversion['config'][5]['valuetype'] = 'int';
 $modversion['config'][5]['default'] = '0';
+
+$modversion['config'][6]['name']  = 'display_number';
+$modversion['config'][6]['title'] = '_MI_TADDISCUS_DISPLAY_NUMBER';
+$modversion['config'][6]['description'] = '_MI_TADDISCUS_DISPLAY_NUMBER_DESC';
+$modversion['config'][6]['formtype']  = 'text';
+$modversion['config'][6]['valuetype'] = 'int';
+$modversion['config'][6]['default'] = '7';
 
 
 

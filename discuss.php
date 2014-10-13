@@ -96,7 +96,7 @@ function tad_discuss_form($BoardID="",$DefDiscussID="",$DefReDiscussID="",$dir="
     $twidth="99%";
   }
 
-  $DiscussTitle=empty($DefReDiscussID)?"{$board_option}\n<input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='validate[required]'  style='width:{$twidth};border:1px solid #B0B0B0;background-color:#f5f5f5;' onClick=\"if(this.value=='"._MD_TADDISCUS_INPUT_TITLE."')this.value='';\"><br>":"<input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
+  $DiscussTitle=empty($DefReDiscussID)?"{$board_option}\n<input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='validate[required]'  style='width:{$twidth};border:1px solid #B0B0B0;background-color:#f5f5f5;' onClick=\"if(this.value=='"._MD_TADDISCUS_INPUT_TITLE."')this.value='';\"><br>":"{$board_option}\n<input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
 
   $Board=get_tad_discuss_board($BoardID);
   if($Board['BoardEnable']=='0')redirect_header('index.php',3,_MD_TADDISCUS_BOARD_UNABLE);

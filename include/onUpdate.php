@@ -9,6 +9,7 @@ function xoops_module_update_tad_discuss(&$module, $old_version) {
     if(chk_chk5()) go_update5();
     if(chk_uid()) go_update_uid();
     if(chk_files_center()) go_update_files_center();
+    if(chk_chk6()) go_update6();
 
     return true;
 }
@@ -172,6 +173,33 @@ function go_update_files_center(){
   $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
   return true;
 }
+
+
+//更新BoardID為0的回覆留言
+function chk_chk6(){
+  global $xoopsDB;
+  $sql="select count(*) from ".$xoopsDB->prefix("tad_discuss")." where BoardID=0";
+  $result=$xoopsDB->query($sql);
+  if(!empty($result)) return true;
+  return false;
+}
+
+
+function go_update6(){
+  global $xoopsDB;
+  $sql="select DiscussID,ReDiscussID from ".$xoopsDB->prefix("tad_discuss")." where BoardID=0";
+  $result=$xoopsDB->query($sql);
+  while(list($DiscussID,$ReDiscussID)=$xoopsDB->fetchRow($result)){
+    $sql2="select BoardID from ".$xoopsDB->prefix("tad_discuss")." where DiscussID='$ReDiscussID'";
+    $result2=$xoopsDB->query($sql2);
+    list($BoardID)=$xoopsDB->fetchRow($result2);
+
+    $sql3="update ".$xoopsDB->prefix("tad_discuss")." set BoardID='$BoardID' where DiscussID='$DiscussID'";
+    $xoopsDB->query($sql3);
+  }
+  return true;
+}
+
 
 //建立目錄
 function mk_dir($dir=""){

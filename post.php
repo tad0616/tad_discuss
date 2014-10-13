@@ -23,11 +23,11 @@ if($_GET['mode']=="mkpic"){
 function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
   global $xoopsDB,$xoopsUser,$xoopsModuleConfig,$xoopsModule,$TadUpFiles,$isAdmin;
 
-  if(empty($xoopsUser)){
-    $main="<body class='error_bg'><div style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div></body>";
-    return $main;
-    exit;
-  }
+  // if(empty($xoopsUser)){
+  //   $main="<body class='error_bg'><div style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div></body>";
+  //   return $main;
+  //   exit;
+  // }
 
   if(empty($BoardID)){
     $add_fourm="";
@@ -79,10 +79,18 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
   if($xoopsUser) {
     $uid=$xoopsUser->getVar('uid');
     $groups=$xoopsUser->getGroups();
+    $name=$xoopsUser->getVar('name');
+    if(!empty($name)){
+      $publisher=$name;
+    }else{
+      $publisher=$xoopsUser->getVar('uname');
+    }
   }else{
     $uid=0;
     $groups = XOOPS_GROUP_ANONYMOUS;
+    $publisher=_MD_TADDISCUS_DEFAULT_PUBLISHER;
   }
+
   $gperm_handler =& xoops_gethandler('groupperm');
   if(!$gperm_handler->checkRight('forum_post',$BoardID,$groups,$module_id)){
     $main="<div class='need_login'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div>";
@@ -90,12 +98,6 @@ function tad_discuss_form($BoardID="",$DiscussID="",$ReDiscussID=""){
     exit;
   }
 
-  $name=$xoopsUser->getVar('name');
-  if(!empty($name)){
-    $publisher=$name;
-  }else{
-    $publisher=$xoopsUser->getVar('uname');
-  }
 
   $publisher_txt=(!empty($ReDiscussID))?"<div class='remsg'>".sprintf(_MD_TADDISCUS_RE_MSG,$ReDiscussID)."</div>":"<div class='remsg'>".sprintf(_MD_TADDISCUS_ADD_MSG,$publisher)."</div>";
 

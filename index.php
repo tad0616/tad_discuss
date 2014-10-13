@@ -10,7 +10,7 @@ $TadUpFiles=new TadUpFiles("tad_discuss");
 
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
-  global $xoopsDB , $xoopsModule , $isAdmin, $xoopsUser, $xoopsTpl , $TadUpFiles;
+  global $xoopsDB , $xoopsModule , $isAdmin, $xoopsUser, $xoopsTpl , $TadUpFiles ,$xoopsModuleConfig;
 
   //取得本模組編號
   $module_id = $xoopsModule->getVar('mid');
@@ -47,7 +47,8 @@ function list_tad_discuss_board($ofBoardID=0,$mode="tpl"){
     $pic=$TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
     $pic=empty($pic)?"images/board.png":$pic;
 
-    $list_tad_discuss=list_tad_discuss_short($BoardID,7);
+    $display_number=isset($xoopsModuleConfig['display_number'])?intval($xoopsModuleConfig['display_number']):7;
+    $list_tad_discuss=list_tad_discuss_short($BoardID,$display_number);
 
     $fun=($isAdmin)?"<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='"._TAD_EDIT."'></a>":"";
     $BoardManager=implode(' , ',getBoardManager($BoardID,"uname"));
@@ -97,7 +98,7 @@ function list_tad_discuss_short($BoardID=null,$limit=null){
   global $xoopsDB,$xoopsModule,$xoopsUser,$xoopsTpl;
 
   $andBoardID=(empty($BoardID))?"":"and a.BoardID='$BoardID'";
-  $andLimit=($limit > 0)?"limit 0,$limit":"";
+  $andLimit=!is_null($limit)?"limit 0,$limit":"";
   $sql = "select a.*,b.* from ".$xoopsDB->prefix("tad_discuss")." as a left join ".$xoopsDB->prefix("tad_discuss_board")." as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());

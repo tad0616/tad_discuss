@@ -42,5 +42,7 @@ define("_MI_TADDISCUS_SPAM_KEYWORD_DESC","將不希望出現在討論區裡的關鍵字列出，以
 define("_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT","交友,兼差,援交,叫妹,約茶,愛愛,好濕,胸圍,快速賺錢,網約,做愛,寫真,一夜情,約妹,叫小姐,身材,狂歡");
 define("_MI_TADDISCUS_DISPLAY_FAST_SETUP","在即時留言簿啟用快速新增討論區功能");
 define("_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC","此功能僅管理員可見，可供管理員快速新增討論區及新增自動轉向設定");
+define("_MI_TADDISCUS_DISPLAY_NUMBER","討論區首頁顯示留言數");
+define("_MI_TADDISCUS_DISPLAY_NUMBER_DESC","討論區首頁各討論區列表下要呈現幾篇留言？");
 
 ?>

@@ -329,21 +329,21 @@ function show_one_tad_discuss($DefDiscussID=""){
     $DiscussContent=str_replace("[s","<img src='".XOOPS_URL."/modules/tad_discuss/images/smiles/s",$DiscussContent);
     $DiscussContent=str_replace(".gif]",".gif' hspace=2 align='absmiddle'>",$DiscussContent);
 
-    $discuss_data[$i]=talk_bubble($BoardID,$DiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
+    $discuss_data[$i]=talk_bubble($discuss['BoardID'],$DiscussID,$DiscussContent,$dir,$uid,$publisher,$DiscussDate,'return',$Good,$Bad,$width,$onlyTo);
     $i++;
   }
 
 
   //if($xoopsUser){
     $dir=$i%2?"left":"right";
-    $form_data=tad_discuss_form($BoardID,'',$DefDiscussID,$dir,'return');
+    $form_data=tad_discuss_form($discuss['BoardID'],'',$DefDiscussID,$dir,'return');
   //}
 
 
   $onlyToName=getOnlyToName($onlyTo1);
-  $discuss['DiscussTitle']=isPublic($onlyTo1,$uid,$BoardID)?$discuss['DiscussTitle']:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
-
-  $xoopsTpl->assign('BoardID',$Board['BoardID']);
+  $discuss['DiscussTitle']=isPublic($onlyTo1,$uid,$discuss['BoardID'])?$discuss['DiscussTitle']:sprintf(_MD_TADDISCUS_ONLYTO,$onlyToName);
+  //die(var_export($discuss_data));
+  $xoopsTpl->assign('BoardID',$discuss['BoardID']);
   $xoopsTpl->assign('BoardTitle',$Board['BoardTitle']);
   $xoopsTpl->assign('DiscussTitle',$discuss['DiscussTitle']);
   $xoopsTpl->assign('display_mode',$xoopsModuleConfig['display_mode']);
@@ -352,7 +352,7 @@ function show_one_tad_discuss($DefDiscussID=""){
   $xoopsTpl->assign('discuss_data',$discuss_data);
   $xoopsTpl->assign('form_data',$form_data);
   $xoopsTpl->assign('bar',$bar);
-  $xoopsTpl->assign('isPublic', isPublic($onlyTo1,$uid,$BoardID));
+  $xoopsTpl->assign('isPublic', isPublic($onlyTo1,$uid,$discuss['BoardID']));
   $xoopsTpl->assign('onlyTo',$onlyTo);
   $xoopsTpl->assign('ReDiscussID',$DefDiscussID);
 

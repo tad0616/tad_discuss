@@ -74,7 +74,7 @@ function talk_bubble($BoardID='',$DiscussID='',$DiscussContent='',$dir='left',$u
   $all['Good']=$Good;
   $all['files']=$files;
   $all['onlyTo']=$onlyTo;
-
+  //die(var_export($all));
   if($mode=="return"){
     return $all;
   }else{

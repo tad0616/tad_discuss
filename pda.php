@@ -911,7 +911,7 @@ echo "
   </script>
   <script type='text/javascript' src='class/nicEdit.js'></script>
   <script type='text/javascript'>
-    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+    bkLib.onDomLoaded(function() { new nicEditor().panelInstance('DiscussContent') });
   </script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
 

@@ -40,7 +40,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
     $like = (!empty($DiscussID) and $_REQUEST['op'] != 'tad_discuss_form') ? true : false;
     //$fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
 
-    $fun = (isMine($uid, $BoardID) and $_REQUEST['op'] != 'tad_discuss_form') ? true : false;
+    $fun = (isMine($uid, $BoardID) and $_REQUEST['op'] != 'tad_discuss_form' and !empty($DiscussID)) ? true : false;
 
     //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
     if ($_REQUEST['op'] != 'tad_discuss_form') {
@@ -289,7 +289,7 @@ function list_tad_discuss($DefBoardID = null)
     $xoopsTpl->assign('main_data', $main_data);
     $xoopsTpl->assign('DefBoardID', $DefBoardID);
 
-    $post_tool = ($post and !empty($DefBoardID)) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='link_button_r'><img src='images/edit.png' align='absmiddle' hspace=4 alt='" . _MD_TADDISCUS_ADD_DISCUSS . "'>" . _MD_TADDISCUS_ADD_DISCUSS . "</a>" : "";
+    $post_tool = ($post and !empty($DefBoardID)) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='btn btn-default'><img src='images/edit.png' align='absmiddle' hspace=4 alt='" . _MD_TADDISCUS_ADD_DISCUSS . "'>" . _MD_TADDISCUS_ADD_DISCUSS . "</a>" : "";
 
     if (file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php")) {
         include_once XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php";

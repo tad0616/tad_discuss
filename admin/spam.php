@@ -102,9 +102,10 @@ function update_config($item = "")
 }
 
 /*-----------執行動作判斷區----------*/
-$op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -117,6 +118,7 @@ switch ($op) {
     case "del_spam":
         del_spam();
         header("location:{$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "update_config":
@@ -128,7 +130,7 @@ switch ($op) {
         list_spam();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

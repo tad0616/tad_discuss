@@ -313,6 +313,7 @@ switch ($op) {
     case "copyBoard":
         copyBoard($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //
@@ -323,28 +324,32 @@ switch ($op) {
     case "delnewbb":
         delnewbb($topic_id);
         header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
+        exit;
         break;
 
     case "copyDiscuss":
         copyDiscuss($BoardID, $_POST['mode']);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "powerSet":
         powerSet($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "batch_del":
         batch_del($_POST['batch_del']);
         header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
+        exit;
 
     //預設動作
     default:
         list_newbb();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

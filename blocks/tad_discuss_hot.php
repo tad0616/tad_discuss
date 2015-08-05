@@ -66,11 +66,10 @@ function tad_discuss_hot($options)
 
         $i++;
     }
-    $block['DISCUSSTITLE'] = _MB_TADDISCUS_DISCUSSTITLE;
-    $block['DISCUSSRE']    = _MB_TADDISCUS_DISCUSSRE;
-    $block['UID']          = _MB_TADDISCUS_UID;
-    $block['LAST_RE']      = _MB_TADDISCUS_LAST_RE;
 
+    $block['bootstrap_version'] = $_SESSION['bootstrap'];
+    $block['row']               = $_SESSION['bootstrap'] == '3' ? 'row' : 'row-fluid';
+    $block['span']              = $_SESSION['bootstrap'] == '3' ? 'col-md-' : 'span';
     return $block;
 }
 

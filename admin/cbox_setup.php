@@ -191,10 +191,11 @@ function show_one_tad_discuss_cbox_setup($setupID = "")
 }
 
 /*-----------執行動作判斷區----------*/
-$op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$setupID   = empty($_REQUEST['setupID']) ? "" : intval($_REQUEST['setupID']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$setupID   = system_CleanVars($_REQUEST, 'setupID', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -203,18 +204,21 @@ switch ($op) {
     case "replace_tad_discuss_cbox_setup":
         replace_tad_discuss_cbox_setup();
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //新增資料
     case "insert_tad_discuss_cbox_setup":
         insert_tad_discuss_cbox_setup($_POST['setupName'], $_POST['setupRule'], $_POST['newBorard'], $_POST['BoardID']);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //更新資料
     case "update_tad_discuss_cbox_setup":
         update_tad_discuss_cbox_setup($setupID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //輸入表格
@@ -227,6 +231,7 @@ switch ($op) {
     case "delete_tad_discuss_cbox_setup":
         delete_tad_discuss_cbox_setup($setupID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //預設動作
@@ -235,7 +240,7 @@ switch ($op) {
         list_tad_discuss_cbox_setup();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

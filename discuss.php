@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = "tad_discuss_discuss_tpl.html";
+$xoopsOption['template_main'] = set_bootstrap("tad_discuss_discuss.html");
 include_once XOOPS_ROOT_PATH . "/header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
 $TadUpFiles = new TadUpFiles("tad_discuss");
@@ -12,9 +12,10 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
 {
     global $xoopsDB, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
 
-    // if(empty($xoopsUser)){
-    //   redirect_header("index.php",3, _MD_TADDISCUS_NEEDLOGIN);
-    // }
+    $row          = $_SESSION['bootstrap'] == '3' ? 'row' : 'row-fluid';
+    $span         = $_SESSION['bootstrap'] == '3' ? 'col-md-' : 'span';
+    $inline       = $_SESSION['bootstrap'] == '3' ? '-inline' : ' inline';
+    $form_control = $_SESSION['bootstrap'] == '3' ? 'form-control' : 'span12';
 
     if (empty($BoardID)) {
         return;
@@ -93,14 +94,26 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : array();
 
     if (empty($ReDiscussID)) {
-        $board_option = "<select name='BoardID' style='width:20%;'>" . get_tad_discuss_board_option($BoardID) . "</select>";
+        $board_option = "<select name='BoardID' class='{$form_control}'>" . get_tad_discuss_board_option($BoardID) . "</select>";
         $twidth       = "76%";
     } else {
         $board_option = "<input type='hidden' name='BoardID' value='{$BoardID}'>";
         $twidth       = "99%";
     }
 
-    $DiscussTitle = empty($DefReDiscussID) ? "{$board_option}\n<input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='validate[required]'  style='width:{$twidth};border:1px solid #B0B0B0;background-color:#f5f5f5;' onClick=\"if(this.value=='" . _MD_TADDISCUS_INPUT_TITLE . "')this.value='';\"><br>" : "{$board_option}\n<input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
+    if (empty($DefReDiscussID)) {
+        $DiscussTitle = "
+        <div class='{$row}' style='margin: 10px 0px;'>
+            <div class='{$span}3'>{$board_option}</div>
+            <div class='{$span}9'>
+                <input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='{$form_control} validate[required]' placeholder='" . _MD_TADDISCUS_INPUT_TITLE . "' class=''>
+            </div>
+        </div>";
+    } else {
+        $DiscussTitle = "
+        {$board_option}
+        <input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
+    }
 
     $Board = get_tad_discuss_board($BoardID);
     if ($Board['BoardEnable'] == '0') {
@@ -123,19 +136,28 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     }
 
     $DiscussContent = "
-  $DiscussTitle
-  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
-  <input type='hidden' name='OldBoardID' value='{$BoardID}'>
-  <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
-  <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
-  <input type='hidden' name='op' value='{$op}'>
-  <span style='display:block;float:right;'>
-  <label class='checkbox inline'>
-  <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . "
-  </label>
-  <button type='submit' class='btn btn-info'>" . _TAD_SAVE . "</button>
-  </span>
-  {$upform}";
+    $DiscussTitle
+
+    <div class='{$row}' style='margin: 10px 0px;'>
+        <div class='{$span}12'>
+          <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
+        </div>
+    </div>
+    <div class='{$row}'>
+        <div class='{$span}6'>
+          {$upform}
+        </div>
+        <div class='{$span}6 text-right'>
+            <label class='checkbox{$inline}'>
+              <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . "
+            </label>
+            <input type='hidden' name='OldBoardID' value='{$BoardID}'>
+            <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
+            <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
+            <input type='hidden' name='op' value='{$op}'>
+            <button type='submit' class='btn btn-info'>" . _TAD_SAVE . "</button>
+        </div>
+    </div>";
 
     $DiscussDate = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate)));
 
@@ -481,14 +503,14 @@ function add_tad_discuss_counter($DiscussID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-$op          = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID   = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$ReDiscussID = empty($_REQUEST['ReDiscussID']) ? "" : intval($_REQUEST['ReDiscussID']);
-$BoardID     = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$files_sn    = empty($_REQUEST['files_sn']) ? "" : intval($_REQUEST['files_sn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op          = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID     = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID   = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$ReDiscussID = system_CleanVars($_REQUEST, 'ReDiscussID', 0, 'int');
+$files_sn    = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
 
 $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("bootstrap", get_bootstrap());
 $xoopsTpl->assign("jquery", get_jquery(true));
 $xoopsTpl->assign("isAdmin", $isAdmin);
 if ($xoopsUser) {
@@ -502,7 +524,6 @@ switch ($op) {
     //新增資料
     case "insert_tad_discuss":
         $DiscussID = insert_tad_discuss();
-        header("location:discuss.php?DiscussID={$DiscussID}&BoardID={$BoardID}");
         redirect_header("discuss.php?DiscussID={$DiscussID}&BoardID={$BoardID}", 0, _MD_TADDISCUS_SAVE_OK);
         break;
 
@@ -511,12 +532,14 @@ switch ($op) {
         update_tad_discuss($DiscussID);
         $ID = empty($ReDiscussID) ? $DiscussID : $ReDiscussID;
         header("location: {$_SERVER['PHP_SELF']}?DiscussID=$ID&BoardID=$BoardID");
+        exit;
         break;
 
     //刪除資料
     case "delete_tad_discuss":
         delete_tad_discuss($DiscussID);
         header("location: {$_SERVER['PHP_SELF']}?BoardID=$BoardID");
+        exit;
         break;
 
     //輸入表格
@@ -534,11 +557,13 @@ switch ($op) {
     case "unlock":
         change_lock(false, $BoardID, $DiscussID);
         header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
+        exit;
         break;
 
     case "lock":
         change_lock(true, $BoardID, $DiscussID);
         header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
+        exit;
         break;
 
     //預設動作

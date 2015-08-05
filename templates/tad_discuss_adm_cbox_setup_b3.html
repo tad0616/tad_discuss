@@ -3,34 +3,34 @@
   <{if $now_op=="tad_discuss_cbox_setup_form"}>
     <{$formValidator_code}>
     <h3><{$smarty.const._MA_TADDISCUS_RULE_SETUP}></h3>
-    <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+    <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
 
       <!--註記-->
-      <div class="row-fluid">
-        <label class="span3 text-right">
+      <div class="row">
+        <label class="col-md-3 text-right">
           <{$smarty.const._MA_TADDISCUS_SETUPNAME}>
         </label>
-        <div class="span5">
-          <input type="text" name="setupName" id="setupName" class="span12 validate[required]" value="<{$setupName}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPNAME}>">
+        <div class="col-md-5">
+          <input type="text" name="setupName" id="setupName" class="form-control validate[required]" value="<{$setupName}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPNAME}>">
         </div>
       </div>
 
       <!--偵測字串-->
-      <div class="row-fluid">
-        <label class="span3 text-right">
+      <div class="row">
+        <label class="col-md-3 text-right">
           <{$smarty.const._MA_TADDISCUS_SETUPRULE}>
         </label>
-        <div class="span5">
-          <input type="text" name="setupRule" id="setupRule" class="span12 validate[]" value="<{$setupRule}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPRULE}>">
+        <div class="col-md-5">
+          <input type="text" name="setupRule" id="setupRule" class="form-control validate[]" value="<{$setupRule}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPRULE}>">
         </div>
       </div>
 
-      <div class="row-fluid">
-        <label class="span3 text-right">
+      <div class="row">
+        <label class="col-md-3 text-right">
           <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
         </label>
-        <div class="span2">
-          <select name="BoardID" class="span12 " size=1>
+        <div class="col-md-2">
+          <select name="BoardID" class="form-control" size=1>
             <option value="" <{if $BoardID == ""}>selected="selected"<{/if}>></option>
             <{foreach from=$option item=option}>
               <option value="<{$option.BoardID}>" <{if $BoardID == $option.BoardID}>selected="selected"<{/if}>><{$option.BoardTitle}></option>
@@ -38,11 +38,11 @@
           </select>
         </div>
 
-        <div class="span2">
-          <input type="text" name="newBorard" id="newBorard" class="span12 validate[]" placeholder="<{$smarty.const._MA_TADDISCUS_ADD_BOARD}>">
+        <div class="col-md-2">
+          <input type="text" name="newBorard" id="newBorard" class="form-control validate[]" placeholder="<{$smarty.const._MA_TADDISCUS_ADD_BOARD}>">
         </div>
 
-        <div class="span2">
+        <div class="col-md-2">
           <!--設定流水號-->
           <input type='hidden' name="setupID" value="<{$setupID}>">
           <input type="hidden" name="setupSort" value="<{$setupSort}>">
@@ -98,15 +98,13 @@
           <td><{$data.setupRule}></td>
           <td><{$data.BoardTitle}></td>
           <td>
-            <a href="javascript:delete_tad_discuss_cbox_setup_func(<{$data.setupID}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-            <a href="<{$action}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+            <a href="javascript:delete_tad_discuss_cbox_setup_func(<{$data.setupID}>);" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+            <a href="<{$action}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
           </td>
         </tr>
       <{/foreach}>
       </tbody>
     </table>
-
-
   <{/if}>
 
   <!--顯示某一筆資料-->
@@ -114,25 +112,24 @@
     <h2 class="text-center"><{$title}></h2>
     <hr>
 
-    <div class="row-fluid">
+    <div class="row">
         <!--偵測字串-->
-      <div class="span3 text-right">
+      <div class="col-md-3 text-right">
         <{$smarty.const._MA_TADDISCUS_SETUPRULE}>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <{$setupRule}>
       </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
       <!--討論版編號-->
-      <div class="span3 text-right">
+      <div class="col-md-3 text-right">
         <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
       </div>
-      <div class="span9">
+      <div class="col-md-9">
         <{$BoardID}>
       </div>
     </div>
-
   <{/if}>
 </div>

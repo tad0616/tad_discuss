@@ -52,55 +52,55 @@ function list_tad_discuss_cbox($DefBoardID = "")
 
     if ($isAdmin) {
         $del_js = "
-    function delete_tad_discuss_func(DiscussID){
-      var sure = window.confirm('" . _TAD_DEL_CONFIRM . "');
-      if (!sure)  return;
-      location.href=\"{$_SERVER['PHP_SELF']}?BoardID={$DefBoardID}&op=delete_tad_discuss&DiscussID=\" + DiscussID;
-    }";
+        function delete_tad_discuss_func(DiscussID){
+          var sure = window.confirm('" . _TAD_DEL_CONFIRM . "');
+          if (!sure)  return;
+          location.href=\"{$_SERVER['PHP_SELF']}?BoardID={$DefBoardID}&op=delete_tad_discuss&DiscussID=\" + DiscussID;
+        }";
     } else {
         $del_js = "";
     }
 
     $data = "
-  <style>
+    <style>
 
-  .triangle-border.top {
-    border:5px solid $cbox_root_msg_color;
-    background:$bg_color;
-  }
+    .triangle-border.top {
+      border:5px solid $cbox_root_msg_color;
+      background:$bg_color;
+    }
 
-  .triangle-border.top:before {
-    border-color:$cbox_root_msg_color transparent;
-  }
+    .triangle-border.top:before {
+      border-color:$cbox_root_msg_color transparent;
+    }
 
-  .triangle-border.top:after {
-    border-color:$bg_color transparent;
-  }
+    .triangle-border.top:after {
+      border-color:$bg_color transparent;
+    }
 
-  .MainDiscussContent {
-    position: relative;
-    padding: 15px;
-    margin: 1em 0 3em;
-    border: 5px solid $cbox_root_msg_color;
-    color: $font_color;
-    text-align: left;
-    background: $bg_color;
-  /* css3 */
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-  }
+    .MainDiscussContent {
+      position: relative;
+      padding: 15px;
+      margin: 1em 0 3em;
+      border: 5px solid $cbox_root_msg_color;
+      color: $font_color;
+      text-align: left;
+      background: $bg_color;
+    /* css3 */
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+    }
 
-  </style>
-  $jquery
-  <script type='text/javascript'>
-    $del_js
-    $(document).ready(function(){
-      $('img').css('max-width','100%');
-      $('iframe').css('width','100%');
-    });
-  </script>
-  ";
+    </style>
+    $jquery
+    <script type='text/javascript'>
+      $del_js
+      $(document).ready(function(){
+        $('img').css('max-width','100%');
+        $('iframe').css('width','100%');
+      });
+    </script>
+    ";
     $i = 2;
 
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
@@ -167,26 +167,26 @@ function list_tad_discuss_cbox($DefBoardID = "")
         $dot = $isPublic ? "greenpoint" : "lock";
         //die("{$DiscussTitle}<br>{$DiscussContent}");
         $showTitle = ($DiscussTitle == $DiscussContent) ? "" : "
-      {$re_button}
-      <a href='discuss.php?DiscussID={$DiscussID}' style='text-decoration:none;color:{$titleColor};border-bottom:1px dotted gray;' target='_top'>{$MainDiscussTitle}</a>
-    ";
+          {$re_button}
+          <a href='discuss.php?DiscussID={$DiscussID}' style='text-decoration:none;color:{$titleColor};border-bottom:1px dotted gray;' target='_top'>{$MainDiscussTitle}</a>
+        ";
         $re_button2 = ($DiscussTitle == $DiscussContent) ? $re_button : "";
 
         $mainDiscuss = "
-    <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>
-      {$re_button2}
-      <span class='f' style='background-color:{$FBG_color}'> 1F </span>
-      <div class='cbox_publisher'>{$publisher}</div>: {$showTitle}
-      <div class='cbox_date'>
-        {$post_date}{$tool}
-      </div>
-      <div class='MainDiscussContent' style='line-height:150%;color:$contentColor'>
-        {$MainDiscussContent}
-        {$files}
-      </div>
-    </div>
-    <div style='clear:both;'></div>
-    ";
+        <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;'>
+          {$re_button2}
+          <span class='f' style='background-color:{$FBG_color}'> 1F </span>
+          <div class='cbox_publisher'>{$publisher}</div>: {$showTitle}
+          <div class='cbox_date'>
+            {$post_date}{$tool}
+          </div>
+          <div class='MainDiscussContent' style='line-height:150%;color:$contentColor'>
+            {$MainDiscussContent}
+            {$files}
+          </div>
+        </div>
+        <div style='clear:both;'></div>
+        ";
 
         $sql     = "select * from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by ReDiscussID , DiscussDate";
         $result2 = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
@@ -232,28 +232,28 @@ function list_tad_discuss_cbox($DefBoardID = "")
             $files          = isPublic($onlyTo, $uid, $DefBoardID) ? $files : "";
 
             $re .= "
-      $re_button
-      <span class='f' style='background-color:{$FBG_color}'> {$f}F </span>
-      <div class='cbox_publisher'>{$publisher}</div>:
-      <div class='cbox_date'>
-        <span style='border-bottom:1px dotted #FF0080;color:gray;'>{$post_date}{$tool}</span>
-      </div>
-      <div class='triangle-border top' style='line-height:150%;'>
-        <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;color:{$ContentColor}'>
-          {$DiscussContent}
-        </div>
-      {$files}
-      </div>
-      <div style='clear:both;'></div>
-      ";
+            $re_button
+            <span class='f' style='background-color:{$FBG_color}'> {$f}F </span>
+            <div class='cbox_publisher'>{$publisher}</div>:
+            <div class='cbox_date'>
+              <span style='border-bottom:1px dotted #FF0080;color:gray;'>{$post_date}{$tool}</span>
+            </div>
+            <div class='triangle-border top' style='line-height:150%;'>
+              <div class='txt_msg' style='word-wrap:break-word;word-break:break-all;-moz-binding: url(wordwrap.xml#wordwrap);overflow: hidden;line-height:150%;padding:8px 1px;color:{$ContentColor}'>
+                {$DiscussContent}
+              </div>
+            {$files}
+            </div>
+            <div style='clear:both;'></div>
+            ";
             $f++;
         }
 
         $data .= "
-    <div style='width:100%;font-size:12px;line-height:150%;{$bgcss}'>
-      {$mainDiscuss}
-      {$re}
-    </div>";
+        <div style='width:100%;font-size:12px;line-height:150%;{$bgcss}'>
+          {$mainDiscuss}
+          {$re}
+        </div>";
         $i++;
     }
 
@@ -261,9 +261,10 @@ function list_tad_discuss_cbox($DefBoardID = "")
 }
 
 /*-----------執行動作判斷區----------*/
-$op        = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$BoardID   = (empty($_REQUEST['BoardID'])) ? "" : intval($_REQUEST['BoardID']);
-$DiscussID = (empty($_REQUEST['DiscussID'])) ? "" : intval($_REQUEST['DiscussID']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
 
 switch ($op) {
     //刪除資料

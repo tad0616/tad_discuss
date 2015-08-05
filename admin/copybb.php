@@ -300,10 +300,11 @@ function powerSet($BoardID = "")
 
 }
 /*-----------執行動作判斷區----------*/
-$op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$topic_id  = empty($_REQUEST['topic_id']) ? "" : intval($_REQUEST['topic_id']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$topic_id  = system_CleanVars($_REQUEST, 'topic_id', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -312,6 +313,7 @@ switch ($op) {
     case "copyBoard":
         copyBoard($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //
@@ -322,28 +324,32 @@ switch ($op) {
     case "delXforum":
         delXforum($topic_id);
         header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
+        exit;
         break;
 
     case "copyDiscuss":
         copyDiscuss($BoardID, $_POST['mode']);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "powerSet":
         powerSet($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "batch_del":
         batch_del($_POST['batch_del']);
         header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
+        exit;
 
     //預設動作
     default:
         list_xforum();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

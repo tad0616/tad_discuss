@@ -17,6 +17,10 @@ function tad_discuss_cbox($options)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
+    $block['bootstrap_version'] = $_SESSION['bootstrap'];
+    $block['row']               = $_SESSION['bootstrap'] == '3' ? 'row' : 'row-fluid';
+    $block['span']              = $_SESSION['bootstrap'] == '3' ? 'col-md-' : 'span';
+    $block['form_control']      = $_SESSION['bootstrap'] == '3' ? 'form-control' : 'span12';
 
     $block['now_uid']    = $uid;
     $block['BoardID']    = $DefBoardID    = $options[0];
@@ -36,7 +40,6 @@ function tad_discuss_cbox($options)
             }
         }
     }
-//exit;
 
     $gperm_handler = &xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
@@ -54,8 +57,8 @@ function tad_discuss_cbox($options)
     $form = "";
     if (empty($DefBoardID)) {
 
-        $form = "<select class='span12' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
-      <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
+        $form = "<select class='{$block['form_control']}' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
+            <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
         $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
         $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
         while ($all = $xoopsDB->fetchArray($result)) {
@@ -66,8 +69,8 @@ function tad_discuss_cbox($options)
 
             $selected = ($DefBoardID == $BoardID) ? "selected" : "";
             $form .= "
-      <option value='{$BoardID}' $selected>{$BoardTitle}</option>
-      ";
+              <option value='{$BoardID}' $selected>{$BoardTitle}</option>
+              ";
         }
 
         $form .= "</select>";
@@ -98,18 +101,18 @@ function tad_discuss_cbox_edit($options)
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php";
     $jquery = get_jquery();
     $form   = "
-  $jquery
-  <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/mColorPicker/javascripts/mColorPicker.js' charset='UTF-8'></script>
+      $jquery
+      <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/mColorPicker/javascripts/mColorPicker.js' charset='UTF-8'></script>
 
-  <script type='text/javascript'>
-    $('#color').mColorPicker({
-      imageFolder: '" . XOOPS_URL . "/modules/tadtools/mColorPicker/images/'
-    });
-  </script>
+      <script type='text/javascript'>
+        $('#color').mColorPicker({
+          imageFolder: '" . XOOPS_URL . "/modules/tadtools/mColorPicker/images/'
+        });
+      </script>
 
 
-  <div>" . _MB_TADDISCUS_SELECT_BOARD . "<select name='options[0]'>
-    <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
+      <div>" . _MB_TADDISCUS_SELECT_BOARD . "<select name='options[0]'>
+        <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -120,24 +123,24 @@ function tad_discuss_cbox_edit($options)
 
         $selected = ($options[0] == $BoardID) ? "selected" : "";
         $form .= "
-    <option value='{$BoardID}' $selected>{$BoardTitle}</option>
-    <div></div>
-    ";
+        <option value='{$BoardID}' $selected>{$BoardTitle}</option>
+        <div></div>
+        ";
     }
 
     $options5_1 = $options[5] == '1' ? "checked" : "";
     $options5_0 = $options[5] == '0' ? "checked" : "";
 
     $form .= "</select></div>
-  <div>" . _MB_TADDISCUS_HEIGHT . "<input type='text' name='options[1]' value='{$options[1]}' size=4> px</div>
-  <div>" . _MB_TADDISCUS_BORDER_COLOR . "<input type='text' data-hex='true'  name='options[2]' value='{$options[2]}' size=10></div>
-  <div>" . _MB_TADDISCUS_BG_COLOR . "<input type='text' data-hex='true'  name='options[3]' value='{$options[3]}' size=10></div>
-  <div>" . _MB_TADDISCUS_FONT_COLOR . "<input type='text' data-hex='true'  name='options[4]' value='{$options[4]}' size=10></div>
-  <div><a href='" . XOOPS_URL . "/modules/tad_discuss/admin/cbox_setup.php' target='_blank'>" . _MB_TADDISCUS_APPLY_RULE . "</a>
-  <input type='radio' name='options[5]' value='1' $options5_1>" . _YES . "
-  <input type='radio' name='options[5]' value='0' $options5_0>" . _NO . "
-  </div>
-  ";
+      <div>" . _MB_TADDISCUS_HEIGHT . "<input type='text' name='options[1]' value='{$options[1]}' size=4> px</div>
+      <div>" . _MB_TADDISCUS_BORDER_COLOR . "<input type='text' data-hex='true'  name='options[2]' value='{$options[2]}' size=10></div>
+      <div>" . _MB_TADDISCUS_BG_COLOR . "<input type='text' data-hex='true'  name='options[3]' value='{$options[3]}' size=10></div>
+      <div>" . _MB_TADDISCUS_FONT_COLOR . "<input type='text' data-hex='true'  name='options[4]' value='{$options[4]}' size=10></div>
+      <div><a href='" . XOOPS_URL . "/modules/tad_discuss/admin/cbox_setup.php' target='_blank'>" . _MB_TADDISCUS_APPLY_RULE . "</a>
+      <input type='radio' name='options[5]' value='1' $options5_1>" . _YES . "
+      <input type='radio' name='options[5]' value='0' $options5_0>" . _NO . "
+      </div>
+      ";
     return $form;
 }
 

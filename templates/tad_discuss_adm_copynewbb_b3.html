@@ -2,13 +2,13 @@
 <div class="container-fluid">
   <{if $show_error=='1'}>
   <{$error}>
-    <div class="hero-unit">
+    <div class="jumbotron">
       <h1><{$smarty.const._MA_TADDISCUS_NO_NEWBB}></h1>
     </div>
   <{elseif $op=='listBoard'}>
     <div class="pull-right">
-    <a href="copynewbb.php?op=copyDiscuss&BoardID=<{$BoardID}>" class="btn btn-large btn-info"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS}></a>
-    <a href="copynewbb.php?op=copyDiscuss&BoardID=<{$BoardID}>&mode=force" class="btn btn-large btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
+    <a href="copynewbb.php?op=copyDiscuss&BoardID=<{$BoardID}>" class="btn btn-lg btn-info"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS}></a>
+    <a href="copynewbb.php?op=copyDiscuss&BoardID=<{$BoardID}>&mode=force" class="btn btn-lg btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
     </div>
     <div class="clearfix"></div>
 
@@ -31,7 +31,7 @@
     <{foreach item=bb from=$all_content}>
       <tr>
         <td><{$bb.i}></td>
-        <td><a href="copynewbb.php?op=delnewbb&topic_id=<{$bb.topic_id}>&BoardID=<{$bb.BoardID}>" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a></td>
+        <td><a href="copynewbb.php?op=delnewbb&topic_id=<{$bb.topic_id}>&BoardID=<{$bb.BoardID}>" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a></td>
         <td><{$bb.topic_id}></td>
         <td><{$bb.topic_poster}></td>
         <td>

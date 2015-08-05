@@ -173,9 +173,6 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
             $$k = $v;
         }
 
-        $all_content[$i]['BoardEnable']                        = $BoardEnable;
-        $all_content[$i]['get_tad_discuss_board_menu_options'] = get_tad_discuss_board_menu_options($BoardID);
-
         //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
 
         $TadUpFiles->set_col('BoardID', $BoardID);
@@ -204,18 +201,17 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         }
         $BoardManager = implode(' , ', $manager);
 
-        $BoardEnable = ($BoardEnable == 1) ? _YES : _NO;
-
-        $all_content[$i]['BoardID']      = $BoardID;
-        $all_content[$i]['color']        = $color;
-        $all_content[$i]['pic']          = $pic;
-        $all_content[$i]['BoardTitle']   = $BoardTitle;
-        $all_content[$i]['BoardDesc']    = $BoardDesc;
-        $all_content[$i]['BoardNum']     = sprintf(_MA_TADDISCUS_BOARD_DISCUSS, number_format($BoardNum));
-        $all_content[$i]['BoardNum2']    = sprintf(_MA_TADDISCUS_ALL_DISCUSS, number_format($BoardNum2));
-        $all_content[$i]['BoardManager'] = $BoardManager;
-        $all_content[$i]['BoardEnable']  = $BoardEnable;
-        $all_content[$i]['subBoard']     = list_tad_discuss_board($BoardID, "return");
+        $all_content[$i]['BoardID']            = $BoardID;
+        $all_content[$i]['color']              = $color;
+        $all_content[$i]['pic']                = $pic;
+        $all_content[$i]['BoardTitle']         = $BoardTitle;
+        $all_content[$i]['BoardDesc']          = $BoardDesc;
+        $all_content[$i]['BoardNum']           = sprintf(_MA_TADDISCUS_BOARD_DISCUSS, number_format($BoardNum));
+        $all_content[$i]['BoardNum2']          = sprintf(_MA_TADDISCUS_ALL_DISCUSS, number_format($BoardNum2));
+        $all_content[$i]['BoardManager']       = $BoardManager;
+        $all_content[$i]['BoardEnable']        = $BoardEnable;
+        $all_content[$i]['subBoard']           = list_tad_discuss_board($BoardID, "return");
+        $all_content[$i]['board_menu_options'] = get_tad_discuss_board_menu_options($BoardID);
 
         $i++;
     }
@@ -298,11 +294,12 @@ function changeBoardStatus($BoardID = '', $act = '0')
 
 }
 /*-----------執行動作判斷區----------*/
-$op         = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID  = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID    = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$NewBoardID = empty($_REQUEST['NewBoardID']) ? "" : intval($_REQUEST['NewBoardID']);
-$files_sn   = empty($_REQUEST['files_sn']) ? "" : intval($_REQUEST['files_sn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op         = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID    = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID  = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$NewBoardID = system_CleanVars($_REQUEST, 'NewBoardID', 0, 'int');
+$files_sn   = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -311,18 +308,21 @@ switch ($op) {
     case "replace_tad_discuss_board":
         replace_tad_discuss_board();
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //新增資料
     case "insert_tad_discuss_board":
         $BoardID = insert_tad_discuss_board($_POST['BoardTitle']);
         header("location: {$_SERVER['PHP_SELF']}?BoardID=$BoardID");
+        exit;
         break;
 
     //更新資料
     case "update_tad_discuss_board":
         update_tad_discuss_board($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //輸入表格
@@ -334,16 +334,19 @@ switch ($op) {
     case "delete_tad_discuss_board":
         delete_tad_discuss_board($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "moveToBoardID":
         moveToBoardID($BoardID, $NewBoardID);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     case "changeBoardStatus":
         changeBoardStatus($BoardID, $_GET['act']);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //預設動作
@@ -352,10 +355,11 @@ switch ($op) {
             list_tad_discuss_board(0);
         } else {
             header("location: ../discuss.php?BoardID=$BoardID");
+            exit;
         }
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

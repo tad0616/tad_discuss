@@ -12,11 +12,6 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
 {
     global $xoopsDB, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
 
-    $row          = $_SESSION['bootstrap'] == '3' ? 'row' : 'row-fluid';
-    $span         = $_SESSION['bootstrap'] == '3' ? 'col-md-' : 'span';
-    $inline       = $_SESSION['bootstrap'] == '3' ? '-inline' : ' inline';
-    $form_control = $_SESSION['bootstrap'] == '3' ? 'form-control' : 'span12';
-
     if (empty($BoardID)) {
         return;
     }
@@ -33,7 +28,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
 
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ($mode == "return") {
@@ -94,7 +89,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : array();
 
     if (empty($ReDiscussID)) {
-        $board_option = "<select name='BoardID' class='{$form_control}'>" . get_tad_discuss_board_option($BoardID) . "</select>";
+        $board_option = "<select name='BoardID' class='form-control'>" . get_tad_discuss_board_option($BoardID) . "</select>";
         $twidth       = "76%";
     } else {
         $board_option = "<input type='hidden' name='BoardID' value='{$BoardID}'>";
@@ -103,10 +98,10 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
 
     if (empty($DefReDiscussID)) {
         $DiscussTitle = "
-        <div class='{$row}' style='margin: 10px 0px;'>
-            <div class='{$span}3'>{$board_option}</div>
-            <div class='{$span}9'>
-                <input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='{$form_control} validate[required]' placeholder='" . _MD_TADDISCUS_INPUT_TITLE . "' class=''>
+        <div class='row' style='margin: 10px 0px;'>
+            <div class='col-md-3'>{$board_option}</div>
+            <div class='col-md-9'>
+                <input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='form-control validate[required]' placeholder='" . _MD_TADDISCUS_INPUT_TITLE . "' class=''>
             </div>
         </div>";
     } else {
@@ -138,17 +133,17 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $DiscussContent = "
     $DiscussTitle
 
-    <div class='{$row}' style='margin: 10px 0px;'>
-        <div class='{$span}12'>
+    <div class='row' style='margin: 10px 0px;'>
+        <div class='col-md-12'>
           <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
         </div>
     </div>
-    <div class='{$row}'>
-        <div class='{$span}6'>
+    <div class='row'>
+        <div class='col-md-6'>
           {$upform}
         </div>
-        <div class='{$span}6 text-right'>
-            <label class='checkbox{$inline}'>
+        <div class='col-md-6 text-right'>
+            <label class='checkbox-inline'>
               <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . "
             </label>
             <input type='hidden' name='OldBoardID' value='{$BoardID}'>
@@ -212,10 +207,10 @@ function get_tad_discuss_board_option($default_BoardID = "0")
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
 
     $sql    = "select `BoardID` , `ofBoardID` , `BoardTitle` from `" . $xoopsDB->prefix("tad_discuss_board") . "` order by `BoardSort`";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $option = "";
     while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
@@ -256,7 +251,7 @@ function show_one_tad_discuss($DefDiscussID = "")
             $groups  = XOOPS_GROUP_ANONYMOUS;
         }
 
-        $gperm_handler = &xoops_gethandler('groupperm');
+        $gperm_handler = xoops_gethandler('groupperm');
         if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
             header('location:index.php');
         }
@@ -306,7 +301,7 @@ function show_one_tad_discuss($DefDiscussID = "")
         redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADDISCUS_THE_DISCUSS_EMPTY);
     }
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $discuss_data = "";
     $i            = 1;
@@ -385,17 +380,14 @@ function show_one_tad_discuss($DefDiscussID = "")
     $description = strip_tags($first);
 
     $fb_tag = "
-  <meta property=\"og:title\" content=\"{$title}\" />
-  <meta property=\"og:description\" content=\"{$description}\" />
-  ";
+      <meta property=\"og:title\" content=\"{$title}\" />
+      ";
     $xoopsTpl->assign("xoops_module_header", $fb_tag);
     $xoopsTpl->assign("xoops_pagetitle", $title);
     if (is_object($xoTheme)) {
         $xoTheme->addMeta('meta', 'keywords', $title);
-        $xoTheme->addMeta('meta', 'description', $description);
     } else {
         $xoopsTpl->assign('xoops_meta_keywords', 'keywords', $title);
-        $xoopsTpl->assign('xoops_meta_description', $description);
     }
 }
 
@@ -451,13 +443,13 @@ function update_tad_discuss($DiscussID = "")
   where DiscussID='$DiscussID' $anduid";
 
     //die($sql);
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     if ($OldBoardID != $BoardID) {
         $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set
      `BoardID` = '{$BoardID}'
     where ReDiscussID='$DiscussID'";
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 
     $TadUpFiles->set_col("DiscussID", $DiscussID);
@@ -488,7 +480,7 @@ function change_lock($lock, $BoardID, $DiscussID)
    `onlyTo` = '$onlyTo'
   where DiscussID='$DiscussID' $anduid";
     //die($sql);
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     return $DiscussID;
 
@@ -499,7 +491,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 /*-----------執行動作判斷區----------*/

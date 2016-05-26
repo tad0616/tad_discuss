@@ -5,7 +5,7 @@ function tad_discuss_cbox($options)
     global $xoopsUser, $xoopsModule, $xoopsDB;
 
     //取得本模組編號
-    $modhandler  = &xoops_gethandler('module');
+    $modhandler  = xoops_gethandler('module');
     $xoopsModule = &$modhandler->getByDirname("tad_discuss");
     $module_id   = $xoopsModule->getVar('mid');
 
@@ -17,10 +17,6 @@ function tad_discuss_cbox($options)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $block['bootstrap_version'] = $_SESSION['bootstrap'];
-    $block['row']               = $_SESSION['bootstrap'] == '3' ? 'row' : 'row-fluid';
-    $block['span']              = $_SESSION['bootstrap'] == '3' ? 'col-md-' : 'span';
-    $block['form_control']      = $_SESSION['bootstrap'] == '3' ? 'form-control' : 'span12';
 
     $block['now_uid']    = $uid;
     $block['BoardID']    = $DefBoardID    = $options[0];
@@ -41,14 +37,14 @@ function tad_discuss_cbox($options)
         }
     }
 
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         return;
     }
 
     //引入TadTools的jquery
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php")) {
-        redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50", 3, _TAD_NEED_TADTOOLS);
+        redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php";
 
@@ -57,10 +53,10 @@ function tad_discuss_cbox($options)
     $form = "";
     if (empty($DefBoardID)) {
 
-        $form = "<select class='{$block['form_control']}' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
+        $form = "<select class='form-control' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
             <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
         $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
-        $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result = $xoopsDB->query($sql) or web_error($sql);
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
             foreach ($all as $k => $v) {
@@ -76,7 +72,7 @@ function tad_discuss_cbox($options)
         $form .= "</select>";
     } else {
         $sql        = "select BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
-        $result     = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result     = $xoopsDB->query($sql) or web_error($sql);
         list($form) = $xoopsDB->fetchRow($result);
 
     }
@@ -114,7 +110,7 @@ function tad_discuss_cbox_edit($options)
       <div>" . _MB_TADDISCUS_SELECT_BOARD . "<select name='options[0]'>
         <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
@@ -150,7 +146,7 @@ if (!function_exists("get_rule")) {
         global $xoopsDB;
 
         $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
-        $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result = $xoopsDB->query($sql) or web_error($sql);
 
         $all_content = "";
         while ($all = $xoopsDB->fetchArray($result)) {

@@ -12,7 +12,7 @@ function list_cbox()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler     = &xoops_gethandler('module');
+    $modhandler     = xoops_gethandler('module');
     $ThexoopsModule = &$modhandler->getByDirname("tad_cbox");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
@@ -85,7 +85,7 @@ function copycbox($BoardID = "")
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
     set_time_limit(0);
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
     //取得目前使用者uid
     $root_uid = $xoopsUser->uid();
@@ -99,7 +99,7 @@ function copycbox($BoardID = "")
 
         //建立討論區
         $sql = "insert into " . $xoopsDB->prefix("tad_discuss_board") . " (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES(0 , '" . _MA_TADDISCUS_CBOX . "' , '" . _MA_TADDISCUS_CBOX_DESC . "' , '{$root_uid}' ,'{$sort}' , '1')";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
 
         //取得最後新增資料的流水編號
         $BoardID = $xoopsDB->getInsertId();

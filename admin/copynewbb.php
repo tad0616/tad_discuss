@@ -13,7 +13,7 @@ function list_newbb()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler     = &xoops_gethandler('module');
+    $modhandler     = xoops_gethandler('module');
     $ThexoopsModule = &$modhandler->getByDirname("newbb");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');

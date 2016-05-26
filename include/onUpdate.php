@@ -55,7 +55,7 @@ function go_update1()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss") . " ADD `onlyTo` varchar(255) NOT NULL default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
 
@@ -76,7 +76,7 @@ function go_update2()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss_board") . " ADD `ofBoardID` smallint(6) unsigned NOT NULL default 0 after `BoardID`";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
 
@@ -130,11 +130,11 @@ function go_update4()
   ADD `original_filename` varchar(255) NOT NULL default '',
   ADD `hash_filename` varchar(255) NOT NULL default '',
   ADD `sub_dir` varchar(255) NOT NULL default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 
     $sql = "update " . $xoopsDB->prefix("tad_discuss_files_center") . " set
   `original_filename`=`description`";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 function get_name_from_uid($uid = "")
@@ -198,7 +198,7 @@ function go_update_uid()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_discuss") . "` CHANGE `uid` `uid` mediumint(9) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
 
@@ -222,7 +222,7 @@ function go_update_files_center()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_discuss_files_center") . "` CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
 

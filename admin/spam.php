@@ -48,7 +48,7 @@ function search_spam()
     foreach ($all_spam_keyword as $spam_keyword) {
         $spam_keyword = trim($spam_keyword);
         $sql          = "select * from `" . $xoopsDB->prefix("tad_discuss") . "` where `DiscussTitle` like '%{$spam_keyword}%' or `DiscussContent` like '%{$spam_keyword}%'";
-        $result       = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result       = $xoopsDB->query($sql) or web_error($sql);
         $i            = 0;
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -72,7 +72,7 @@ function search_spam()
     if ($_POST['new_spam_keyword']) {
         $module_id = $xoopsModule->getVar('mid');
         $sql       = "update `" . $xoopsDB->prefix("config") . "` set `conf_value`= CONCAT(`conf_value`,',{$_POST['new_spam_keyword']}') where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 }
 
@@ -98,7 +98,7 @@ function update_config($item = "")
 
     $module_id = $xoopsModule->getVar('mid');
     $sql       = "update `" . $xoopsDB->prefix("config") . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 /*-----------執行動作判斷區----------*/

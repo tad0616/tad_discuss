@@ -9,7 +9,7 @@ function tad_discuss_new($options)
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : "";
     $sql      = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $main_data = "";
     $i         = 1;
@@ -29,7 +29,7 @@ function tad_discuss_new($options)
 
         //最後回應者
         $sql2           = "select uid from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' and `DiscussDate` = '$LastTime'";
-        $result2        = $xoopsDB->query($sql2) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result2        = $xoopsDB->query($sql2) or web_error($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
@@ -68,9 +68,6 @@ function tad_discuss_new($options)
         $i++;
     }
 
-    $block['bootstrap_version'] = $_SESSION['bootstrap'];
-    $block['row']               = $_SESSION['bootstrap'] == '3' ? 'row' : 'row-fluid';
-    $block['span']              = $_SESSION['bootstrap'] == '3' ? 'col-md-' : 'span';
     return $block;
 }
 
@@ -95,7 +92,7 @@ if (!function_exists('block_get_re_num')) {
         }
 
         $sql           = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-        $result        = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result        = $xoopsDB->query($sql) or web_error($sql);
         list($counter) = $xoopsDB->fetchRow($result);
         return $counter;
     }

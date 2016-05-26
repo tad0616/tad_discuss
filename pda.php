@@ -29,14 +29,14 @@ function list_tad_discuss_board($show_function = 1)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
 
-    if (mysql_num_rows($result) == 0) {
+    if ($xoopsDB->getRowsNum($result) == 0) {
         $all_content .= _MD_TADDISCUS_BOARD_EMPTY;
     }
 
@@ -127,7 +127,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     $andLimit   = ($limit > 0) ? "limit 0,$limit" : "";
     $sql        = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     //$main_data="<table style='width:100%'>";
     //$i=0;
@@ -193,7 +193,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
             $groups = XOOPS_GROUP_ANONYMOUS;
         }
 
-        $gperm_handler = &xoops_gethandler('groupperm');
+        $gperm_handler = xoops_gethandler('groupperm');
         if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
             header('location:index.php');
         }
@@ -253,7 +253,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $discuss_data = "";
     $i            = $xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
@@ -362,7 +362,7 @@ function list_tad_discuss_m($DefBoardID = null)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -377,7 +377,7 @@ function list_tad_discuss_m($DefBoardID = null)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $main_data = "";
     $i         = 1;
@@ -406,7 +406,7 @@ function list_tad_discuss_m($DefBoardID = null)
 
         //最後回應者
         $sql2    = "select uid from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
-        $result2 = $xoopsDB->queryF($sql2) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result2 = $xoopsDB->queryF($sql2) or web_error($sql2);
         //if($isAdmin)die($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
         //if($isAdmin and $BoardID==19)die("<div>$sql2</div>\$last_uid={$last_uid}");
@@ -510,7 +510,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ($mode == "jqm") {
             return;
@@ -656,7 +656,7 @@ function update_tad_discuss($DiscussID = "")
    `LastTime` = now(),
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     $TadUpFiles->set_col("DiscussID", $DiscussID);
     $TadUpFiles->upload_file("upfile", 1024, 120, null, "", true);
@@ -680,7 +680,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 function login_m()
@@ -791,7 +791,7 @@ echo "
   <meta name='viewport' content='initial-scale=1.0, user-scalable=no'>
   <title>{$title}</title>
   <link href='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css' rel='stylesheet' type='text/css'/>
-  <link href='" . XOOPS_URL . "/modules/tadtools/bootstrap/css/bootstrap.css' rel='stylesheet' type='text/css'/>
+  <link href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' rel='stylesheet' type='text/css'/>
   <style>
   /*.ui-header .ui-title {
     margin: 0.6em 2% 0.8em !important;

@@ -34,7 +34,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         $now_uid = 0;
         $groups  = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = &xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -103,7 +103,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
     ";
     $i = 2;
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $main_data = "";
 
@@ -189,7 +189,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         ";
 
         $sql     = "select * from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by ReDiscussID , DiscussDate";
-        $result2 = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result2 = $xoopsDB->query($sql) or web_error($sql);
         $re      = "";
         $f       = 2;
         while ($all = $xoopsDB->fetchArray($result2)) {

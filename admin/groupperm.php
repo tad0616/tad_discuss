@@ -12,7 +12,7 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 $module_id = $xoopsModule->getVar('mid');
 
 $sql    = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` order by BoardSort";
-$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+$result = $xoopsDB->query($sql) or web_error($sql);
 
 while ($all = $xoopsDB->fetchArray($result)) {
     //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable

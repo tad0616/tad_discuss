@@ -471,6 +471,14 @@ function delete_tad_discuss($DiscussID = "")
 function chk_spam($content = "")
 {
     global $xoopsModuleConfig;
+    $content = str_replace('/', '', $content);
+    $content = str_replace(' ', '', $content);
+    $content = str_replace('\\', '', $content);
+    $content = str_replace('-', '', $content);
+    $content = str_replace('+', '', $content);
+    $content = str_replace('.', '', $content);
+    $content = str_replace('|', '', $content);
+
     $keys = explode(",", $xoopsModuleConfig['spam_keyword']);
     foreach ($keys as $key) {
         $strpos = strpos($content, $key);

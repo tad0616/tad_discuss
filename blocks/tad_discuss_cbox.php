@@ -71,10 +71,12 @@ function tad_discuss_cbox($options)
 
         $form .= "</select>";
     } else {
-        $sql        = "select BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
-        $result     = $xoopsDB->query($sql) or web_error($sql);
-        list($form) = $xoopsDB->fetchRow($result);
-
+        $sql                        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
+        $result                     = $xoopsDB->query($sql) or web_error($sql);
+        list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result);
+        $form .= "
+              <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
+              ";
     }
 
     $block['SelectBoard']  = $form;

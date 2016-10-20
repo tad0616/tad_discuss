@@ -233,6 +233,7 @@ function show_one_tad_discuss($DefDiscussID = "")
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsTpl, $xoTheme;
 
+    $myts = MyTextSanitizer::getInstance();
     if (empty($DefDiscussID)) {
         return;
     } else {
@@ -350,6 +351,13 @@ function show_one_tad_discuss($DefDiscussID = "")
 
         $DiscussContent = str_replace("[s", "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/smiles/s", $DiscussContent);
         $DiscussContent = str_replace(".gif]", ".gif' hspace=2 align='absmiddle'>", $DiscussContent);
+
+        //若無任何標籤則套用nl2br
+        if (strpos($DiscussContent, '<') === false) {
+            $DiscussContent = $myts->displayTarea($DiscussContent, 0, 1, 1, 1, 1);
+        } else {
+            $DiscussContent = $myts->displayTarea($DiscussContent, 1, 0, 0, 1, 0);
+        }
 
         $discuss_data[$i] = talk_bubble($discuss['BoardID'], $DiscussID, $DiscussContent, $dir, $uid, $publisher, $DiscussDate, 'return', $Good, $Bad, $width, $onlyTo);
         $i++;

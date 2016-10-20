@@ -227,16 +227,16 @@ function copyDiscuss($BoardID = '', $mode = "")
             $$k = $v;
         }
 
-        if (!get_magic_quotes_runtime()) {
-            $topic_title = addslashes($topic_title);
-            $post_text   = addslashes($post_text);
-        }
-
         $topic_time = date("Y-m-d H:i:s", $topic_time);
         $LastTime   = getLastTime($topic_last_post_id);
         $poster_ip  = long2ip($poster_ip);
         $publisher  = get_name_from_uid($topic_poster);
 
+        if (!get_magic_quotes_runtime()) {
+            $topic_title = addslashes($topic_title);
+            $post_text   = addslashes($post_text);
+            $publisher   = addslashes($publisher);
+        }
         //主題
         $sql = "replace into " . $xoopsDB->prefix("tad_discuss") . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
     values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";

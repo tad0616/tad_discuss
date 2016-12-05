@@ -45,6 +45,12 @@
     <div class="mobilesty" style="line-height:160%;margin:10px 10px 10px 0px;font-size:11pt;text-align:justify;"><{$discuss.DiscussContent}></div>
     <{$discuss.files}>
     <div style="clear:both;height:40px;"></div>
+
+    <{if $discuss.show_sig and $discuss.user_sig}>
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+        <{$discuss.user_sig}>
+      </div>
+    <{/if}>
     </td>
   </tr>
 </table>

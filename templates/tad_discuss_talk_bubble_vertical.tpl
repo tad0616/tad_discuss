@@ -18,6 +18,12 @@
       <span id="like<{$discuss.DiscussID}>" style="color:#0066FF"><{$discuss.Good}></span></div>
     <{/if}>
     </span><span style="clean:both;display:block;"></span>
+
+    <{if $discuss.show_sig and $discuss.user_sig}>
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+        <{$discuss.user_sig}>
+      </div>
+    <{/if}>
   </div>
 <{/if}>
 
@@ -63,6 +69,12 @@
       <span id="like<{$discuss.DiscussID}>" style="color:#0066FF"><{$discuss.Good}></span></div>
     <{/if}>
     </span><span style="clean:both;display:block;"></span>
+
+    <{if $discuss.show_sig and $discuss.user_sig}>
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+        <{$discuss.user_sig}>
+      </div>
+    <{/if}>
   </div>
 <{/if}>
 

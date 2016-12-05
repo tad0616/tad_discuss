@@ -45,6 +45,13 @@
     <{/if}>
   </span>
   <span style="clean:both;display:block;"></span>
+
+    <{if $discuss.show_sig and $discuss.user_sig}>
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;<{/if}>">
+        <{$discuss.user_sig}>
+      </div>
+    <{/if}>
   </div>
+
 </div>
 <div style="clear:both;"></div>

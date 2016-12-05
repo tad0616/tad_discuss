@@ -39,6 +39,13 @@
         <{/if}>
       </div>
       <{$discuss.files}>
+
+      <{if $discuss.show_sig and $discuss.user_sig}>
+        <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+          <{$discuss.user_sig}>
+        </div>
+      <{/if}>
+
     </div>
   </div>
 </div>

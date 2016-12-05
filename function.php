@@ -16,17 +16,17 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
 
     $member_handler = xoops_gethandler('member');
     $user           = $member_handler->getUser($uid);
+    $pic            = "images/nobody.png";
+    $uid_name       = $user_sig       = "";
     if (is_object($user)) {
         $ts       = MyTextSanitizer::getInstance();
         $uid_name = empty($publisher) ? $ts->htmlSpecialChars($user->getVar('name')) : $publisher;
         if (empty($uid_name)) {
             $uid_name = $ts->htmlSpecialChars($user->getVar('uname'));
         }
-
-        $pic = $ts->htmlSpecialChars($user->getVar('user_avatar'));
+        $user_sig = $user->user_sig();
+        $pic      = XOOPS_URL . "/uploads/" . $ts->htmlSpecialChars($user->getVar('user_avatar'));
     }
-
-    $pic = (empty($pic) or $pic == 'blank.gif') ? "images/nobody.png" : XOOPS_URL . "/uploads/" . $pic;
 
     $pic_js = $pic_css = "";
 
@@ -65,6 +65,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
     $all['like']        = $like;
     $all['uid']         = $uid;
     $all['uid_name']    = $uid_name;
+    $all['user_sig']    = $user_sig;
     $all['DiscussDate'] = $DiscussDate;
     //$all['DiscussContent']=$DiscussContent;
     $all['DiscussContent'] = isPublic($onlyTo, $uid, $BoardID) ? $DiscussContent : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);
@@ -74,6 +75,8 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
     $all['Good']           = $Good;
     $all['files']          = $files;
     $all['onlyTo']         = $onlyTo;
+    $all['show_sig']       = $xoopsModuleConfig['show_sig'];
+    $all['sig_style']      = $xoopsModuleConfig['sig_style'];
     //die(var_export($all));
     if ($mode == "return") {
         return $all;

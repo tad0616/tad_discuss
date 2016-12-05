@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_discuss_discuss.html");
+$xoopsOption['template_main'] = "tad_discuss_discuss.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
 $TadUpFiles = new TadUpFiles("tad_discuss");

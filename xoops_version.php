@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADDISCUS_NAME;
-$modversion['version']     = '2.01';
+$modversion['version']     = '2.1';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author']      = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']     = 'geek01';
@@ -13,7 +13,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016-05-26';
+$modversion['release_date']        = '2016-12-05';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -60,70 +60,70 @@ $modversion['search']['func'] = "tad_discuss_search";
 //---樣板設定---//
 $modversion['templates']                    = array();
 $i                                          = 1;
-$modversion['templates'][$i]['file']        = 'tad_discuss_index_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_index_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_index.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_index.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_discuss_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_discuss_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_discuss.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_discuss.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_main_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_main_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_main.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_main.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_groupperm_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_groupperm_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_groupperm.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_groupperm.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_copybb_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copybb_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_copybb.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copybb.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_copynewbb_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copynewbb_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_copynewbb.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copynewbb.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_spam_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_spam_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_spam.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_spam.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_form_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_form_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_form.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_form.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_mobile_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_mobile_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_mobile.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_mobile.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_talk_bubble_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_talk_bubble_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_talk_bubble.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_talk_bubble.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_clean_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_clean_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_clean.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_clean.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_talk_bubble_vertical_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_talk_bubble_vertical_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_talk_bubble_vertical.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_talk_bubble_vertical.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_copycbox_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copycbox_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_copycbox.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_copycbox.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_adm_cbox_setup_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_adm_cbox_setup_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_adm_cbox_setup.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_adm_cbox_setup.tpl';
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_discuss_bootstrap_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_discuss_bootstrap_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_discuss_bootstrap.tpl';
+$modversion['templates'][$i]['description'] = 'tad_discuss_bootstrap.tpl';
 
 //---區塊設定---//
 $modversion['blocks'][1]['file']        = "tad_discuss_new.php";
 $modversion['blocks'][1]['name']        = _MI_TADDISCUS_BNAME1;
 $modversion['blocks'][1]['description'] = _MI_TADDISCUS_BDESC1;
 $modversion['blocks'][1]['show_func']   = "tad_discuss_new";
-$modversion['blocks'][1]['template']    = "tad_discuss_new.html";
+$modversion['blocks'][1]['template']    = "tad_discuss_new.tpl";
 $modversion['blocks'][1]['edit_func']   = "tad_discuss_new_edit";
 $modversion['blocks'][1]['options']     = "10";
 
@@ -131,7 +131,7 @@ $modversion['blocks'][2]['file']        = "tad_discuss_hot.php";
 $modversion['blocks'][2]['name']        = _MI_TADDISCUS_BNAME2;
 $modversion['blocks'][2]['description'] = _MI_TADDISCUS_BDESC2;
 $modversion['blocks'][2]['show_func']   = "tad_discuss_hot";
-$modversion['blocks'][2]['template']    = "tad_discuss_hot.html";
+$modversion['blocks'][2]['template']    = "tad_discuss_hot.tpl";
 $modversion['blocks'][2]['edit_func']   = "tad_discuss_hot_edit";
 $modversion['blocks'][2]['options']     = "10|30";
 
@@ -139,7 +139,7 @@ $modversion['blocks'][3]['file']        = "tad_discuss_cbox.php";
 $modversion['blocks'][3]['name']        = _MI_TADDISCUS_BNAME3;
 $modversion['blocks'][3]['description'] = _MI_TADDISCUS_BDESC3;
 $modversion['blocks'][3]['show_func']   = "tad_discuss_cbox";
-$modversion['blocks'][3]['template']    = "tad_discuss_cbox.html";
+$modversion['blocks'][3]['template']    = "tad_discuss_cbox.tpl";
 $modversion['blocks'][3]['edit_func']   = "tad_discuss_cbox_edit";
 $modversion['blocks'][3]['options']     = "|350|#B4C58D|#FFFFFF|#000000|0";
 
@@ -192,6 +192,20 @@ $modversion['config'][6]['description'] = '_MI_TADDISCUS_DISPLAY_NUMBER_DESC';
 $modversion['config'][6]['formtype']    = 'text';
 $modversion['config'][6]['valuetype']   = 'int';
 $modversion['config'][6]['default']     = '7';
+
+$modversion['config'][7]['name']        = 'show_sig';
+$modversion['config'][7]['title']       = '_MI_TADDISCUS_SHOW_SIG';
+$modversion['config'][7]['description'] = '_MI_TADDISCUS_SHOW_SIG_DESC';
+$modversion['config'][7]['formtype']    = 'yesno';
+$modversion['config'][7]['valuetype']   = 'int';
+$modversion['config'][7]['default']     = '1';
+
+$modversion['config'][8]['name']        = 'sig_style';
+$modversion['config'][8]['title']       = '_MI_TADDISCUS_SIG_STYLE';
+$modversion['config'][8]['description'] = '_MI_TADDISCUS_SIG_STYLE_DESC';
+$modversion['config'][8]['formtype']    = 'textarea';
+$modversion['config'][8]['valuetype']   = 'text';
+$modversion['config'][8]['default']     = 'font-size: 12px; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;';
 
 //---模組通知設定---//
 $modversion['hasNotification'] = 1;

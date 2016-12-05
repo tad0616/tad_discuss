@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_spam.html";
+$xoopsOption['template_main'] = "tad_discuss_adm_spam.tpl";
 include_once "header.php";
 include_once "../function.php";
 

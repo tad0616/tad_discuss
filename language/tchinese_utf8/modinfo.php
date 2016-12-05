@@ -44,3 +44,8 @@ define('_MI_TADDISCUS_DISPLAY_FAST_SETUP', '在即時留言簿啟用快速新增
 define('_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC', '此功能僅管理員可見，可供管理員快速新增討論區及新增自動轉向設定');
 define('_MI_TADDISCUS_DISPLAY_NUMBER', '討論區首頁顯示留言數');
 define('_MI_TADDISCUS_DISPLAY_NUMBER_DESC', '討論區首頁各討論區列表下要呈現幾篇留言？');
+
+define('_MI_TADDISCUS_SHOW_SIG', '是否使用簽名檔？');
+define('_MI_TADDISCUS_SHOW_SIG_DESC', '簽名檔請至個人帳號中編輯');
+define('_MI_TADDISCUS_SIG_STYLE', '簽名檔樣式');
+define('_MI_TADDISCUS_SIG_STYLE_DESC', '可以自行用CSS語法調整簽名樣式外觀');

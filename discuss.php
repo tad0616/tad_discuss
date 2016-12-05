@@ -149,6 +149,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
             <input type='hidden' name='OldBoardID' value='{$BoardID}'>
             <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
             <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
+            <input type='hidden' name='uid' value='{$uid}'>
             <input type='hidden' name='op' value='{$op}'>
             <button type='submit' class='btn btn-info'>" . _TAD_SAVE . "</button>
         </div>
@@ -188,6 +189,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $xoopsTpl->assign('formValidator_code', $formValidator_code);
         $xoopsTpl->assign('op', $_REQUEST['op']);
         $xoopsTpl->assign('form_data', $all);
+        $xoopsTpl->assign('uid', $uid);
     }
 }
 

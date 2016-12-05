@@ -502,7 +502,7 @@ function insert_tad_discuss($nl2br = false)
 
     $member_handler = xoops_gethandler('member');
 
-    $uid = ($xoopsUser) ? $xoopsUser->uid() : 0;
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : intval($_POST['uid']);
 
     $myts = MyTextSanitizer::getInstance();
     //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);

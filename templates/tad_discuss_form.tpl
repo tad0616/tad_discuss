@@ -18,4 +18,5 @@
   <{else}>
     <{includeq file="db:tad_discuss_bootstrap.tpl"}>
   <{/if}>
+  <input type="hidden" name="uid" value="<{$uid}>">
 </form>

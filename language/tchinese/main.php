@@ -40,3 +40,4 @@ define('_MD_TADDISCUS_SETUPRULE', '網址特徵值（若空值則僅建立討論
 define('_MD_TADDISCUS_LOCK', '目前為私密狀態，點我解除私密狀態');
 define('_MD_TADDISCUS_UNLOCK', '目前為公開狀態，點我改為私密狀態');
 define('_MD_TADDISCUS_SAVE_OK', '討論文章發布成功！');
+define('_MD_TADDISCUS_NOBODY', '未知使用者');

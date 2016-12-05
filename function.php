@@ -16,16 +16,18 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
 
     $member_handler = xoops_gethandler('member');
     $user           = $member_handler->getUser($uid);
-    $pic            = "images/nobody.png";
-    $uid_name       = $user_sig       = "";
+    $pic            = XOOPS_URL . "/modules/tad_discuss/images/nobody.png";
+    $uid_name       = _MD_TADDISCUS_NOBODY;
+    $user_sig       = "";
     if (is_object($user)) {
         $ts       = MyTextSanitizer::getInstance();
-        $uid_name = empty($publisher) ? $ts->htmlSpecialChars($user->getVar('name')) : $publisher;
+        $uid_name = empty($publisher) ? $ts->htmlSpecialChars($user->name()) : $publisher;
         if (empty($uid_name)) {
-            $uid_name = $ts->htmlSpecialChars($user->getVar('uname'));
+            $uid_name = $ts->htmlSpecialChars($user->uname());
         }
-        $user_sig = $user->user_sig();
-        $pic      = XOOPS_URL . "/uploads/" . $ts->htmlSpecialChars($user->getVar('user_avatar'));
+        $user_sig    = $user->user_sig();
+        $user_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
+        $pic         = !empty($user_avatar) ? XOOPS_URL . "/uploads/" . $user_avatar : $pic;
     }
 
     $pic_js = $pic_css = "";

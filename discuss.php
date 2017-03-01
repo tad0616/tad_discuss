@@ -99,8 +99,8 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     if (empty($DefReDiscussID)) {
         $DiscussTitle = "
         <div class='row' style='margin: 10px 0px;'>
-            <div class='col-md-3'>{$board_option}</div>
-            <div class='col-md-9'>
+            <div class='col-sm-3'>{$board_option}</div>
+            <div class='col-sm-9'>
                 <input type='text' name='DiscussTitle' value='{$DiscussTitle}' id='DiscussTitle' class='form-control validate[required]' placeholder='" . _MD_TADDISCUS_INPUT_TITLE . "' class=''>
             </div>
         </div>";
@@ -134,15 +134,15 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $DiscussTitle
 
     <div class='row' style='margin: 10px 0px;'>
-        <div class='col-md-12'>
+        <div class='col-sm-12'>
           <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
         </div>
     </div>
     <div class='row'>
-        <div class='col-md-6'>
+        <div class='col-sm-6'>
           {$upform}
         </div>
-        <div class='col-md-6 text-right'>
+        <div class='col-sm-6 text-right'>
             <label class='checkbox-inline'>
               <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . "
             </label>

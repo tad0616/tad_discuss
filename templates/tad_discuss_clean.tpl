@@ -11,7 +11,7 @@
     <{$discuss.DiscussDate}>
   </div>
 
-  <div style="line-height:160%;margin:10px 0px;text-align:justify;z-index:1;position:relative;">
+  <div class="talk" style="line-height:160%;margin:10px 0px;text-align:justify;z-index:1;position:relative;">
     <{$discuss.DiscussContent}>
   </div>
 

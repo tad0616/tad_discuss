@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" media="screen" href="module.css" />
 <{if $discuss.dir!="top"}>
-  <div class="triangle-border" style="line-height:150%;margin:26px 0px 16px;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
+  <div class="triangle-border talk" style="line-height:150%;margin:26px 0px 16px;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
     <{$discuss.DiscussContent}>
     <br /><{$discuss.files}><span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size:12px;color:silver;text-align:right;">
     <{if $discuss.fun}>
@@ -34,7 +34,7 @@
   </div>
 
 <{if $discuss.dir=="top"}>
-  <div class="triangle-border top" style="line-height:150%;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
+  <div class="triangle-border top talk" style="line-height:150%;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
     <{$discuss.DiscussContent}>
     <br /><{$discuss.files}><span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size:12px;color:silver;text-align:right;">
 

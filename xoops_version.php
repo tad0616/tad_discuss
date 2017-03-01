@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADDISCUS_NAME;
-$modversion['version']     = '2.1';
+$modversion['version']     = '2.3';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author']      = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']     = 'geek01';
@@ -13,7 +13,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016-12-05';
+$modversion['release_date']        = '2017-02-20';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -143,69 +143,86 @@ $modversion['blocks'][3]['template']    = "tad_discuss_cbox.tpl";
 $modversion['blocks'][3]['edit_func']   = "tad_discuss_cbox_edit";
 $modversion['blocks'][3]['options']     = "|350|#B4C58D|#FFFFFF|#000000|0";
 
-$modversion['config'][0]['name']        = 'display_mode';
-$modversion['config'][0]['title']       = '_MI_TADDISCUS_DISPLAY_MODE';
-$modversion['config'][0]['description'] = '_MI_TADDISCUS_DISPLAY_MODE_DESC';
-$modversion['config'][0]['formtype']    = 'select';
-$modversion['config'][0]['valuetype']   = 'text';
-$modversion['config'][0]['default']     = 'bootstrap';
-$modversion['config'][0]['options']     = array(_MI_TADDISCUS_CONF0_OPT1 => 'default', _MI_TADDISCUS_CONF0_OPT2 => 'left', _MI_TADDISCUS_CONF0_OPT3 => 'top', _MI_TADDISCUS_CONF0_OPT6 => 'bottom', _MI_TADDISCUS_CONF0_OPT4 => 'mobile', _MI_TADDISCUS_CONF0_OPT5 => 'clean', _MI_TADDISCUS_CONF0_OPT7 => 'bootstrap');
+$i                                       = 0;
+$modversion['config'][$i]['name']        = 'display_mode';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_DISPLAY_MODE';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_DISPLAY_MODE_DESC';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = 'bootstrap';
+$modversion['config'][$i]['options']     = array(_MI_TADDISCUS_CONF0_OPT1 => 'default', _MI_TADDISCUS_CONF0_OPT2 => 'left', _MI_TADDISCUS_CONF0_OPT3 => 'top', _MI_TADDISCUS_CONF0_OPT6 => 'bottom', _MI_TADDISCUS_CONF0_OPT4 => 'mobile', _MI_TADDISCUS_CONF0_OPT5 => 'clean', _MI_TADDISCUS_CONF0_OPT7 => 'bootstrap');
 
-$modversion['config'][1]['name']        = 'show_discuss_amount';
-$modversion['config'][1]['title']       = '_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT';
-$modversion['config'][1]['description'] = '_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT_DESC';
-$modversion['config'][1]['formtype']    = 'textbox';
-$modversion['config'][1]['valuetype']   = 'int';
-$modversion['config'][1]['default']     = '20';
+$i++;
+$modversion['config'][$i]['name']        = 'show_discuss_amount';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT_DESC';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '20';
 
-$modversion['config'][2]['name']        = 'show_bubble_amount';
-$modversion['config'][2]['title']       = '_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT';
-$modversion['config'][2]['description'] = '_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DESC';
-$modversion['config'][2]['formtype']    = 'textbox';
-$modversion['config'][2]['valuetype']   = 'int';
-$modversion['config'][2]['default']     = '20';
+$i++;
+$modversion['config'][$i]['name']        = 'show_bubble_amount';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DESC';
+$modversion['config'][$i]['formtype']    = 'textbox';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '20';
 
-$modversion['config'][3]['name']        = 'use_pda';
-$modversion['config'][3]['title']       = '_MI_USE_PDA_TITLE';
-$modversion['config'][3]['description'] = '_MI_USE_PDA_TITLE_DESC';
-$modversion['config'][3]['formtype']    = 'yesno';
-$modversion['config'][3]['valuetype']   = 'int';
-$modversion['config'][3]['default']     = '1';
+$i++;
+$modversion['config'][$i]['name']        = 'use_pda';
+$modversion['config'][$i]['title']       = '_MI_USE_PDA_TITLE';
+$modversion['config'][$i]['description'] = '_MI_USE_PDA_TITLE_DESC';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '1';
 
-$modversion['config'][4]['name']        = 'spam_keyword';
-$modversion['config'][4]['title']       = '_MI_TADDISCUS_SPAM_KEYWORD';
-$modversion['config'][4]['description'] = '_MI_TADDISCUS_SPAM_KEYWORD_DESC';
-$modversion['config'][4]['formtype']    = 'textarea';
-$modversion['config'][4]['valuetype']   = 'text';
-$modversion['config'][4]['default']     = _MI_TADDISCUS_SPAM_KEYWORD_DEFAULT;
+$i++;
+$modversion['config'][$i]['name']        = 'spam_keyword';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_SPAM_KEYWORD';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_SPAM_KEYWORD_DESC';
+$modversion['config'][$i]['formtype']    = 'textarea';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = _MI_TADDISCUS_SPAM_KEYWORD_DEFAULT;
 
-$modversion['config'][5]['name']        = 'display_fast_setup';
-$modversion['config'][5]['title']       = '_MI_TADDISCUS_DISPLAY_FAST_SETUP';
-$modversion['config'][5]['description'] = '_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC';
-$modversion['config'][5]['formtype']    = 'yesno';
-$modversion['config'][5]['valuetype']   = 'int';
-$modversion['config'][5]['default']     = '0';
+$i++;
+$modversion['config'][$i]['name']        = 'display_fast_setup';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_DISPLAY_FAST_SETUP';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '0';
 
-$modversion['config'][6]['name']        = 'display_number';
-$modversion['config'][6]['title']       = '_MI_TADDISCUS_DISPLAY_NUMBER';
-$modversion['config'][6]['description'] = '_MI_TADDISCUS_DISPLAY_NUMBER_DESC';
-$modversion['config'][6]['formtype']    = 'text';
-$modversion['config'][6]['valuetype']   = 'int';
-$modversion['config'][6]['default']     = '7';
+$i++;
+$modversion['config'][$i]['name']        = 'display_number';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_DISPLAY_NUMBER';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_DISPLAY_NUMBER_DESC';
+$modversion['config'][$i]['formtype']    = 'text';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '7';
 
-$modversion['config'][7]['name']        = 'show_sig';
-$modversion['config'][7]['title']       = '_MI_TADDISCUS_SHOW_SIG';
-$modversion['config'][7]['description'] = '_MI_TADDISCUS_SHOW_SIG_DESC';
-$modversion['config'][7]['formtype']    = 'yesno';
-$modversion['config'][7]['valuetype']   = 'int';
-$modversion['config'][7]['default']     = '1';
+$i++;
+$modversion['config'][$i]['name']        = 'show_sig';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_SHOW_SIG';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_SHOW_SIG_DESC';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '1';
 
-$modversion['config'][8]['name']        = 'sig_style';
-$modversion['config'][8]['title']       = '_MI_TADDISCUS_SIG_STYLE';
-$modversion['config'][8]['description'] = '_MI_TADDISCUS_SIG_STYLE_DESC';
-$modversion['config'][8]['formtype']    = 'textarea';
-$modversion['config'][8]['valuetype']   = 'text';
-$modversion['config'][8]['default']     = 'font-size: 12px; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;';
+$i++;
+$modversion['config'][$i]['name']        = 'sig_style';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_SIG_STYLE';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_SIG_STYLE_DESC';
+$modversion['config'][$i]['formtype']    = 'textarea';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = 'font-size: 12px; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;';
+
+$i++;
+$modversion['config'][$i]['name']        = 'show_like';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_SHOW_LIKE';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_SHOW_LIKE_DESC';
+$modversion['config'][$i]['formtype']    = 'yesno';
+$modversion['config'][$i]['valuetype']   = 'int';
+$modversion['config'][$i]['default']     = '1';
 
 //---模組通知設定---//
 $modversion['hasNotification'] = 1;

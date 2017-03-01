@@ -82,12 +82,12 @@ function tad_discuss_board_form($BoardID = "")
 
     //可見群組
     $SelectGroup_name = new XoopsFormSelectGroup("", "forum_read", true, $read_group, 6, true);
-    $SelectGroup_name->setExtra("class='col-md-12'");
+    $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_read_group = $SelectGroup_name->render();
 
     //可上傳群組
     $SelectGroup_name = new XoopsFormSelectGroup("", "forum_post", true, $post_group, 6, true);
-    $SelectGroup_name->setExtra("class='col-md-12'");
+    $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_post_group = $SelectGroup_name->render();
 
     if (!file_exists(TADTOOLS_PATH . "/formValidator.php")) {

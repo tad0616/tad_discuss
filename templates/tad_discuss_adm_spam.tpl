@@ -50,7 +50,7 @@
       <div style="clear:both;"></div>
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12">
           <div class="input-group">
             <input name="new_spam_keyword" type="text" class="form-control" placeholder="<{$smarty.const._MA_TADDISCUS_NEW_SPAM_KEYWORD}>">
             <input type="hidden" name="op" value="search_spam">

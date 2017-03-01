@@ -8,10 +8,10 @@
     <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
       <div class="row">
         <!--討論區名稱-->
-        <label class="col-md-1">
+        <label class="col-sm-1">
           <{$smarty.const._MA_TADDISCUS_OFBOARDID}>
         </label>
-        <div class="col-md-2">
+        <div class="col-sm-2">
           <select name="ofBoardID" class="form-control">
             <option value="0" <{if $of.BoardID==$ofBoardID}>selected<{/if}>></option>
             <{foreach from=$ofBoardArr item=of}>
@@ -19,11 +19,11 @@
             <{/foreach}>
           </select>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <input type="text" name="BoardTitle" value="<{$BoardTitle}>" id="BoardTitle" class="form-control validate[required]" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDTITLE}>" >
         </div>
 
-        <div class="col-md-3">
+        <div class="col-sm-3">
           <!--狀態-->
           <label class="radio-inline">
             <input type="radio" name="BoardEnable" id="BoardEnable_1" value="1" <{$BoardEnable1}>><{$smarty.const._TAD_ENABLE}>
@@ -36,23 +36,23 @@
 
       <div class="row">
         <!--討論區說明-->
-        <div class="col-md-9">
+        <div class="col-sm-9">
           <textarea name="BoardDesc" rows=3 id="BoardDesc" class="form-control" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDDESC}>"><{$BoardDesc}></textarea>
         </div>
         <!--討論區圖片-->
-        <div class="col-md-3">
+        <div class="col-sm-3">
         <{$upform}>
         </div>
       </div>
 
       <div class="row">
         <!--讀取權限-->
-        <div class="col-md-3"><label><{$smarty.const._MA_TADDISCUS_READ_POWER}></label><{$enable_read_group}></div>
+        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_READ_POWER}></label><{$enable_read_group}></div>
         <!--寫入權限-->
-        <div class="col-md-3"><label><{$smarty.const._MA_TADDISCUS_POST_POWER}></label><{$enable_post_group}></div>
+        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_POST_POWER}></label><{$enable_post_group}></div>
         <!--板主-->
-        <div class="col-md-3"><label><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}></label><{$user_menu}></div>
-        <div class="col-md-3">
+        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}></label><{$user_menu}></div>
+        <div class="col-sm-3">
           <input type="hidden" name="BoardID" value="<{$BoardID}>">
           <input type="hidden" name="op" value="<{$next_op}>">
           <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
@@ -119,13 +119,13 @@
             <td>
               <form action="main.php" method="post" class="form-horizontal" role="form">
                 <div class="form-group">
-                  <div class="col-md-6">
+                  <div class="col-sm-6">
                     <select name="NewBoardID" class="form-control">
                       <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
                       <{$all.board_menu_options}>
                     </select>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-sm-6">
                     <input type="hidden" name="BoardID" value="<{$all.BoardID}>">
                     <input type="hidden" name="op" value="moveToBoardID">
                     <button type="submit" class="btn btn-sm btn-info"><{$smarty.const._MA_TADDISCUS_MERGE}></button>
@@ -168,13 +168,13 @@
                 <td>
                   <form action="main.php" method="post" class="form-horizontal" role="form">
                     <div class="form-group">
-                      <div class="col-md-6">
+                      <div class="col-sm-6">
                         <select name="NewBoardID" class="form-control">
                           <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
                           <{$sb.board_menu_options}>
                         </select>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-sm-6">
                         <input type="hidden" name="BoardID" value="<{$sb.BoardID}>">
                         <input type="hidden" name="op" value="moveToBoardID">
                         <button type="submit" class="btn btn-sm btn-info"><{$smarty.const._MA_TADDISCUS_MERGE}></button>

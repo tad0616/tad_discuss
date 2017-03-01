@@ -58,13 +58,19 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
 
     $onlyToName = getOnlyToName($onlyTo);
 
-    $all['width']       = $width;
-    $all['dir']         = $dir;
-    $all['pic']         = $pic;
-    $all['pic_css']     = $pic_css;
-    $all['pic_js']      = $pic_js;
-    $all['fun']         = $fun;
-    $all['like']        = $like;
+    $all['width']   = $width;
+    $all['dir']     = $dir;
+    $all['pic']     = $pic;
+    $all['pic_css'] = $pic_css;
+    $all['pic_js']  = $pic_js;
+    $all['fun']     = $fun;
+
+    if ($xoopsModuleConfig['show_like'] == '1') {
+        $all['like'] = $like;
+    } else {
+        $all['like'] = '';
+    }
+
     $all['uid']         = $uid;
     $all['uid_name']    = $uid_name;
     $all['user_sig']    = $user_sig;

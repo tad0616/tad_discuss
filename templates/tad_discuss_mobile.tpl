@@ -42,7 +42,7 @@
   </tr>
   <tr style="background-color:white;">
     <td colspan=2>
-    <div class="mobilesty" style="line-height:160%;margin:10px 10px 10px 0px;font-size:11pt;text-align:justify;"><{$discuss.DiscussContent}></div>
+    <div class="mobilesty talk" style="line-height:160%;margin:10px 10px 10px 0px;font-size:11pt;text-align:justify;"><{$discuss.DiscussContent}></div>
     <{$discuss.files}>
     <div style="clear:both;height:40px;"></div>
 

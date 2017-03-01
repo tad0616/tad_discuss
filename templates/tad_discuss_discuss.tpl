@@ -26,7 +26,7 @@
   <{/foreach}>
 
   <div class="row">
-    <div class="col-md-12 text-center"><{$bar}></div>
+    <div class="col-sm-12 text-center"><{$bar}></div>
   </div>
 
 

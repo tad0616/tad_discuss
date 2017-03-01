@@ -1,5 +1,6 @@
+<link rel="stylesheet" type="text/css" media="screen" href="module.css" />
 <div class="row">
-  <div class="col-md-2">
+  <div class="col-sm-2">
     <img src="<{$discuss.pic}>" width=100 class="img-rounded">
     <span style="font-size:10px"><{$discuss.DiscussDate}></span>
     <div><a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a></div>
@@ -8,8 +9,8 @@
       <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="btn btn-default"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>
     <{/if}>
   </div>
-  <div class="col-md-10">
-    <div class="well" style="background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;line-height:150%;">
+  <div class="col-sm-10">
+    <div class="well talk" style="background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;line-height:150%;">
       <{$discuss.DiscussContent}>
         <div class="text-right">
         <{if $discuss.DiscussID}>

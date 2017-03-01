@@ -1,13 +1,13 @@
 <{if $block}>
   <{$block.jquery_path}>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <{$block.SelectBoard}>
     </div>
   </div>
 
   <div class="row">
-    <div id="cboxdiv" class="col-md-12">
+    <div id="cboxdiv" class="col-sm-12">
       <iframe frameborder="0" title="show" width="100%" height="<{$block.height}>" src="<{$xoops_url}>/modules/tad_discuss/cbox.php?BoardID=<{$block.BoardID}>&amp;border_color=<{$block.border_color}>&amp;bg_color=<{$block.bg_color}>&amp;font_color=<{$block.font_color}>" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="discussCboxMain" style="border:#ababab 1px solid;" id="discussCboxMain"></iframe>
 
       <br/>

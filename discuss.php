@@ -211,7 +211,7 @@ function get_tad_discuss_board_option($default_BoardID = "0")
     }
     $gperm_handler = xoops_gethandler('groupperm');
 
-    $sql    = "select `BoardID` , `ofBoardID` , `BoardTitle` from `" . $xoopsDB->prefix("tad_discuss_board") . "` order by `BoardSort`";
+    $sql = "SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` ORDER BY `BoardSort`";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $option = "";
@@ -493,7 +493,6 @@ function change_lock($lock, $BoardID, $DiscussID)
     $xoopsDB->queryF($sql) or web_error($sql);
 
     return $DiscussID;
-
 }
 
 //新增tad_discuss計數器

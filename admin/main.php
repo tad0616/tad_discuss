@@ -49,7 +49,6 @@ function tad_discuss_board_form($BoardID = "")
     $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 2000) {
-
         $select         = new XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
         $member_handler = xoops_gethandler('member');
         $criteria       = new CriteriaCompo();
@@ -119,7 +118,7 @@ function tad_discuss_board_form($BoardID = "")
     $ofBoardArr = "";
     $i          = 0;
     $sql        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
         $ofBoardArr[$i]['BoardID']    = $BoardID;
         $ofBoardArr[$i]['BoardTitle'] = $BoardTitle;
@@ -162,7 +161,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 {
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl, $TadUpFiles;
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
+    $sql = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
@@ -229,7 +228,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 function get_tad_discuss_board_menu_options($default_BoardID = "0")
 {
     global $xoopsDB, $xoopsModule;
-    $sql    = "select `BoardID` , `ofBoardID` , `BoardTitle` from `" . $xoopsDB->prefix("tad_discuss_board") . "` order by `BoardSort`";
+    $sql = "SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` ORDER BY `BoardSort`";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $option = "";
@@ -239,7 +238,6 @@ function get_tad_discuss_board_menu_options($default_BoardID = "0")
         }
 
         $option .= "<option value=$BoardID>{$BoardTitle}</option>";
-
     }
     return $option;
 }
@@ -248,7 +246,7 @@ function get_tad_discuss_board_menu_options($default_BoardID = "0")
 function delete_tad_discuss_board($BoardID = "")
 {
     global $xoopsDB, $isAdmin, $TadUpFiles;
-    $sql    = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where BoardID='$BoardID' and ReDiscussID=0";
+    $sql = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where BoardID='$BoardID' and ReDiscussID=0";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
@@ -291,8 +289,8 @@ function changeBoardStatus($BoardID = '', $act = '0')
 
     $sql = "update `" . $xoopsDB->prefix("tad_discuss_board") . "` set `BoardEnable` = '{$act}' where `BoardID` = '$BoardID'";
     $xoopsDB->queryF($sql) or web_error($sql);
-
 }
+
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op         = system_CleanVars($_REQUEST, 'op', '', 'string');
@@ -359,7 +357,7 @@ switch ($op) {
         }
         break;
 
-        /*---判斷動作請貼在上方---*/
+    /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

@@ -31,7 +31,7 @@ function list_tad_discuss_board($show_function = 1)
     }
     $gperm_handler = xoops_gethandler('groupperm');
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
@@ -93,7 +93,6 @@ function list_tad_discuss_board($show_function = 1)
         {$list_tad_discuss}
         </ul>
     ";
-
     }
 
     $login = login_m();
@@ -156,7 +155,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
         $DiscussTitle = str_replace("[s", "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/smiles/s", $DiscussTitle);
         $DiscussTitle = str_replace(".gif]", ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
-        $main_data .= "
+        $main_data    .= "
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
@@ -164,7 +163,6 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     ";
     }
     return $main_data;
-
 }
 
 //以流水號秀出某筆tad_discuss資料內容
@@ -177,7 +175,6 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     if (empty($DefDiscussID)) {
         return;
     } else {
-
         $DefDiscussID = intval($DefDiscussID);
         $discuss      = get_tad_discuss($DefDiscussID);
 
@@ -405,7 +402,7 @@ function list_tad_discuss_m($DefBoardID = null)
         }
 
         //最後回應者
-        $sql2    = "select uid from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
+        $sql2 = "select uid from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
         $result2 = $xoopsDB->queryF($sql2) or web_error($sql2);
         //if($isAdmin)die($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
@@ -417,7 +414,6 @@ function list_tad_discuss_m($DefBoardID = null)
             if (empty($last_uid_name)) {
                 $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
             }
-
         }
 
         $LastTime    = substr($LastTime, 0, 16);
@@ -427,12 +423,11 @@ function list_tad_discuss_m($DefBoardID = null)
 
         $DiscussTitle = str_replace("[s", "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/smiles/s", $DiscussTitle);
         $DiscussTitle = str_replace(".gif]", ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
-        $main_data .= "
+        $main_data    .= "
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
       </li>";
-
     }
 
     $Board = get_tad_discuss_board($DefBoardID);
@@ -581,7 +576,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     if (!empty($BoardID) and empty($DefDiscussID) and empty($DefReDiscussID)) {
         $BoardTitle = get_board_title($BoardID);
     }
-//die($BoardTitle);
+    //die($BoardTitle);
     //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
 
     //$TadUpFiles->set_col("DiscussID" , $DiscussID );
@@ -609,7 +604,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
 
     $discuss = get_tad_discuss($DefDiscussID);
     $title   = empty($discuss['DiscussTitle']) ? $Board['BoardTitle'] : $discuss['DiscussTitle'];
-    $main .= "
+    $main    .= "
     <!-- form -->
     <div data-role='page' id='form_{$ID}'>
       <div data-theme='c' data-role='header' data-position='fixed'>

@@ -1,15 +1,15 @@
 <?php
-//∞œ∂Ù•D®Á¶° (∑|≤£•Õ§@≠”ßYÆ…Ød®•√Ø∞œ∂Ù)
+//ÂçÄÂ°ä‰∏ªÂáΩÂºè (ÊúÉÁî¢Áîü‰∏ÄÂÄãÂç≥ÊôÇÁïôË®ÄÁ∞øÂçÄÂ°ä)
 function tad_discuss_cbox($options)
 {
     global $xoopsUser, $xoopsModule, $xoopsDB;
 
-    //®˙±o•ªº“≤’Ωs∏π
+    //ÂèñÂæóÊú¨Ê®°ÁµÑÁ∑®Ëôü
     $modhandler  = xoops_gethandler('module');
     $xoopsModule = &$modhandler->getByDirname("tad_discuss");
     $module_id   = $xoopsModule->getVar('mid');
 
-    //®˙±o•ÿ´e®œ•Œ™Ã™∫∏s≤’Ωs∏π
+    //ÂèñÂæóÁõÆÂâç‰ΩøÁî®ËÄÖÁöÑÁæ§ÁµÑÁ∑®Ëôü
     if ($xoopsUser) {
         $uid    = $xoopsUser->getVar('uid');
         $groups = $xoopsUser->getGroups();
@@ -19,7 +19,7 @@ function tad_discuss_cbox($options)
     }
 
     $block['now_uid']    = $uid;
-    $block['BoardID']    = $DefBoardID    = $options[0];
+    $block['BoardID']    = $DefBoardID = $options[0];
     $block['apply_rule'] = $apply_rule = $options[5];
 
     if ($apply_rule) {
@@ -42,7 +42,7 @@ function tad_discuss_cbox($options)
         return;
     }
 
-    //§ﬁ§JTadTools™∫jquery
+    //ÂºïÂÖ•TadToolsÁöÑjquery
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php")) {
         redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
     }
@@ -52,27 +52,26 @@ function tad_discuss_cbox($options)
 
     $form = "";
     if (empty($DefBoardID)) {
-
         $form = "<select class='form-control' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
             <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
-        $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
+        $sql  = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
         $result = $xoopsDB->query($sql) or web_error($sql);
         while ($all = $xoopsDB->fetchArray($result)) {
-            //•H§U∑|≤£•Õ≥o®«≈‹º∆°G $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
+            //‰ª•‰∏ãÊúÉÁî¢ÁîüÈÄô‰∫õËÆäÊï∏Ôºö $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
             foreach ($all as $k => $v) {
                 $$k = $v;
             }
 
             $selected = ($DefBoardID == $BoardID) ? "selected" : "";
-            $form .= "
+            $form     .= "
               <option value='{$BoardID}' $selected>{$BoardTitle}</option>
               ";
         }
 
         $form .= "</select>";
     } else {
-        $sql                        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
-        $result                     = $xoopsDB->query($sql) or web_error($sql);
+        $sql = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
+        $result = $xoopsDB->query($sql) or web_error($sql);
         list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result);
         $form .= "
               <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
@@ -92,7 +91,7 @@ function tad_discuss_cbox($options)
     return $block;
 }
 
-//∞œ∂ÙΩsøË®Á¶°
+//ÂçÄÂ°äÁ∑®ËºØÂáΩÂºè
 function tad_discuss_cbox_edit($options)
 {
     global $xoopsDB;
@@ -111,16 +110,16 @@ function tad_discuss_cbox_edit($options)
 
       <div>" . _MB_TADDISCUS_SELECT_BOARD . "<select name='options[0]'>
         <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
+    $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);
     while ($all = $xoopsDB->fetchArray($result)) {
-        //•H§U∑|≤£•Õ≥o®«≈‹º∆°G $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
+        //‰ª•‰∏ãÊúÉÁî¢ÁîüÈÄô‰∫õËÆäÊï∏Ôºö $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
         $selected = ($options[0] == $BoardID) ? "selected" : "";
-        $form .= "
+        $form     .= "
         <option value='{$BoardID}' $selected>{$BoardTitle}</option>
         <div></div>
         ";
@@ -147,12 +146,12 @@ if (!function_exists("get_rule")) {
     {
         global $xoopsDB;
 
-        $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
+        $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
         $result = $xoopsDB->query($sql) or web_error($sql);
 
         $all_content = "";
         while ($all = $xoopsDB->fetchArray($result)) {
-            //•H§U∑|≤£•Õ≥o®«≈‹º∆°G $setupID , $setupName , $setupRule , $BoardID
+            //‰ª•‰∏ãÊúÉÁî¢ÁîüÈÄô‰∫õËÆäÊï∏Ôºö $setupID , $setupName , $setupRule , $BoardID
             foreach ($all as $k => $v) {
                 $$k = $v;
             }

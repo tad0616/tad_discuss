@@ -11,7 +11,6 @@ include_once "function_block.php";
 //對話框格式
 function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir = 'left', $uid = "", $publisher = "", $DiscussDate = '', $mode = '', $Good = 0, $Bad = 0, $width = 100, $onlyTo = "")
 {
-
     global $xoopsUser, $xoopsTpl, $xoopsModuleConfig, $TadUpFiles;
 
     $member_handler = xoops_gethandler('member');
@@ -170,8 +169,8 @@ function insert_tad_discuss_cbox_setup($setupName = "", $setupRule = "", $newBor
 function tad_discuss_cbox_setup_max_sort()
 {
     global $xoopsDB;
-    $sql        = "select max(`setupSort`) from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "`";
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "SELECT max(`setupSort`) FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "`";
+    $result = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
 }
@@ -248,13 +247,12 @@ function list_tad_discuss($DefBoardID = null)
             if (empty($uid_name)) {
                 $uid_name = XoopsUser::getUnameFromId($uid, 0);
             }
-
         } else {
             $uid_name = $publisher;
         }
 
         //最後回應者
-        $sql2    = "select uid,publisher from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
+        $sql2 = "select uid,publisher from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
         $result2 = $xoopsDB->queryF($sql2) or web_error($sql2);
         //if($isAdmin)die($sql2);
         list($last_uid, $last_uid_name) = $xoopsDB->fetchRow($result2);
@@ -267,7 +265,6 @@ function list_tad_discuss($DefBoardID = null)
                 if (empty($last_uid_name)) {
                     $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
                 }
-
             }
         }
 
@@ -294,7 +291,6 @@ function list_tad_discuss($DefBoardID = null)
         $main_data[$i]['isPublic']      = $isPublic;
         $main_data[$i]['onlyTo']        = $onlyTo;
         $i++;
-
     }
 
     $xoopsTpl->assign('main_data', $main_data);
@@ -345,9 +341,9 @@ function get_tad_discuss($DiscussID = "")
         return;
     }
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$DiscussID'";
+    $sql = "select * from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$DiscussID'";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
     return $data;
 }
 
@@ -361,8 +357,8 @@ function get_board_num($BoardID = "", $onlyMainDiscuss = true)
 
     $andMainDiscuss = ($onlyMainDiscuss) ? "and ReDiscussID='0'" : "";
     $sql            = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where BoardID='$BoardID' {$andMainDiscuss}";
-    $result         = $xoopsDB->query($sql) or web_error($sql);
-    list($counter)  = $xoopsDB->fetchRow($result);
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    list($counter) = $xoopsDB->fetchRow($result);
     return $counter;
 }
 
@@ -374,8 +370,8 @@ function get_re_num($DiscussID = "")
         return 0;
     }
 
-    $sql           = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-    $result        = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
+    $result = $xoopsDB->query($sql) or web_error($sql);
     list($counter) = $xoopsDB->fetchRow($result);
     return $counter;
 }
@@ -394,10 +390,10 @@ function isMine($discuss_uid = null, $BoardID = null)
     } else {
         $BoardManagerArr = array();
     }
-//die("aa".var_export($board));
+    //die("aa".var_export($board));
     $uid = $xoopsUser->uid();
 
-//  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
+    //  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
     if ($isAdmin) {
         return true;
     } elseif (in_array($uid, $BoardManagerArr)) {
@@ -464,11 +460,10 @@ function delete_tad_discuss($DiscussID = "")
     $sql = "delete from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$DiscussID' $anduid";
     //die($sql);
     if ($xoopsDB->queryF($sql)) {
-
         $TadUpFiles->set_col('DiscussID', $DiscussID); //若要整個刪除
         $TadUpFiles->del_files();
 
-        $sql    = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
+        $sql = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
         $result = $xoopsDB->query($sql) or web_error($sql);
         while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
             delete_tad_discuss($DiscussID);

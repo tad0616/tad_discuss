@@ -24,7 +24,7 @@ function list_xforum()
     }
 
     //轉移權限(原權限)
-    $sql    = "SELECT gperm_groupid,gperm_itemid,gperm_name FROM `" . $xoopsDB->prefix("group_permission") . "` WHERE `gperm_modid` ='{$mod_id}' ";
+    $sql = "SELECT gperm_groupid,gperm_itemid,gperm_name FROM `" . $xoopsDB->prefix("group_permission") . "` WHERE `gperm_modid` ='{$mod_id}' ";
     $result = $xoopsDB->queryF($sql) or die($sql);
     while (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result)) {
         $power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
@@ -39,7 +39,7 @@ function list_xforum()
         $now_power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("xf_forums") . "` where forum_topics > 0 order by forum_order";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("xf_forums") . "` WHERE forum_topics > 0 ORDER BY forum_order";
     $result = $xoopsDB->query($sql) or die($sql);
 
     $all_content = "";
@@ -77,21 +77,19 @@ function list_xforum()
         $all_content[$i]['forum_post']   = $forum_post;
         $all_content[$i]['power_status'] = $power_status;
         $i++;
-
     }
 
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('add_button', $add_button);
     $xoopsTpl->assign('bar', $bar);
-
 }
 
 function chkcopy($forum_id)
 {
     global $xoopsDB, $xoopsUser;
 
-    $sql      = "select BoardID from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID ='$forum_id'";
-    $result   = $xoopsDB->query($sql) or die($sql);
+    $sql = "select BoardID from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID ='$forum_id'";
+    $result = $xoopsDB->query($sql) or die($sql);
     list($sn) = $xoopsDB->fetchRow($result);
     return $sn;
 }
@@ -101,9 +99,9 @@ function copyBoard($BoardID = "")
 {
     global $xoopsDB, $xoopsUser;
 
-    $sql    = "select * from `" . $xoopsDB->prefix("xf_forums") . "` where forum_id ='$BoardID'";
+    $sql = "select * from `" . $xoopsDB->prefix("xf_forums") . "` where forum_id ='$BoardID'";
     $result = $xoopsDB->query($sql) or die($sql);
-    $all    = $xoopsDB->fetchArray($result);
+    $all = $xoopsDB->fetchArray($result);
     //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
     foreach ($all as $k => $v) {
         $$k = $v;
@@ -155,22 +153,20 @@ function listBoard($BoardID = '')
         $all_content[$i]['poster_ip']    = $poster_ip;
         $all_content[$i]['i']            = $i;
         $i++;
-
     }
 
-//`DiscussID`, `ReDiscussID`, `uid`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`
+    //`DiscussID`, `ReDiscussID`, `uid`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`
 
     $xoopsTpl->assign('BoardID', $BoardID);
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('op', 'listBoard');
-
 }
 
 function delXforum($topic_id = "")
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
 
-    $sql    = "select post_id from  `" . $xoopsDB->prefix("xf_posts") . "` where topic_id='$topic_id'";
+    $sql = "select post_id from  `" . $xoopsDB->prefix("xf_posts") . "` where topic_id='$topic_id'";
     $result = $xoopsDB->query($sql) or die($sql);
     while (list($post_id) = $xoopsDB->fetchRow($result)) {
         $sql = "delete from  `" . $xoopsDB->prefix("xf_posts_text") . "` where post_id='$post_id'";
@@ -182,7 +178,6 @@ function delXforum($topic_id = "")
 
     $sql = "delete from  `" . $xoopsDB->prefix("xf_topics") . "` where topic_id='$topic_id'";
     $xoopsDB->queryF($sql) or die($sql);
-
 }
 
 function batch_del($batch_del = array())
@@ -195,8 +190,8 @@ function batch_del($batch_del = array())
 function get_name_from_uid($uid = "")
 {
     global $xoopsDB;
-    $sql                = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
-    $result             = $xoopsDB->queryF($sql) or die($sql);
+    $sql = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
+    $result = $xoopsDB->queryF($sql) or die($sql);
     list($uname, $name) = $xoopsDB->fetchRow($result);
     if (!empty($name)) {
         return $name;
@@ -273,10 +268,10 @@ function copyDiscuss($BoardID = '', $mode = "")
 function getLastTime($post_id)
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
-    $sql2            = "select `post_time`  from `" . $xoopsDB->prefix("xf_posts") . "`  where post_id='$post_id'";
-    $result2         = $xoopsDB->queryF($sql2) or die($sql2);
+    $sql2 = "select `post_time`  from `" . $xoopsDB->prefix("xf_posts") . "`  where post_id='$post_id'";
+    $result2 = $xoopsDB->queryF($sql2) or die($sql2);
     list($post_time) = $xoopsDB->fetchRow($result2);
-    $post_time       = date("Y-m-d H:i:s", $post_time);
+    $post_time = date("Y-m-d H:i:s", $post_time);
     return $post_time;
 }
 
@@ -297,8 +292,8 @@ function powerSet($BoardID = "")
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
         $xoopsDB->queryF($sql) or die($sql);
     }
-
 }
+
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op        = system_CleanVars($_REQUEST, 'op', '', 'string');
@@ -349,7 +344,7 @@ switch ($op) {
         list_xforum();
         break;
 
-        /*---判斷動作請貼在上方---*/
+    /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

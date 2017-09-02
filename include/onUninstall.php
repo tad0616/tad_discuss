@@ -26,7 +26,6 @@ function delete_directory($dirname)
             } else {
                 delete_directory($dirname . '/' . $file);
             }
-
         }
     }
     closedir($dir_handle);
@@ -34,7 +33,7 @@ function delete_directory($dirname)
     return true;
 }
 
-//«ş¨©¥Ø¿ı
+//æ‹·è²ç›®éŒ„
 function full_copy($source = "", $target = "")
 {
     if (is_dir($source)) {

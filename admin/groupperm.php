@@ -11,7 +11,7 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //取得本模組編號
 $module_id = $xoopsModule->getVar('mid');
 
-$sql    = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` order by BoardSort";
+$sql = "SELECT BoardID,BoardTitle FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` ORDER BY BoardSort";
 $result = $xoopsDB->query($sql) or web_error($sql);
 
 while ($all = $xoopsDB->fetchArray($result)) {
@@ -22,7 +22,6 @@ while ($all = $xoopsDB->fetchArray($result)) {
 
     //權限項目陣列
     $item_list[$BoardID] = $BoardTitle;
-
 }
 
 //頁面標題

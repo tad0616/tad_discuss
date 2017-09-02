@@ -23,7 +23,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);

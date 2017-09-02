@@ -13,7 +13,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
 {
     global $xoopsUser, $xoopsTpl, $xoopsModuleConfig, $TadUpFiles;
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     $user           = $member_handler->getUser($uid);
     $pic            = XOOPS_URL . "/modules/tad_discuss/images/nobody.png";
     $uid_name       = _MD_TADDISCUS_NOBODY;
@@ -180,7 +180,7 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
     $module_id     = $xoopsModule->getVar('mid');
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
     $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
@@ -211,7 +211,7 @@ function list_tad_discuss($DefBoardID = null)
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -503,7 +503,7 @@ function insert_tad_discuss($nl2br = false)
     //取得使用者編號
     //if(!$xoopsUser)return;
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
 
     $uid = ($xoopsUser) ? $xoopsUser->uid() : intval($_POST['uid']);
 
@@ -575,14 +575,14 @@ function insert_tad_discuss($nl2br = false)
     $extra_tags['DISCUSS_CONTENT'] = strip_tags($_POST['DiscussContent']);
     $extra_tags['DISCUSS_URL']     = XOOPS_URL . "/modules/tad_discuss/discuss.php?DiscussID={$ToDiscussID}&BoardID={$_POST['BoardID']}";
 
-    $notification_handler = xoops_gethandler('notification');
+    $notification_handler = xoops_getHandler('notification');
     $notification_handler->triggerEvent("global", 0, "new_discuss", $extra_tags, null, null, 0);
 
     //分類
     if (!empty($_POST['BoardID'])) {
         $Board                     = get_tad_discuss_board($_POST['BoardID']);
         $extra_tags['BOARD_TITLE'] = $Board['BoardTitle'];
-        $notification_handler      = xoops_gethandler('notification');
+        $notification_handler      = xoops_getHandler('notification');
         $notification_handler->triggerEvent("board", $_POST['BoardID'], "new_board_discuss", $extra_tags, null, null, 0);
     }
 

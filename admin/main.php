@@ -45,12 +45,12 @@ function tad_discuss_board_form($BoardID = "")
 
     $BoardManagerArr = explode(",", $BoardManager);
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 2000) {
         $select         = new XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $criteria       = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
@@ -67,7 +67,7 @@ function tad_discuss_board_form($BoardID = "")
 
     //取得本模組編號
     $module_id          = $xoopsModule->getVar('mid');
-    $moduleperm_handler = xoops_gethandler('groupperm');
+    $moduleperm_handler = xoops_getHandler('groupperm');
     $read_group         = $moduleperm_handler->getGroupIds("forum_read", $BoardID, $module_id);
     $post_group         = $moduleperm_handler->getGroupIds("forum_post", $BoardID, $module_id);
 

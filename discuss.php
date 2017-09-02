@@ -28,7 +28,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ($mode == "return") {
@@ -209,7 +209,7 @@ function get_tad_discuss_board_option($default_BoardID = "0")
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     $sql = "SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` ORDER BY `BoardSort`";
     $result = $xoopsDB->query($sql) or web_error($sql);
@@ -254,7 +254,7 @@ function show_one_tad_discuss($DefDiscussID = "")
             $groups  = XOOPS_GROUP_ANONYMOUS;
         }
 
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
         if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
             header('location:index.php');
         }
@@ -310,7 +310,7 @@ function show_one_tad_discuss($DefDiscussID = "")
     $i            = 1;
     $first        = "";
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
@@ -436,7 +436,7 @@ function update_tad_discuss($DiscussID = "")
     if ($_POST['only_root'] == '1' and !empty($ReDiscussID)) {
         $onlyTo = $Discuss['uid'];
     } elseif ($_POST['only_root'] == '1') {
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $adminusers     = $member_handler->getUsersByGroup(1);
         $onlyTo         = implode(',', $adminusers);
     }

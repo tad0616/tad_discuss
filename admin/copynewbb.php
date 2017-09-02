@@ -297,9 +297,9 @@ function powerSet($BoardID = "")
 
 /*-----------執行動作判斷區----------*/
 $op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$topic_id  = empty($_REQUEST['topic_id']) ? "" : intval($_REQUEST['topic_id']);
+$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int)$_REQUEST['DiscussID'];
+$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int)$_REQUEST['BoardID'];
+$topic_id  = empty($_REQUEST['topic_id']) ? "" : (int)$_REQUEST['topic_id'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/

@@ -8,7 +8,7 @@ $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : "";
 switch ($op) {
     //下載檔案
     case "tufdl":
-        $files_sn = isset($_GET['files_sn']) ? intval($_GET['files_sn']) : "";
+        $files_sn = isset($_GET['files_sn']) ? (int)$_GET['files_sn'] : "";
         $TadUpFiles->add_file_counter($files_sn);
         exit;
         break;

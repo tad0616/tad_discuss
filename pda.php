@@ -175,7 +175,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     if (empty($DefDiscussID)) {
         return;
     } else {
-        $DefDiscussID = intval($DefDiscussID);
+        $DefDiscussID = (int)$DefDiscussID;
         $discuss      = get_tad_discuss($DefDiscussID);
 
         //取得本模組編號
@@ -721,10 +721,10 @@ function login_m()
 
 /*-----------執行動作判斷區----------*/
 $op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$files_sn  = empty($_REQUEST['files_sn']) ? "" : intval($_REQUEST['files_sn']);
-$g2p       = empty($_REQUEST['g2p']) ? "1" : intval($_REQUEST['g2p']);
+$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int)$_REQUEST['DiscussID'];
+$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int)$_REQUEST['BoardID'];
+$files_sn  = empty($_REQUEST['files_sn']) ? "" : (int)$_REQUEST['files_sn'];
+$g2p       = empty($_REQUEST['g2p']) ? "1" : (int)$_REQUEST['g2p'];
 
 switch ($op) {
 
@@ -765,7 +765,7 @@ switch ($op) {
 
     //下載檔案
     case "tufdl":
-        $files_sn = isset($_GET['files_sn']) ? intval($_GET['files_sn']) : "";
+        $files_sn = isset($_GET['files_sn']) ? (int)$_GET['files_sn'] : "";
         $TadUpFiles->add_file_counter($files_sn, $hash = false);
         exit;
         break;

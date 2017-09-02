@@ -505,7 +505,7 @@ function insert_tad_discuss($nl2br = false)
 
     $member_handler = xoops_getHandler('member');
 
-    $uid = ($xoopsUser) ? $xoopsUser->uid() : intval($_POST['uid']);
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : (int)$_POST['uid'];
 
     $myts = MyTextSanitizer::getInstance();
     //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
@@ -517,13 +517,13 @@ function insert_tad_discuss($nl2br = false)
         $myip = $myip[0];
     }
 
-    $ReDiscussID = isset($_POST['ReDiscussID']) ? intval($_POST['ReDiscussID']) : 0;
+    $ReDiscussID = isset($_POST['ReDiscussID']) ? (int)$_POST['ReDiscussID'] : 0;
     //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
     $Discuss      = get_tad_discuss($ReDiscussID);
     $DiscussTitle = empty($_POST['DiscussTitle']) ? "RE:" . $Discuss['DiscussTitle'] : $_POST['DiscussTitle'];
     $DiscussTitle = $myts->addSlashes($DiscussTitle);
     $publisher    = $myts->addSlashes($_POST['publisher']);
-    $BoardID      = intval($_POST['BoardID']);
+    $BoardID      = (int)$_POST['BoardID'];
 
     $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
     if ($nl2br) {

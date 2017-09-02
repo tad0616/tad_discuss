@@ -2,7 +2,7 @@
 /*-----------引入檔案區--------------*/
 include_once "header.php";
 /*-----------function區--------------*/
-$DiscussID = intval($_POST['DiscussID']);
+$DiscussID = (int)$_POST['DiscussID'];
 if ($_POST['op'] == 'like') {
     like('Good', $DiscussID);
 } elseif ($_POST['op'] == 'unlike') {

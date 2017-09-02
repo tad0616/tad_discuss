@@ -46,7 +46,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
         $pic = $TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
         $pic = empty($pic) ? "images/board.png" : $pic;
 
-        $display_number   = isset($xoopsModuleConfig['display_number']) ? intval($xoopsModuleConfig['display_number']) : 7;
+        $display_number   = isset($xoopsModuleConfig['display_number']) ? (int)$xoopsModuleConfig['display_number'] : 7;
         $list_tad_discuss = list_tad_discuss_short($BoardID, $display_number);
 
         $fun          = ($isAdmin) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : "";

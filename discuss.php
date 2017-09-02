@@ -239,7 +239,7 @@ function show_one_tad_discuss($DefDiscussID = "")
     if (empty($DefDiscussID)) {
         return;
     } else {
-        $DefDiscussID = intval($DefDiscussID);
+        $DefDiscussID = (int)$DefDiscussID;
         $discuss      = get_tad_discuss($DefDiscussID);
 
         //取得本模組編號
@@ -428,9 +428,9 @@ function update_tad_discuss($DiscussID = "")
     }
 
     $onlyTo      = "";
-    $ReDiscussID = isset($_POST['ReDiscussID']) ? intval($_POST['ReDiscussID']) : 0;
-    $BoardID     = isset($_POST['BoardID']) ? intval($_POST['BoardID']) : 0;
-    $OldBoardID  = isset($_POST['OldBoardID']) ? intval($_POST['OldBoardID']) : 0;
+    $ReDiscussID = isset($_POST['ReDiscussID']) ? (int)$_POST['ReDiscussID'] : 0;
+    $BoardID     = isset($_POST['BoardID']) ? (int)$_POST['BoardID'] : 0;
+    $OldBoardID  = isset($_POST['OldBoardID']) ? (int)$_POST['OldBoardID'] : 0;
 
     $Discuss = get_tad_discuss($ReDiscussID);
     if ($_POST['only_root'] == '1' and !empty($ReDiscussID)) {
@@ -476,7 +476,7 @@ function change_lock($lock, $BoardID, $DiscussID)
     $onlyTo = "";
 
     if ($lock) {
-        $ReDiscussID = isset($_REQUEST['ReDiscussID']) ? intval($_REQUEST['ReDiscussID']) : 0;
+        $ReDiscussID = isset($_REQUEST['ReDiscussID']) ? (int)$_REQUEST['ReDiscussID'] : 0;
         $Discuss     = get_tad_discuss($ReDiscussID);
         if ($_POST['only_root'] == '1' and !empty($ReDiscussID)) {
             $onlyTo = $Discuss['uid'];
@@ -550,7 +550,7 @@ switch ($op) {
 
     //下載檔案
     case "tufdl":
-        $files_sn = isset($_GET['files_sn']) ? intval($_GET['files_sn']) : "";
+        $files_sn = isset($_GET['files_sn']) ? (int)$_GET['files_sn'] : "";
         $TadUpFiles->add_file_counter($files_sn);
         exit;
         break;

@@ -42,7 +42,7 @@ function xoops_module_update_tad_discuss(&$module, $old_version)
 function chk_chk1()
 {
     global $xoopsDB;
-    $sql    = "select count(`onlyTo`) from " . $xoopsDB->prefix("tad_discuss");
+    $sql    = "SELECT count(`onlyTo`) FROM " . $xoopsDB->prefix("tad_discuss");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return true;
@@ -54,7 +54,7 @@ function chk_chk1()
 function go_update1()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss") . " ADD `onlyTo` varchar(255) NOT NULL default ''";
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss") . " ADD `onlyTo` VARCHAR(255) NOT NULL DEFAULT ''";
     $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
@@ -63,7 +63,7 @@ function go_update1()
 function chk_chk2()
 {
     global $xoopsDB;
-    $sql    = "select count(`ofBoardID`) from " . $xoopsDB->prefix("tad_discuss_board");
+    $sql    = "SELECT count(`ofBoardID`) FROM " . $xoopsDB->prefix("tad_discuss_board");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return true;
@@ -75,7 +75,7 @@ function chk_chk2()
 function go_update2()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss_board") . " ADD `ofBoardID` smallint(6) unsigned NOT NULL default 0 after `BoardID`";
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss_board") . " ADD `ofBoardID` SMALLINT(6) UNSIGNED NOT NULL DEFAULT 0 AFTER `BoardID`";
     $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
@@ -84,7 +84,7 @@ function go_update2()
 function chk_chk3()
 {
     global $xoopsDB;
-    $sql    = "select count(`publisher`) from " . $xoopsDB->prefix("tad_discuss");
+    $sql    = "SELECT count(`publisher`) FROM " . $xoopsDB->prefix("tad_discuss");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return true;
@@ -96,9 +96,9 @@ function chk_chk3()
 function go_update3()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss") . " ADD `publisher` varchar(255) NOT NULL default '' after `uid`";
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss") . " ADD `publisher` VARCHAR(255) NOT NULL DEFAULT '' AFTER `uid`";
     $xoopsDB->queryF($sql);
-    $sql    = "select `uid` from " . $xoopsDB->prefix("tad_discuss") . " group by uid";
+    $sql    = "SELECT `uid` FROM " . $xoopsDB->prefix("tad_discuss") . " GROUP BY uid";
     $result = $xoopsDB->query($sql);
     while (list($uid) = $xoopsDB->fetchRow($result)) {
         $publisher = get_name_from_uid($uid);
@@ -114,7 +114,7 @@ function go_update3()
 function chk_chk4()
 {
     global $xoopsDB;
-    $sql    = "select count(`original_filename`) from " . $xoopsDB->prefix("tad_discuss_files_center");
+    $sql    = "SELECT count(`original_filename`) FROM " . $xoopsDB->prefix("tad_discuss_files_center");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return true;
@@ -127,9 +127,9 @@ function go_update4()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss_files_center") . "
-  ADD `original_filename` varchar(255) NOT NULL default '',
-  ADD `hash_filename` varchar(255) NOT NULL default '',
-  ADD `sub_dir` varchar(255) NOT NULL default ''";
+  ADD `original_filename` VARCHAR(255) NOT NULL DEFAULT '',
+  ADD `hash_filename` VARCHAR(255) NOT NULL DEFAULT '',
+  ADD `sub_dir` VARCHAR(255) NOT NULL DEFAULT ''";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 
     $sql = "update " . $xoopsDB->prefix("tad_discuss_files_center") . " set
@@ -140,8 +140,8 @@ function go_update4()
 function get_name_from_uid($uid = "")
 {
     global $xoopsDB;
-    $sql                = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
-    $result             = $xoopsDB->queryF($sql) or die($sql);
+    $sql = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
+    $result = $xoopsDB->queryF($sql) or die($sql);
     list($uname, $name) = $xoopsDB->fetchRow($result);
     if (!empty($name)) {
         return $name;
@@ -154,7 +154,7 @@ function get_name_from_uid($uid = "")
 function chk_chk5()
 {
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_discuss_cbox_setup");
+    $sql    = "SELECT count(*) FROM " . $xoopsDB->prefix("tad_discuss_cbox_setup");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return true;
@@ -168,11 +168,11 @@ function go_update5()
     global $xoopsDB;
 
     $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` (
-    `setupID` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-    `setupName` varchar(255) NOT NULL default '',
-    `setupRule` varchar(255) NOT NULL default '',
-    `BoardID` smallint(6) unsigned NOT NULL default 0,
-    `setupSort` smallint(6) unsigned NOT NULL default 0,
+    `setupID` SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `setupName` VARCHAR(255) NOT NULL DEFAULT '',
+    `setupRule` VARCHAR(255) NOT NULL DEFAULT '',
+    `BoardID` SMALLINT(6) UNSIGNED NOT NULL DEFAULT 0,
+    `setupSort` SMALLINT(6) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`setupID`)
   ) ENGINE=MyISAM;";
     $xoopsDB->queryF($sql);
@@ -182,9 +182,9 @@ function go_update5()
 function chk_uid()
 {
     global $xoopsDB;
-    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_name = '" . $xoopsDB->prefix("tad_discuss") . "' AND COLUMN_NAME = 'uid'";
-    $result     = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -197,7 +197,7 @@ function chk_uid()
 function go_update_uid()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_discuss") . "` CHANGE `uid` `uid` mediumint(9) unsigned NOT NULL default 0";
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_discuss") . "` CHANGE `uid` `uid` MEDIUMINT(9) UNSIGNED NOT NULL DEFAULT 0";
     $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
@@ -206,9 +206,9 @@ function go_update_uid()
 function chk_files_center()
 {
     global $xoopsDB;
-    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_name = '" . $xoopsDB->prefix("tad_discuss_files_center") . "' AND COLUMN_NAME = 'col_sn'";
-    $result     = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -221,7 +221,7 @@ function chk_files_center()
 function go_update_files_center()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_discuss_files_center") . "` CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0";
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_discuss_files_center") . "` CHANGE `col_sn` `col_sn` MEDIUMINT(9) UNSIGNED NOT NULL DEFAULT 0";
     $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
@@ -230,7 +230,7 @@ function go_update_files_center()
 function chk_chk6()
 {
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where BoardID=0";
+    $sql    = "SELECT count(*) FROM " . $xoopsDB->prefix("tad_discuss") . " WHERE BoardID=0";
     $result = $xoopsDB->query($sql);
     if (!empty($result)) {
         return true;
@@ -242,11 +242,11 @@ function chk_chk6()
 function go_update6()
 {
     global $xoopsDB;
-    $sql    = "select DiscussID,ReDiscussID from " . $xoopsDB->prefix("tad_discuss") . " where BoardID=0";
+    $sql    = "SELECT DiscussID,ReDiscussID FROM " . $xoopsDB->prefix("tad_discuss") . " WHERE BoardID=0";
     $result = $xoopsDB->query($sql);
     while (list($DiscussID, $ReDiscussID) = $xoopsDB->fetchRow($result)) {
-        $sql2          = "select BoardID from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$ReDiscussID'";
-        $result2       = $xoopsDB->query($sql2);
+        $sql2    = "select BoardID from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$ReDiscussID'";
+        $result2 = $xoopsDB->query($sql2);
         list($BoardID) = $xoopsDB->fetchRow($result2);
 
         $sql3 = "update " . $xoopsDB->prefix("tad_discuss") . " set BoardID='$BoardID' where DiscussID='$DiscussID'";
@@ -324,7 +324,6 @@ function delete_directory($dirname)
             } else {
                 delete_directory($dirname . '/' . $file);
             }
-
         }
     }
     closedir($dir_handle);

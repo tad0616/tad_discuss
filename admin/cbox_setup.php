@@ -57,9 +57,9 @@ function tad_discuss_cbox_setup_form($setupID = "")
     $xoopsTpl->assign('now_op', 'tad_discuss_cbox_setup_form');
     $xoopsTpl->assign('next_op', $op);
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $i      = 0;
+    $i = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
@@ -99,7 +99,7 @@ function list_tad_discuss_cbox_setup()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
-    $sql = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` order by `setupSort`";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ORDER BY `setupSort`";
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     /*
@@ -146,9 +146,9 @@ function get_tad_discuss_cbox_setup($setupID = "")
         return;
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}'";
+    $sql = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}'";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
     return $data;
 }
 
@@ -171,9 +171,9 @@ function show_one_tad_discuss_cbox_setup($setupID = "")
         $setupID = intval($setupID);
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}' ";
+    $sql = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}' ";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $all    = $xoopsDB->fetchArray($result);
+    $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID
     foreach ($all as $k => $v) {
@@ -240,7 +240,7 @@ switch ($op) {
         list_tad_discuss_cbox_setup();
         break;
 
-        /*---判斷動作請貼在上方---*/
+    /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

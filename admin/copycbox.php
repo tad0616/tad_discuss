@@ -23,8 +23,8 @@ function list_cbox()
         return;
     }
 
-    $sql           = "select BoardID from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardTitle = '" . _MA_TADDISCUS_CBOX . "'";
-    $result        = $xoopsDB->query($sql) or die($sql);
+    $sql = "SELECT BoardID FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardTitle = '" . _MA_TADDISCUS_CBOX . "'";
+    $result = $xoopsDB->query($sql) or die($sql);
     list($BoardID) = $xoopsDB->fetchRow($result);
     if (!empty($BoardID)) {
         $xoopsTpl->assign('show_error', '1');
@@ -33,7 +33,7 @@ function list_cbox()
         return;
     }
 
-    $sql = "select * from `" . $xoopsDB->prefix("tad_cbox") . "` order by post_date desc";
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_cbox") . "` ORDER BY post_date DESC";
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     $PageBar = getPageBar($sql, 20, 10);
@@ -61,21 +61,19 @@ function list_cbox()
         $all_content[$i]['uid'] = get_uid_from_uname($publisher);
 
         $i++;
-
     }
 
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('add_button', $add_button);
     $xoopsTpl->assign('bar', $bar);
-
 }
 
 function get_uid_from_uname($publisher = "")
 {
     global $xoopsDB, $xoopsUser;
 
-    $sql       = "select uid from `" . $xoopsDB->prefix("users") . "` where uname ='$publisher' or name='{$publisher}'";
-    $result    = $xoopsDB->query($sql) or die($sql);
+    $sql = "select uid from `" . $xoopsDB->prefix("users") . "` where uname ='$publisher' or name='{$publisher}'";
+    $result = $xoopsDB->query($sql) or die($sql);
     list($uid) = $xoopsDB->fetchRow($result);
     return $uid;
 }
@@ -92,8 +90,8 @@ function copycbox($BoardID = "")
 
     if (empty($BoardID)) {
         //取得最大排序
-        $sql        = "select max(`BoardSort`) from " . $xoopsDB->prefix("tad_discuss_board") . " group by BoardSort";
-        $result     = $xoopsDB->queryf($sql);
+        $sql    = "SELECT max(`BoardSort`) FROM " . $xoopsDB->prefix("tad_discuss_board") . " GROUP BY BoardSort";
+        $result = $xoopsDB->queryf($sql);
         list($sort) = $xoopsDB->fetchRow($result);
         $sort++;
 
@@ -113,14 +111,13 @@ function copycbox($BoardID = "")
         //寫入權限
         $sql = "insert into `" . $xoopsDB->prefix("group_permission") . "` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_post'),('2', '{$BoardID}', '{$mid}', 'forum_post')";
         $xoopsDB->queryF($sql) or die($sql);
-
     } else {
         $sql = "delete from " . $xoopsDB->prefix("tad_discuss") . " where BoardID='{$BoardID}'";
         $xoopsDB->queryF($sql) or die($sql);
     }
 
     //讀取留言簿資料
-    $sql    = "select * from " . $xoopsDB->prefix("tad_cbox") . " order by post_date ";
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_cbox") . " ORDER BY post_date ";
     $result = $xoopsDB->queryf($sql);
     while (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result)) {
         $onlyTo       = ($only_root) ? $root_uid : "";
@@ -136,7 +133,6 @@ function copycbox($BoardID = "")
         $DiscussID = $xoopsDB->getInsertId();
 
         if ($root_msg) {
-
             preg_match_all("/\(by (.*?)\)/", $root_msg, $match);
             $publisher = $match[1][0];
             if (empty($publisher)) {
@@ -184,7 +180,7 @@ switch ($op) {
         list_cbox();
         break;
 
-        /*---判斷動作請貼在上方---*/
+    /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

@@ -270,7 +270,7 @@ $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
 
 switch ($op) {
     //刪除資料
-    case "delete_tad_discuss";
+    case "delete_tad_discuss":
         delete_tad_discuss($DiscussID);
         header("location: {$_SERVER['PHP_SELF']}");
         break;

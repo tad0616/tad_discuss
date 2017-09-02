@@ -13,7 +13,7 @@ function list_cbox()
 
     //取得某模組編號
     $modhandler     = xoops_gethandler('module');
-    $ThexoopsModule = &$modhandler->getByDirname("tad_cbox");
+    $ThexoopsModule = $modhandler->getByDirname("tad_cbox");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');

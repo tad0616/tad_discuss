@@ -2,11 +2,11 @@
 //區塊主函式 (會產生一個即時留言簿區塊)
 function tad_discuss_cbox($options)
 {
-    global $xoopsUser, $xoopsModule, $xoopsDB;
+    global $xoopsUser, $xoopsDB;
 
     //取得本模組編號
     $modhandler  = xoops_gethandler('module');
-    $xoopsModule = &$modhandler->getByDirname("tad_discuss");
+    $xoopsModule = $modhandler->getByDirname("tad_discuss");
     $module_id   = $xoopsModule->getVar('mid');
 
     //取得目前使用者的群組編號

@@ -56,7 +56,6 @@
 
 <{elseif $main_data}>
 
-
   <h1><{$ShowBoardTitle}></h1>
 
 	<{$FooTableJS}>
@@ -64,10 +63,10 @@
   	<table class="table table-striped table-hover">
   	<thead>
   	<tr>
-  		<th data-class="expand"><{$smarty.const._MD_TADDISCUS_DISCUSSTITLE}></th>
-  		<th data-hide="phone"><{$smarty.const._MD_TADDISCUS_DISCUSSRE}></th>
-  		<th data-hide="phone"><{$smarty.const._MD_TADDISCUS_UID}></th>
-  		<th data-hide="phone"><{$smarty.const._MD_TADDISCUS_LAST_RE}></th>
+  		<th id="discuss_BoardTitle" data-class="expand"><{$smarty.const._MD_TADDISCUS_DISCUSSTITLE}></th>
+  		<th id="discuss_BoardImg" data-hide="phone"><{$smarty.const._MD_TADDISCUS_DISCUSSRE}></th>
+  		<th id="discuss_uid_name" data-hide="phone"><{$smarty.const._MD_TADDISCUS_UID}></th>
+  		<th id="discuss_renum" data-hide="phone"><{$smarty.const._MD_TADDISCUS_LAST_RE}></th>
   	</tr>
   	</thead>
 
@@ -76,17 +75,17 @@
     <{if $main_data}>
       <{foreach item=discuss from=$main_data}>
         <tr>
-      		<td>
+      		<td headers="discuss_BoardTitle">
             <img src="images/<{if $discuss.onlyTo}>lock.png<{else}>greenpoint.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:<{if $discuss.onlyTo}>maroon<{else}>#505050<{/if}>"><{$discuss.DiscussTitle}></a>
           </td>
-      		<td class="text-center"><{$discuss.renum}></td>
-      		<td><div style="font-size:10px;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
-      		<td><div style="font-size:10px;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>
+      		<td headers="discuss_BoardImg" class="text-center"><{$discuss.renum}></td>
+      		<td headers="discuss_uid_name"><div style="font-size:10px;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
+      		<td headers="discuss_renum"><div style="font-size:10px;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>
     		</tr>
       <{/foreach}>
     <{else}>
       <tr>
-        <td colspan=4 class="text-center">
+        <td headers="discuss_BoardTitle" colspan=4 class="text-center">
           <{if $post}>
             <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>

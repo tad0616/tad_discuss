@@ -5,13 +5,24 @@
     <script type="text/javascript">
     $().ready(function(){
       $("#clickAll").click(function() {
-        if($("#clickAll").attr("checked")){
-          $("input[name='spam_keyword[]']").each(function() {
-          $(this).attr("checked", true);
+        if($("#clickAll").prop("checked")){
+          $("input.spam_keyword").each(function() {
+          $(this).prop("checked", true);
         });
       }else{
-       $("input[name='spam_keyword[]']").each(function() {
-           $(this).attr("checked", false);
+       $("input.spam_keyword").each(function() {
+           $(this).prop("checked", false);
+       });
+      }
+      });
+      $("#clickAll2").click(function() {
+        if($("#clickAll2").prop("checked")){
+          $("input.SpamDiscuss").each(function() {
+          $(this).prop("checked", true);
+        });
+      }else{
+       $("input.SpamDiscuss").each(function() {
+           $(this).prop("checked", false);
        });
       }
       });
@@ -38,8 +49,8 @@
       <{assign var="i" value=0}>
       <{foreach from=$all_keyword item=spam}>
         <{assign var="i" value=$i+1}>
-        <div style="display:inline-block; float: left; font-size:13px; padding:4px 8px;">
-            <input name="spam_keyword[]" id="chk<{$i}>" type="checkbox" value="<{$spam.keyword}>" <{$spam.checked}>>
+        <div id="k<{$i}>" style="display:inline-block; float: left; font-size:13px; padding:4px 8px;">
+            <input name="spam_keyword[]" class="spam_keyword" id="chk<{$i}>" type="checkbox" value="<{$spam.keyword}>" <{$spam.checked}>>
             <label style="display: inline;" for="chk<{$i}>">
               <{$spam.keyword}>
               <a href="javascript:delme('<{$i}>');"><img src="../images/del2.gif" alt="<{$smarty.const._TAD_DEL}>" style="vertical-align:middle;"></a>
@@ -68,18 +79,19 @@
     <form action="spam.php" method="post" class="form-horizontal" role="form">
       <table class="table table-striped table-bordered table-hover">
         <tr>
-          <th>DiscussID</th>
+          <th><input type="checkbox" id="clickAll2" checked>DiscussID</th>
           <th>ReDiscussID</th>
           <th>DiscussTitle</th>
           <th>DiscussDate</th>
           <th>uid_name</th>
           <th>Counter</th>
+          <th>keyword</th>
         </tr>
         <{foreach from=$all_content item=spam}>
           <tr>
             <td>
               <label class="checkbox-inline">
-                <input name="SpamDiscussID[<{$spam.DiscussID}>]" type="checkbox" value="<{$spam.DiscussID}>" checked><{$spam.DiscussID}>
+                <input name="SpamDiscussID[<{$spam.DiscussID}>]" type="checkbox" class="SpamDiscuss" value="<{$spam.DiscussID}>" checked><{$spam.DiscussID}>
               </label>
             </td>
             <td>
@@ -96,6 +108,9 @@
             </td>
             <td>
               <{$spam.Counter}>
+            </td>
+            <td>
+              <{$spam.spam_keyword}>
             </td>
           </tr>
         <{/foreach}>

@@ -14,7 +14,7 @@ function list_newbb()
 
     //取得某模組編號
     $modhandler     = xoops_gethandler('module');
-    $ThexoopsModule = &$modhandler->getByDirname("newbb");
+    $ThexoopsModule = $modhandler->getByDirname("newbb");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');

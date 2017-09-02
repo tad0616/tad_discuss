@@ -13,7 +13,7 @@ function list_xforum()
 
     //取得某模組編號
     $modhandler     = xoops_gethandler('module');
-    $ThexoopsModule = &$modhandler->getByDirname("xforum");
+    $ThexoopsModule = $modhandler->getByDirname("xforum");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');

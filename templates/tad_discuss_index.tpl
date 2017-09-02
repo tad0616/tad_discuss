@@ -5,20 +5,20 @@
   <table class="table table-hover">
   <thead>
   <tr>
-    <th data-hide="phone"></th>
-    <th data-class="expand"></th>
-    <th data-hide="phone"></th>
-    <th data-hide="phone"></th>
+    <th id="discuss_BoardTitle" data-hide="phone"></th>
+    <th id="discuss_BoardImg" data-class="expand"></th>
+    <th id="discuss_uid_name" data-hide="phone"></th>
+    <th id="discuss_renum" data-hide="phone"></th>
   </tr>
   </thead>
 
   <{foreach item=bb from=$all_content}>
     <tbody>
       <tr style="background-color:#f0f0f0;">
-        <td style="vertical-align:top;width:100px;">
+        <td headers="discuss_BoardTitle" style="vertical-align:top;width:100px;">
           <div style="width:90px;height:60px;background: transparent url(<{$bb.pic}>) no-repeat center top;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;position:relative;float:right;background-size: contain;" alt="<{$bb.BoardTitle}>" title="<{$bb.BoardTitle}>"></div>
         </td>
-        <td colspan=4>
+        <td headers="discuss_BoardImg" colspan=4>
           <{if $bb.post}>
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$bb.BoardID}>" style="float:right;" class="btn btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
           <{/if}>
@@ -31,17 +31,17 @@
       <{if $bb.list_tad_discuss}>
         <{foreach item=discuss from=$bb.list_tad_discuss}>
           <tr>
-            <td></td>
-            <td>
+            <td headers="discuss_BoardTitle"></td>
+            <td headers="discuss_BoardImg">
               <span nowrap style="font-size:11px;color:#8BA0A6"><{$discuss.LastTime}></span>
               <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
-            <td class="text-right;"><{$discuss.uid_name}></td>
-            <td class="text-center"><{$discuss.renum}></td>
+            <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
+            <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>
           </tr>
         <{/foreach}>
       <{elseif $login}>
         <tr>
-          <td colspan=4 style="border:none;text-align:right;">
+          <td headers="discuss_BoardTitle" colspan=4 style="border:none;text-align:right;">
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$bb.BoardID}>">
               <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
               <{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}>
@@ -50,7 +50,7 @@
         </tr>
       <{else}>
         <tr>
-          <td colspan=4 style="border:none;text-align:right;">
+          <td headers="discuss_BoardTitle" colspan=4 style="border:none;text-align:right;">
             <{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}>
           </td>
         </tr>
@@ -60,10 +60,10 @@
       <{if $bb.subBoard}>
         <{foreach item=subBoard from=$bb.subBoard}>
           <tr style="background-color:#f9f9f9;">
-            <td style="vertical-align:top;width:100px;">
+            <td headers="discuss_BoardTitle" style="vertical-align:top;width:100px;">
               <div style="width:60px;height:40px;background: transparent url(<{$subBoard.pic}>) no-repeat center top;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;position:relative;float:right;background-size: contain;" alt="<{$subBoard.BoardTitle}>" title="<{$subBoard.BoardTitle}>"></div>
             </td>
-            <td colspan=4>
+            <td headers="discuss_BoardImg" colspan=4>
 
               <{if $subBoard.post}>
                 <a href="discuss.php?op=tad_discuss_form&BoardID=<{$subBoard.BoardID}>" style="float:right;" class="btn btn-sm btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
@@ -77,12 +77,12 @@
           <{if $subBoard.list_tad_discuss}>
             <{foreach item=discuss from=$subBoard.list_tad_discuss}>
               <tr>
-                <td></td>
-                <td>
+                <td headers="discuss_BoardTitle"></td>
+                <td headers="discuss_BoardImg">
                   <span nowrap style="font-size:11px;color:#8BA0A6"><{$discuss.LastTime}></span>
                   <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
-                <td class="text-right;"><{$discuss.uid_name}></td>
-                <td class="text-center"><{$discuss.renum}></td>
+                <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
+                <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>
               </tr>
             <{/foreach}>
           <{/if}>

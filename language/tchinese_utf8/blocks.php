@@ -14,3 +14,4 @@ define('_MB_TADDISCUS_BORDER_COLOR', '回覆對話框的邊框顏色：');
 define('_MB_TADDISCUS_BG_COLOR', '回覆對話框的背景顏色：');
 define('_MB_TADDISCUS_FONT_COLOR', '回覆對話框的文字顏色：');
 define('_MB_TADDISCUS_APPLY_RULE', '套用「自動切換討論區」設定？');
+define('_MB_TADDISCUS_BOARDTITLE', '討論區');

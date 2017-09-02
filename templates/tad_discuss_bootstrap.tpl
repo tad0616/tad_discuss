@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="module.css" />
 <div class="row">
   <div class="col-sm-2">
-    <img src="<{$discuss.pic}>" width=100 class="img-rounded">
+    <img src="<{$discuss.pic}>" width=100 class="img-rounded" alt="discuss pic">
     <span style="font-size:10px"><{$discuss.DiscussDate}></span>
     <div><a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a></div>
     <{if $discuss.fun}>

@@ -45,6 +45,7 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
 
             $main = "
             <body class='error_bg'>
+              <h3 style='display: none;'>POST Form</h3>
               <div class='error_bg' style='color:#6C0000;font-size:12px;line-height:150%;padding:10px 10px;'>
               " . sprintf(_MD_TADDISCUS_NEED_BOARDID, $BoardID, $BoardID) . "
                 $formValidator_code
@@ -60,6 +61,7 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
         } else {
             $main = "
             <body class='error_bg'>
+              <h3 style='display: none;'>POST Form</h3>
               <div class='error_bg' style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>
               " . sprintf(_MD_TADDISCUS_NEED_BOARDID, $BoardID, $BoardID) . "
               </div>
@@ -93,7 +95,9 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
 
     $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
-        $main = "<div class='need_login'>" . sprintf(_MD_TADDISCUS_NEED_LOGIN, $BoardID, $BoardID) . "</div>";
+        $main = "
+        <h3 style='display:none;'>Post Form</h3>
+        <div class='need_login'>" . sprintf(_MD_TADDISCUS_NEED_LOGIN, $BoardID, $BoardID) . "</div>";
         return $main;
         exit;
     }
@@ -195,6 +199,7 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
           document.myForm.submit();
       }
       </script>
+      <h3 style='display:none;'>Post Form</h3>
       <div class='cbox'>
       <form action='{$_SERVER['PHP_SELF']}' method='post' name='myForm' id='myForm' enctype='multipart/form-data' >
       <table class='cbox_tbl' style='width:98%'>
@@ -279,11 +284,15 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
-<html>
+echo "
+<!DOCTYPE html>
+<html lang='en'>
 <head>
-<meta http-equiv='content-type' content='text/html; charset=" . _CHARSET . "'>
-<link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />";
+  <meta charset='" . _CHARSET . "'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Post Form</title>
+  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
+";
 
 if ($op == "reload") {
     echo "<script type='text/javascript'>

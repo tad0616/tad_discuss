@@ -2,7 +2,7 @@
 //區塊主函式 (會產生一個即時留言簿區塊)
 function tad_discuss_cbox($options)
 {
-    global $xoopsUser, $xoopsModule, $xoopsDB;
+    global $xoopsUser, $xoopsDB;
 
     //取得本模組編號
     $modhandler  = xoops_getHandler('module');

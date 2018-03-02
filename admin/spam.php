@@ -62,7 +62,8 @@ function search_spam()
                 $uid_name = XoopsUser::getUnameFromId($uid, 0);
             }
 
-            $all_content[$i]['uid_name'] = $uid_name;
+            $all_content[$i]['uid_name']     = $uid_name;
+            $all_content[$i]['spam_keyword'] = $spam_keyword;
             $i++;
         }
     }

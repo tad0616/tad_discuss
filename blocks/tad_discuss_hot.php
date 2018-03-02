@@ -63,6 +63,9 @@ function tad_discuss_hot($options)
         $block['discuss'][$i]['LastTime']         = $LastTime;
         $block['discuss'][$i]['last_uid_name']    = $last_uid_name;
         $block['discuss'][$i]['isPublic']         = $isPublic;
+        $block['discuss'][$i]['ShowBoardTitle']   = $BoardTitle;
+        $block['discuss'][$i]['last_uid']         = $last_uid;
+        $block['discuss'][$i]['uid']              = $uid;
 
         $i++;
     }

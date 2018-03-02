@@ -12,7 +12,7 @@ function list_cbox()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler     = xoops_getHandler('module');
+    $modhandler     = xoops_gethandler('module');
     $ThexoopsModule = $modhandler->getByDirname("tad_cbox");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');

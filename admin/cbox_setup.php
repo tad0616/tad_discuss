@@ -168,7 +168,7 @@ function show_one_tad_discuss_cbox_setup($setupID = "")
     if (empty($setupID)) {
         return;
     } else {
-        $setupID = intval($setupID);
+        $setupID = (int)$setupID;
     }
 
     $sql = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}' ";

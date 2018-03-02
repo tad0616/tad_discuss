@@ -10,7 +10,7 @@ $modversion['credits']     = 'geek01';
 $modversion['help']        = 'page=help';
 $modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
 $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
-$modversion['dirname']     = basename(dirname(__FILE__));
+$modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
 $modversion['release_date']        = '2017-06-16';

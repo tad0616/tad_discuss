@@ -5,7 +5,7 @@ function tad_discuss_cbox($options)
     global $xoopsUser, $xoopsDB;
 
     //取得本模組編號
-    $modhandler  = xoops_gethandler('module');
+    $modhandler  = xoops_getHandler('module');
     $xoopsModule = $modhandler->getByDirname("tad_discuss");
     $module_id   = $xoopsModule->getVar('mid');
 
@@ -37,7 +37,7 @@ function tad_discuss_cbox($options)
         }
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         return;
     }

@@ -35,7 +35,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         $now_uid = 0;
         $groups  = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -290,7 +290,7 @@ $fancybox_code = $fancybox->render();
 echo "
 <!DOCTYPE html>
 <html lang='en'>
-<head>
+  <head>
   <meta charset='" . _CHARSET . "'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Post List</title>

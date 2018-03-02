@@ -91,7 +91,7 @@ function copycbox($BoardID = "")
     if (empty($BoardID)) {
         //取得最大排序
         $sql    = "SELECT max(`BoardSort`) FROM " . $xoopsDB->prefix("tad_discuss_board") . " GROUP BY BoardSort";
-        $result = $xoopsDB->queryf($sql);
+        $result = $xoopsDB->queryF($sql);
         list($sort) = $xoopsDB->fetchRow($result);
         $sort++;
 
@@ -118,7 +118,7 @@ function copycbox($BoardID = "")
 
     //讀取留言簿資料
     $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_cbox") . " ORDER BY post_date ";
-    $result = $xoopsDB->queryf($sql);
+    $result = $xoopsDB->queryF($sql);
     while (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result)) {
         $onlyTo       = ($only_root) ? $root_uid : "";
         $DiscussTitle = xoops_substr($msg, 0, 60);

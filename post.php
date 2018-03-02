@@ -93,7 +93,7 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
         $publisher = _MD_TADDISCUS_DEFAULT_PUBLISHER;
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         $main = "
         <h3 style='display:none;'>Post Form</h3>

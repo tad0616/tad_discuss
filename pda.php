@@ -29,7 +29,7 @@ function list_tad_discuss_board($show_function = 1)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);
@@ -136,7 +136,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
             $$k = $v;
         }
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $user           = $member_handler->getUser($uid);
         if (is_object($user)) {
             $ts         = MyTextSanitizer::getInstance();
@@ -175,7 +175,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     if (empty($DefDiscussID)) {
         return;
     } else {
-        $DefDiscussID = intval($DefDiscussID);
+        $DefDiscussID = (int)$DefDiscussID;
         $discuss      = get_tad_discuss($DefDiscussID);
 
         //取得本模組編號
@@ -190,7 +190,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
             $groups = XOOPS_GROUP_ANONYMOUS;
         }
 
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
         if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
             header('location:index.php');
         }
@@ -199,7 +199,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
             header("location: {$_SERVER['PHP_SELF']}?DiscussID={$discuss['ReDiscussID']}&BoardID={$discuss['BoardID']}");
         }
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $user           = $member_handler->getUser($uid);
         if (is_object($user)) {
             $ts       = MyTextSanitizer::getInstance();
@@ -255,7 +255,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     $discuss_data = "";
     $i            = $xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
@@ -359,7 +359,7 @@ function list_tad_discuss_m($DefBoardID = null)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -384,7 +384,7 @@ function list_tad_discuss_m($DefBoardID = null)
             $$k = $v;
         }
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $user           = $member_handler->getUser($uid);
         if (is_object($user)) {
             $ts         = MyTextSanitizer::getInstance();
@@ -505,7 +505,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ($mode == "jqm") {
             return;
@@ -721,10 +721,10 @@ function login_m()
 
 /*-----------執行動作判斷區----------*/
 $op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$files_sn  = empty($_REQUEST['files_sn']) ? "" : intval($_REQUEST['files_sn']);
-$g2p       = empty($_REQUEST['g2p']) ? "1" : intval($_REQUEST['g2p']);
+$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int)$_REQUEST['DiscussID'];
+$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int)$_REQUEST['BoardID'];
+$files_sn  = empty($_REQUEST['files_sn']) ? "" : (int)$_REQUEST['files_sn'];
+$g2p       = empty($_REQUEST['g2p']) ? "1" : (int)$_REQUEST['g2p'];
 
 switch ($op) {
 
@@ -765,7 +765,7 @@ switch ($op) {
 
     //下載檔案
     case "tufdl":
-        $files_sn = isset($_GET['files_sn']) ? intval($_GET['files_sn']) : "";
+        $files_sn = isset($_GET['files_sn']) ? (int)$_GET['files_sn'] : "";
         $TadUpFiles->add_file_counter($files_sn, $hash = false);
         exit;
         break;

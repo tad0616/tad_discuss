@@ -19,7 +19,7 @@ function tad_discuss_cbox($options)
     }
 
     $block['now_uid']    = $uid;
-    $block['BoardID']    = $DefBoardID = $options[0];
+    $block['BoardID']    = $DefBoardID    = $options[0];
     $block['apply_rule'] = $apply_rule = $options[5];
 
     if ($apply_rule) {
@@ -54,7 +54,7 @@ function tad_discuss_cbox($options)
     if (empty($DefBoardID)) {
         $form = "<select class='form-control' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
             <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
-        $sql  = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+        $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
         $result = $xoopsDB->query($sql) or web_error($sql);
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -63,15 +63,15 @@ function tad_discuss_cbox($options)
             }
 
             $selected = ($DefBoardID == $BoardID) ? "selected" : "";
-            $form     .= "
+            $form .= "
               <option value='{$BoardID}' $selected>{$BoardTitle}</option>
               ";
         }
 
         $form .= "</select>";
     } else {
-        $sql = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
-        $result = $xoopsDB->query($sql) or web_error($sql);
+        $sql                        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
+        $result                     = $xoopsDB->query($sql) or web_error($sql);
         list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result);
         $form .= "
               <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
@@ -119,7 +119,7 @@ function tad_discuss_cbox_edit($options)
         }
 
         $selected = ($options[0] == $BoardID) ? "selected" : "";
-        $form     .= "
+        $form .= "
         <option value='{$BoardID}' $selected>{$BoardTitle}</option>
         <div></div>
         ";
@@ -146,10 +146,10 @@ if (!function_exists("get_rule")) {
     {
         global $xoopsDB;
 
-        $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
+        $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
         $result = $xoopsDB->query($sql) or web_error($sql);
 
-        $all_content = "";
+        $all_content = array();
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID
             foreach ($all as $k => $v) {

@@ -30,7 +30,6 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
     // }
 
     if (empty($BoardID)) {
-        $add_fourm = "";
         if ($isAdmin and $xoopsModuleConfig['display_fast_setup'] == '1') {
 
             if (!file_exists(TADTOOLS_PATH . "/formValidator.php")) {
@@ -108,6 +107,13 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
     $_SESSION['cbox_use_smile'] = 1;
 
     if ($_SESSION['cbox_use_smile'] == '1') {
+        // $ver = intval(str_replace('.', '', substr(XOOPS_VERSION, 6, 5)));
+        // if ($ver >= 259) {
+        //     $migrate = '<srcipt src="' . XOOPS_URL . '/modules/tadtools/jquery/jquery-migrate-3.0.0.min.js"></srcipt>';
+        // } else {
+        //     $migrate = '<srcipt src="' . XOOPS_URL . '/modules/tadtools/jquery/jquery-migrate-1.4.1.min.js"></srcipt>';
+        // }
+
         //找出表情圖
         $dir = "images/smiles/";
         if (is_dir($dir)) {
@@ -182,7 +188,7 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
     $main = "
       <body bgcolor='#FCFCFC'>
       {$jquery}
-      <script type='text/javascript' src='" . XOOPS_URL . "/modules/tad_discuss/class/jcarousellite_1.0.1.min.js'></script>
+      <script type='text/javascript' src='" . XOOPS_URL . "/modules/tad_discuss/class/jquery.jcarousellite.min.js'></script>
 
       <script type='text/javascript'>
       $js

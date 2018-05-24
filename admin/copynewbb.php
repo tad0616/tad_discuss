@@ -25,7 +25,7 @@ function list_newbb()
     }
 
     //轉移權限(原權限)
-    $sql = "SELECT gperm_groupid,gperm_itemid,gperm_name FROM `" . $xoopsDB->prefix("group_permission") . "` WHERE `gperm_modid` ='{$mod_id}' ";
+    $sql    = "SELECT gperm_groupid,gperm_itemid,gperm_name FROM `" . $xoopsDB->prefix("group_permission") . "` WHERE `gperm_modid` ='{$mod_id}' ";
     $result = $xoopsDB->queryF($sql) or die($sql);
     while (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result)) {
         $power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
@@ -40,17 +40,17 @@ function list_newbb()
         $now_power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
 
-    $sql = "SELECT * FROM `" . $xoopsDB->prefix("bb_forums") . "` WHERE forum_topics > 0 ORDER BY forum_order";
+    $sql    = "SELECT * FROM `" . $xoopsDB->prefix("bb_forums") . "` WHERE forum_topics > 0 ORDER BY forum_order";
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        $cols = '';
+        $cols = array();
         preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
         $moderator = implode(",", $cols[1]);
 
@@ -89,8 +89,8 @@ function chkcopy($forum_id)
 {
     global $xoopsDB, $xoopsUser;
 
-    $sql = "select BoardID from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID ='$forum_id'";
-    $result = $xoopsDB->query($sql) or die($sql);
+    $sql      = "select BoardID from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID ='$forum_id'";
+    $result   = $xoopsDB->query($sql) or die($sql);
     list($sn) = $xoopsDB->fetchRow($result);
     return $sn;
 }
@@ -100,14 +100,14 @@ function copyBoard($BoardID = "")
 {
     global $xoopsDB, $xoopsUser;
 
-    $sql = "select * from `" . $xoopsDB->prefix("bb_forums") . "` where forum_id ='$BoardID'";
+    $sql    = "select * from `" . $xoopsDB->prefix("bb_forums") . "` where forum_id ='$BoardID'";
     $result = $xoopsDB->query($sql) or die($sql);
-    $all = $xoopsDB->fetchArray($result);
+    $all    = $xoopsDB->fetchArray($result);
     //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
     foreach ($all as $k => $v) {
         $$k = $v;
     }
-    $cols = '';
+    $cols array();
     preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
     $BoardManager = implode(",", $cols[1]);
 
@@ -131,7 +131,7 @@ function listBoard($BoardID = '')
     //die($sql);
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數：`topic_id`, `topic_title`, `topic_poster`, `topic_time`, `topic_views`, `topic_replies`, `topic_last_post_id`, `forum_id`, `topic_status`, `topic_subject`, `topic_sticky`, `topic_digest`, `digest_time`, `approved`, `poster_name`, `rating`, `votes`, `topic_haspoll`, `poll_id`
@@ -167,7 +167,7 @@ function delnewbb($topic_id = "")
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
 
-    $sql = "select post_id from  `" . $xoopsDB->prefix("bb_posts") . "` where topic_id='$topic_id'";
+    $sql    = "select post_id from  `" . $xoopsDB->prefix("bb_posts") . "` where topic_id='$topic_id'";
     $result = $xoopsDB->query($sql) or die($sql);
     while (list($post_id) = $xoopsDB->fetchRow($result)) {
         $sql = "delete from  `" . $xoopsDB->prefix("bb_posts_text") . "` where post_id='$post_id'";
@@ -191,8 +191,8 @@ function batch_del($batch_del = array())
 function get_name_from_uid($uid = "")
 {
     global $xoopsDB;
-    $sql = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
-    $result = $xoopsDB->queryF($sql) or die($sql);
+    $sql                = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
+    $result             = $xoopsDB->queryF($sql) or die($sql);
     list($uname, $name) = $xoopsDB->fetchRow($result);
     if (!empty($name)) {
         return $name;
@@ -214,8 +214,7 @@ function copyDiscuss($BoardID = '', $mode = "")
 
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
-    $myts        = MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -269,10 +268,10 @@ function copyDiscuss($BoardID = '', $mode = "")
 function getLastTime($post_id)
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
-    $sql2 = "select `post_time`  from `" . $xoopsDB->prefix("bb_posts") . "`  where post_id='$post_id'";
-    $result2 = $xoopsDB->queryF($sql2) or die($sql2);
+    $sql2            = "select `post_time`  from `" . $xoopsDB->prefix("bb_posts") . "`  where post_id='$post_id'";
+    $result2         = $xoopsDB->queryF($sql2) or die($sql2);
     list($post_time) = $xoopsDB->fetchRow($result2);
-    $post_time = date("Y-m-d H:i:s", $post_time);
+    $post_time       = date("Y-m-d H:i:s", $post_time);
     return $post_time;
 }
 
@@ -297,9 +296,9 @@ function powerSet($BoardID = "")
 
 /*-----------執行動作判斷區----------*/
 $op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int)$_REQUEST['DiscussID'];
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int)$_REQUEST['BoardID'];
-$topic_id  = empty($_REQUEST['topic_id']) ? "" : (int)$_REQUEST['topic_id'];
+$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int) $_REQUEST['DiscussID'];
+$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int) $_REQUEST['BoardID'];
+$topic_id  = empty($_REQUEST['topic_id']) ? "" : (int) $_REQUEST['topic_id'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -344,7 +343,7 @@ switch ($op) {
         list_newbb();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

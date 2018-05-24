@@ -51,7 +51,7 @@ if (!function_exists('getOnlyToName')) {
 
         $sql     = "select name , uname from  `" . $xoopsDB->prefix("users") . "` where `uid` in('{$onlyTo}')";
         $result  = $xoopsDB->query($sql) or web_error($sql);
-        $allname = "";
+        $allname = array();
         while (list($name, $uname) = $xoopsDB->fetchRow($result)) {
             $allname[] = empty($name) ? $uname : $name;
         }

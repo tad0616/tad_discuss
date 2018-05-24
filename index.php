@@ -28,7 +28,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -46,7 +46,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
         $pic = $TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
         $pic = empty($pic) ? "images/board.png" : $pic;
 
-        $display_number   = isset($xoopsModuleConfig['display_number']) ? (int)$xoopsModuleConfig['display_number'] : 7;
+        $display_number   = isset($xoopsModuleConfig['display_number']) ? (int) $xoopsModuleConfig['display_number'] : 7;
         $list_tad_discuss = list_tad_discuss_short($BoardID, $display_number);
 
         $fun          = ($isAdmin) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : "";
@@ -102,7 +102,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $main_data = "";
+    $main_data = array();
     $i         = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter

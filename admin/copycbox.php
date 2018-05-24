@@ -23,8 +23,8 @@ function list_cbox()
         return;
     }
 
-    $sql = "SELECT BoardID FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardTitle = '" . _MA_TADDISCUS_CBOX . "'";
-    $result = $xoopsDB->query($sql) or die($sql);
+    $sql           = "SELECT BoardID FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardTitle = '" . _MA_TADDISCUS_CBOX . "'";
+    $result        = $xoopsDB->query($sql) or die($sql);
     list($BoardID) = $xoopsDB->fetchRow($result);
     if (!empty($BoardID)) {
         $xoopsTpl->assign('show_error', '1');
@@ -43,7 +43,7 @@ function list_cbox()
 
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： `sn`, `publisher`, `msg`, `post_date`, `ip`, `only_root`, `root_msg`
@@ -72,8 +72,8 @@ function get_uid_from_uname($publisher = "")
 {
     global $xoopsDB, $xoopsUser;
 
-    $sql = "select uid from `" . $xoopsDB->prefix("users") . "` where uname ='$publisher' or name='{$publisher}'";
-    $result = $xoopsDB->query($sql) or die($sql);
+    $sql       = "select uid from `" . $xoopsDB->prefix("users") . "` where uname ='$publisher' or name='{$publisher}'";
+    $result    = $xoopsDB->query($sql) or die($sql);
     list($uid) = $xoopsDB->fetchRow($result);
     return $uid;
 }
@@ -90,8 +90,8 @@ function copycbox($BoardID = "")
 
     if (empty($BoardID)) {
         //取得最大排序
-        $sql    = "SELECT max(`BoardSort`) FROM " . $xoopsDB->prefix("tad_discuss_board") . " GROUP BY BoardSort";
-        $result = $xoopsDB->queryF($sql);
+        $sql        = "SELECT max(`BoardSort`) FROM " . $xoopsDB->prefix("tad_discuss_board") . " GROUP BY BoardSort";
+        $result     = $xoopsDB->queryF($sql);
         list($sort) = $xoopsDB->fetchRow($result);
         $sort++;
 
@@ -180,7 +180,7 @@ switch ($op) {
         list_cbox();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/

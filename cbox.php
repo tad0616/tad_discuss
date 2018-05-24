@@ -4,16 +4,53 @@ include_once "header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
 $TadUpFiles = new TadUpFiles("tad_discuss");
 
+/*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op       = system_CleanVars($_REQUEST, 'op', '', 'string');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', '', 'int');
+$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$files_sn  = system_CleanVars($_REQUEST, 'files_sn', '', 'int');
+
 switch ($op) {
+    //刪除資料
+    case "delete_tad_discuss":
+        delete_tad_discuss($DiscussID);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
     //下載檔案
     case "tufdl":
         $TadUpFiles->add_file_counter($files_sn);
         exit;
+
+    default:
+        $main = list_tad_discuss_cbox($BoardID);
         break;
 }
+
+/*-----------秀出結果區--------------*/
+$jquery = get_jquery();
+
+include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
+$fancybox = new fancybox('.fancybox_Discuss');
+$fancybox->render();
+
+echo "
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+  <meta charset='" . _CHARSET . "'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Post List</title>
+  $jquery
+  $fancybox_code
+  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
+</head>
+<body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
+  {$main}
+</body>
+</html>";
+
 /*-----------function區--------------*/
 
 //列出所有tad_discuss資料
@@ -47,9 +84,9 @@ function list_tad_discuss_cbox($DefBoardID = "")
 
     $sql = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' and b.BoardEnable='1' $andBoardID  order by a.LastTime desc limit 0,10";
 
-    $cbox_root_msg_color = empty($_GET['border_color']) ? "#B4C58D" : $_GET['border_color'];
-    $bg_color            = empty($_GET['bg_color']) ? "#FFFFFF" : $_GET['bg_color'];
-    $font_color          = empty($_GET['font_color']) ? "#000000" : $_GET['font_color'];
+    $cbox_root_msg_color = system_CleanVars($_REQUEST, 'cbox_root_msg_color', '#B4C58D', 'string');
+    $bg_color            = system_CleanVars($_REQUEST, 'bg_color', '#FFFFFF', 'string');
+    $font_color          = system_CleanVars($_REQUEST, 'font_color', '#000000', 'string');
 
     if ($isAdmin) {
         $del_js = "
@@ -106,8 +143,6 @@ function list_tad_discuss_cbox($DefBoardID = "")
     $i = 2;
 
     $result = $xoopsDB->query($sql) or web_error($sql);
-
-    $main_data = "";
 
     $i = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -261,44 +296,3 @@ function list_tad_discuss_cbox($DefBoardID = "")
 
     return $data;
 }
-
-/*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-
-switch ($op) {
-    //刪除資料
-    case "delete_tad_discuss":
-        delete_tad_discuss($DiscussID);
-        header("location: {$_SERVER['PHP_SELF']}");
-        break;
-
-    default:
-        $main = list_tad_discuss_cbox($BoardID);
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$jquery = get_jquery();
-
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
-$fancybox      = new fancybox('.fancybox_Discuss');
-$fancybox_code = $fancybox->render();
-
-echo "
-<!DOCTYPE html>
-<html lang='en'>
-  <head>
-  <meta charset='" . _CHARSET . "'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Post List</title>
-  $jquery
-  $fancybox_code
-  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
-</head>
-<body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
-  {$main}
-</body>
-</html>";

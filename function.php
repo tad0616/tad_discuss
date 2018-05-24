@@ -169,8 +169,8 @@ function insert_tad_discuss_cbox_setup($setupName = "", $setupRule = "", $newBor
 function tad_discuss_cbox_setup_max_sort()
 {
     global $xoopsDB;
-    $sql = "SELECT max(`setupSort`) FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "`";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $sql        = "SELECT max(`setupSort`) FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "`";
+    $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
 }
@@ -231,7 +231,7 @@ function list_tad_discuss($DefBoardID = null)
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $main_data = "";
+    $main_data = array();
     $i         = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -252,7 +252,7 @@ function list_tad_discuss($DefBoardID = null)
         }
 
         //最後回應者
-        $sql2 = "select uid,publisher from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
+        $sql2    = "select uid,publisher from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
         $result2 = $xoopsDB->queryF($sql2) or web_error($sql2);
         //if($isAdmin)die($sql2);
         list($last_uid, $last_uid_name) = $xoopsDB->fetchRow($result2);
@@ -341,9 +341,9 @@ function get_tad_discuss($DiscussID = "")
         return;
     }
 
-    $sql = "select * from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$DiscussID'";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$DiscussID'";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $data = $xoopsDB->fetchArray($result);
+    $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
 
@@ -357,8 +357,8 @@ function get_board_num($BoardID = "", $onlyMainDiscuss = true)
 
     $andMainDiscuss = ($onlyMainDiscuss) ? "and ReDiscussID='0'" : "";
     $sql            = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where BoardID='$BoardID' {$andMainDiscuss}";
-    $result = $xoopsDB->query($sql) or web_error($sql);
-    list($counter) = $xoopsDB->fetchRow($result);
+    $result         = $xoopsDB->query($sql) or web_error($sql);
+    list($counter)  = $xoopsDB->fetchRow($result);
     return $counter;
 }
 
@@ -370,8 +370,8 @@ function get_re_num($DiscussID = "")
         return 0;
     }
 
-    $sql = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $sql           = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
+    $result        = $xoopsDB->query($sql) or web_error($sql);
     list($counter) = $xoopsDB->fetchRow($result);
     return $counter;
 }
@@ -463,7 +463,7 @@ function delete_tad_discuss($DiscussID = "")
         $TadUpFiles->set_col('DiscussID', $DiscussID); //若要整個刪除
         $TadUpFiles->del_files();
 
-        $sql = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
+        $sql    = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
         $result = $xoopsDB->query($sql) or web_error($sql);
         while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
             delete_tad_discuss($DiscussID);
@@ -505,7 +505,7 @@ function insert_tad_discuss($nl2br = false)
 
     $member_handler = xoops_getHandler('member');
 
-    $uid = ($xoopsUser) ? $xoopsUser->uid() : (int)$_POST['uid'];
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : (int) $_POST['uid'];
 
     $myts = MyTextSanitizer::getInstance();
     //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
@@ -517,13 +517,13 @@ function insert_tad_discuss($nl2br = false)
         $myip = $myip[0];
     }
 
-    $ReDiscussID = isset($_POST['ReDiscussID']) ? (int)$_POST['ReDiscussID'] : 0;
+    $ReDiscussID = isset($_POST['ReDiscussID']) ? (int) $_POST['ReDiscussID'] : 0;
     //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
     $Discuss      = get_tad_discuss($ReDiscussID);
     $DiscussTitle = empty($_POST['DiscussTitle']) ? "RE:" . $Discuss['DiscussTitle'] : $_POST['DiscussTitle'];
     $DiscussTitle = $myts->addSlashes($DiscussTitle);
     $publisher    = $myts->addSlashes($_POST['publisher']);
-    $BoardID      = (int)$_POST['BoardID'];
+    $BoardID      = (int) $_POST['BoardID'];
 
     $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
     if ($nl2br) {

@@ -10,8 +10,6 @@ $TadUpFiles = new TadUpFiles("tad_discuss");
 function tad_discuss_cbox_setup_form($setupID = "")
 {
     global $xoopsDB, $xoopsTpl;
-    //include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
-    //include_once(XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php");
 
     //抓取預設值
     if (!empty($setupID)) {

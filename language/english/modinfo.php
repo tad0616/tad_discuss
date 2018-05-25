@@ -62,3 +62,6 @@ define('_MI_TADDISCUS_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
 define('_MI_TADDISCUS_HELP_OVERVIEW', 'Overview');
+
+define('_MI_TADDISCUS_DEF_EDITOR', 'Default Editor');
+define('_MI_TADDISCUS_DEF_EDITOR_DESC', 'Default Editor');

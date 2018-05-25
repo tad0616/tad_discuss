@@ -51,3 +51,6 @@ define('_MI_TADDISCUS_SIG_STYLE', '簽名檔樣式');
 define('_MI_TADDISCUS_SIG_STYLE_DESC', '可以自行用CSS語法調整簽名樣式外觀');
 define('_MI_TADDISCUS_SHOW_LIKE', '顯示按讚按鈕');
 define('_MI_TADDISCUS_SHOW_LIKE_DESC', '可設定是否顯示每篇文章按讚的工具');
+
+define('_MI_TADDISCUS_DEF_EDITOR', '預設編輯器');
+define('_MI_TADDISCUS_DEF_EDITOR_DESC', '設定使用的編輯器');

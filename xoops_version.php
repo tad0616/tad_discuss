@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADDISCUS_NAME;
-$modversion['version']     = '2.4';
+$modversion['version']     = '2.5';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author']      = _MI_TADDISCUS_AUTHOR;
 $modversion['credits']     = 'geek01';
@@ -13,7 +13,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2017-06-16';
+$modversion['release_date']        = '2018-05-25';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -223,6 +223,15 @@ $modversion['config'][$i]['description'] = '_MI_TADDISCUS_SHOW_LIKE_DESC';
 $modversion['config'][$i]['formtype']    = 'yesno';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = '1';
+
+$i++;
+$modversion['config'][$i]['name']        = 'def_editor';
+$modversion['config'][$i]['title']       = '_MI_TADDISCUS_DEF_EDITOR';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_DEF_EDITOR_DESC';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['default']     = 'nicEditor';
+$modversion['config'][$i]['options']     = array('nicEditor' => 'nicEditor', 'CKEditor' => 'CKEditor');
 
 //---模組通知設定---//
 $modversion['hasNotification'] = 1;

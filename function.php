@@ -6,6 +6,7 @@ if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 include_once "function_block.php";
 
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 /********************* 自訂函數 *********************/
 
 //對話框格式
@@ -97,38 +98,31 @@ function insert_tad_discuss_board($BoardTitle = "")
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts               = MyTextSanitizer::getInstance();
-    $BoardTitle         = $myts->addSlashes($BoardTitle);
-    $_POST['BoardDesc'] = $myts->addSlashes($_POST['BoardDesc']);
+    $myts       = MyTextSanitizer::getInstance();
+    $BoardTitle = $myts->addSlashes($BoardTitle);
+    $BoardDesc  = $myts->addSlashes($_POST['BoardDesc']);
 
     $BoardManager = is_array($_POST['BoardManager']) ? implode(',', $_POST['BoardManager']) : $_POST['BoardManager'];
     if (empty($BoardManager)) {
         $BoardManager = $xoopsUser->uid();
     }
 
-    if (!isset($_POST['BoardEnable'])) {
-        $_POST['BoardEnable'] = 1;
-    }
-
-    if (!isset($_POST['forum_read'])) {
-        $_POST['forum_read'] = array(1, 2, 3);
-    }
-
-    if (!isset($_POST['forum_post'])) {
-        $_POST['forum_post'] = array(1, 2);
-    }
+    $forum_read = system_CleanVars($_REQUEST, 'forum_read', array(1, 2, 3), 'array');
+    $forum_post = system_CleanVars($_REQUEST, 'forum_post', array(1, 2), 'array');
+    $BoardEnable = system_CleanVars($_REQUEST, 'BoardEnable', 1, 'int'); 
+    $ofBoardID = (int) $_POST['ofBoardID'];
 
     $sql = "insert into `" . $xoopsDB->prefix("tad_discuss_board") . "`
   (`ofBoardID` , `BoardTitle` , `BoardDesc` , `BoardManager` , `BoardEnable`)
-  values('{$_POST['ofBoardID']}' , '{$BoardTitle}' , '{$_POST['BoardDesc']}' , '{$BoardManager}' , '{$_POST['BoardEnable']}')";
+  values('{$ofBoardID}' , '{$BoardTitle}' , '{$BoardDesc}' , '{$BoardManager}' , '{$BoardEnable}')";
     $xoopsDB->query($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
     $BoardID = $xoopsDB->getInsertId();
 
     //寫入權限
-    saveItem_Permissions($_POST['forum_read'], $BoardID, 'forum_read');
-    saveItem_Permissions($_POST['forum_post'], $BoardID, 'forum_post');
+    saveItem_Permissions($forum_read, $BoardID, 'forum_read');
+    saveItem_Permissions($forum_post, $BoardID, 'forum_post');
 
     $TadUpFiles->set_col("BoardID", $BoardID);
     $TadUpFiles->upload_file("upfile", 1024, 120, null, "", true);

@@ -534,7 +534,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $uid = (is_object($xoopsUser) and empty($uid)) ? $xoopsUser->uid() : $uid;
 
     //設定「DiscussTitle」欄位預設值
-    $DiscussTitle = (!isset($DBV['DiscussTitle'])) ? _MD_TADDISCUS_INPUT_TITLE : $DBV['DiscussTitle'];
+    $DiscussTitle = (!isset($DBV['DiscussTitle'])) ? '' : $DBV['DiscussTitle'];
 
     //設定「DiscussContent」欄位預設值
     $DiscussContent = (!isset($DBV['DiscussContent'])) ? "" : $DBV['DiscussContent'];

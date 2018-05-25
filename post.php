@@ -8,10 +8,7 @@ $TadUpFiles = new TadUpFiles("tad_discuss");
 
 if ($_GET['mode'] == "mkpic") {
     if ($xoopsModuleConfig['security_images'] == '1') {
-        $num1                      = rand(0, 9);
-        $num2                      = rand(0, 9);
-        $num3                      = rand(0, 9);
-        $num                       = $num1 . $num2 . $num3;
+        $num                       = rand(100, 999);
         $_SESSION['security_code'] = $num;
         mkpic($num);
         exit;
@@ -22,12 +19,6 @@ if ($_GET['mode'] == "mkpic") {
 function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
 {
     global $xoopsDB, $xoopsUser, $xoopsModuleConfig, $xoopsModule, $TadUpFiles, $isAdmin;
-
-    // if(empty($xoopsUser)){
-    //   $main="<body class='error_bg'><div style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>".sprintf(_MD_TADDISCUS_NEED_LOGIN,$BoardID,$BoardID)."</div></body>";
-    //   return $main;
-    //   exit;
-    // }
 
     if (empty($BoardID)) {
         if ($isAdmin and $xoopsModuleConfig['display_fast_setup'] == '1') {
@@ -181,7 +172,7 @@ function tad_discuss_form($BoardID = "", $DiscussID = "", $ReDiscussID = "")
 
     $DiscussTitleForm = empty($ReDiscussID) ? "
     <tr>
-      <td colspan=2><input type='text' name='DiscussTitle' value='" . _MD_TADDISCUS_INPUT_TITLE . "' style='width:100%' onClick=\"if(this.value=='" . _MD_TADDISCUS_INPUT_TITLE . "')this.value=''\">
+      <td colspan=2><input type='text' name='DiscussTitle' value='' style='width:100%' placeholder='" . _MD_TADDISCUS_INPUT_TITLE . "' class='form-control validate[required]'>
       </td>
     </tr>" : "";
 
@@ -276,13 +267,11 @@ switch ($op) {
         insert_tad_discuss(true);
         header("location: {$_SERVER['PHP_SELF']}?op=reload&BoardID=$BoardID");
         exit;
-        break;
 
     case "fast_add_borard":
         $BoardID = insert_tad_discuss_cbox_setup($_POST['boardTitle'], $_POST['setupRule'], $_POST['boardTitle']);
         header("location: {$_SERVER['PHP_SELF']}?op=reload&BoardID=$BoardID");
         exit;
-        break;
 
     default:
         $main = tad_discuss_form($BoardID, $DiscussID, $ReDiscussID);

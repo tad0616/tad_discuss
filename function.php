@@ -19,7 +19,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
     $pic            = XOOPS_URL . "/modules/tad_discuss/images/nobody.png";
     $uid_name       = _MD_TADDISCUS_NOBODY;
     $user_sig       = "";
-    if (is_object($user)) {
+    if (is_object($user) and $uid) {
         $ts       = MyTextSanitizer::getInstance();
         $uid_name = empty($publisher) ? $ts->htmlSpecialChars($user->name()) : $publisher;
         if (empty($uid_name)) {
@@ -109,7 +109,7 @@ function insert_tad_discuss_board($BoardTitle = "")
 
     $forum_read = system_CleanVars($_REQUEST, 'forum_read', array(1, 2, 3), 'array');
     $forum_post = system_CleanVars($_REQUEST, 'forum_post', array(1, 2), 'array');
-    $BoardEnable = system_CleanVars($_REQUEST, 'BoardEnable', 1, 'int'); 
+    $BoardEnable = system_CleanVars($_REQUEST, 'BoardEnable', 1, 'int');
     $ofBoardID = (int) $_POST['ofBoardID'];
 
     $sql = "insert into `" . $xoopsDB->prefix("tad_discuss_board") . "`
@@ -290,7 +290,7 @@ function list_tad_discuss($DefBoardID = null)
     $xoopsTpl->assign('main_data', $main_data);
     $xoopsTpl->assign('DefBoardID', $DefBoardID);
 
-    $post_tool = ($post and !empty($DefBoardID)) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='btn btn-default'><img src='images/edit.png' align='absmiddle' hspace=4 alt='" . _MD_TADDISCUS_ADD_DISCUSS . "'>" . _MD_TADDISCUS_ADD_DISCUSS . "</a>" : "";
+    $post_tool = ($post and !empty($DefBoardID)) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='btn btn-default btn-secondary'><img src='images/edit.png' align='absmiddle' hspace=4 alt='" . _MD_TADDISCUS_ADD_DISCUSS . "'>" . _MD_TADDISCUS_ADD_DISCUSS . "</a>" : "";
 
     if (file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php")) {
         include_once XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php";

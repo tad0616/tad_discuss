@@ -70,6 +70,11 @@ function tad_discuss_new($options)
         $i++;
     }
 
+    if (file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php")) {
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php";
+        $FooTable               = new FooTable("#new_discuss");
+        $block['NewFooTableJS'] = $FooTable->render();
+    }
     return $block;
 }
 

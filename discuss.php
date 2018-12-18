@@ -53,7 +53,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
 
     //設定「uid」欄位預設值
     $uid = (!isset($DBV['uid'])) ? '' : $DBV['uid'];
-    $uid = (is_object($xoopsUser) and empty($uid)) ? $xoopsUser->getVar('uid') : $uid;
+    $uid = (is_object($xoopsUser) and empty($uid)) ? $xoopsUser->uid() : $uid;
 
     //設定「DiscussTitle」欄位預設值
     $DiscussTitle = (!isset($DBV['DiscussTitle'])) ? '' : $DBV['DiscussTitle'];
@@ -130,30 +130,63 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $checked = !empty($RE['onlyTo']) ? "checked" : "";
     }
 
+    if ($xoopsModuleConfig['def_editor'] == 'CKEditor') {
+        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ck.php")) {
+            redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
+        }
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/ck.php";
+        $ck = new CKEditor("tad_discuss", "DiscussContent", $DiscussContent);
+        $ck->setToolbarSet('mySimple');
+        $ck->setHeight(250);
+        $editor = $ck->render();
+    } else {
+        $editor = "<textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>";
+    }
+    $xoopsTpl->assign('def_editor',$xoopsModuleConfig['def_editor']);
+
+
+    $captcha_js  = "";
+    $captcha_div = "";
+    if (!is_object($xoopsUser)) {
+        $captcha_js = "
+        <link rel='stylesheet' type='text/css' href='class/Qaptcha_v3.0/jquery/QapTcha.jquery.css' media='screen' />
+        <script type='text/javascript' src='class/Qaptcha_v3.0/jquery/jquery.ui.touch.js'></script>
+        <script type='text/javascript' src='class/Qaptcha_v3.0/jquery/QapTcha.jquery.js'></script>
+        <script type='text/javascript'>
+          $(document).ready(function(){
+           $('.QapTcha').QapTcha({disabledSubmit:true , autoRevert:true , PHPfile:'class/Qaptcha_v3.0/php/Qaptcha.jquery.php', txtLock:'" . _MD_TADDISCUS_TXTLOCK . "' , txtUnlock:'" . _MD_TADDISCUS_TXTUNLOCK . "'});
+          });
+        </script>";
+        $captcha_div = "<div class='QapTcha'></div>";
+        $only_root="";
+    }else{
+        $only_root="
+        <label class='checkbox-inline'>
+          <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . "
+        </label>";
+    }
+
     $DiscussContent = "
     $DiscussTitle
-
-    <div class='row' style='margin: 10px 0px;'>
-        <div class='col-sm-12'>
-          <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
-        </div>
+    <div style='margin: 10px 0px;'>
+        {$editor}
     </div>
     <div class='row'>
         <div class='col-sm-6'>
-          {$upform}
+            {$captcha_div}
         </div>
         <div class='col-sm-6 text-right'>
-            <label class='checkbox-inline'>
-              <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . "
-            </label>
+            {$only_root}
             <input type='hidden' name='OldBoardID' value='{$BoardID}'>
             <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
             <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
             <input type='hidden' name='uid' value='{$uid}'>
             <input type='hidden' name='op' value='{$op}'>
-            <button type='submit' class='btn btn-info'>" . _TAD_SAVE . "</button>
+            <button type='submit' class='btn btn-primary'>" . _TAD_SAVE . "</button>
+            {$captcha_js}
         </div>
-    </div>";
+    </div>
+    {$upform}";
 
     $DiscussDate = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate)));
 

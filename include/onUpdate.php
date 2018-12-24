@@ -35,6 +35,10 @@ function xoops_module_update_tad_discuss(&$module, $old_version)
         go_update6();
     }
 
+    //新增檔案欄位
+    if (chk_fc_tag()) {
+        go_fc_tag();
+    }
     return true;
 }
 
@@ -140,8 +144,8 @@ function go_update4()
 function get_name_from_uid($uid = "")
 {
     global $xoopsDB;
-    $sql = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
-    $result = $xoopsDB->queryF($sql) or die($sql);
+    $sql                = "select uname,name from `" . $xoopsDB->prefix("users") . "` where uid ='{$uid}'";
+    $result             = $xoopsDB->queryF($sql) or die($sql);
     list($uname, $name) = $xoopsDB->fetchRow($result);
     if (!empty($name)) {
         return $name;
@@ -182,9 +186,9 @@ function go_update5()
 function chk_uid()
 {
     global $xoopsDB;
-    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_name = '" . $xoopsDB->prefix("tad_discuss") . "' AND COLUMN_NAME = 'uid'";
-    $result = $xoopsDB->query($sql);
+    $result     = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -206,9 +210,9 @@ function go_update_uid()
 function chk_files_center()
 {
     global $xoopsDB;
-    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_name = '" . $xoopsDB->prefix("tad_discuss_files_center") . "' AND COLUMN_NAME = 'col_sn'";
-    $result = $xoopsDB->query($sql);
+    $result     = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -245,14 +249,38 @@ function go_update6()
     $sql    = "SELECT DiscussID,ReDiscussID FROM " . $xoopsDB->prefix("tad_discuss") . " WHERE BoardID=0";
     $result = $xoopsDB->query($sql);
     while (list($DiscussID, $ReDiscussID) = $xoopsDB->fetchRow($result)) {
-        $sql2    = "select BoardID from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$ReDiscussID'";
-        $result2 = $xoopsDB->query($sql2);
+        $sql2          = "select BoardID from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$ReDiscussID'";
+        $result2       = $xoopsDB->query($sql2);
         list($BoardID) = $xoopsDB->fetchRow($result2);
 
         $sql3 = "update " . $xoopsDB->prefix("tad_discuss") . " set BoardID='$BoardID' where DiscussID='$DiscussID'";
         $xoopsDB->query($sql3);
     }
     return true;
+}
+
+//新增檔案欄位
+function chk_fc_tag()
+{
+    global $xoopsDB;
+    $sql    = "SELECT count(`tag`) FROM " . $xoopsDB->prefix("tad_discuss_files_center");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
+
+    return false;
+}
+
+function go_fc_tag()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_discuss_files_center") . "
+    ADD `upload_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '上傳時間',
+    ADD `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上傳者',
+    ADD `tag` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '註記'
+    ";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //建立目錄

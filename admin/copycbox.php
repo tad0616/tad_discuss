@@ -97,7 +97,7 @@ function copycbox($BoardID = "")
 
         //建立討論區
         $sql = "insert into " . $xoopsDB->prefix("tad_discuss_board") . " (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES(0 , '" . _MA_TADDISCUS_CBOX . "' , '" . _MA_TADDISCUS_CBOX_DESC . "' , '{$root_uid}' ,'{$sort}' , '1')";
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
         //取得最後新增資料的流水編號
         $BoardID = $xoopsDB->getInsertId();

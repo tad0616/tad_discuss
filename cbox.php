@@ -142,7 +142,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
     ";
     $i = 2;
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $i = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -226,7 +226,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         ";
 
         $sql     = "select * from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by ReDiscussID , DiscussDate";
-        $result2 = $xoopsDB->query($sql) or web_error($sql);
+        $result2 = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
         $re      = "";
         $f       = 2;
         while ($all = $xoopsDB->fetchArray($result2)) {

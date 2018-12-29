@@ -9,7 +9,7 @@ function tad_discuss_hot($options)
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : "";
     $sql      = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.Counter desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $block = array();
     $i     = 1;
@@ -100,7 +100,7 @@ if (!function_exists('block_get_re_num')) {
         }
 
         $sql           = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-        $result        = $xoopsDB->query($sql) or web_error($sql);
+        $result        = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
         list($counter) = $xoopsDB->fetchRow($result);
         return $counter;
     }

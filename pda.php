@@ -32,7 +32,7 @@ function list_tad_discuss_board($show_function = 1)
     $gperm_handler = xoops_getHandler('groupperm');
 
     $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $all_content = "";
 
@@ -126,7 +126,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     $andLimit   = ($limit > 0) ? "limit 0,$limit" : "";
     $sql        = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //$main_data="<table style='width:100%'>";
     //$i=0;
@@ -250,7 +250,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $discuss_data = "";
     $i            = $xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
@@ -374,7 +374,7 @@ function list_tad_discuss_m($DefBoardID = null)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $main_data = "";
     $i         = 1;
@@ -651,7 +651,7 @@ function update_tad_discuss($DiscussID = "")
    `LastTime` = now(),
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     $TadUpFiles->set_col("DiscussID", $DiscussID);
     $TadUpFiles->upload_file("upfile", 1024, 120, null, "", true);
@@ -675,7 +675,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 function login_m()

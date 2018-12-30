@@ -115,7 +115,7 @@ function insert_tad_discuss_board($BoardTitle = "")
     $sql = "insert into `" . $xoopsDB->prefix("tad_discuss_board") . "`
   (`ofBoardID` , `BoardTitle` , `BoardDesc` , `BoardManager` , `BoardEnable`)
   values('{$ofBoardID}' , '{$BoardTitle}' , '{$BoardDesc}' , '{$BoardManager}' , '{$BoardEnable}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $BoardID = $xoopsDB->getInsertId();
@@ -152,7 +152,7 @@ function insert_tad_discuss_cbox_setup($setupName = "", $setupRule = "", $newBor
     $sql = "insert into `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "`
   (`setupName` , `setupRule` , `BoardID` , `setupSort`)
   values('{$setupName}' , '{$setupRule}' , '{$BoardID}' , '{$setupSort}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     //$setupID = $xoopsDB->getInsertId();
@@ -164,7 +164,7 @@ function tad_discuss_cbox_setup_max_sort()
 {
     global $xoopsDB;
     $sql        = "SELECT max(`setupSort`) FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "`";
-    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
 }
@@ -223,7 +223,7 @@ function list_tad_discuss($DefBoardID = null)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $main_data = array();
     $i         = 1;
@@ -336,7 +336,7 @@ function get_tad_discuss($DiscussID = "")
     }
 
     $sql    = "select * from " . $xoopsDB->prefix("tad_discuss") . " where DiscussID='$DiscussID'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -351,7 +351,7 @@ function get_board_num($BoardID = "", $onlyMainDiscuss = true)
 
     $andMainDiscuss = ($onlyMainDiscuss) ? "and ReDiscussID='0'" : "";
     $sql            = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where BoardID='$BoardID' {$andMainDiscuss}";
-    $result         = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result         = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($counter)  = $xoopsDB->fetchRow($result);
     return $counter;
 }
@@ -365,7 +365,7 @@ function get_re_num($DiscussID = "")
     }
 
     $sql           = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-    $result        = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result        = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($counter) = $xoopsDB->fetchRow($result);
     return $counter;
 }
@@ -458,12 +458,12 @@ function delete_tad_discuss($DiscussID = "")
         $TadUpFiles->del_files();
 
         $sql    = "select DiscussID from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
             delete_tad_discuss($DiscussID);
         }
     } else {
-        web_error($sql, __FILE__, _LINE__);
+        web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -543,7 +543,7 @@ function insert_tad_discuss($nl2br = false)
     $time = date("Y-m-d H:i:s");
     $sql  = "insert into " . $xoopsDB->prefix("tad_discuss") . "   (`ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP` , `onlyTo`)
   values('{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$DiscussTitle}' , '{$DiscussContent}' , '{$time}', '{$BoardID}' , '{$time}' , '0', '$myip' , '{$onlyTo}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $DiscussID = $xoopsDB->getInsertId();
@@ -560,7 +560,7 @@ function insert_tad_discuss($nl2br = false)
     if (!empty($ReDiscussID)) {
         $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set `LastTime` = '{$time}'
     where `DiscussID` = '{$ReDiscussID}' or `ReDiscussID` = '{$ReDiscussID}'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
         $ToDiscussID = $ReDiscussID;
     }
 

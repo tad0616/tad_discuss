@@ -55,7 +55,7 @@ function tad_discuss_cbox($options)
         $form = "<select class='form-control' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
             <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
         $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
             foreach ($all as $k => $v) {
@@ -71,7 +71,7 @@ function tad_discuss_cbox($options)
         $form .= "</select>";
     } else {
         $sql                        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
-        $result                     = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+        $result                     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result);
         $form .= "
               <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
@@ -111,7 +111,7 @@ function tad_discuss_cbox_edit($options)
       <div>" . _MB_TADDISCUS_SELECT_BOARD . "<select name='options[0]'>
         <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
     $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
@@ -147,7 +147,7 @@ if (!function_exists("get_rule")) {
         global $xoopsDB;
 
         $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
         $all_content = array();
         while ($all = $xoopsDB->fetchArray($result)) {

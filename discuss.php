@@ -245,7 +245,7 @@ function get_tad_discuss_board_option($default_BoardID = "0")
     $gperm_handler = xoops_getHandler('groupperm');
 
     $sql    = "SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` ORDER BY `BoardSort`";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = "";
     while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
@@ -337,7 +337,7 @@ function show_one_tad_discuss($DefDiscussID = "")
         redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADDISCUS_THE_DISCUSS_EMPTY);
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $discuss_data = array();
     $i            = 1;
@@ -486,13 +486,13 @@ function update_tad_discuss($DiscussID = "")
   where DiscussID='$DiscussID' $anduid";
 
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     if ($OldBoardID != $BoardID) {
         $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set
      `BoardID` = '{$BoardID}'
     where ReDiscussID='$DiscussID'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $TadUpFiles->set_col("DiscussID", $DiscussID);
@@ -523,7 +523,7 @@ function change_lock($lock, $BoardID, $DiscussID)
    `onlyTo` = '$onlyTo'
   where DiscussID='$DiscussID' $anduid";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     return $DiscussID;
 }
@@ -533,7 +533,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/

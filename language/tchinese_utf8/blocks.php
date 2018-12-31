@@ -1,6 +1,6 @@
 <?php
-define('_MB_TADDISCUS_TAD_DISCUSS_NEW_EDIT_BITEM0', '顯示討論數量');
-define('_MB_TADDISCUS_TAD_DISCUSS_HOT_EDIT_BITEM1', '只列入幾天內的文章');
+define('_MB_TADDISCUS_SHOW_DISCUSS_AMOUNT', '顯示討論數量');
+define('_MB_TADDISCUS_WITHIN_DAYS_DISCUSS', '只列入幾天內的文章');
 define('_MB_TADDISCUS_UID', '作者');
 define('_MB_TADDISCUS_LAST_RE', '最新回應');
 define('_MB_TADDISCUS_DISCUSSTITLE', '主題');

@@ -83,9 +83,15 @@ function tad_discuss_new_edit($options)
 {
 
     $form = "
-	" . _MB_TADDISCUS_TAD_DISCUSS_NEW_EDIT_BITEM0 . "
-	<INPUT type='text' name='options[0]' value='{$options[0]}'>
-	";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_SHOW_DISCUSS_AMOUNT . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+    </ol>";
+
     return $form;
 }
 

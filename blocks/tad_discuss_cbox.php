@@ -2,16 +2,16 @@
 //區塊主函式 (會產生一個即時留言簿區塊)
 function tad_discuss_cbox($options)
 {
-    global $xoopsUser, $xoopsDB;
+    global $xoopsUser, $xoopsDB, $xoTheme;
 
     //取得本模組編號
     $modhandler  = xoops_getHandler('module');
     $xoopsModule = $modhandler->getByDirname("tad_discuss");
-    $module_id   = $xoopsModule->getVar('mid');
+    $module_id   = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid    = $xoopsUser->getVar('uid');
+        $uid    = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid    = 0;
@@ -23,7 +23,11 @@ function tad_discuss_cbox($options)
     $block['apply_rule'] = $apply_rule = $options[5];
 
     if ($apply_rule) {
-        $url      = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'];
+        $http = 'http://';
+        if (!empty($_SERVER['HTTPS'])) {
+            $http = ($_SERVER['HTTPS'] === 'on') ? 'https://' : 'http://';
+        }
+        $url      = $http . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'];
         $all_rule = get_rule();
         foreach ($all_rule as $toBoardID => $patten_arr) {
             foreach ($patten_arr as $patten) {
@@ -64,8 +68,8 @@ function tad_discuss_cbox($options)
 
             $selected = ($DefBoardID == $BoardID) ? "selected" : "";
             $form .= "
-              <option value='{$BoardID}' $selected>{$BoardTitle}</option>
-              ";
+            <option value='{$BoardID}' $selected>{$BoardTitle}</option>
+            ";
         }
 
         $form .= "</select>";
@@ -74,8 +78,8 @@ function tad_discuss_cbox($options)
         $result                     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result);
         $form .= "
-              <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
-              ";
+            <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
+            ";
     }
 
     $block['SelectBoard']  = $form;
@@ -95,23 +99,16 @@ function tad_discuss_cbox($options)
 function tad_discuss_cbox_edit($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php";
-    $jquery = get_jquery();
-    $form   = "
-      $jquery
-      <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/mColorPicker/javascripts/mColorPicker.js' charset='UTF-8'></script>
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/mColorPicker.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/mColorPicker.php";
+    $mColorPicker = new mColorPicker('.color');
+    $mColorPicker->render();
 
-      <script type='text/javascript'>
-        $('#color').mColorPicker({
-          imageFolder: '" . XOOPS_URL . "/modules/tadtools/mColorPicker/images/'
-        });
-      </script>
-
-
-      <div>" . _MB_TADDISCUS_SELECT_BOARD . "<select name='options[0]'>
-        <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
     $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $opt    = '';
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
@@ -119,25 +116,58 @@ function tad_discuss_cbox_edit($options)
         }
 
         $selected = ($options[0] == $BoardID) ? "selected" : "";
-        $form .= "
+        $opt .= "
         <option value='{$BoardID}' $selected>{$BoardTitle}</option>
-        <div></div>
         ";
     }
 
     $options5_1 = $options[5] == '1' ? "checked" : "";
     $options5_0 = $options[5] == '0' ? "checked" : "";
 
-    $form .= "</select></div>
-      <div>" . _MB_TADDISCUS_HEIGHT . "<input type='text' name='options[1]' value='{$options[1]}' size=4> px</div>
-      <div>" . _MB_TADDISCUS_BORDER_COLOR . "<input type='text' data-hex='true'  name='options[2]' value='{$options[2]}' size=10></div>
-      <div>" . _MB_TADDISCUS_BG_COLOR . "<input type='text' data-hex='true'  name='options[3]' value='{$options[3]}' size=10></div>
-      <div>" . _MB_TADDISCUS_FONT_COLOR . "<input type='text' data-hex='true'  name='options[4]' value='{$options[4]}' size=10></div>
-      <div><a href='" . XOOPS_URL . "/modules/tad_discuss/admin/cbox_setup.php' target='_blank'>" . _MB_TADDISCUS_APPLY_RULE . "</a>
-      <input type='radio' name='options[5]' value='1' $options5_1>" . _YES . "
-      <input type='radio' name='options[5]' value='0' $options5_0>" . _NO . "
-      </div>
-      ";
+    $form = "
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_SELECT_BOARD . "</lable>
+            <div class='my-content'>
+                <select name='options[0]' class='my-input'>
+                    <option value='0'>" . _MB_TADDISCUS_ALL_BOARD . "</option>
+                    $opt
+                </select>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_HEIGHT . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[1]' value='{$options[1]}' size=6>px
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_BORDER_COLOR . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input color' data-hex='true' name='options[2]' value='{$options[2]}' size=8>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_BG_COLOR . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input color' data-hex='true' name='options[3]' value='{$options[3]}' size=8>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_FONT_COLOR . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input color' data-hex='true' name='options[4]' value='{$options[4]}' size=8>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'><a href='" . XOOPS_URL . "/modules/tad_discuss/admin/cbox_setup.php' target='_blank'>" . _MB_TADDISCUS_APPLY_RULE . "</a></lable>
+            <div class='my-content'>
+                <input type='radio' name='options[5]' value='1' $options5_1>" . _YES . "
+                <input type='radio' name='options[5]' value='0' $options5_0>" . _NO . "
+            </div>
+        </li>
+    </ol>";
+
     return $form;
 }
 

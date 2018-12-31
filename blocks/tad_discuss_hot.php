@@ -4,7 +4,7 @@ function tad_discuss_hot($options)
 {
     global $xoopsDB, $xoopsUser;
     include_once XOOPS_ROOT_PATH . "/modules/tad_discuss/function_block.php";
-    $now_uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : "0";
+    $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : "0";
 
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : "";
     $sql      = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.Counter desc $andLimit";
@@ -82,11 +82,20 @@ function tad_discuss_hot_edit($options)
 {
 
     $form = "
-	" . _MB_TADDISCUS_TAD_DISCUSS_HOT_EDIT_BITEM0 . "
-	<INPUT type='text' name='options[0]' value='{$options[0]}'>
-	" . _MB_TADDISCUS_TAD_DISCUSS_HOT_EDIT_BITEM1 . "
-	<INPUT type='text' name='options[1]' value='{$options[1]}'>
-	";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_SHOW_DISCUSS_AMOUNT . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_WITHIN_DAYS_DISCUSS . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[1]' value='{$options[1]}' size=6>
+            </div>
+        </li>
+    </ol>";
     return $form;
 }
 

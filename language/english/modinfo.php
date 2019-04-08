@@ -57,7 +57,7 @@ define('_MI_TADDISCUS_DISPLAY_FAST_SETUP', 'Enable instant message board discuss
 define('_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC', 'This feature is only visible to administrator to quickly add new forums and automatic settings');
 
 define('_MI_TADDISCUS_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADDISCUS_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADDISCUS_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADDISCUS_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help

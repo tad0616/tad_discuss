@@ -107,7 +107,7 @@ function copyBoard($BoardID = "")
     foreach ($all as $k => $v) {
         $$k = $v;
     }
-    $cols array();
+    $cols = array();
     preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
     $BoardManager = implode(",", $cols[1]);
 

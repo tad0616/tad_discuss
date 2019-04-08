@@ -1,7 +1,7 @@
 <?php
 //newbb 3.07
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_copynewbb.html";
+$xoopsOption['template_main'] = "tad_discuss_adm_copynewbb.tpl";
 include_once "header.php";
 include_once "../function.php";
 
@@ -13,8 +13,8 @@ function list_newbb()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler     = xoops_gethandler('module');
-    $ThexoopsModule = &$modhandler->getByDirname("newbb");
+    $modhandler     = xoops_getHandler('module');
+    $ThexoopsModule = $modhandler->getByDirname("newbb");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');
@@ -40,17 +40,17 @@ function list_newbb()
         $now_power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("bb_forums") . "` where forum_topics > 0 order by forum_order";
+    $sql    = "SELECT * FROM `" . $xoopsDB->prefix("bb_forums") . "` WHERE forum_topics > 0 ORDER BY forum_order";
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        $cols = '';
+        $cols = array();
         preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
         $moderator = implode(",", $cols[1]);
 
@@ -78,13 +78,11 @@ function list_newbb()
         $all_content[$i]['forum_post']   = $forum_post;
         $all_content[$i]['power_status'] = $power_status;
         $i++;
-
     }
 
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('add_button', $add_button);
     $xoopsTpl->assign('bar', $bar);
-
 }
 
 function chkcopy($forum_id)
@@ -109,7 +107,7 @@ function copyBoard($BoardID = "")
     foreach ($all as $k => $v) {
         $$k = $v;
     }
-    $cols = '';
+    $cols array();
     preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
     $BoardManager = implode(",", $cols[1]);
 
@@ -133,7 +131,7 @@ function listBoard($BoardID = '')
     //die($sql);
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數：`topic_id`, `topic_title`, `topic_poster`, `topic_time`, `topic_views`, `topic_replies`, `topic_last_post_id`, `forum_id`, `topic_status`, `topic_subject`, `topic_sticky`, `topic_digest`, `digest_time`, `approved`, `poster_name`, `rating`, `votes`, `topic_haspoll`, `poll_id`
@@ -156,15 +154,13 @@ function listBoard($BoardID = '')
         $all_content[$i]['poster_ip']    = $poster_ip;
         $all_content[$i]['i']            = $i;
         $i++;
-
     }
 
-//`DiscussID`, `ReDiscussID`, `uid`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`
+    //`DiscussID`, `ReDiscussID`, `uid`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`
 
     $xoopsTpl->assign('BoardID', $BoardID);
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('op', 'listBoard');
-
 }
 
 function delnewbb($topic_id = "")
@@ -183,7 +179,6 @@ function delnewbb($topic_id = "")
 
     $sql = "delete from  `" . $xoopsDB->prefix("bb_topics") . "` where topic_id='$topic_id'";
     $xoopsDB->queryF($sql) or die($sql);
-
 }
 
 function batch_del($batch_del = array())
@@ -219,17 +214,11 @@ function copyDiscuss($BoardID = '', $mode = "")
 
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
-    $myts        = MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;
-        }
-
-        if (!get_magic_quotes_runtime()) {
-            $topic_title = addslashes($topic_title);
-            $post_text   = addslashes($post_text);
         }
 
         $topic_time = date("Y-m-d H:i:s", $topic_time);
@@ -237,6 +226,11 @@ function copyDiscuss($BoardID = '', $mode = "")
         $poster_ip  = long2ip($poster_ip);
         $publisher  = get_name_from_uid($topic_poster);
 
+        if (!get_magic_quotes_runtime()) {
+            $topic_title = addslashes($topic_title);
+            $post_text   = addslashes($post_text);
+            $publisher   = addslashes($publisher);
+        }
         //主題
         $sql = "replace into " . $xoopsDB->prefix("tad_discuss") . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
     values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
@@ -298,13 +292,13 @@ function powerSet($BoardID = "")
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
         $xoopsDB->queryF($sql) or die($sql);
     }
-
 }
+
 /*-----------執行動作判斷區----------*/
 $op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$topic_id  = empty($_REQUEST['topic_id']) ? "" : intval($_REQUEST['topic_id']);
+$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int) $_REQUEST['DiscussID'];
+$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int) $_REQUEST['BoardID'];
+$topic_id  = empty($_REQUEST['topic_id']) ? "" : (int) $_REQUEST['topic_id'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/

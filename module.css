@@ -145,3 +145,8 @@
 .c {
   text-align: center;
 }
+
+
+.talk img{
+  max-width: 100%;
+}

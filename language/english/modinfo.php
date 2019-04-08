@@ -1,46 +1,67 @@
 <?php
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/language/' . $xoopsConfig['language'] . '/modinfo_common.php';
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2012-10-23
+// $Id:$
+// ------------------------------------------------------------------------- //
+include_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
-define('_MI_TADDISCUS_NAME', '互動討論區');
-define('_MI_TADDISCUS_AUTHOR', 'tad');
-define('_MI_TADDISCUS_DESC', '簡易的討論留言模組');
+define('_MI_TADDISCUS_NAME', 'Discussion Forum');
+define('_MI_TADDISCUS_AUTHOR', 'Tad');
+define('_MI_TADDISCUS_CREDITS', 'Tad');
+define('_MI_TADDISCUS_DESC', 'Simple discussion Forum');
 
-define('_MI_TADDISCUS_ADMENU1', '主管理介面');
-define('_MI_TADDISCUS_ADMENU2', '轉移 Xforum');
-define('_MI_TADDISCUS_ADMENU3', '權限設定');
-define('_MI_TADDISCUS_ADMENU4', '整合留言簿');
-define('_MI_TADDISCUS_ADMENU5', '跳轉設定');
-define('_MI_TADDISCUS_ADMENU6', '垃圾留言管理');
-define('_MI_TADDISCUS_ADMENU7', '轉移 newbb');
-define('_MI_TADDISCUS_BNAME1', '最新討論');
-define('_MI_TADDISCUS_BDESC1', '最新討論(tad_discuss_new)');
-define('_MI_TADDISCUS_BNAME2', '最熱門討論');
-define('_MI_TADDISCUS_BDESC2', '最熱門討論(tad_discuss_hot)');
-define('_MI_TADDISCUS_BNAME3', '即時留言簿');
-define('_MI_TADDISCUS_BDESC3', '即時留言簿(tad_discuss_cbox)');
-define('_MI_TADDISCUS_DISPLAY_MODE', '討論區顯示模式');
-define('_MI_TADDISCUS_DISPLAY_MODE_DESC', '設定偏好的討論區顯示模式');
-define('_MI_TADDISCUS_CONF0_OPT1', '左右對話模式');
-define('_MI_TADDISCUS_CONF0_OPT2', '頭像在左對話模式');
-define('_MI_TADDISCUS_CONF0_OPT3', '頭像在上對話模式');
-define('_MI_TADDISCUS_CONF0_OPT4', 'Mobile01風格');
-define('_MI_TADDISCUS_CONF0_OPT5', '清爽風格');
-define('_MI_TADDISCUS_CONF0_OPT6', '頭像在下對話模式');
-define('_MI_TADDISCUS_CONF0_OPT7', 'BootStrap風格（預設）');
-define('_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT', '每頁顯示幾篇討論主題');
-define('_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT_DESC', '設定每頁顯示幾篇討論主題以進行分頁');
-define('_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT', '每頁顯示幾篇討論對話');
-define('_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DESC', '設定每頁顯示幾篇討論對話以進行分頁');
-define('_MI_TADDISCUS_GLOBAL_NOTIFY', '全局通知');
-define('_MI_TADDISCUS_BOARD_NOTIFY', '討論區通知');
-define('_MI_TADDISCUS_GLOBAL_NOTIFY_ME', '有新討論就通知我');
-define('_MI_TADDISCUS_GLOBAL_NOTIFY_SUBJECT', '[{X_SITENAME}] {X_MODULE} 有新的討論文章');
-define('_MI_TADDISCUS_BOARD_NOTIFY_ME', '該討論區有新討論就通知我');
-define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT', '[{X_SITENAME}] {X_MODULE} 指定的討論區下有新的討論');
-define('_MI_TADDISCUS_SPAM_KEYWORD', '控管詞彙');
-define('_MI_TADDISCUS_SPAM_KEYWORD_DESC', '將不希望出現在討論區裡的關鍵字列出，以便搜尋或防治（請用,隔開）');
-define('_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT', '交友,兼差,援交,叫妹,約茶,愛愛,好濕,胸圍,快速賺錢,網約,做愛,寫真,一夜情,約妹,叫小姐,身材,狂歡');
-define('_MI_TADDISCUS_DISPLAY_FAST_SETUP', '在即時留言簿啟用快速新增討論區功能');
-define('_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC', '此功能僅管理員可見，可供管理員快速新增討論區及新增自動轉向設定');
-define('_MI_TADDISCUS_DISPLAY_NUMBER', '討論區首頁顯示留言數');
-define('_MI_TADDISCUS_DISPLAY_NUMBER_DESC', '討論區首頁各討論區列表下要呈現幾篇留言？');
+define('_MI_TADDISCUS_ADMENU1', 'Forum management');
+define('_MI_TADDISCUS_ADMENU2', 'Import XForum');
+define('_MI_TADDISCUS_ADMENU3', 'Permissions');
+define('_MI_TADDISCUS_ADMENU4', 'Import ChatBox');
+define('_MI_TADDISCUS_ADMENU5', 'Jump set');
+define('_MI_TADDISCUS_ADMENU6', 'Spam management');
+define('_MI_TADDISCUS_ADMENU7', 'Import NewBB');
+
+define('_MI_TADDISCUS_TEMPLATE_DESC1', 'tad_discuss_index_tpl.html template file.');
+define('_MI_TADDISCUS_TEMPLATE_DESC2', 'tad_discuss_discuss_tpl.html template file.');
+define('_MI_TADDISCUS_SMNAME2', 'Discussion area');
+define('_MI_TADDISCUS_BNAME1', 'Latest discussions');
+define('_MI_TADDISCUS_BDESC1', 'Latest discussion (tad_discuss_new)');
+define('_MI_TADDISCUS_BNAME2', 'Most popular discussion');
+define('_MI_TADDISCUS_BDESC2', 'The most popular discussions (tad_discuss_hot)');
+define('_MI_TADDISCUS_BNAME3', 'Instant message boards');
+define('_MI_TADDISCUS_BDESC3', 'Instant Chat box (tad_discuss_cbox)');
+
+define('_MI_TADDISCUS_DISPLAY_MODE', 'Discussion area display mode');
+define('_MI_TADDISCUS_DISPLAY_MODE_DESC', 'Set the preferred forum display mode');
+define('_MI_TADDISCUS_CONF0_OPT1', 'About the dialogue mode (default)');
+define('_MI_TADDISCUS_CONF0_OPT2', 'head in the left dialogue mode');
+define('_MI_TADDISCUS_CONF0_OPT3', 'head in the dialogue mode');
+define('_MI_TADDISCUS_CONF0_OPT4', 'Mobile01 Forum mode');
+define('_MI_TADDISCUS_CONF0_OPT5', 'Refreshing Forum mode');
+define('_MI_TADDISCUS_CONF0_OPT6', 'Avatar next dialogue mode');
+define('_MI_TADDISCUS_CONF0_OPT7', 'Bootstrap style (default)');
+
+define('_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT', 'Page shows several discussion topics');
+define('_MI_TADDISCUS_SHOW_DISCUSS_AMOUNT_DESC', 'Setting page shows several discussion topics for paging');
+define('_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT', 'Page shows several discussions dialogue');
+define('_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DESC', 'Setting page shows several discussions dialogue for paging');
+define('_MI_TADDISCUS_GLOBAL_NOTIFY', 'Global notification');
+define('_MI_TADDISCUS_BOARD_NOTIFY', 'Forums notification');
+define('_MI_TADDISCUS_GLOBAL_NOTIFY_ME', 'There is a new discussion on the Notify Me');
+define('_MI_TADDISCUS_GLOBAL_NOTIFY_SUBJECT', '[{X_SITENAME}] {X_MODULE} new discussion paper');
+define('_MI_TADDISCUS_BOARD_NOTIFY_ME', 'The new discussion forum on the Notify Me');
+define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT', '[{X_SITENAME}] {X_MODULE} there is a new forum to discuss the specified');
+
+define('_MI_TADDISCUS_SPAM_KEYWORD', 'Control Manager vocabulary');
+define('_MI_TADDISCUS_SPAM_KEYWORD_DESC', 'Will not want to appear in the discussion area where the keyword lists to search or prevention (Please separated)');
+define('_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT', 'Friends, part-time, compensated dating, called sister, about tea, love love, good wet, bust, fast money, net about, sex, photo, night stands, approximately sister, called Miss, body, carnival');
+define('_MI_TADDISCUS_DISPLAY_FAST_SETUP', 'Enable instant message board discussion area quickly add function');
+define('_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC', 'This feature is only visible to administrator to quickly add new forums and automatic settings');
+
+define('_MI_TADDISCUS_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_TADDISCUS_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADDISCUS_BACK_2_ADMIN', 'Back to Administration of ');
+
+//help
+define('_MI_TADDISCUS_HELP_OVERVIEW', 'Overview');
+
+define('_MI_TADDISCUS_DEF_EDITOR', 'Default Editor');
+define('_MI_TADDISCUS_DEF_EDITOR_DESC', 'Default Editor');

@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_spam.html";
+$xoopsOption['template_main'] = "tad_discuss_adm_spam.tpl";
 include_once "header.php";
 include_once "../function.php";
 
@@ -48,7 +48,7 @@ function search_spam()
     foreach ($all_spam_keyword as $spam_keyword) {
         $spam_keyword = trim($spam_keyword);
         $sql          = "select * from `" . $xoopsDB->prefix("tad_discuss") . "` where `DiscussTitle` like '%{$spam_keyword}%' or `DiscussContent` like '%{$spam_keyword}%'";
-        $result       = $xoopsDB->query($sql) or web_error($sql);
+        $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         $i            = 0;
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -62,7 +62,8 @@ function search_spam()
                 $uid_name = XoopsUser::getUnameFromId($uid, 0);
             }
 
-            $all_content[$i]['uid_name'] = $uid_name;
+            $all_content[$i]['uid_name']     = $uid_name;
+            $all_content[$i]['spam_keyword'] = $spam_keyword;
             $i++;
         }
     }
@@ -72,7 +73,7 @@ function search_spam()
     if ($_POST['new_spam_keyword']) {
         $module_id = $xoopsModule->getVar('mid');
         $sql       = "update `" . $xoopsDB->prefix("config") . "` set `conf_value`= CONCAT(`conf_value`,',{$_POST['new_spam_keyword']}') where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -98,7 +99,7 @@ function update_config($item = "")
 
     $module_id = $xoopsModule->getVar('mid');
     $sql       = "update `" . $xoopsDB->prefix("config") . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/

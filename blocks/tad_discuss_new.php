@@ -9,10 +9,9 @@ function tad_discuss_new($options)
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : "";
     $sql      = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $main_data = "";
-    $i         = 1;
+    $i = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
@@ -64,10 +63,18 @@ function tad_discuss_new($options)
         $block['discuss'][$i]['LastTime']         = $LastTime;
         $block['discuss'][$i]['last_uid_name']    = $last_uid_name;
         $block['discuss'][$i]['isPublic']         = $isPublic;
+        $block['discuss'][$i]['ShowBoardTitle']   = $BoardTitle;
+        $block['discuss'][$i]['last_uid']         = $last_uid;
+        $block['discuss'][$i]['uid']              = $uid;
 
         $i++;
     }
 
+    if (file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php")) {
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php";
+        $FooTable               = new FooTable("#new_discuss");
+        $block['NewFooTableJS'] = $FooTable->render();
+    }
     return $block;
 }
 
@@ -76,9 +83,15 @@ function tad_discuss_new_edit($options)
 {
 
     $form = "
-	" . _MB_TADDISCUS_TAD_DISCUSS_NEW_EDIT_BITEM0 . "
-	<INPUT type='text' name='options[0]' value='{$options[0]}'>
-	";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADDISCUS_SHOW_DISCUSS_AMOUNT . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+    </ol>";
+
     return $form;
 }
 
@@ -92,7 +105,7 @@ if (!function_exists('block_get_re_num')) {
         }
 
         $sql           = "select count(*) from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID'";
-        $result        = $xoopsDB->query($sql) or web_error($sql);
+        $result        = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($counter) = $xoopsDB->fetchRow($result);
         return $counter;
     }

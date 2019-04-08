@@ -1,16 +1,24 @@
 <?php
-define('_MB_TADDISCUS_TAD_DISCUSS_NEW_EDIT_BITEM0', '顯示討論數量');
-define('_MB_TADDISCUS_TAD_DISCUSS_HOT_EDIT_BITEM1', '只列入幾天內的文章');
-define('_MB_TADDISCUS_UID', '作者');
-define('_MB_TADDISCUS_LAST_RE', '最新回應');
-define('_MB_TADDISCUS_DISCUSSTITLE', '主題');
-define('_MB_TADDISCUS_DISCUSSRE', '回覆');
-define('_MB_TADDISCUS_CBOX_VIEW_ALL', '觀看所有留言');
-define('_MB_TADDISCUS_SELECT_BOARD', '請選擇欲呈現的討論區：');
-define('_MB_TADDISCUS_ALL_BOARD', '所有討論區');
-define('_MB_TADDISCUS_ONLYTO', '這是給「%s」的悄悄話喔！');
-define('_MB_TADDISCUS_HEIGHT', '顯示留言框的高度：');
-define('_MB_TADDISCUS_BORDER_COLOR', '回覆對話框的邊框顏色：');
-define('_MB_TADDISCUS_BG_COLOR', '回覆對話框的背景顏色：');
-define('_MB_TADDISCUS_FONT_COLOR', '回覆對話框的文字顏色：');
-define('_MB_TADDISCUS_APPLY_RULE', '套用「自動切換討論區」設定？');
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2012-10-23
+// $Id:$
+// ------------------------------------------------------------------------- //
+
+define('_MB_TADDISCUS_SHOW_DISCUSS_AMOUNT', 'Shows the number of discussion');
+
+define('_MB_TADDISCUS_TAD_DISCUSS_HOT_EDIT_BITEM0', 'Shows the number of discussion');
+define('_MB_TADDISCUS_WITHIN_DAYS_DISCUSS', 'Includ only articles within a few days');
+define('_MB_TADDISCUS_UID', 'Author');
+define('_MB_TADDISCUS_LAST_RE', 'Latest response');
+define('_MB_TADDISCUS_DISCUSSTITLE', 'Subject');
+define('_MB_TADDISCUS_DISCUSSRE', 'Reply');
+define('_MB_TADDISCUS_CBOX_VIEW_ALL', 'View all messages');
+define('_MB_TADDISCUS_SELECT_BOARD', 'To select a forum:');
+define('_MB_TADDISCUS_ALL_BOARD', 'All Forums');
+define('_MB_TADDISCUS_ONLYTO', 'Sorry, this is a Private Message for "%s"!');
+define('_MB_TADDISCUS_HEIGHT', 'Displays a message box height:');
+define('_MB_TADDISCUS_BORDER_COLOR', 'Border color reply dialog:');
+define('_MB_TADDISCUS_BG_COLOR', 'Reply the dialog background color:');
+define('_MB_TADDISCUS_FONT_COLOR', 'Text Color dialog reply:');
+define('_MB_TADDISCUS_APPLY_RULE', 'Apply to "automatically" switch Forums setting?');

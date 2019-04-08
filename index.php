@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_discuss_index.html");
+$xoopsOption['template_main'] = "tad_discuss_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
 $TadUpFiles = new TadUpFiles("tad_discuss");
@@ -23,12 +23,12 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -46,7 +46,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
         $pic = $TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
         $pic = empty($pic) ? "images/board.png" : $pic;
 
-        $display_number   = isset($xoopsModuleConfig['display_number']) ? intval($xoopsModuleConfig['display_number']) : 7;
+        $display_number   = isset($xoopsModuleConfig['display_number']) ? (int) $xoopsModuleConfig['display_number'] : 7;
         $list_tad_discuss = list_tad_discuss_short($BoardID, $display_number);
 
         $fun          = ($isAdmin) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : "";
@@ -100,9 +100,9 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     $andLimit   = !is_null($limit) ? "limit 0,$limit" : "";
     $sql        = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $main_data = "";
+    $main_data = array();
     $i         = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter

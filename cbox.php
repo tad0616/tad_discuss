@@ -4,15 +4,53 @@ include_once "header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
 $TadUpFiles = new TadUpFiles("tad_discuss");
 
-$op = isset($_REQUEST['op']) ? $_REQUEST['op'] : "";
+/*-----------執行動作判斷區----------*/
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$files_sn  = system_CleanVars($_REQUEST, 'files_sn', '', 'int');
+
 switch ($op) {
+    //刪除資料
+    case "delete_tad_discuss":
+        delete_tad_discuss($DiscussID);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
     //下載檔案
     case "tufdl":
-        $files_sn = isset($_GET['files_sn']) ? intval($_GET['files_sn']) : "";
         $TadUpFiles->add_file_counter($files_sn);
         exit;
+
+    default:
+        $main = list_tad_discuss_cbox($BoardID);
         break;
 }
+
+/*-----------秀出結果區--------------*/
+$jquery = get_jquery();
+
+include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
+$fancybox = new fancybox('.fancybox_Discuss');
+$fancybox->render();
+
+echo "
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+  <meta charset='" . _CHARSET . "'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Post List</title>
+  $jquery
+  $fancybox_code
+  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
+</head>
+<body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
+  {$main}
+</body>
+</html>";
+
 /*-----------function區--------------*/
 
 //列出所有tad_discuss資料
@@ -34,7 +72,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         $now_uid = 0;
         $groups  = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -46,9 +84,9 @@ function list_tad_discuss_cbox($DefBoardID = "")
 
     $sql = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' and b.BoardEnable='1' $andBoardID  order by a.LastTime desc limit 0,10";
 
-    $cbox_root_msg_color = empty($_GET['border_color']) ? "#B4C58D" : $_GET['border_color'];
-    $bg_color            = empty($_GET['bg_color']) ? "#FFFFFF" : $_GET['bg_color'];
-    $font_color          = empty($_GET['font_color']) ? "#000000" : $_GET['font_color'];
+    $cbox_root_msg_color = system_CleanVars($_REQUEST, 'cbox_root_msg_color', '#B4C58D', 'string');
+    $bg_color            = system_CleanVars($_REQUEST, 'bg_color', '#FFFFFF', 'string');
+    $font_color          = system_CleanVars($_REQUEST, 'font_color', '#000000', 'string');
 
     if ($isAdmin) {
         $del_js = "
@@ -100,12 +138,11 @@ function list_tad_discuss_cbox($DefBoardID = "")
         $('iframe').css('width','100%');
       });
     </script>
+    <h3 style='display: none;'>All Posts</h3>
     ";
     $i = 2;
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
-
-    $main_data = "";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -119,7 +156,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         $TadUpFiles->set_col("DiscussID", $DiscussID);
         $allfiles = $TadUpFiles->get_file();
         foreach ($allfiles as $ff) {
-            $files .= ($ff['kind'] == "img") ? "<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='DiscussID_{$DiscussID}' target='_top'><img src='{$ff['tb_path']}' alt='{$ff['description']}'></a>" : "<a href='{$ff['path']}'><img src='images/file.png'></a>";
+            $files .= ($ff['kind'] == "img") ? "<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='group' target='_top'><img src='{$ff['tb_path']}' alt='{$ff['description']}'></a>" : "<a href='{$ff['path']}'><img src='images/file.png'></a>";
         }
         //以uid取得使用者名稱
         $publisher = XoopsUser::getUnameFromId($uid, 1);
@@ -189,7 +226,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
         ";
 
         $sql     = "select * from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by ReDiscussID , DiscussDate";
-        $result2 = $xoopsDB->query($sql) or web_error($sql);
+        $result2 = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         $re      = "";
         $f       = 2;
         while ($all = $xoopsDB->fetchArray($result2)) {
@@ -202,7 +239,7 @@ function list_tad_discuss_cbox($DefBoardID = "")
             $TadUpFiles->set_col("DiscussID", $DiscussID);
             $allfiles = $TadUpFiles->get_file();
             foreach ($allfiles as $ff) {
-                $files .= ($ff['kind'] == "img") ? "<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='DiscussID_{$DiscussID}' target='_parent'><img src='{$ff['tb_path']}'></a>" : "<a href='{$ff['path']}'><img src='images/file.png'></a>";
+                $files .= ($ff['kind'] == "img") ? "<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='DiscussID_{$DiscussID}' target='_parent'><img src='{$ff['tb_path']}' alt='{$ff['tb_path']}'></a>" : "<a href='{$ff['path']}'><img src='images/file.png' alt='pic'></a>";
             }
 
             //以uid取得使用者名稱
@@ -259,54 +296,3 @@ function list_tad_discuss_cbox($DefBoardID = "")
 
     return $data;
 }
-
-/*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-
-switch ($op) {
-    //刪除資料
-    case "delete_tad_discuss";
-        delete_tad_discuss($DiscussID);
-        header("location: {$_SERVER['PHP_SELF']}");
-        break;
-
-    default:
-        $main = list_tad_discuss_cbox($BoardID);
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$jquery = get_jquery();
-echo "
-<html>
-  <head>
-  <meta http-equiv='content-type' content='text/html; charset=" . _CHARSET . "'>
-  $jquery
-
-  <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/lib/jquery.mousewheel-3.0.6.pack.js'></script>
-  <script type='text/javascript' language='javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/jquery.fancybox.js?v=2.1.4'></script>
-  <link rel='stylesheet' href='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/jquery.fancybox.css?v=2.1.4' type='text/css' media='screen' />
-  <link rel='stylesheet' type='text/css' href='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5' />
-  <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5'></script>
-  <link rel='stylesheet' type='text/css' href='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7' />
-  <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7'></script>
-  <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/helpers/jquery.fancybox-media.js?v=1.0.5'></script>
-    <script type='text/javascript'>
-    $(document).ready(function() {
-      $('.fancybox_Discuss').fancybox({
-        openEffect  : 'none',
-        closeEffect : 'none',
-        autoPlay  : true
-      });
-
-    });
-  </script>
-  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
-</head>
-<body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
-  {$main}
-</body>
-</html>";

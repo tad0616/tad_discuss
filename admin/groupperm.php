@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_groupperm.html";
+$xoopsOption['template_main'] = "tad_discuss_adm_groupperm.tpl";
 include_once "header.php";
 include_once "../function.php";
 /*-----------function區--------------*/
@@ -11,8 +11,8 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //取得本模組編號
 $module_id = $xoopsModule->getVar('mid');
 
-$sql    = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` order by BoardSort";
-$result = $xoopsDB->query($sql) or web_error($sql);
+$sql = "SELECT BoardID,BoardTitle FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` ORDER BY BoardSort";
+$result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
 while ($all = $xoopsDB->fetchArray($result)) {
     //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -22,7 +22,6 @@ while ($all = $xoopsDB->fetchArray($result)) {
 
     //權限項目陣列
     $item_list[$BoardID] = $BoardTitle;
-
 }
 
 //頁面標題

@@ -29,10 +29,10 @@ function list_tad_discuss_board($show_function = 1)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' order by BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $all_content = "";
 
@@ -93,7 +93,6 @@ function list_tad_discuss_board($show_function = 1)
         {$list_tad_discuss}
         </ul>
     ";
-
     }
 
     $login = login_m();
@@ -127,7 +126,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     $andLimit   = ($limit > 0) ? "limit 0,$limit" : "";
     $sql        = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //$main_data="<table style='width:100%'>";
     //$i=0;
@@ -137,7 +136,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
             $$k = $v;
         }
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $user           = $member_handler->getUser($uid);
         if (is_object($user)) {
             $ts         = MyTextSanitizer::getInstance();
@@ -156,7 +155,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
         $DiscussTitle = str_replace("[s", "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/smiles/s", $DiscussTitle);
         $DiscussTitle = str_replace(".gif]", ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
-        $main_data .= "
+        $main_data    .= "
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
@@ -164,7 +163,6 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     ";
     }
     return $main_data;
-
 }
 
 //以流水號秀出某筆tad_discuss資料內容
@@ -177,8 +175,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     if (empty($DefDiscussID)) {
         return;
     } else {
-
-        $DefDiscussID = intval($DefDiscussID);
+        $DefDiscussID = (int)$DefDiscussID;
         $discuss      = get_tad_discuss($DefDiscussID);
 
         //取得本模組編號
@@ -193,7 +190,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
             $groups = XOOPS_GROUP_ANONYMOUS;
         }
 
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
         if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
             header('location:index.php');
         }
@@ -202,7 +199,7 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
             header("location: {$_SERVER['PHP_SELF']}?DiscussID={$discuss['ReDiscussID']}&BoardID={$discuss['BoardID']}");
         }
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $user           = $member_handler->getUser($uid);
         if (is_object($user)) {
             $ts       = MyTextSanitizer::getInstance();
@@ -253,12 +250,12 @@ function show_one_tad_discuss($DefDiscussID = "", $g2p)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $discuss_data = "";
     $i            = $xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
@@ -362,7 +359,7 @@ function list_tad_discuss_m($DefBoardID = null)
         $uid    = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
@@ -377,7 +374,7 @@ function list_tad_discuss_m($DefBoardID = null)
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $main_data = "";
     $i         = 1;
@@ -387,7 +384,7 @@ function list_tad_discuss_m($DefBoardID = null)
             $$k = $v;
         }
 
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $user           = $member_handler->getUser($uid);
         if (is_object($user)) {
             $ts         = MyTextSanitizer::getInstance();
@@ -405,7 +402,7 @@ function list_tad_discuss_m($DefBoardID = null)
         }
 
         //最後回應者
-        $sql2    = "select uid from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
+        $sql2 = "select uid from " . $xoopsDB->prefix("tad_discuss") . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
         $result2 = $xoopsDB->queryF($sql2) or web_error($sql2);
         //if($isAdmin)die($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
@@ -417,7 +414,6 @@ function list_tad_discuss_m($DefBoardID = null)
             if (empty($last_uid_name)) {
                 $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
             }
-
         }
 
         $LastTime    = substr($LastTime, 0, 16);
@@ -427,12 +423,11 @@ function list_tad_discuss_m($DefBoardID = null)
 
         $DiscussTitle = str_replace("[s", "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/smiles/s", $DiscussTitle);
         $DiscussTitle = str_replace(".gif]", ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
-        $main_data .= "
+        $main_data    .= "
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
         <p style='color:#666'><strong>{$uid_name} · {$LastTime} · {$renum}</strong></p></a>
       </li>";
-
     }
 
     $Board = get_tad_discuss_board($DefBoardID);
@@ -510,7 +505,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ($mode == "jqm") {
             return;
@@ -539,7 +534,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $uid = (is_object($xoopsUser) and empty($uid)) ? $xoopsUser->uid() : $uid;
 
     //設定「DiscussTitle」欄位預設值
-    $DiscussTitle = (!isset($DBV['DiscussTitle'])) ? _MD_TADDISCUS_INPUT_TITLE : $DBV['DiscussTitle'];
+    $DiscussTitle = (!isset($DBV['DiscussTitle'])) ? '' : $DBV['DiscussTitle'];
 
     //設定「DiscussContent」欄位預設值
     $DiscussContent = (!isset($DBV['DiscussContent'])) ? "" : $DBV['DiscussContent'];
@@ -581,7 +576,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     if (!empty($BoardID) and empty($DefDiscussID) and empty($DefReDiscussID)) {
         $BoardTitle = get_board_title($BoardID);
     }
-//die($BoardTitle);
+    //die($BoardTitle);
     //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
 
     //$TadUpFiles->set_col("DiscussID" , $DiscussID );
@@ -609,7 +604,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
 
     $discuss = get_tad_discuss($DefDiscussID);
     $title   = empty($discuss['DiscussTitle']) ? $Board['BoardTitle'] : $discuss['DiscussTitle'];
-    $main .= "
+    $main    .= "
     <!-- form -->
     <div data-role='page' id='form_{$ID}'>
       <div data-theme='c' data-role='header' data-position='fixed'>
@@ -656,7 +651,7 @@ function update_tad_discuss($DiscussID = "")
    `LastTime` = now(),
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     $TadUpFiles->set_col("DiscussID", $DiscussID);
     $TadUpFiles->upload_file("upfile", 1024, 120, null, "", true);
@@ -680,7 +675,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_discuss") . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 function login_m()
@@ -726,10 +721,10 @@ function login_m()
 
 /*-----------執行動作判斷區----------*/
 $op        = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? "" : intval($_REQUEST['DiscussID']);
-$BoardID   = empty($_REQUEST['BoardID']) ? "" : intval($_REQUEST['BoardID']);
-$files_sn  = empty($_REQUEST['files_sn']) ? "" : intval($_REQUEST['files_sn']);
-$g2p       = empty($_REQUEST['g2p']) ? "1" : intval($_REQUEST['g2p']);
+$DiscussID = empty($_REQUEST['DiscussID']) ? "" : (int)$_REQUEST['DiscussID'];
+$BoardID   = empty($_REQUEST['BoardID']) ? "" : (int)$_REQUEST['BoardID'];
+$files_sn  = empty($_REQUEST['files_sn']) ? "" : (int)$_REQUEST['files_sn'];
+$g2p       = empty($_REQUEST['g2p']) ? "1" : (int)$_REQUEST['g2p'];
 
 switch ($op) {
 
@@ -770,7 +765,7 @@ switch ($op) {
 
     //下載檔案
     case "tufdl":
-        $files_sn = isset($_GET['files_sn']) ? intval($_GET['files_sn']) : "";
+        $files_sn = isset($_GET['files_sn']) ? (int)$_GET['files_sn'] : "";
         $TadUpFiles->add_file_counter($files_sn, $hash = false);
         exit;
         break;
@@ -915,7 +910,7 @@ echo "
   </script>
   <script type='text/javascript' src='class/nicEdit.js'></script>
   <script type='text/javascript'>
-    bkLib.onDomLoaded(function() { new nicEditor().panelInstance('DiscussContent') });
+    bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, iconsPath : 'class/nicEditorIcons.gif'}).panelInstance('DiscussContent') });
   </script>
   <script src='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js' type='text/javascript'></script>
 

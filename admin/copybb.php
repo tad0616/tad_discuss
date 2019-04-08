@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_copybb.html";
+$xoopsOption['template_main'] = "tad_discuss_adm_copybb.tpl";
 include_once "header.php";
 include_once "../function.php";
 
@@ -13,7 +13,7 @@ function list_xforum()
 
     //取得某模組編號
     $modhandler     = xoops_gethandler('module');
-    $ThexoopsModule = &$modhandler->getByDirname("xforum");
+    $ThexoopsModule = $modhandler->getByDirname("xforum");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');
@@ -39,17 +39,17 @@ function list_xforum()
         $now_power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("xf_forums") . "` where forum_topics > 0 order by forum_order";
+    $sql    = "SELECT * FROM `" . $xoopsDB->prefix("xf_forums") . "` WHERE forum_topics > 0 ORDER BY forum_order";
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        $cols = '';
+        $cols = array();
         preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
         $moderator = implode(",", $cols[1]);
 
@@ -77,13 +77,11 @@ function list_xforum()
         $all_content[$i]['forum_post']   = $forum_post;
         $all_content[$i]['power_status'] = $power_status;
         $i++;
-
     }
 
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('add_button', $add_button);
     $xoopsTpl->assign('bar', $bar);
-
 }
 
 function chkcopy($forum_id)
@@ -108,7 +106,7 @@ function copyBoard($BoardID = "")
     foreach ($all as $k => $v) {
         $$k = $v;
     }
-    $cols = '';
+    $cols = array();
     preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
     $BoardManager = implode(",", $cols[1]);
 
@@ -132,7 +130,7 @@ function listBoard($BoardID = '')
     //die($sql);
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數：`topic_id`, `topic_title`, `topic_poster`, `topic_time`, `topic_views`, `topic_replies`, `topic_last_post_id`, `forum_id`, `topic_status`, `topic_subject`, `topic_sticky`, `topic_digest`, `digest_time`, `approved`, `poster_name`, `rating`, `votes`, `topic_haspoll`, `poll_id`
@@ -155,15 +153,13 @@ function listBoard($BoardID = '')
         $all_content[$i]['poster_ip']    = $poster_ip;
         $all_content[$i]['i']            = $i;
         $i++;
-
     }
 
-//`DiscussID`, `ReDiscussID`, `uid`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`
+    //`DiscussID`, `ReDiscussID`, `uid`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`
 
     $xoopsTpl->assign('BoardID', $BoardID);
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('op', 'listBoard');
-
 }
 
 function delXforum($topic_id = "")
@@ -182,7 +178,6 @@ function delXforum($topic_id = "")
 
     $sql = "delete from  `" . $xoopsDB->prefix("xf_topics") . "` where topic_id='$topic_id'";
     $xoopsDB->queryF($sql) or die($sql);
-
 }
 
 function batch_del($batch_del = array())
@@ -218,8 +213,7 @@ function copyDiscuss($BoardID = '', $mode = "")
 
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = "";
-    $myts        = MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -297,8 +291,8 @@ function powerSet($BoardID = "")
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
         $xoopsDB->queryF($sql) or die($sql);
     }
-
 }
+
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op        = system_CleanVars($_REQUEST, 'op', '', 'string');

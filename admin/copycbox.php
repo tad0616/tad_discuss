@@ -43,7 +43,7 @@ function list_cbox()
 
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： `sn`, `publisher`, `msg`, `post_date`, `ip`, `only_root`, `root_msg`

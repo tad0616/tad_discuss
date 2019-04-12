@@ -28,7 +28,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -102,7 +102,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $main_data = array();
+    $main_data = [];
     $i         = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter

@@ -42,7 +42,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     if (!empty($DefDiscussID)) {
         $DBV = get_tad_discuss($DefDiscussID);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //設定「DiscussID」欄位預設值
@@ -86,7 +86,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $formValidator      = new formValidator("#myForm", true);
     $formValidator_code = $formValidator->render();
 
-    $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : array();
+    $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
     if (empty($ReDiscussID)) {
         $board_option = "<select name='BoardID' class='form-control'>" . get_tad_discuss_board_option($BoardID) . "</select>";
@@ -339,7 +339,7 @@ function show_one_tad_discuss($DefDiscussID = "")
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $discuss_data = array();
+    $discuss_data = [];
     $i            = 1;
     $first        = "";
 

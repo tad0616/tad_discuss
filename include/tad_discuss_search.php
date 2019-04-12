@@ -24,7 +24,7 @@ function tad_discuss_search($queryarray, $andor, $limit, $offset, $userid)
     }
     $sql .= "ORDER BY  `DiscussDate` DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
-    $ret    = array();
+    $ret    = [];
     $i      = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[$i]['image'] = "images/cup.png";

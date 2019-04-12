@@ -1,5 +1,5 @@
 <?php
-$modversion = array();
+$modversion = [];
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADDISCUS_NAME;
@@ -23,7 +23,7 @@ $modversion['min_php']             = 5.4;
 $modversion['min_xoops']           = '2.5';
 
 //---paypal資訊---//
-$modversion['paypal']                  = array();
+$modversion['paypal']                  = [];
 $modversion['paypal']['business']      = 'tad0616@gmail.com';
 $modversion['paypal']['item_name']     = 'Donation : ' . _MI_TAD_WEB;
 $modversion['paypal']['amount']        = 0;
@@ -58,7 +58,7 @@ $modversion['search']['file'] = "include/tad_discuss_search.php";
 $modversion['search']['func'] = "tad_discuss_search";
 
 //---樣板設定---//
-$modversion['templates']                    = array();
+$modversion['templates']                    = [];
 $i                                          = 1;
 $modversion['templates'][$i]['file']        = 'tad_discuss_index.tpl';
 $modversion['templates'][$i]['description'] = 'tad_discuss_index.tpl';
@@ -150,7 +150,7 @@ $modversion['config'][$i]['description'] = '_MI_TADDISCUS_DISPLAY_MODE_DESC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default']     = 'bootstrap';
-$modversion['config'][$i]['options']     = array(_MI_TADDISCUS_CONF0_OPT1 => 'default', _MI_TADDISCUS_CONF0_OPT2 => 'left', _MI_TADDISCUS_CONF0_OPT3 => 'top', _MI_TADDISCUS_CONF0_OPT6 => 'bottom', _MI_TADDISCUS_CONF0_OPT4 => 'mobile', _MI_TADDISCUS_CONF0_OPT5 => 'clean', _MI_TADDISCUS_CONF0_OPT7 => 'bootstrap');
+$modversion['config'][$i]['options']     = [_MI_TADDISCUS_CONF0_OPT1 => 'default', _MI_TADDISCUS_CONF0_OPT2 => 'left', _MI_TADDISCUS_CONF0_OPT3 => 'top', _MI_TADDISCUS_CONF0_OPT6 => 'bottom', _MI_TADDISCUS_CONF0_OPT4 => 'mobile', _MI_TADDISCUS_CONF0_OPT5 => 'clean', _MI_TADDISCUS_CONF0_OPT7 => 'bootstrap'];
 
 $i++;
 $modversion['config'][$i]['name']        = 'show_discuss_amount';
@@ -231,7 +231,7 @@ $modversion['config'][$i]['description'] = '_MI_TADDISCUS_DEF_EDITOR_DESC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default']     = 'nicEditor';
-$modversion['config'][$i]['options']     = array('nicEditor' => 'nicEditor', 'CKEditor' => 'CKEditor');
+$modversion['config'][$i]['options']     = ['nicEditor' => 'nicEditor', 'CKEditor' => 'CKEditor'];
 
 //---模組通知設定---//
 $modversion['hasNotification'] = 1;
@@ -239,12 +239,12 @@ $modversion['hasNotification'] = 1;
 $modversion['notification']['category'][1]['name']           = 'global';
 $modversion['notification']['category'][1]['title']          = _MI_TADDISCUS_GLOBAL_NOTIFY;
 $modversion['notification']['category'][1]['description']    = _MI_TADDISCUS_GLOBAL_NOTIFY;
-$modversion['notification']['category'][1]['subscribe_from'] = array('index.php', 'discuss.php');
+$modversion['notification']['category'][1]['subscribe_from'] = ['index.php', 'discuss.php'];
 
 $modversion['notification']['category'][2]['name']           = 'board';
 $modversion['notification']['category'][2]['title']          = _MI_TADDISCUS_BOARD_NOTIFY;
 $modversion['notification']['category'][2]['description']    = _MI_TADDISCUS_BOARD_NOTIFY;
-$modversion['notification']['category'][2]['subscribe_from'] = array('discuss.php');
+$modversion['notification']['category'][2]['subscribe_from'] = ['discuss.php'];
 $modversion['notification']['category'][2]['item_name']      = 'BoardID';
 $modversion['notification']['category'][2]['allow_bookmark'] = 1;
 

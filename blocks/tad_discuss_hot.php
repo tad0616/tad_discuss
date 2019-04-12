@@ -11,7 +11,7 @@ function tad_discuss_hot($options)
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $block = array();
+    $block = [];
     $i     = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter

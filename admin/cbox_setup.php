@@ -15,7 +15,7 @@ function tad_discuss_cbox_setup_form($setupID = "")
     if (!empty($setupID)) {
         $DBV = get_tad_discuss_cbox_setup($setupID);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -109,7 +109,7 @@ function list_tad_discuss_cbox_setup()
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID , $setupSort

@@ -44,7 +44,7 @@ else
 
       if (is_string($a))
       {
-        static $jsonReplaces = array(array("\\", "/", "\n", "\t", "\r", "\b", "\f", '"'), array('\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'));
+        static $jsonReplaces = [["\\", "/", "\n", "\t", "\r", "\b", "\f", '"'], ['\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"']];
         return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $a) . '"';
       }
       else
@@ -59,7 +59,7 @@ else
         break;
       }
     }
-    $result = array();
+    $result = [];
     if ($isList)
     {
       foreach ($a as $v) $result[] = jsonencode($v);

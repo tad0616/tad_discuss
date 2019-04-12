@@ -107,8 +107,8 @@ function insert_tad_discuss_board($BoardTitle = "")
         $BoardManager = $xoopsUser->uid();
     }
 
-    $forum_read = system_CleanVars($_REQUEST, 'forum_read', array(1, 2, 3), 'array');
-    $forum_post = system_CleanVars($_REQUEST, 'forum_post', array(1, 2), 'array');
+    $forum_read = system_CleanVars($_REQUEST, 'forum_read', [1, 2, 3], 'array');
+    $forum_post = system_CleanVars($_REQUEST, 'forum_post', [1, 2], 'array');
     $BoardEnable = system_CleanVars($_REQUEST, 'BoardEnable', 1, 'int');
     $ofBoardID = (int) $_POST['ofBoardID'];
 
@@ -225,7 +225,7 @@ function list_tad_discuss($DefBoardID = null)
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $main_data = array();
+    $main_data = [];
     $i         = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -382,7 +382,7 @@ function isMine($discuss_uid = null, $BoardID = null)
         $board           = get_tad_discuss_board($BoardID);
         $BoardManagerArr = explode(',', $board['BoardManager']);
     } else {
-        $BoardManagerArr = array();
+        $BoardManagerArr = [];
     }
     //die("aa".var_export($board));
     $uid = $xoopsUser->uid();

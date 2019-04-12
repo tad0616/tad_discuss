@@ -518,7 +518,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     if (!empty($DefDiscussID)) {
         $DBV = get_tad_discuss($DefDiscussID);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -562,7 +562,7 @@ function tad_discuss_form($BoardID = "", $DefDiscussID = "", $DefReDiscussID = "
     $formValidator      = new formValidator("#myForm{$ID}", true);
     $formValidator_code = $formValidator->render('bottomLeft');
 
-    $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : array();
+    $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
     $DiscussTitle = empty($DefReDiscussID) ? "<input type='text' name='DiscussTitle' size='20' value='{$DiscussTitle}' id='DiscussTitle' class='validate[required]' onClick=\"if(this.value=='" . _MD_TADDISCUS_INPUT_TITLE . "')this.value='';\"><br>" : "<input type='hidden' name='DiscussTitle' value='RE:{$RE['DiscussTitle']}'>";
 

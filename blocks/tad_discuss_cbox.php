@@ -179,7 +179,7 @@ if (!function_exists("get_rule")) {
         $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-        $all_content = array();
+        $all_content = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID
             foreach ($all as $k => $v) {

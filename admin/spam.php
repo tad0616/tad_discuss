@@ -13,7 +13,7 @@ function list_spam()
 {
     global $xoopsModuleConfig, $xoopsTpl;
 
-    $new = array();
+    $new = [];
     if (!empty($_POST['new_spam_keyword'])) {
         $new = explode(",", $_POST['new_spam_keyword']);
     }
@@ -38,7 +38,7 @@ function list_spam()
 function search_spam()
 {
     global $xoopsDB, $xoopsTpl, $xoopsModule;
-    $new = array();
+    $new = [];
     if (!empty($_POST['new_spam_keyword'])) {
         $new = explode(",", $_POST['new_spam_keyword']);
     }
@@ -94,7 +94,7 @@ function update_config($item = "")
 {
     global $xoopsModuleConfig, $xoopsModule, $xoopsDB;
     $keys             = explode(",", $xoopsModuleConfig['spam_keyword']);
-    $keys             = array_diff($keys, array($item));
+    $keys             = array_diff($keys, [$item]);
     $new_spam_keyword = implode(',', $keys);
 
     $module_id = $xoopsModule->getVar('mid');

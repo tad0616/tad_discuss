@@ -42,14 +42,14 @@ function list_xforum()
     $sql    = "SELECT * FROM `" . $xoopsDB->prefix("xf_forums") . "` WHERE forum_topics > 0 ORDER BY forum_order";
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        $cols = array();
+        $cols = [];
         preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
         $moderator = implode(",", $cols[1]);
 
@@ -106,7 +106,7 @@ function copyBoard($BoardID = "")
     foreach ($all as $k => $v) {
         $$k = $v;
     }
-    $cols = array();
+    $cols = [];
     preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
     $BoardManager = implode(",", $cols[1]);
 
@@ -130,7 +130,7 @@ function listBoard($BoardID = '')
     //die($sql);
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數：`topic_id`, `topic_title`, `topic_poster`, `topic_time`, `topic_views`, `topic_replies`, `topic_last_post_id`, `forum_id`, `topic_status`, `topic_subject`, `topic_sticky`, `topic_digest`, `digest_time`, `approved`, `poster_name`, `rating`, `votes`, `topic_haspoll`, `poll_id`
@@ -180,7 +180,7 @@ function delXforum($topic_id = "")
     $xoopsDB->queryF($sql) or die($sql);
 }
 
-function batch_del($batch_del = array())
+function batch_del($batch_del = [])
 {
     foreach ($batch_del as $topic_id) {
         delXforum($topic_id);

@@ -17,7 +17,7 @@ function tad_discuss_board_form($BoardID = "")
     if (!empty($BoardID)) {
         $DBV = get_tad_discuss_board($BoardID);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -72,11 +72,11 @@ function tad_discuss_board_form($BoardID = "")
     $post_group         = $moduleperm_handler->getGroupIds("forum_post", $BoardID, $module_id);
 
     if (empty($read_group)) {
-        $read_group = array(1, 2, 3);
+        $read_group = [1, 2, 3];
     }
 
     if (empty($post_group)) {
-        $post_group = array(1, 2);
+        $post_group = [1, 2];
     }
 
     //可見群組
@@ -115,7 +115,7 @@ function tad_discuss_board_form($BoardID = "")
     $xoopsTpl->assign('op', 'tad_discuss_board_form');
 
     $notBoardID = empty($BoardID) ? "" : "and BoardID!='{$BoardID}'";
-    $ofBoardArr = array();
+    $ofBoardArr = [];
     $i          = 0;
     $sql        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
     $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -164,7 +164,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -185,7 +185,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         $color = ($BoardEnable == '0') ? "#f5f5f5" : "white";
 
         $BoardManagerArr = explode(",", $BoardManager);
-        $manager         = array();
+        $manager         = [];
         foreach ($BoardManagerArr as $uid) {
             if (empty($uid)) {
                 continue;

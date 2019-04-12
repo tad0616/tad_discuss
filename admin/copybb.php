@@ -12,7 +12,7 @@ function list_xforum()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler     = xoops_gethandler('module');
+    $modhandler     = xoops_getHandler('module');
     $ThexoopsModule = $modhandler->getByDirname("xforum");
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');

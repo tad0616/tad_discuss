@@ -6,7 +6,7 @@ include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
-if ('mkpic' == $_GET['mode']) {
+if ('mkpic' === $_GET['mode']) {
     if ('1' == $xoopsModuleConfig['security_images']) {
         $num = mt_rand(100, 999);
         $_SESSION['security_code'] = $num;
@@ -111,7 +111,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
         if (is_dir($dir)) {
             if ($dh = opendir($dir)) {
                 while (false !== ($file = readdir($dh))) {
-                    if ('.' == mb_substr($file, 0, 1) or 's' != mb_substr($file, 0, 1)) {
+                    if ('.' === mb_substr($file, 0, 1) or 's' !== mb_substr($file, 0, 1)) {
                         continue;
                     }
 
@@ -289,7 +289,7 @@ echo "
   <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
 ";
 
-if ('reload' == $op) {
+if ('reload' === $op) {
     echo "<script type='text/javascript'>
   window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');
   window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');

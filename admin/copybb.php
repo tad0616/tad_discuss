@@ -206,7 +206,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
 
-    if ('force' == $mode) {
+    if ('force' === $mode) {
         $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where `BoardID`='$BoardID'";
         $xoopsDB->queryF($sql) or die($sql);
     }

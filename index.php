@@ -70,7 +70,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         $i++;
     }
 
-    if ('return' == $mode) {
+    if ('return' === $mode) {
         return $all_content;
     }
 

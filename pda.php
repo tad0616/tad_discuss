@@ -143,7 +143,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
         }
 
-        $pic_avatar = (empty($pic_avatar) or 'blank.gif' == $pic_avatar) ? 'images/nobody.png' : XOOPS_URL . '/uploads/' . $pic_avatar;
+        $pic_avatar = (empty($pic_avatar) or 'blank.gif' === $pic_avatar) ? 'images/nobody.png' : XOOPS_URL . '/uploads/' . $pic_avatar;
 
         $renum = get_re_num($DiscussID);
         //$show_re_num=empty($renum)?"":sprintf(_MD_TADDISCUS_RE_DISCUSS,$renum);
@@ -212,7 +212,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
         $pic = $ts->htmlSpecialChars($user->getVar('user_avatar'));
     }
 
-    $pic = (empty($pic) or 'blank.gif' == $pic) ? 'images/nobody.png' : XOOPS_URL . '/uploads/' . $pic;
+    $pic = (empty($pic) or 'blank.gif' === $pic) ? 'images/nobody.png' : XOOPS_URL . '/uploads/' . $pic;
 
     add_tad_discuss_counter($DefDiscussID);
 
@@ -391,7 +391,7 @@ function list_tad_discuss_m($DefBoardID = null)
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
         }
 
-        $pic_avatar = (empty($pic_avatar) or 'blank.gif' == $pic_avatar) ? 'images/nobody.png' : XOOPS_URL . '/uploads/' . $pic_avatar;
+        $pic_avatar = (empty($pic_avatar) or 'blank.gif' === $pic_avatar) ? 'images/nobody.png' : XOOPS_URL . '/uploads/' . $pic_avatar;
 
         $renum = get_re_num($DiscussID);
         $renum = empty($renum) ? '0' : $renum;
@@ -507,7 +507,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
 
     $gperm_handler = xoops_getHandler('groupperm');
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
-        if ('jqm' == $mode) {
+        if ('jqm' === $mode) {
             return;
         }
 
@@ -618,7 +618,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
       </div>
     </div>
   ";
-    if ('jqm' == $mode) {
+    if ('jqm' === $mode) {
         return $main;
     }
 

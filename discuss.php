@@ -31,7 +31,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $gperm_handler = xoops_getHandler('groupperm');
 
     if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
-        if ('return' == $mode) {
+        if ('return' === $mode) {
             return;
         }
 
@@ -130,7 +130,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         $checked = !empty($RE['onlyTo']) ? 'checked' : '';
     }
 
-    if ('CKEditor' == $xoopsModuleConfig['def_editor']) {
+    if ('CKEditor' === $xoopsModuleConfig['def_editor']) {
         if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
             redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
         }
@@ -189,22 +189,22 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
 
     $DiscussDate = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate)));
 
-    if ('left' == $xoopsModuleConfig['display_mode']) {
+    if ('left' === $xoopsModuleConfig['display_mode']) {
         $dir = 'left';
         $width = 100;
-    } elseif ('top' == $xoopsModuleConfig['display_mode']) {
+    } elseif ('top' === $xoopsModuleConfig['display_mode']) {
         $dir = 'top';
         $width = 100;
-    } elseif ('bottom' == $xoopsModuleConfig['display_mode']) {
+    } elseif ('bottom' === $xoopsModuleConfig['display_mode']) {
         $dir = 'bottom';
         $width = 100;
-    } elseif ('mobile' == $xoopsModuleConfig['display_mode']) {
+    } elseif ('mobile' === $xoopsModuleConfig['display_mode']) {
         $dir = '';
         $width = 120;
-    } elseif ('clean' == $xoopsModuleConfig['display_mode']) {
+    } elseif ('clean' === $xoopsModuleConfig['display_mode']) {
         $dir = '';
         $width = 50;
-    } elseif ('default' == $xoopsModuleConfig['display_mode']) {
+    } elseif ('default' === $xoopsModuleConfig['display_mode']) {
         $dir = $i % 2 ? 'left' : 'right';
         $width = 100;
     } else {
@@ -214,7 +214,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
 
     $all[0] = talk_bubble($BoardID, $DiscussID, $DiscussContent, $dir, $uid, $publisher, $DiscussDate, 'return', null, null, $width, $onlyTo);
 
-    if ('return' == $mode) {
+    if ('return' === $mode) {
         return $all;
     }
     $xoopsTpl->assign('display_mode', $xoopsModuleConfig['display_mode']);
@@ -352,22 +352,22 @@ function show_one_tad_discuss($DefDiscussID = '')
             $onlyTo1 = $onlyTo;
         }
 
-        if ('left' == $xoopsModuleConfig['display_mode']) {
+        if ('left' === $xoopsModuleConfig['display_mode']) {
             $dir = 'left';
             $width = 100;
-        } elseif ('top' == $xoopsModuleConfig['display_mode']) {
+        } elseif ('top' === $xoopsModuleConfig['display_mode']) {
             $dir = 'top';
             $width = 100;
-        } elseif ('bottom' == $xoopsModuleConfig['display_mode']) {
+        } elseif ('bottom' === $xoopsModuleConfig['display_mode']) {
             $dir = 'bottom';
             $width = 100;
-        } elseif ('mobile' == $xoopsModuleConfig['display_mode']) {
+        } elseif ('mobile' === $xoopsModuleConfig['display_mode']) {
             $dir = '';
             $width = 120;
-        } elseif ('clean' == $xoopsModuleConfig['display_mode']) {
+        } elseif ('clean' === $xoopsModuleConfig['display_mode']) {
             $dir = '';
             $width = 50;
-        } elseif ('default' == $xoopsModuleConfig['display_mode']) {
+        } elseif ('default' === $xoopsModuleConfig['display_mode']) {
             $dir = $i % 2 ? 'left' : 'right';
             $width = 100;
         } else {

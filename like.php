@@ -3,9 +3,9 @@
 include_once 'header.php';
 /*-----------function區--------------*/
 $DiscussID = (int)$_POST['DiscussID'];
-if ('like' == $_POST['op']) {
+if ('like' === $_POST['op']) {
     like('Good', $DiscussID);
-} elseif ('unlike' == $_POST['op']) {
+} elseif ('unlike' === $_POST['op']) {
     like('Bad', $DiscussID);
 }
 

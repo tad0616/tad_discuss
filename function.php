@@ -39,20 +39,20 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
         $pic_css = 'cursor:pointer;';
     }
 
-    $like = (!empty($DiscussID) and 'tad_discuss_form' != $_REQUEST['op']) ? true : false;
+    $like = (!empty($DiscussID) and 'tad_discuss_form' !== $_REQUEST['op']) ? true : false;
     //$fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
 
-    $fun = (isMine($uid, $BoardID) and 'tad_discuss_form' != $_REQUEST['op'] and !empty($DiscussID)) ? true : false;
+    $fun = (isMine($uid, $BoardID) and 'tad_discuss_form' !== $_REQUEST['op'] and !empty($DiscussID)) ? true : false;
 
     //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
-    if ('tad_discuss_form' != $_REQUEST['op']) {
+    if ('tad_discuss_form' !== $_REQUEST['op']) {
         $TadUpFiles->set_col('DiscussID', $DiscussID);
         $files = $TadUpFiles->show_files('upfile', true, null, true, false); //是否縮圖,顯示模式 filename、small,顯示描述,顯示下載次數
     }
 
     $files = isPublic($onlyTo, $uid, $BoardID) ? $files : '';
     $DiscussDate = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate)));
-    if ('mobile' == $xoopsModuleConfig['display_mode']) {
+    if ('mobile' === $xoopsModuleConfig['display_mode']) {
         $DiscussDate = mb_substr($DiscussDate, 0, 16);
     }
 
@@ -86,7 +86,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
     $all['show_sig'] = $xoopsModuleConfig['show_sig'];
     $all['sig_style'] = $xoopsModuleConfig['sig_style'];
     //die(var_export($all));
-    if ('return' == $mode) {
+    if ('return' === $mode) {
         return $all;
     }
     $xoopsTpl->assign('discuss', $all);

@@ -41,7 +41,6 @@ function xoops_module_update_tad_discuss(&$module, $old_version)
     if (Utility::chk_fc_tag()) {
         Utility::go_fc_tag();
     }
+
     return true;
 }
-
-

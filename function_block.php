@@ -2,7 +2,7 @@
 
 //悄悄話檢查
 if (!function_exists('isPublic')) {
-    function isPublic($onlyTo = "", $publisher_uid = 0, $BoardID = null)
+    function isPublic($onlyTo = '', $publisher_uid = 0, $BoardID = null)
     {
         global $xoopsUser, $isAdmin;
         if (empty($onlyTo)) {
@@ -17,10 +17,10 @@ if (!function_exists('isPublic')) {
             return true;
         }
 
-        $onlyToArr = explode(",", $onlyTo);
-        $now_uid   = $xoopsUser->uid();
+        $onlyToArr = explode(',', $onlyTo);
+        $now_uid = $xoopsUser->uid();
 
-        if (in_array($now_uid, $onlyToArr)) {
+        if (in_array($now_uid, $onlyToArr, true)) {
             return true;
         }
 
@@ -29,49 +29,51 @@ if (!function_exists('isPublic')) {
         }
 
         if ($BoardID) {
-            $board           = get_tad_discuss_board($BoardID);
+            $board = get_tad_discuss_board($BoardID);
             $BoardManagerArr = explode(',', $board['BoardManager']);
-            if (in_array($now_uid, $BoardManagerArr)) {
+            if (in_array($now_uid, $BoardManagerArr, true)) {
                 return true;
             }
-
         }
+
         return false;
     }
 }
 
 //將悄悄話的對象轉換為真實姓名
 if (!function_exists('getOnlyToName')) {
-    function getOnlyToName($onlyTo = "")
+    function getOnlyToName($onlyTo = '')
     {
         global $xoopsDB;
         if (empty($onlyTo)) {
             return;
         }
 
-        $sql     = "select name , uname from  `" . $xoopsDB->prefix("users") . "` where `uid` in('{$onlyTo}')";
-        $result  = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $sql = 'select name , uname from  `' . $xoopsDB->prefix('users') . "` where `uid` in('{$onlyTo}')";
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         $allname = [];
         while (list($name, $uname) = $xoopsDB->fetchRow($result)) {
             $allname[] = empty($name) ? $uname : $name;
         }
         $nameStr = implode(' , ', $allname);
+
         return $nameStr;
     }
 }
 
 //以流水號取得某筆tad_discuss_board資料
 if (!function_exists('get_tad_discuss_board')) {
-    function get_tad_discuss_board($BoardID = "")
+    function get_tad_discuss_board($BoardID = '')
     {
         global $xoopsDB;
         if (empty($BoardID)) {
             return;
         }
 
-        $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where `BoardID` = '{$BoardID}'";
+        $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `BoardID` = '{$BoardID}'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        $data   = $xoopsDB->fetchArray($result);
+        $data = $xoopsDB->fetchArray($result);
+
         return $data;
     }
 }

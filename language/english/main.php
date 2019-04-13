@@ -17,7 +17,7 @@ define('_MD_TADDISCUS_BOARD_DISCUSS', '%s topics');
 define('_MD_TADDISCUS_ALL_DISCUSS', '%s is discussed');
 define('_MD_TADDISCUS_NEEDLOGIN', 'First log in to post.');
 define('_MD_TADDISCUS_RELOAD', 'Reloading');
-define('_MD_TADDISCUS_NEED_LOGIN', "first <a href='" . XOOPS_URL . "/user.php' target='_top'> Login </a> to post. <span onclick = \' window.open ('" . XOOPS_URL . "/modules/tad_discuss/cbox.php BoardID =%s ',' discussCboxMain? '); window.open ('" . XOOPS_URL . "/modules/tad_discuss/post.php BoardID =%s ','? discussCboxForm '); \'style =' cursor: pointer; color: # 3366CC '> <img src =' images/reload.png 'alt =' reload 'align =' absmiddle 'hspace = 2>" . _MD_TADDISCUS_RELOAD . "</span> ");
+define('_MD_TADDISCUS_NEED_LOGIN', "first <a href='" . XOOPS_URL . "/user.php' target='_top'> Login </a> to post. <span onclick = \' window.open ('" . XOOPS_URL . "/modules/tad_discuss/cbox.php BoardID =%s ',' discussCboxMain? '); window.open ('" . XOOPS_URL . "/modules/tad_discuss/post.php BoardID =%s ','? discussCboxForm '); \'style =' cursor: pointer; color: # 3366CC '> <img src =' images/reload.png 'alt =' reload 'align =' absmiddle 'hspace = 2>" . _MD_TADDISCUS_RELOAD . '</span> ');
 define('_MD_TADDISCUS_TALK', 'said:');
 define('_MD_TADDISCUS_HAD_LIKE', 'You\'ve had this post for a discussion of articles Attitude Hello!');
 define('_MD_TADDISCUS_BOARD_UNABLE', 'The forum has been closed, cannot show message.');

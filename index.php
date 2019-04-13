@@ -1,14 +1,14 @@
 <?php
 /*-----------引入檔案區--------------*/
-include "header.php";
-$xoopsOption['template_main'] = "tad_discuss_index.tpl";
-include_once XOOPS_ROOT_PATH . "/header.php";
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-$TadUpFiles = new TadUpFiles("tad_discuss");
+include 'header.php';
+$xoopsOption['template_main'] = 'tad_discuss_index.tpl';
+include_once XOOPS_ROOT_PATH . '/header.php';
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+$TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
 //列出所有tad_discuss_board資料
-function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
+function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 {
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsUser, $xoopsTpl, $TadUpFiles, $xoopsModuleConfig;
 
@@ -17,19 +17,19 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid    = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->getVar('uid');
         $groups = $xoopsUser->getGroups();
     } else {
-        $uid    = 0;
+        $uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
     $gperm_handler = xoops_getHandler('groupperm');
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
+    $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
-    $i           = 0;
+    $i = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
@@ -44,40 +44,40 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = "tpl")
         //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
         $TadUpFiles->set_col('BoardID', $BoardID);
         $pic = $TadUpFiles->get_pic_file('thumb'); //thumb 小圖, images 大圖（default）, file 檔案
-        $pic = empty($pic) ? "images/board.png" : $pic;
+        $pic = empty($pic) ? 'images/board.png' : $pic;
 
-        $display_number   = isset($xoopsModuleConfig['display_number']) ? (int) $xoopsModuleConfig['display_number'] : 7;
+        $display_number = isset($xoopsModuleConfig['display_number']) ? (int) $xoopsModuleConfig['display_number'] : 7;
         $list_tad_discuss = list_tad_discuss_short($BoardID, $display_number);
 
-        $fun          = ($isAdmin) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : "";
-        $BoardManager = implode(' , ', getBoardManager($BoardID, "uname"));
+        $fun = ($isAdmin) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : '';
+        $BoardManager = implode(' , ', getBoardManager($BoardID, 'uname'));
 
-        $BoardNum   = get_board_num($BoardID);
+        $BoardNum = get_board_num($BoardID);
         $DiscussNum = get_board_num($BoardID, false);
 
-        $all_content[$i]['post']             = $post;
-        $all_content[$i]['pic']              = $pic;
-        $all_content[$i]['BoardTitle']       = $BoardTitle;
-        $all_content[$i]['BoardID']          = $BoardID;
-        $all_content[$i]['ofBoardID']        = $ofBoardID;
-        $all_content[$i]['fun']              = $fun;
-        $all_content[$i]['BoardNum']         = sprintf(_MD_TADDISCUS_BOARD_DISCUSS, number_format($BoardNum));
-        $all_content[$i]['DiscussNum']       = sprintf(_MD_TADDISCUS_ALL_DISCUSS, number_format($DiscussNum));
+        $all_content[$i]['post'] = $post;
+        $all_content[$i]['pic'] = $pic;
+        $all_content[$i]['BoardTitle'] = $BoardTitle;
+        $all_content[$i]['BoardID'] = $BoardID;
+        $all_content[$i]['ofBoardID'] = $ofBoardID;
+        $all_content[$i]['fun'] = $fun;
+        $all_content[$i]['BoardNum'] = sprintf(_MD_TADDISCUS_BOARD_DISCUSS, number_format($BoardNum));
+        $all_content[$i]['DiscussNum'] = sprintf(_MD_TADDISCUS_ALL_DISCUSS, number_format($DiscussNum));
         $all_content[$i]['list_tad_discuss'] = $list_tad_discuss;
-        $all_content[$i]['BoardManager']     = $BoardManager;
-        $all_content[$i]['subBoard']         = list_tad_discuss_board($BoardID, "return");
+        $all_content[$i]['BoardManager'] = $BoardManager;
+        $all_content[$i]['subBoard'] = list_tad_discuss_board($BoardID, 'return');
 
         $i++;
     }
 
-    if ($mode == "return") {
+    if ('return' == $mode) {
         return $all_content;
     }
 
-    if (file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php")) {
-        include_once XOOPS_ROOT_PATH . "/modules/tadtools/FooTable.php";
+    if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
+        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
 
-        $FooTable   = new FooTable();
+        $FooTable = new FooTable();
         $FooTableJS = $FooTable->render();
     }
 
@@ -96,14 +96,14 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsTpl;
 
-    $andBoardID = (empty($BoardID)) ? "" : "and a.BoardID='$BoardID'";
-    $andLimit   = !is_null($limit) ? "limit 0,$limit" : "";
-    $sql        = "select a.*,b.* from " . $xoopsDB->prefix("tad_discuss") . " as a left join " . $xoopsDB->prefix("tad_discuss_board") . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
+    $andBoardID = (empty($BoardID)) ? '' : "and a.BoardID='$BoardID'";
+    $andLimit = null !== $limit ? "limit 0,$limit" : '';
+    $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $main_data = [];
-    $i         = 0;
+    $i = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
@@ -114,40 +114,39 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         //$show_re_num=empty($renum)?"":sprintf(_MD_TADDISCUS_RE_DISCUSS,$renum);
 
         $uid_name = XoopsUser::getUnameFromId($uid, 1);
-        $LastTime = substr($LastTime, 0, 10);
+        $LastTime = mb_substr($LastTime, 0, 10);
 
-        $isPublic     = isPublic($onlyTo, $uid, $BoardID);
-        $onlyToName   = getOnlyToName($onlyTo);
+        $isPublic = isPublic($onlyTo, $uid, $BoardID);
+        $onlyToName = getOnlyToName($onlyTo);
         $DiscussTitle = $isPublic ? $DiscussTitle : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);
 
-        $DiscussTitle = str_replace("[s", "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/smiles/s", $DiscussTitle);
-        $DiscussTitle = str_replace(".gif]", ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
+        $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
+        $DiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
 
-        $main_data[$i]['LastTime']     = $LastTime;
-        $main_data[$i]['DiscussID']    = $DiscussID;
-        $main_data[$i]['BoardID']      = $BoardID;
+        $main_data[$i]['LastTime'] = $LastTime;
+        $main_data[$i]['DiscussID'] = $DiscussID;
+        $main_data[$i]['BoardID'] = $BoardID;
         $main_data[$i]['DiscussTitle'] = $DiscussTitle;
-        $main_data[$i]['uid_name']     = $uid_name;
-        $main_data[$i]['renum']        = $renum;
+        $main_data[$i]['uid_name'] = $uid_name;
+        $main_data[$i]['renum'] = $renum;
 
         $i++;
     }
-    return $main_data;
 
+    return $main_data;
 }
 
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$files_sn  = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
+$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
 
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', get_jquery(true));
 
 switch ($op) {
-
     default:
         list_tad_discuss_board(0);
         break;

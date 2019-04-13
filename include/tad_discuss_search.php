@@ -10,9 +10,9 @@ function tad_discuss_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $queryarray = $arr;
     }
-    $sql = "SELECT `DiscussID`,`DiscussTitle`,`DiscussDate`, `uid` FROM " . $xoopsDB->prefix("tad_discuss") . " WHERE 1";
-    if ($userid != 0) {
-        $sql .= " AND uid=" . $userid . " ";
+    $sql = 'SELECT `DiscussID`,`DiscussTitle`,`DiscussDate`, `uid` FROM ' . $xoopsDB->prefix('tad_discuss') . ' WHERE 1';
+    if (0 != $userid) {
+        $sql .= ' AND uid=' . $userid . ' ';
     }
     if (is_array($queryarray) && $count = count($queryarray)) {
         $sql .= " AND ((`DiscussTitle` LIKE '%{$queryarray[0]}%'  OR `DiscussContent` LIKE '%{$queryarray[0]}%' )";
@@ -20,19 +20,20 @@ function tad_discuss_search($queryarray, $andor, $limit, $offset, $userid)
             $sql .= " $andor ";
             $sql .= "(`DiscussTitle` LIKE '%{$queryarray[$i]}%' OR  `DiscussContent` LIKE '%{$queryarray[$i]}%' )";
         }
-        $sql .= ") ";
+        $sql .= ') ';
     }
-    $sql .= "ORDER BY  `DiscussDate` DESC";
+    $sql .= 'ORDER BY  `DiscussDate` DESC';
     $result = $xoopsDB->query($sql, $limit, $offset);
-    $ret    = [];
-    $i      = 0;
+    $ret = [];
+    $i = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {
-        $ret[$i]['image'] = "images/cup.png";
-        $ret[$i]['link']  = "discuss.php?DiscussID=" . $myrow['DiscussID'];
+        $ret[$i]['image'] = 'images/cup.png';
+        $ret[$i]['link'] = 'discuss.php?DiscussID=' . $myrow['DiscussID'];
         $ret[$i]['title'] = $myrow['DiscussTitle'];
-        $ret[$i]['time']  = strtotime($myrow['DiscussDate']);
-        $ret[$i]['uid']   = $myrow['uid'];
+        $ret[$i]['time'] = strtotime($myrow['DiscussDate']);
+        $ret[$i]['uid'] = $myrow['uid'];
         $i++;
     }
+
     return $ret;
 }

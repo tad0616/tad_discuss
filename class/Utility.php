@@ -195,7 +195,7 @@ class Utility
     }
 
     //修正col_sn欄位
-    public function chk_files_center()
+    public static function chk_files_center()
     {
         global $xoopsDB;
         $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS

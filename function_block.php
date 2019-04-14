@@ -52,7 +52,7 @@ if (!function_exists('getOnlyToName')) {
         $sql = 'select name , uname from  `' . $xoopsDB->prefix('users') . "` where `uid` in('{$onlyTo}')";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         $allname = [];
-        while (list($name, $uname) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($name, $uname) = $xoopsDB->fetchRow($result))) {
             $allname[] = empty($name) ? $uname : $name;
         }
         $nameStr = implode(' , ', $allname);

@@ -3,7 +3,7 @@
 function tad_discuss_new($options)
 {
     global $xoopsDB, $xoopsUser;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_discuss/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_discuss/function_block.php';
     $now_uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : '0';
 
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : '';
@@ -12,7 +12,7 @@ function tad_discuss_new($options)
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -70,7 +70,7 @@ function tad_discuss_new($options)
     }
 
     if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
+        require_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
         $FooTable = new FooTable('#new_discuss');
         $block['NewFooTableJS'] = $FooTable->render();
     }

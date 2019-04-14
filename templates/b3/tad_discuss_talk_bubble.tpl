@@ -6,7 +6,7 @@
 </div>
 <div style="margin-<{$discuss.dir}>:110px;">
   <div class="triangle-border talk <{$discuss.dir}>" style="line-height:150%;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
-  <br />
+  <br>
   <{$discuss.DiscussContent}>
   <{$discuss.files}>
   <span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size:12px;color:silver;text-align:right;">

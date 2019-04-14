@@ -1,12 +1,12 @@
 <?php
 /*-----------引入檔案區--------------*/
 if (file_exists('mainfile.php')) {
-    include_once 'mainfile.php';
+    require_once __DIR__ . '/mainfile.php';
 } elseif ('../../mainfile.php') {
-    include_once '../../mainfile.php';
+    require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 }
-include_once 'function.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+require_once __DIR__ . '/function.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -29,7 +29,7 @@ function list_tad_discuss_board($show_function = 1)
         $uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -40,13 +40,13 @@ function list_tad_discuss_board($show_function = 1)
         $all_content .= _MD_TADDISCUS_BOARD_EMPTY;
     }
 
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        if (!$gperm_handler->checkRight('forum_read', $BoardID, $groups, $module_id)) {
+        if (!$gpermHandler->checkRight('forum_read', $BoardID, $groups, $module_id)) {
             continue;
         }
 
@@ -130,14 +130,14 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
     //$main_data="<table style='width:100%'>";
     //$i=0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        $member_handler = xoops_getHandler('member');
-        $user = $member_handler->getUser($uid);
+        $memberHandler = xoops_getHandler('member');
+        $user = $memberHandler->getUser($uid);
         if (is_object($user)) {
             $ts = MyTextSanitizer::getInstance();
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
@@ -191,8 +191,8 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
         header('location:index.php');
     }
 
@@ -200,8 +200,8 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
         header("location: {$_SERVER['PHP_SELF']}?DiscussID={$discuss['ReDiscussID']}&BoardID={$discuss['BoardID']}");
     }
 
-    $member_handler = xoops_getHandler('member');
-    $user = $member_handler->getUser($uid);
+    $memberHandler = xoops_getHandler('member');
+    $user = $memberHandler->getUser($uid);
     if (is_object($user)) {
         $ts = MyTextSanitizer::getInstance();
         $uid_name = $ts->htmlSpecialChars($user->getVar('name'));
@@ -218,7 +218,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
 
     $js = "
   <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/jqueryCookie/jquery.cookie.js'></script>
-  <link rel='stylesheet' type='text/css' media='screen' href='reset.css' />
+  <link rel='stylesheet' type='text/css' media='screen' href='reset.css'>
     <script>
     function like(op,DiscussID){
      if($.cookie('like'+DiscussID)){
@@ -255,8 +255,8 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     $discuss_data = '';
     $i = $xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
 
-    $member_handler = xoops_getHandler('member');
-    while ($all = $xoopsDB->fetchArray($result)) {
+    $memberHandler = xoops_getHandler('member');
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -359,8 +359,8 @@ function list_tad_discuss_m($DefBoardID = null)
         $uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
 
@@ -378,14 +378,14 @@ function list_tad_discuss_m($DefBoardID = null)
 
     $main_data = '';
     $i = 1;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        $member_handler = xoops_getHandler('member');
-        $user = $member_handler->getUser($uid);
+        $memberHandler = xoops_getHandler('member');
+        $user = $memberHandler->getUser($uid);
         if (is_object($user)) {
             $ts = MyTextSanitizer::getInstance();
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
@@ -505,8 +505,8 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ('jqm' === $mode) {
             return;
         }
@@ -558,7 +558,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         redirect_header('pda.php', 3, _MD_NEED_TADTOOLS);
     }
     $ID = empty($DiscussID) ? $BoardID : $DiscussID;
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator("#myForm{$ID}", true);
     $formValidator_code = $formValidator->render('bottomLeft');
 
@@ -740,7 +740,7 @@ switch ($op) {
         update_tad_discuss($DiscussID);
         //$ID=empty($ReDiscussID)?$DiscussID:$ReDiscussID;
         //header("location: {$_SERVER['PHP_SELF']}?op=show_one&DiscussID=$ID&BoardID=$BoardID");
-        header("location: {$_SERVER['HTTP_REFERER']}");
+        header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
         break;
     //刪除資料
     case 'delete_tad_discuss':
@@ -780,8 +780,8 @@ echo "
   <meta charset='" . _CHARSET . "'>
   <meta name='viewport' content='initial-scale=1.0, user-scalable=no'>
   <title>{$title}</title>
-  <link href='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css' rel='stylesheet' type='text/css'/>
-  <link href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' rel='stylesheet' type='text/css'/>
+  <link href='http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css' rel='stylesheet' type='text/css'>
+  <link href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' rel='stylesheet' type='text/css'>
   <style>
   /*.ui-header .ui-title {
     margin: 0.6em 2% 0.8em !important;

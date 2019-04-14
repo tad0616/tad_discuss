@@ -1,6 +1,6 @@
 <h2><{$BoardTitle}></h2>
 <{$formValidator_code}>
-<link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="reset.css">
 <{if $def_editor!="CKEditor"}>
   <script type="text/javascript" src="class/nicEdit.js"></script>
   <script type="text/javascript">

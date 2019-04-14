@@ -1,9 +1,9 @@
 <?php
 /*-----------引入檔案區--------------*/
-include 'header.php';
-$xoopsOption['template_main'] = 'tad_discuss_discuss.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+require __DIR__ . '/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_discuss.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -28,9 +28,9 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
-    if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
+    if (!$gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         if ('return' === $mode) {
             return;
         }
@@ -82,7 +82,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -134,7 +134,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
             redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
         }
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
+        require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
         $ck = new CKEditor('tad_discuss', 'DiscussContent', $DiscussContent);
         $ck->setToolbarSet('mySimple');
         $ck->setHeight(250);
@@ -148,7 +148,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $captcha_div = '';
     if (!is_object($xoopsUser)) {
         $captcha_js = "
-        <link rel='stylesheet' type='text/css' href='class/Qaptcha_v3.0/jquery/QapTcha.jquery.css' media='screen' />
+        <link rel='stylesheet' type='text/css' href='class/Qaptcha_v3.0/jquery/QapTcha.jquery.css' media='screen'>
         <script type='text/javascript' src='class/Qaptcha_v3.0/jquery/jquery.ui.touch.js'></script>
         <script type='text/javascript' src='class/Qaptcha_v3.0/jquery/QapTcha.jquery.js'></script>
         <script type='text/javascript'>
@@ -240,14 +240,14 @@ function get_tad_discuss_board_option($default_BoardID = '0')
         $uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $sql = 'SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY `BoardSort`';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
-        if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
+    while (false !== (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result))) {
+        if (!$gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
             continue;
         }
 
@@ -286,8 +286,8 @@ function show_one_tad_discuss($DefDiscussID = '')
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_read', $discuss['BoardID'], $groups, $module_id)) {
         header('location:index.php');
     }
 
@@ -299,7 +299,7 @@ function show_one_tad_discuss($DefDiscussID = '')
 
     $js = "
     <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/jqueryCookie/jquery.cookie.js'></script>
-    <link rel='stylesheet' type='text/css' media='screen' href='reset.css' />
+    <link rel='stylesheet' type='text/css' media='screen' href='reset.css'>
     <script>
         function like(op,DiscussID){
             if($.cookie('like'+DiscussID)){
@@ -341,8 +341,8 @@ function show_one_tad_discuss($DefDiscussID = '')
     $i = 1;
     $first = '';
 
-    $member_handler = xoops_getHandler('member');
-    while ($all = $xoopsDB->fetchArray($result)) {
+    $memberHandler = xoops_getHandler('member');
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -421,7 +421,7 @@ function show_one_tad_discuss($DefDiscussID = '')
     $description = strip_tags($first);
 
     $fb_tag = "
-      <meta property=\"og:title\" content=\"{$title}\" />
+      <meta property=\"og:title\" content=\"{$title}\">
       ";
     $xoopsTpl->assign('xoops_module_header', $fb_tag);
     $xoopsTpl->assign('xoops_pagetitle', $title);
@@ -467,8 +467,8 @@ function update_tad_discuss($DiscussID = '')
     if ('1' == $_POST['only_root'] and !empty($ReDiscussID)) {
         $onlyTo = $Discuss['uid'];
     } elseif ('1' == $_POST['only_root']) {
-        $member_handler = xoops_getHandler('member');
-        $adminusers = $member_handler->getUsersByGroup(1);
+        $memberHandler = xoops_getHandler('member');
+        $adminusers = $memberHandler->getUsersByGroup(1);
         $onlyTo = implode(',', $adminusers);
     }
 
@@ -513,7 +513,7 @@ function change_lock($lock, $BoardID, $DiscussID)
         if ('1' == $_POST['only_root'] and !empty($ReDiscussID)) {
             $onlyTo = $Discuss['uid'];
         } elseif ('1' == $_POST['only_root']) {
-            $adminusers = $member_handler->getUsersByGroup(1);
+            $adminusers = $memberHandler->getUsersByGroup(1);
             $onlyTo = implode(',', $adminusers);
         }
     }
@@ -536,7 +536,7 @@ function add_tad_discuss_counter($DiscussID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
@@ -602,4 +602,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

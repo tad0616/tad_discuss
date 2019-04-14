@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once 'header.php';
+require_once __DIR__ . '/header.php';
 /*-----------function區--------------*/
 $DiscussID = (int)$_POST['DiscussID'];
 if ('like' === $_POST['op']) {

@@ -5,8 +5,8 @@ function tad_discuss_cbox($options)
     global $xoopsUser, $xoopsDB, $xoTheme;
 
     //取得本模組編號
-    $modhandler = xoops_getHandler('module');
-    $xoopsModule = $modhandler->getByDirname('tad_discuss');
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule = $moduleHandler->getByDirname('tad_discuss');
     $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
@@ -41,8 +41,8 @@ function tad_discuss_cbox($options)
         }
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         return;
     }
 
@@ -50,7 +50,7 @@ function tad_discuss_cbox($options)
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php')) {
         redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php';
 
     $block['jquery_path'] = get_jquery();
 
@@ -60,7 +60,7 @@ function tad_discuss_cbox($options)
             <option value=''>" . _MB_TADDISCUS_ALL_BOARD . '</option>';
         $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while ($all = $xoopsDB->fetchArray($result)) {
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
             //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
             foreach ($all as $k => $v) {
                 $$k = $v;
@@ -102,14 +102,14 @@ function tad_discuss_cbox_edit($options)
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
     $mColorPicker = new mColorPicker('.color');
     $mColorPicker->render();
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $opt = '';
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -180,7 +180,7 @@ if (!function_exists('get_rule')) {
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
         $all_content = [];
-        while ($all = $xoopsDB->fetchArray($result)) {
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
             //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID
             foreach ($all as $k => $v) {
                 $$k = $v;

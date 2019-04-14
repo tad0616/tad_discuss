@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_discuss_adm_copycbox.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copycbox.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*-----------function區--------------*/
 
@@ -12,8 +12,8 @@ function list_cbox()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler = xoops_getHandler('module');
-    $ThexoopsModule = $modhandler->getByDirname('tad_cbox');
+    $moduleHandler = xoops_getHandler('module');
+    $ThexoopsModule = $moduleHandler->getByDirname('tad_cbox');
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');
@@ -47,7 +47,7 @@ function list_cbox()
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： `sn`, `publisher`, `msg`, `post_date`, `ip`, `only_root`, `root_msg`
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -122,7 +122,7 @@ function copycbox($BoardID = '')
     //讀取留言簿資料
     $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_cbox') . ' ORDER BY post_date ';
     $result = $xoopsDB->queryF($sql);
-    while (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result))) {
         $onlyTo = ($only_root) ? $root_uid : '';
         $DiscussTitle = xoops_substr($msg, 0, 60);
 
@@ -158,7 +158,7 @@ function copycbox($BoardID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
@@ -184,4 +184,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

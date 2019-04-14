@@ -1,9 +1,9 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_discuss_adm_main.tpl';
-include_once 'header.php';
-include_once '../function.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_main.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 
 /*-----------function區--------------*/
@@ -11,7 +11,7 @@ $TadUpFiles = new TadUpFiles('tad_discuss');
 function tad_discuss_board_form($BoardID = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl, $TadUpFiles;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($BoardID)) {
@@ -45,19 +45,19 @@ function tad_discuss_board_form($BoardID = '')
 
     $BoardManagerArr = explode(',', $BoardManager);
 
-    $member_handler = xoops_getHandler('member');
-    $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
+    $memberHandler = xoops_getHandler('member');
+    $usercount = $memberHandler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 2000) {
         $select = new XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
-        $member_handler = xoops_getHandler('member');
+        $memberHandler = xoops_getHandler('member');
         $criteria = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(2000);
         $criteria->setStart(0);
 
-        $select->addOptionArray($member_handler->getUserList($criteria));
+        $select->addOptionArray($memberHandler->getUserList($criteria));
         $select->setExtra("class='span12'");
         $user_menu = $select->render();
     } else {
@@ -67,9 +67,9 @@ function tad_discuss_board_form($BoardID = '')
 
     //取得本模組編號
     $module_id = $xoopsModule->getVar('mid');
-    $moduleperm_handler = xoops_getHandler('groupperm');
-    $read_group = $moduleperm_handler->getGroupIds('forum_read', $BoardID, $module_id);
-    $post_group = $moduleperm_handler->getGroupIds('forum_post', $BoardID, $module_id);
+    $modulepermHandler = xoops_getHandler('groupperm');
+    $read_group = $modulepermHandler->getGroupIds('forum_read', $BoardID, $module_id);
+    $post_group = $modulepermHandler->getGroupIds('forum_post', $BoardID, $module_id);
 
     if (empty($read_group)) {
         $read_group = [1, 2, 3];
@@ -92,7 +92,7 @@ function tad_discuss_board_form($BoardID = '')
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -119,7 +119,7 @@ function tad_discuss_board_form($BoardID = '')
     $i = 0;
     $sql = 'select BoardID,BoardTitle from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result))) {
         $ofBoardArr[$i]['BoardID'] = $BoardID;
         $ofBoardArr[$i]['BoardTitle'] = $BoardTitle;
         $i++;
@@ -167,7 +167,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -233,7 +233,7 @@ function get_tad_discuss_board_menu_options($default_BoardID = '0')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result))) {
         if ($BoardID == $default_BoardID) {
             continue;
         }
@@ -251,7 +251,7 @@ function delete_tad_discuss_board($BoardID = '')
     $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='$BoardID' and ReDiscussID=0";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($DiscussID) = $xoopsDB->fetchRow($result))) {
         delete_tad_discuss($DiscussID);
     }
 
@@ -294,7 +294,7 @@ function changeBoardStatus($BoardID = '', $act = '0')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
@@ -355,4 +355,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

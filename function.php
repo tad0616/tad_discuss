@@ -3,10 +3,10 @@
 if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
     redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
-include_once 'function_block.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+require_once __DIR__ . '/function_block.php';
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 /********************* 自訂函數 *********************/
 
 //對話框格式
@@ -14,8 +14,8 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
 {
     global $xoopsUser, $xoopsTpl, $xoopsModuleConfig, $TadUpFiles;
 
-    $member_handler = xoops_getHandler('member');
-    $user = $member_handler->getUser($uid);
+    $memberHandler = xoops_getHandler('member');
+    $user = $memberHandler->getUser($uid);
     $pic = XOOPS_URL . '/modules/tad_discuss/images/nobody.png';
     $uid_name = _MD_TADDISCUS_NOBODY;
     $user_sig = '';
@@ -174,15 +174,15 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
     $module_id = $xoopsModule->getVar('mid');
-    $gperm_handler = xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
-    $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
+    $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
 
     // Save the new permissions
     if (count($groups) > 0) {
         foreach ($groups as $group_id) {
-            $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
+            $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
         }
     }
 }
@@ -205,12 +205,12 @@ function list_tad_discuss($DefBoardID = null)
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
 
-    $post = $gperm_handler->checkRight('forum_post', $DefBoardID, $groups, $module_id);
+    $post = $gpermHandler->checkRight('forum_post', $DefBoardID, $groups, $module_id);
     $xoopsTpl->assign('post', $post);
 
     $andBoardID = (empty($DefBoardID)) ? '' : "and a.BoardID='$DefBoardID'";
@@ -227,7 +227,7 @@ function list_tad_discuss($DefBoardID = null)
 
     $main_data = [];
     $i = 1;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -293,7 +293,7 @@ function list_tad_discuss($DefBoardID = null)
     $post_tool = ($post and !empty($DefBoardID)) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='btn btn-default btn-secondary'><img src='images/edit.png' align='absmiddle' hspace=4 alt='" . _MD_TADDISCUS_ADD_DISCUSS . "'>" . _MD_TADDISCUS_ADD_DISCUSS . '</a>' : '';
 
     if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
+        require_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
 
         $FooTable = new FooTable();
         $FooTableJS = $FooTable->render();
@@ -466,7 +466,7 @@ function delete_tad_discuss($DiscussID = '')
 
         $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($DiscussID) = $xoopsDB->fetchRow($result))) {
             delete_tad_discuss($DiscussID);
         }
     } else {
@@ -505,7 +505,7 @@ function insert_tad_discuss($nl2br = false)
     //取得使用者編號
     //if(!$xoopsUser)return;
 
-    $member_handler = xoops_getHandler('member');
+    $memberHandler = xoops_getHandler('member');
 
     $uid = ($xoopsUser) ? $xoopsUser->uid() : (int) $_POST['uid'];
 
@@ -544,7 +544,7 @@ function insert_tad_discuss($nl2br = false)
     if ('1' == $_POST['only_root'] and !empty($ReDiscussID)) {
         $onlyTo = $Discuss['uid'];
     } elseif ('1' == $_POST['only_root']) {
-        $adminusers = $member_handler->getUsersByGroup(1);
+        $adminusers = $memberHandler->getUsersByGroup(1);
         $onlyTo = implode(',', $adminusers);
     }
 
@@ -577,15 +577,15 @@ function insert_tad_discuss($nl2br = false)
     $extra_tags['DISCUSS_CONTENT'] = strip_tags($_POST['DiscussContent']);
     $extra_tags['DISCUSS_URL'] = XOOPS_URL . "/modules/tad_discuss/discuss.php?DiscussID={$ToDiscussID}&BoardID={$_POST['BoardID']}";
 
-    $notification_handler = xoops_getHandler('notification');
-    $notification_handler->triggerEvent('global', 0, 'new_discuss', $extra_tags, null, null, 0);
+    $notificationHandler = xoops_getHandler('notification');
+    $notificationHandler->triggerEvent('global', 0, 'new_discuss', $extra_tags, null, null, 0);
 
     //分類
     if (!empty($_POST['BoardID'])) {
         $Board = get_tad_discuss_board($_POST['BoardID']);
         $extra_tags['BOARD_TITLE'] = $Board['BoardTitle'];
-        $notification_handler = xoops_getHandler('notification');
-        $notification_handler->triggerEvent('board', $_POST['BoardID'], 'new_board_discuss', $extra_tags, null, null, 0);
+        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler->triggerEvent('board', $_POST['BoardID'], 'new_board_discuss', $extra_tags, null, null, 0);
     }
 
     if (!empty($ReDiscussID)) {

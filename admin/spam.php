@@ -1,11 +1,11 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_spam.tpl";
-include_once "header.php";
-include_once "../function.php";
+$xoopsOption['template_main'] = 'tad_discuss_adm_spam.tpl';
+include_once 'header.php';
+include_once '../function.php';
 
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-$TadUpFiles = new TadUpFiles("tad_discuss");
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+$TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
 //列出所有垃圾留言
@@ -13,47 +13,46 @@ function list_spam()
 {
     global $xoopsModuleConfig, $xoopsTpl;
 
-    $new = array();
+    $new = [];
     if (!empty($_POST['new_spam_keyword'])) {
-        $new = explode(",", $_POST['new_spam_keyword']);
+        $new = explode(',', $_POST['new_spam_keyword']);
     }
 
     $all_spam_keyword = array_merge($xoopsModuleConfig['spam_keyword'], $new);
 
-    $spam_keyword = explode(",", $xoopsModuleConfig['spam_keyword']);
-    $i            = 0;
+    $spam_keyword = explode(',', $xoopsModuleConfig['spam_keyword']);
+    $i = 0;
     foreach ($spam_keyword as $keyword) {
         $all_keyword[$i]['keyword'] = $keyword;
-        $all_keyword[$i]['checked'] = "checked";
+        $all_keyword[$i]['checked'] = 'checked';
         $i++;
     }
 
     $xoopsTpl->assign('all_keyword', $all_keyword);
-    $xoopsTpl->assign('now_op', "list_spam");
+    $xoopsTpl->assign('now_op', 'list_spam');
     $xoopsTpl->assign('jquery', get_jquery());
-
 }
 
 //搜尋垃圾
 function search_spam()
 {
     global $xoopsDB, $xoopsTpl, $xoopsModule;
-    $new = array();
+    $new = [];
     if (!empty($_POST['new_spam_keyword'])) {
-        $new = explode(",", $_POST['new_spam_keyword']);
+        $new = explode(',', $_POST['new_spam_keyword']);
     }
 
     $all_spam_keyword = array_merge($_POST['spam_keyword'], $new);
 
     foreach ($all_spam_keyword as $spam_keyword) {
         $spam_keyword = trim($spam_keyword);
-        $sql          = "select * from `" . $xoopsDB->prefix("tad_discuss") . "` where `DiscussTitle` like '%{$spam_keyword}%' or `DiscussContent` like '%{$spam_keyword}%'";
-        $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        $i            = 0;
+        $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss') . "` where `DiscussTitle` like '%{$spam_keyword}%' or `DiscussContent` like '%{$spam_keyword}%'";
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $i = 0;
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
             foreach ($all as $k => $v) {
-                $$k                  = $v;
+                $$k = $v;
                 $all_content[$i][$k] = $v;
             }
             //以uid取得使用者名稱
@@ -62,17 +61,17 @@ function search_spam()
                 $uid_name = XoopsUser::getUnameFromId($uid, 0);
             }
 
-            $all_content[$i]['uid_name']     = $uid_name;
+            $all_content[$i]['uid_name'] = $uid_name;
             $all_content[$i]['spam_keyword'] = $spam_keyword;
             $i++;
         }
     }
     $xoopsTpl->assign('all_content', $all_content);
-    $xoopsTpl->assign('now_op', "search_spam");
+    $xoopsTpl->assign('now_op', 'search_spam');
 
     if ($_POST['new_spam_keyword']) {
         $module_id = $xoopsModule->getVar('mid');
-        $sql       = "update `" . $xoopsDB->prefix("config") . "` set `conf_value`= CONCAT(`conf_value`,',{$_POST['new_spam_keyword']}') where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
+        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= CONCAT(`conf_value`,',{$_POST['new_spam_keyword']}') where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
@@ -90,47 +89,43 @@ function del_spam()
     }
 }
 
-function update_config($item = "")
+function update_config($item = '')
 {
     global $xoopsModuleConfig, $xoopsModule, $xoopsDB;
-    $keys             = explode(",", $xoopsModuleConfig['spam_keyword']);
-    $keys             = array_diff($keys, array($item));
+    $keys = explode(',', $xoopsModuleConfig['spam_keyword']);
+    $keys = array_diff($keys, [$item]);
     $new_spam_keyword = implode(',', $keys);
 
     $module_id = $xoopsModule->getVar('mid');
-    $sql       = "update `" . $xoopsDB->prefix("config") . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
+    $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
 
-    case "search_spam":
+    case 'search_spam':
         list_spam();
         search_spam();
         break;
-
-    case "del_spam":
+    case 'del_spam':
         del_spam();
         header("location:{$_SERVER['PHP_SELF']}");
         exit;
         break;
-
-    case "update_config":
+    case 'update_config':
         update_config($_POST['item']);
         break;
-
     //預設動作
     default:
         list_spam();
         break;
-
         /*---判斷動作請貼在上方---*/
 }
 

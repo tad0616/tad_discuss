@@ -5,35 +5,35 @@ function tad_discuss_cbox($options)
     global $xoopsUser, $xoopsDB, $xoTheme;
 
     //取得本模組編號
-    $modhandler  = xoops_getHandler('module');
-    $xoopsModule = $modhandler->getByDirname("tad_discuss");
-    $module_id   = $xoopsModule->mid();
+    $modhandler = xoops_getHandler('module');
+    $xoopsModule = $modhandler->getByDirname('tad_discuss');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid    = $xoopsUser->uid();
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
-        $uid    = 0;
+        $uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
 
-    $block['now_uid']    = $uid;
-    $block['BoardID']    = $DefBoardID    = $options[0];
+    $block['now_uid'] = $uid;
+    $block['BoardID'] = $DefBoardID = $options[0];
     $block['apply_rule'] = $apply_rule = $options[5];
 
     if ($apply_rule) {
         $http = 'http://';
         if (!empty($_SERVER['HTTPS'])) {
-            $http = ($_SERVER['HTTPS'] === 'on') ? 'https://' : 'http://';
+            $http = ('on' === $_SERVER['HTTPS']) ? 'https://' : 'http://';
         }
-        $url      = $http . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI'];
+        $url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $all_rule = get_rule();
         foreach ($all_rule as $toBoardID => $patten_arr) {
             foreach ($patten_arr as $patten) {
-                $patten_arr = explode("?", $patten);
+                $patten_arr = explode('?', $patten);
 
-                if (strpos($url, $patten_arr[0]) and (preg_match("/{$patten_arr[1]}&/", $url) or preg_match("/{$patten_arr[1]}$/", $url))) {
+                if (mb_strpos($url, $patten_arr[0]) and (preg_match("/{$patten_arr[1]}&/", $url) or preg_match("/{$patten_arr[1]}$/", $url))) {
                     $block['BoardID'] = $DefBoardID = $toBoardID;
                     break 2;
                 }
@@ -47,18 +47,18 @@ function tad_discuss_cbox($options)
     }
 
     //引入TadTools的jquery
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php")) {
-        redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php')) {
+        redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/jquery.php";
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php';
 
     $block['jquery_path'] = get_jquery();
 
-    $form = "";
+    $form = '';
     if (empty($DefBoardID)) {
         $form = "<select class='form-control' name='BoardID' onChange=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID='+this.value,'discussCboxMain'); window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID='+this.value,'discussCboxForm');\">
-            <option value=''>" . _MB_TADDISCUS_ALL_BOARD . "</option>";
-        $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+            <option value=''>" . _MB_TADDISCUS_ALL_BOARD . '</option>';
+        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -66,30 +66,30 @@ function tad_discuss_cbox($options)
                 $$k = $v;
             }
 
-            $selected = ($DefBoardID == $BoardID) ? "selected" : "";
+            $selected = ($DefBoardID == $BoardID) ? 'selected' : '';
             $form .= "
             <option value='{$BoardID}' $selected>{$BoardTitle}</option>
             ";
         }
 
-        $form .= "</select>";
+        $form .= '</select>';
     } else {
-        $sql                        = "select BoardID,BoardTitle from `" . $xoopsDB->prefix("tad_discuss_board") . "` where BoardID='{$DefBoardID}'";
-        $result                     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $sql = 'select BoardID,BoardTitle from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardID='{$DefBoardID}'";
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result);
         $form .= "
             <h3><a href='" . XOOPS_URL . "/modules/tad_discuss/discuss.php?BoardID={$BoardID}'>{$BoardTitle}</a></h3>
             ";
     }
 
-    $block['SelectBoard']  = $form;
-    $block['height']       = $options[1];
+    $block['SelectBoard'] = $form;
+    $block['height'] = $options[1];
     $block['border_color'] = urlencode($options[2]);
-    $block['bg_color']     = urlencode($options[3]);
-    $block['font_color']   = urlencode($options[4]);
+    $block['bg_color'] = urlencode($options[3]);
+    $block['font_color'] = urlencode($options[4]);
 
-    $setupRule          = str_replace(XOOPS_URL, "", "http://" . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI']);
-    $setupRule          = str_replace("/modules/", "", $setupRule);
+    $setupRule = str_replace(XOOPS_URL, '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    $setupRule = str_replace('/modules/', '', $setupRule);
     $block['setupRule'] = $setupRule;
 
     return $block;
@@ -99,30 +99,30 @@ function tad_discuss_cbox($options)
 function tad_discuss_cbox_edit($options)
 {
     global $xoopsDB;
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/mColorPicker.php")) {
-        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
+        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/mColorPicker.php";
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
     $mColorPicker = new mColorPicker('.color');
     $mColorPicker->render();
 
-    $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $opt    = '';
+    $opt = '';
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        $selected = ($options[0] == $BoardID) ? "selected" : "";
+        $selected = ($options[0] == $BoardID) ? 'selected' : '';
         $opt .= "
         <option value='{$BoardID}' $selected>{$BoardTitle}</option>
         ";
     }
 
-    $options5_1 = $options[5] == '1' ? "checked" : "";
-    $options5_0 = $options[5] == '0' ? "checked" : "";
+    $options5_1 = '1' == $options[5] ? 'checked' : '';
+    $options5_0 = '0' == $options[5] ? 'checked' : '';
 
     $form = "
     <ol class='my-form'>
@@ -163,23 +163,23 @@ function tad_discuss_cbox_edit($options)
             <lable class='my-label'><a href='" . XOOPS_URL . "/modules/tad_discuss/admin/cbox_setup.php' target='_blank'>" . _MB_TADDISCUS_APPLY_RULE . "</a></lable>
             <div class='my-content'>
                 <input type='radio' name='options[5]' value='1' $options5_1>" . _YES . "
-                <input type='radio' name='options[5]' value='0' $options5_0>" . _NO . "
+                <input type='radio' name='options[5]' value='0' $options5_0>" . _NO . '
             </div>
         </li>
-    </ol>";
+    </ol>';
 
     return $form;
 }
 
-if (!function_exists("get_rule")) {
+if (!function_exists('get_rule')) {
     function get_rule()
     {
         global $xoopsDB;
 
-        $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ";
+        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . '` ';
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-        $all_content = array();
+        $all_content = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID
             foreach ($all as $k => $v) {

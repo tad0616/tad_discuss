@@ -1,13 +1,13 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_discuss_adm_cbox_setup.tpl";
-include_once "header.php";
-include_once "../function.php";
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-$TadUpFiles = new TadUpFiles("tad_discuss");
+$xoopsOption['template_main'] = 'tad_discuss_adm_cbox_setup.tpl';
+include_once 'header.php';
+include_once '../function.php';
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+$TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 //tad_discuss_cbox_setup編輯表單
-function tad_discuss_cbox_setup_form($setupID = "")
+function tad_discuss_cbox_setup_form($setupID = '')
 {
     global $xoopsDB, $xoopsTpl;
 
@@ -15,7 +15,7 @@ function tad_discuss_cbox_setup_form($setupID = "")
     if (!empty($setupID)) {
         $DBV = get_tad_discuss_cbox_setup($setupID);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -29,42 +29,42 @@ function tad_discuss_cbox_setup_form($setupID = "")
     $xoopsTpl->assign('setupName', $setupName);
 
     //設定「setupRule」欄位預設值
-    $setupRule = !isset($DBV['setupRule']) ? "" : $DBV['setupRule'];
+    $setupRule = !isset($DBV['setupRule']) ? '' : $DBV['setupRule'];
     $xoopsTpl->assign('setupRule', $setupRule);
 
     //設定「BoardID」欄位預設值
-    $BoardID = !isset($DBV['BoardID']) ? "" : $DBV['BoardID'];
+    $BoardID = !isset($DBV['BoardID']) ? '' : $DBV['BoardID'];
     $xoopsTpl->assign('BoardID', $BoardID);
 
     //設定「setupSort」欄位預設值
     $setupSort = !isset($DBV['setupSort']) ? tad_discuss_cbox_setup_max_sort() : $DBV['setupSort'];
     $xoopsTpl->assign('setupSort', $setupSort);
 
-    $op = (empty($setupID)) ? "insert_tad_discuss_cbox_setup" : "update_tad_discuss_cbox_setup";
+    $op = (empty($setupID)) ? 'insert_tad_discuss_cbox_setup' : 'update_tad_discuss_cbox_setup';
     //$op="replace_tad_discuss_cbox_setup";
 
-    if (!file_exists(TADTOOLS_PATH . "/formValidator.php")) {
-        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
+        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . "/formValidator.php";
-    $formValidator      = new formValidator("#myForm", true);
+    include_once TADTOOLS_PATH . '/formValidator.php';
+    $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
-    $xoopsTpl->assign('action', $_SERVER["PHP_SELF"]);
+    $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('now_op', 'tad_discuss_cbox_setup_form');
     $xoopsTpl->assign('next_op', $op);
 
-    $sql    = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_board") . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $i      = 0;
+    $i = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        $option[$i]['BoardID']    = $BoardID;
+        $option[$i]['BoardID'] = $BoardID;
         $option[$i]['BoardTitle'] = $BoardTitle;
         $i++;
     }
@@ -72,23 +72,24 @@ function tad_discuss_cbox_setup_form($setupID = "")
 }
 
 //更新tad_discuss_cbox_setup某一筆資料
-function update_tad_discuss_cbox_setup($setupID = "")
+function update_tad_discuss_cbox_setup($setupID = '')
 {
     global $xoopsDB, $xoopsUser;
 
     //取得使用者編號
-    $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
+    $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts               = MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
     $_POST['setupName'] = $myts->addSlashes($_POST['setupName']);
     $_POST['setupRule'] = $myts->addSlashes($_POST['setupRule']);
 
-    $sql = "update `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` set
+    $sql = 'update `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` set
    `setupName` = '{$_POST['setupName']}' ,
    `setupRule` = '{$_POST['setupRule']}' ,
    `BoardID` = '{$_POST['BoardID']}'
   where `setupID` = '$setupID'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+
     return $setupID;
 }
 
@@ -97,7 +98,7 @@ function list_tad_discuss_cbox_setup()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
-    $sql = "SELECT * FROM `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` ORDER BY `setupSort`";
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . '` ORDER BY `setupSort`';
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     /*
@@ -109,8 +110,8 @@ function list_tad_discuss_cbox_setup()
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
-    $i           = 0;
+    $all_content = [];
+    $i = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID , $setupSort
         foreach ($all as $k => $v) {
@@ -118,12 +119,12 @@ function list_tad_discuss_cbox_setup()
         }
         $Board = get_tad_discuss_board($BoardID);
 
-        $all_content[$i]['setupID']    = $setupID;
-        $all_content[$i]['setupName']  = "<a href='{$_SERVER['PHP_SELF']}?setupID={$setupID}'>{$setupName}</a>";
-        $all_content[$i]['setupRule']  = $setupRule;
-        $all_content[$i]['BoardID']    = $BoardID;
+        $all_content[$i]['setupID'] = $setupID;
+        $all_content[$i]['setupName'] = "<a href='{$_SERVER['PHP_SELF']}?setupID={$setupID}'>{$setupName}</a>";
+        $all_content[$i]['setupRule'] = $setupRule;
+        $all_content[$i]['BoardID'] = $BoardID;
         $all_content[$i]['BoardTitle'] = $Board['BoardTitle'];
-        $all_content[$i]['setupSort']  = $setupSort;
+        $all_content[$i]['setupSort'] = $setupSort;
         $i++;
     }
 
@@ -137,41 +138,41 @@ function list_tad_discuss_cbox_setup()
 }
 
 //以流水號取得某筆tad_discuss_cbox_setup資料
-function get_tad_discuss_cbox_setup($setupID = "")
+function get_tad_discuss_cbox_setup($setupID = '')
 {
     global $xoopsDB;
     if (empty($setupID)) {
         return;
     }
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}'";
+    $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
+
     return $data;
 }
 
 //刪除tad_discuss_cbox_setup某筆資料資料
-function delete_tad_discuss_cbox_setup($setupID = "")
+function delete_tad_discuss_cbox_setup($setupID = '')
 {
     global $xoopsDB, $isAdmin;
-    $sql = "delete from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}'";
+    $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 //以流水號秀出某筆tad_discuss_cbox_setup資料內容
-function show_one_tad_discuss_cbox_setup($setupID = "")
+function show_one_tad_discuss_cbox_setup($setupID = '')
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
     if (empty($setupID)) {
         return;
-    } else {
-        $setupID = (int) $setupID;
     }
+    $setupID = (int) $setupID;
 
-    $sql    = "select * from `" . $xoopsDB->prefix("tad_discuss_cbox_setup") . "` where `setupID` = '{$setupID}' ";
+    $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}' ";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $all    = $xoopsDB->fetchArray($result);
+    $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID
     foreach ($all as $k => $v) {
@@ -190,54 +191,48 @@ function show_one_tad_discuss_cbox_setup($setupID = "")
 
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op        = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID   = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$setupID   = system_CleanVars($_REQUEST, 'setupID', 0, 'int');
+$setupID = system_CleanVars($_REQUEST, 'setupID', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
 
     //替換資料
-    case "replace_tad_discuss_cbox_setup":
+    case 'replace_tad_discuss_cbox_setup':
         replace_tad_discuss_cbox_setup();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
         break;
-
     //新增資料
-    case "insert_tad_discuss_cbox_setup":
+    case 'insert_tad_discuss_cbox_setup':
         insert_tad_discuss_cbox_setup($_POST['setupName'], $_POST['setupRule'], $_POST['newBorard'], $_POST['BoardID']);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
         break;
-
     //更新資料
-    case "update_tad_discuss_cbox_setup":
+    case 'update_tad_discuss_cbox_setup':
         update_tad_discuss_cbox_setup($setupID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
         break;
-
     //輸入表格
-    case "tad_discuss_cbox_setup_form":
+    case 'tad_discuss_cbox_setup_form':
         tad_discuss_cbox_setup_form($setupID);
         list_tad_discuss_cbox_setup();
         break;
-
     //刪除資料
-    case "delete_tad_discuss_cbox_setup":
+    case 'delete_tad_discuss_cbox_setup':
         delete_tad_discuss_cbox_setup($setupID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
         break;
-
     //預設動作
     default:
         tad_discuss_cbox_setup_form($setupID);
         list_tad_discuss_cbox_setup();
         break;
-
         /*---判斷動作請貼在上方---*/
 }
 

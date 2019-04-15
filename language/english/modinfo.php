@@ -4,7 +4,7 @@
 // 製作日期：2012-10-23
 // $Id:$
 // ------------------------------------------------------------------------- //
-require_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
+xoops_loadLanguage('modinfo_common', 'tadtools');
 
 define('_MI_TADDISCUS_NAME', 'Discussion Forum');
 define('_MI_TADDISCUS_AUTHOR', 'Tad');

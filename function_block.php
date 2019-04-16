@@ -20,7 +20,7 @@ if (!function_exists('isPublic')) {
         $onlyToArr = explode(',', $onlyTo);
         $now_uid = $xoopsUser->uid();
 
-        if (in_array($now_uid, $onlyToArr, true)) {
+        if (in_array($now_uid, $onlyToArr)) {
             return true;
         }
 
@@ -31,7 +31,7 @@ if (!function_exists('isPublic')) {
         if ($BoardID) {
             $board = get_tad_discuss_board($BoardID);
             $BoardManagerArr = explode(',', $board['BoardManager']);
-            if (in_array($now_uid, $BoardManagerArr, true)) {
+            if (in_array($now_uid, $BoardManagerArr)) {
                 return true;
             }
         }

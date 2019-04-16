@@ -394,7 +394,7 @@ function isMine($discuss_uid = null, $BoardID = null)
     //  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
     if ($isAdmin) {
         return true;
-    } elseif (in_array($uid, $BoardManagerArr, true)) {
+    } elseif (in_array($uid, $BoardManagerArr)) {
         return true;
     } elseif ($uid == $discuss_uid) {
         return true;
@@ -440,7 +440,7 @@ function onlyMine($DiscussID = '')
 
     if ($isAdmin) {
         return;
-    } elseif (in_array($uid, $BoardManagerArr, true)) {
+    } elseif (in_array($uid, $BoardManagerArr)) {
         return;
     }
 

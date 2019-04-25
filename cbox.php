@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
 include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
@@ -29,7 +31,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$jquery = get_jquery();
+$jquery = Utility::get_jquery();
 
 include_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
 $fancybox = new fancybox('.fancybox_Discuss');
@@ -77,7 +79,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         header('location:index.php');
     }
 
-    $jquery = get_jquery();
+    $jquery = Utility::get_jquery();
 
     $andBoardID = (empty($DefBoardID)) ? '' : "and a.BoardID='$DefBoardID'";
     $andLimit = ($limit > 0) ? "limit 0,$limit" : '';
@@ -142,7 +144,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
     ";
     $i = 2;
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -226,7 +228,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         ";
 
         $sql = 'select * from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' order by ReDiscussID , DiscussDate";
-        $result2 = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result2 = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $re = '';
         $f = 2;
         while ($all = $xoopsDB->fetchArray($result2)) {

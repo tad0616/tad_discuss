@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 
 //悄悄話檢查
 if (!function_exists('isPublic')) {
@@ -50,7 +52,7 @@ if (!function_exists('getOnlyToName')) {
         }
 
         $sql = 'select name , uname from  `' . $xoopsDB->prefix('users') . "` where `uid` in('{$onlyTo}')";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $allname = [];
         while (list($name, $uname) = $xoopsDB->fetchRow($result)) {
             $allname[] = empty($name) ? $uname : $name;
@@ -71,7 +73,7 @@ if (!function_exists('get_tad_discuss_board')) {
         }
 
         $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `BoardID` = '{$BoardID}'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data = $xoopsDB->fetchArray($result);
 
         return $data;

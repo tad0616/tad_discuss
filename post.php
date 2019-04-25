@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
@@ -22,10 +23,10 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 
     if (empty($BoardID)) {
         if ($isAdmin and '1' == $xoopsModuleConfig['display_fast_setup']) {
-            if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
+            if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
                 redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
             }
-            include_once TADTOOLS_PATH . '/formValidator.php';
+            include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
             $formValidator = new formValidator('#myForm', true);
             $formValidator_code = $formValidator->render();
 
@@ -169,7 +170,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
         </td></tr>";
     }
 
-    $jquery = get_jquery();
+    $jquery = Utility::get_jquery();
 
     $DiscussTitleForm = empty($ReDiscussID) ? "
     <tr>

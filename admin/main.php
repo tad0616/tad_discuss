@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_main.tpl';
 include_once 'header.php';
@@ -89,10 +91,10 @@ function tad_discuss_board_form($BoardID = '')
     $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_post_group = $SelectGroup_name->render();
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -108,8 +110,8 @@ function tad_discuss_board_form($BoardID = '')
     $xoopsTpl->assign('enable_post_group', $enable_post_group);
     $xoopsTpl->assign('upform', $upform);
     $xoopsTpl->assign('user_menu', $user_menu);
-    $xoopsTpl->assign('BoardEnable1', chk($BoardEnable, '1'));
-    $xoopsTpl->assign('BoardEnable0', chk($BoardEnable, '0'));
+    $xoopsTpl->assign('BoardEnable1', Utility::chk($BoardEnable, '1'));
+    $xoopsTpl->assign('BoardEnable0', Utility::chk($BoardEnable, '0'));
     $xoopsTpl->assign('next_op', $op);
 
     $xoopsTpl->assign('op', 'tad_discuss_board_form');
@@ -118,7 +120,7 @@ function tad_discuss_board_form($BoardID = '')
     $ofBoardArr = [];
     $i = 0;
     $sql = 'select BoardID,BoardTitle from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
         $ofBoardArr[$i]['BoardID'] = $BoardID;
         $ofBoardArr[$i]['BoardTitle'] = $BoardTitle;
@@ -145,7 +147,7 @@ function update_tad_discuss_board($BoardID = '')
    `BoardManager` = '{$BoardManager}' ,
    `BoardEnable` = '{$_POST['BoardEnable']}'
   where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //寫入權限
     saveItem_Permissions($_POST['forum_read'], $BoardID, 'forum_read');
@@ -163,7 +165,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl, $TadUpFiles;
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
@@ -222,7 +224,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 
     $xoopsTpl->assign('all_content', $all_content);
 
-    $xoopsTpl->assign('jquery', get_jquery(true));
+    $xoopsTpl->assign('jquery', Utility::get_jquery(true));
 }
 
 //取得tad_discuss_board分類選單的選項（單層選單）
@@ -230,7 +232,7 @@ function get_tad_discuss_board_menu_options($default_BoardID = '0')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY `BoardSort`';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $option = '';
     while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
@@ -249,14 +251,14 @@ function delete_tad_discuss_board($BoardID = '')
 {
     global $xoopsDB, $isAdmin, $TadUpFiles;
     $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='$BoardID' and ReDiscussID=0";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
         delete_tad_discuss($DiscussID);
     }
 
     $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `BoardID` = '{$BoardID}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //del_files('' , "BoardID" , $BoardID);
     $TadUpFiles->set_col('BoardID', $BoardID); //若要整個刪除
     $TadUpFiles->del_files();
@@ -272,10 +274,10 @@ function moveToBoardID($BoardID = '', $NewBoardID = '')
     }
 
     $sql = 'update `' . $xoopsDB->prefix('tad_discuss') . "` set `BoardID` = '{$NewBoardID}' where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $TadUpFiles->set_col('BoardID', $BoardID); //若要整個刪除
     $TadUpFiles->del_files();
@@ -290,7 +292,7 @@ function changeBoardStatus($BoardID = '', $act = '0')
     }
 
     $sql = 'update `' . $xoopsDB->prefix('tad_discuss_board') . "` set `BoardEnable` = '{$act}' where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/

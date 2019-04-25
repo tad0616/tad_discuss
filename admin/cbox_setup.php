@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_cbox_setup.tpl';
 include_once 'header.php';
@@ -43,10 +45,10 @@ function tad_discuss_cbox_setup_form($setupID = '')
     $op = (empty($setupID)) ? 'insert_tad_discuss_cbox_setup' : 'update_tad_discuss_cbox_setup';
     //$op="replace_tad_discuss_cbox_setup";
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -55,8 +57,8 @@ function tad_discuss_cbox_setup_form($setupID = '')
     $xoopsTpl->assign('now_op', 'tad_discuss_cbox_setup_form');
     $xoopsTpl->assign('next_op', $op);
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql = "SELECT * FROM `" . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -84,11 +86,11 @@ function update_tad_discuss_cbox_setup($setupID = '')
     $_POST['setupRule'] = $myts->addSlashes($_POST['setupRule']);
 
     $sql = 'update `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` set
-   `setupName` = '{$_POST['setupName']}' ,
-   `setupRule` = '{$_POST['setupRule']}' ,
-   `BoardID` = '{$_POST['BoardID']}'
-  where `setupID` = '$setupID'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    `setupName` = '{$_POST['setupName']}' ,
+    `setupRule` = '{$_POST['setupRule']}' ,
+    `BoardID` = '{$_POST['BoardID']}'
+    where `setupID` = '$setupID'";
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $setupID;
 }
@@ -100,15 +102,7 @@ function list_tad_discuss_cbox_setup()
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . '` ORDER BY `setupSort`';
 
-    //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    /*
-    $PageBar=getPageBar($sql,20,10);
-    $bar=$PageBar['bar'];
-    $sql=$PageBar['sql'];
-    $total=$PageBar['total'];
-     */
-
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
@@ -133,7 +127,7 @@ function list_tad_discuss_cbox_setup()
     $xoopsTpl->assign('isAdmin', $isAdmin);
     $xoopsTpl->assign('all_content', $all_content);
 
-    $xoopsTpl->assign('jquery', get_jquery(true));
+    $xoopsTpl->assign('jquery', Utility::get_jquery(true));
     //$xoopsTpl->assign('now_op' , 'list_tad_discuss_cbox_setup');
 }
 
@@ -146,7 +140,7 @@ function get_tad_discuss_cbox_setup($setupID = '')
     }
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -157,7 +151,7 @@ function delete_tad_discuss_cbox_setup($setupID = '')
 {
     global $xoopsDB, $isAdmin;
     $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //以流水號秀出某筆tad_discuss_cbox_setup資料內容
@@ -171,7 +165,7 @@ function show_one_tad_discuss_cbox_setup($setupID = '')
     $setupID = (int) $setupID;
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}' ";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $all = $xoopsDB->fetchArray($result);
 
     //以下會產生這些變數： $setupID , $setupName , $setupRule , $BoardID

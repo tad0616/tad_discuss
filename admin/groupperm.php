@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_groupperm.tpl';
 include_once 'header.php';
@@ -12,7 +14,7 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 $module_id = $xoopsModule->getVar('mid');
 
 $sql = 'SELECT BoardID,BoardTitle FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY BoardSort';
-$result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+$result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
 while ($all = $xoopsDB->fetchArray($result)) {
     //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
@@ -64,7 +66,7 @@ $forum_post = $formi->render();
 
 $xoopsTpl->assign('forum_read', $forum_read);
 $xoopsTpl->assign('forum_post', $forum_post);
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 
 /*-----------秀出結果區--------------*/
 include_once 'footer.php';

@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
 
 //區塊主函式 (最新討論(tad_discuss_new))
@@ -70,12 +71,8 @@ function tad_discuss_new($options)
 
         $i++;
     }
-
-    if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
-        $FooTable = new FooTable('#new_discuss');
-        $block['NewFooTableJS'] = $FooTable->render();
-    }
+    $FooTable = new FooTable('#new_discuss');
+    $block['NewFooTableJS'] = $FooTable->render();
 
     return $block;
 }

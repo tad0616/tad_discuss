@@ -1,11 +1,11 @@
 <?php
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_cbox_setup.tpl';
 include_once 'header.php';
 include_once '../function.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 //tad_discuss_cbox_setup編輯表單
@@ -45,15 +45,10 @@ function tad_discuss_cbox_setup_form($setupID = '')
     $op = (empty($setupID)) ? 'insert_tad_discuss_cbox_setup' : 'update_tad_discuss_cbox_setup';
     //$op="replace_tad_discuss_cbox_setup";
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('now_op', 'tad_discuss_cbox_setup_form');
     $xoopsTpl->assign('next_op', $op);
 
@@ -81,7 +76,7 @@ function update_tad_discuss_cbox_setup($setupID = '')
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['setupName'] = $myts->addSlashes($_POST['setupName']);
     $_POST['setupRule'] = $myts->addSlashes($_POST['setupRule']);
 

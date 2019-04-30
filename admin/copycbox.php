@@ -88,7 +88,7 @@ function copycbox($BoardID = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
     set_time_limit(0);
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     //取得目前使用者uid
     $root_uid = $xoopsUser->uid();

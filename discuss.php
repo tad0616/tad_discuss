@@ -1,11 +1,12 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tad_discuss_discuss.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -81,12 +82,8 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $op = (empty($DiscussID)) ? 'insert_tad_discuss' : 'update_tad_discuss';
     //$op="replace_tad_discuss";
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
@@ -133,11 +130,8 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     }
 
     if ('CKEditor' === $xoopsModuleConfig['def_editor']) {
-        if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
-            redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-        }
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-        $ck = new CKEditor('tad_discuss', 'DiscussContent', $DiscussContent);
+
+        $ck = new CkEditor('tad_discuss', 'DiscussContent', $DiscussContent);
         $ck->setToolbarSet('mySimple');
         $ck->setHeight(250);
         $editor = $ck->render();
@@ -220,7 +214,6 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         return $all;
     }
     $xoopsTpl->assign('display_mode', $xoopsModuleConfig['display_mode']);
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('op', $_REQUEST['op']);
     $xoopsTpl->assign('form_data', $all);
     $xoopsTpl->assign('uid', $uid);
@@ -269,7 +262,7 @@ function show_one_tad_discuss($DefDiscussID = '')
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsTpl, $xoTheme;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     if (empty($DefDiscussID)) {
         return;
     }
@@ -439,7 +432,7 @@ function update_tad_discuss($DiscussID = '')
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $DiscussTitle = $myts->addSlashes($_POST['DiscussTitle']);
     $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
 

@@ -3,8 +3,6 @@
   <{if $op=="tad_discuss_board_form"}>
   <h1><{$smarty.const._MA_TAD_DISCUSS_BOARD_FORM}></h1>
 
-    <{$formValidator_code}>
-
     <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
       <div class="row">
         <!--討論區名稱-->

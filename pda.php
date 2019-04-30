@@ -1,6 +1,7 @@
 <?php
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-
+use XoopsModules\Tadtools\FormValidator;
 /*-----------引入檔案區--------------*/
 if (file_exists('mainfile.php')) {
     include_once 'mainfile.php';
@@ -8,7 +9,6 @@ if (file_exists('mainfile.php')) {
     include_once '../../mainfile.php';
 }
 include_once 'function.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -141,7 +141,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $member_handler = xoops_getHandler('member');
         $user = $member_handler->getUser($uid);
         if (is_object($user)) {
-            $ts = MyTextSanitizer::getInstance();
+            $ts = \MyTextSanitizer::getInstance();
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
         }
 
@@ -205,7 +205,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     $member_handler = xoops_getHandler('member');
     $user = $member_handler->getUser($uid);
     if (is_object($user)) {
-        $ts = MyTextSanitizer::getInstance();
+        $ts = \MyTextSanitizer::getInstance();
         $uid_name = $ts->htmlSpecialChars($user->getVar('name'));
         if (empty($uid_name)) {
             $uid_name = $ts->htmlSpecialChars($user->getVar('uname'));
@@ -389,7 +389,7 @@ function list_tad_discuss_m($DefBoardID = null)
         $member_handler = xoops_getHandler('member');
         $user = $member_handler->getUser($uid);
         if (is_object($user)) {
-            $ts = MyTextSanitizer::getInstance();
+            $ts = \MyTextSanitizer::getInstance();
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
         }
 
@@ -556,13 +556,10 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $op = (empty($DiscussID)) ? 'insert_tad_discuss' : 'update_tad_discuss';
     //$op="replace_tad_discuss";
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
-        redirect_header('pda.php', 3, _MD_NEED_TADTOOLS);
-    }
+
     $ID = empty($DiscussID) ? $BoardID : $DiscussID;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
-    $formValidator = new formValidator("#myForm{$ID}", true);
-    $formValidator_code = $formValidator->render('bottomLeft');
+    $FormValidator = new FormValidator("#myForm{$ID}", true);
+    $formValidator_code = $FormValidator->render('bottomLeft');
 
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
@@ -632,7 +629,7 @@ function update_tad_discuss($DiscussID = '')
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['DiscussTitle'] = $myts->addSlashes($_POST['DiscussTitle']);
     $_POST['DiscussContent'] = $myts->addSlashes($_POST['DiscussContent']);
 

@@ -1,11 +1,11 @@
 <?php
+use XoopsModules\Tadtools\FooTable;
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tad_discuss_index.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -76,12 +76,8 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         return $all_content;
     }
 
-    if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
-
-        $FooTable = new FooTable();
-        $FooTableJS = $FooTable->render();
-    }
+    $FooTable = new FooTable();
+    $FooTableJS = $FooTable->render();
 
     $xoopsTpl->assign('FooTableJS', $FooTableJS);
     $xoopsTpl->assign('all_content', $all_content);

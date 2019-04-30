@@ -1,12 +1,11 @@
 <?php
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_spam.tpl';
 include_once 'header.php';
 include_once '../function.php';
 
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 

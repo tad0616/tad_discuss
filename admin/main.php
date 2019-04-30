@@ -1,11 +1,11 @@
 <?php
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_main.tpl';
 include_once 'header.php';
 include_once '../function.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 
 /*-----------function區--------------*/
@@ -91,17 +91,12 @@ function tad_discuss_board_form($BoardID = '')
     $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_post_group = $SelectGroup_name->render();
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     $TadUpFiles->set_col('BoardID', $BoardID); //若 $show_list_del_file ==true 時一定要有
     $upform = $TadUpFiles->upform(false, 'upfile', 1, true, 'gif|jpg|png|GIF|JPG|PNG');
 
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('BoardID', $BoardID);
     $xoopsTpl->assign('ofBoardID', $ofBoardID);
     $xoopsTpl->assign('BoardTitle', $BoardTitle);
@@ -134,7 +129,7 @@ function update_tad_discuss_board($BoardID = '')
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['BoardDesc'] = $myts->addSlashes($_POST['BoardDesc']);
     $_POST['BoardTitle'] = $myts->addSlashes($_POST['BoardTitle']);
 

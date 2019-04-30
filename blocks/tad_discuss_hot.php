@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
 
 //區塊主函式 (最熱門討論(tad_discuss_hot))
@@ -70,11 +71,9 @@ function tad_discuss_hot($options)
 
         $i++;
     }
-    if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
-        $FooTable = new FooTable('#hot_discuss');
-        $block['HotFooTableJS'] = $FooTable->render();
-    }
+
+    $FooTable = new FooTable('#hot_discuss');
+    $block['HotFooTableJS'] = $FooTable->render();
 
     return $block;
 }

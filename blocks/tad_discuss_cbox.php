@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\Utility;
 
 //區塊主函式 (會產生一個即時留言簿區塊)
@@ -48,12 +49,6 @@ function tad_discuss_cbox($options)
         return;
     }
 
-    //引入TadTools的jquery
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php')) {
-        redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery.php';
-
     $block['jquery_path'] = Utility::get_jquery();
 
     $form = '';
@@ -101,12 +96,9 @@ function tad_discuss_cbox($options)
 function tad_discuss_cbox_edit($options)
 {
     global $xoopsDB;
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
-    $mColorPicker = new mColorPicker('.color');
-    $mColorPicker->render();
+
+    $MColorPicker = new MColorPicker('.color');
+    $MColorPicker->render();
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);

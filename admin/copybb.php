@@ -112,7 +112,7 @@ function copyBoard($BoardID = '')
     preg_match_all('/"([0-9]+)"/', $forum_moderator, $cols);
     $BoardManager = implode(',', $cols[1]);
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $forum_desc = $myts->addSlashes($forum_desc);
     $forum_name = $myts->addSlashes($forum_name);
 
@@ -215,7 +215,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
     $result = $xoopsDB->query($sql) or die($sql);
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {

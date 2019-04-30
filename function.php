@@ -1,5 +1,7 @@
 <?php
+use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
+
 xoops_loadLanguage('main', 'tadtools');
 
 include_once 'function_block.php';
@@ -18,7 +20,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
     $uid_name = _MD_TADDISCUS_NOBODY;
     $user_sig = '';
     if (is_object($user) and $uid) {
-        $ts = MyTextSanitizer::getInstance();
+        $ts = \MyTextSanitizer::getInstance();
         $uid_name = empty($publisher) ? $ts->htmlSpecialChars($user->name()) : $publisher;
         if (empty($uid_name)) {
             $uid_name = $ts->htmlSpecialChars($user->uname());
@@ -95,7 +97,7 @@ function insert_tad_discuss_board($BoardTitle = '')
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $BoardTitle = $myts->addSlashes($BoardTitle);
     $BoardDesc = $myts->addSlashes($_POST['BoardDesc']);
 
@@ -135,7 +137,7 @@ function insert_tad_discuss_cbox_setup($setupName = '', $setupRule = '', $newBor
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $setupName = $myts->addSlashes($setupName);
     $setupRule = $myts->addSlashes($setupRule);
     $newBorard = $myts->addSlashes($newBorard);
@@ -290,12 +292,8 @@ function list_tad_discuss($DefBoardID = null)
 
     $post_tool = ($post and !empty($DefBoardID)) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_discuss_form&BoardID=$DefBoardID' class='btn btn-default btn-secondary'><img src='images/edit.png' align='absmiddle' hspace=4 alt='" . _MD_TADDISCUS_ADD_DISCUSS . "'>" . _MD_TADDISCUS_ADD_DISCUSS . '</a>' : '';
 
-    if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
-
-        $FooTable = new FooTable();
-        $FooTableJS = $FooTable->render();
-    }
+    $FooTable = new FooTable();
+    $FooTableJS = $FooTable->render();
 
     $ShowBoardTitle = '';
     if (!empty($DefBoardID)) {
@@ -507,7 +505,7 @@ function insert_tad_discuss($nl2br = false)
 
     $uid = ($xoopsUser) ? $xoopsUser->uid() : (int) $_POST['uid'];
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
 
     if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {

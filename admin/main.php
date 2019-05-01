@@ -51,7 +51,7 @@ function tad_discuss_board_form($BoardID = '')
     $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 2000) {
-        $select = new XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
+        $select = new \XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
         $member_handler = xoops_getHandler('member');
         $criteria = new CriteriaCompo();
         $criteria->setSort('uname');
@@ -82,12 +82,12 @@ function tad_discuss_board_form($BoardID = '')
     }
 
     //可見群組
-    $SelectGroup_name = new XoopsFormSelectGroup('', 'forum_read', true, $read_group, 6, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('', 'forum_read', true, $read_group, 6, true);
     $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_read_group = $SelectGroup_name->render();
 
     //可上傳群組
-    $SelectGroup_name = new XoopsFormSelectGroup('', 'forum_post', true, $post_group, 6, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('', 'forum_post', true, $post_group, 6, true);
     $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_post_group = $SelectGroup_name->render();
 

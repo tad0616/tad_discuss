@@ -2,6 +2,10 @@
 use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
 
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式 (最新討論(tad_discuss_new))
 function tad_discuss_new($options)
 {

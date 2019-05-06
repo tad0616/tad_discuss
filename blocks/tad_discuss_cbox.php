@@ -2,6 +2,10 @@
 use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\Utility;
 
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式 (會產生一個即時留言簿區塊)
 function tad_discuss_cbox($options)
 {

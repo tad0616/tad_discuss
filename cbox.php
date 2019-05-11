@@ -159,9 +159,9 @@ function list_tad_discuss_cbox($DefBoardID = '')
             $files .= ('img' === $ff['kind']) ? "<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='group' target='_top'><img src='{$ff['tb_path']}' alt='{$ff['description']}'></a>" : "<a href='{$ff['path']}'><img src='images/file.png'></a>";
         }
         //以uid取得使用者名稱
-        $publisher = XoopsUser::getUnameFromId($uid, 1);
+        $publisher = \XoopsUser::getUnameFromId($uid, 1);
         if (empty($publisher)) {
-            $publisher = XoopsUser::getUnameFromId($uid, 0);
+            $publisher = \XoopsUser::getUnameFromId($uid, 0);
         }
 
         $MainDiscussTitle = $DiscussTitle;
@@ -243,9 +243,9 @@ function list_tad_discuss_cbox($DefBoardID = '')
             }
 
             //以uid取得使用者名稱
-            $publisher = XoopsUser::getUnameFromId($uid, 1);
+            $publisher = \XoopsUser::getUnameFromId($uid, 1);
             if (empty($publisher)) {
-                $publisher = XoopsUser::getUnameFromId($uid, 0);
+                $publisher = \XoopsUser::getUnameFromId($uid, 0);
             }
 
             $post_date = mb_substr(date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate))), 0, 16);

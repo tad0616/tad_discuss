@@ -22,9 +22,9 @@ function tad_discuss_hot($options)
         $renum = block_get_re_num($DiscussID);
         $renum = empty($renum) ? '0' : $renum;
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($uid, 0);
         }
 
         //最後回應者
@@ -34,9 +34,9 @@ function tad_discuss_hot($options)
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
         } else {
-            $last_uid_name = XoopsUser::getUnameFromId($last_uid, 1);
+            $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 1);
             if (empty($last_uid_name)) {
-                $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
+                $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 0);
             }
         }
 

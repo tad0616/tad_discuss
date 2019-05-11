@@ -39,10 +39,10 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
         $pic_css = 'cursor:pointer;';
     }
 
-    $like = (!empty($DiscussID) and 'tad_discuss_form' !== $_REQUEST['op']) ? true : false;
+    $like = (!empty($DiscussID) && 'tad_discuss_form' !== $_REQUEST['op']) ? true : false;
     //$fun=(isMine($uid,$BoardID) and !empty($BoardID) and !empty($DiscussID) and $_REQUEST['op']!='tad_discuss_form')?true:false;
 
-    $fun = (isMine($uid, $BoardID) and 'tad_discuss_form' !== $_REQUEST['op'] and !empty($DiscussID)) ? true : false;
+    $fun = (isMine($uid, $BoardID) && 'tad_discuss_form' !== $_REQUEST['op'] && !empty($DiscussID)) ? true : false;
 
     //$files=show_files("DiscussID" , $DiscussID , true , '' , true , false);
     if ('tad_discuss_form' !== $_REQUEST['op']) {
@@ -237,9 +237,9 @@ function list_tad_discuss($DefBoardID = null)
         $renum = empty($renum) ? '0' : $renum;
 
         if (empty($publisher)) {
-            $uid_name = XoopsUser::getUnameFromId($uid, 1);
+            $uid_name = \XoopsUser::getUnameFromId($uid, 1);
             if (empty($uid_name)) {
-                $uid_name = XoopsUser::getUnameFromId($uid, 0);
+                $uid_name = \XoopsUser::getUnameFromId($uid, 0);
             }
         } else {
             $uid_name = $publisher;
@@ -255,9 +255,9 @@ function list_tad_discuss($DefBoardID = null)
             if (empty($last_uid)) {
                 $last_uid_name = $uid_name;
             } else {
-                $last_uid_name = XoopsUser::getUnameFromId($last_uid, 1);
+                $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 1);
                 if (empty($last_uid_name)) {
-                    $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
+                    $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 0);
                 }
             }
         }
@@ -413,9 +413,9 @@ function getBoardManager($BoardID = '', $mode = '')
     $board = get_tad_discuss_board($BoardID);
     $BoardManagerArr = explode(',', $board['BoardManager']);
     foreach ($BoardManagerArr as $uid) {
-        $BoardManagerName = XoopsUser::getUnameFromId($uid, 1);
+        $BoardManagerName = \XoopsUser::getUnameFromId($uid, 1);
         if (empty($BoardManagerName)) {
-            $BoardManagerName = XoopsUser::getUnameFromId($uid, 0);
+            $BoardManagerName = \XoopsUser::getUnameFromId($uid, 0);
         }
 
         $name[] = "<a href='" . XOOPS_URL . "/userinfo.php?uid={$uid}'>{$BoardManagerName}</a>";
@@ -466,7 +466,7 @@ function delete_tad_discuss($DiscussID = '')
 
         $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (false !== (list($DiscussID) = $xoopsDB->fetchRow($result))) {
+        while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
             delete_tad_discuss($DiscussID);
         }
     } else {

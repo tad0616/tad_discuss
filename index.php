@@ -113,7 +113,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $renum = get_re_num($DiscussID);
         //$show_re_num=empty($renum)?"":sprintf(_MD_TADDISCUS_RE_DISCUSS,$renum);
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $LastTime = mb_substr($LastTime, 0, 10);
 
         $isPublic = isPublic($onlyTo, $uid, $BoardID);

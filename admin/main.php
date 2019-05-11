@@ -46,12 +46,12 @@ function tad_discuss_board_form($BoardID = '')
     $BoardManagerArr = explode(',', $BoardManager);
 
     $memberHandler = xoops_getHandler('member');
-    $usercount = $memberHandler->getUserCount(new Criteria('level', 0, '>'));
+    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 2000) {
-        $select = new XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
+        $select = new \XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
         $memberHandler = xoops_getHandler('member');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(2000);
@@ -80,17 +80,17 @@ function tad_discuss_board_form($BoardID = '')
     }
 
     //可見群組
-    $SelectGroup_name = new XoopsFormSelectGroup('', 'forum_read', true, $read_group, 6, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('', 'forum_read', true, $read_group, 6, true);
     $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_read_group = $SelectGroup_name->render();
 
     //可上傳群組
-    $SelectGroup_name = new XoopsFormSelectGroup('', 'forum_post', true, $post_group, 6, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('', 'forum_post', true, $post_group, 6, true);
     $SelectGroup_name->setExtra("class='col-sm-12'");
     $enable_post_group = $SelectGroup_name->render();
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
@@ -119,7 +119,7 @@ function tad_discuss_board_form($BoardID = '')
     $i = 0;
     $sql = 'select BoardID,BoardTitle from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result))) {
+    while (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
         $ofBoardArr[$i]['BoardID'] = $BoardID;
         $ofBoardArr[$i]['BoardTitle'] = $BoardTitle;
         $i++;
@@ -192,9 +192,9 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
                 continue;
             }
 
-            $uid_name = XoopsUser::getUnameFromId($uid, 1);
+            $uid_name = \XoopsUser::getUnameFromId($uid, 1);
             if (empty($uid_name)) {
-                $uid_name = XoopsUser::getUnameFromId($uid, 0);
+                $uid_name = \XoopsUser::getUnameFromId($uid, 0);
             }
 
             $manager[] = $uid_name;
@@ -233,7 +233,7 @@ function get_tad_discuss_board_menu_options($default_BoardID = '0')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (false !== (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result))) {
+    while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
         if ($BoardID == $default_BoardID) {
             continue;
         }
@@ -251,7 +251,7 @@ function delete_tad_discuss_board($BoardID = '')
     $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='$BoardID' and ReDiscussID=0";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (false !== (list($DiscussID) = $xoopsDB->fetchRow($result))) {
+    while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
         delete_tad_discuss($DiscussID);
     }
 

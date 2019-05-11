@@ -90,7 +90,7 @@ class Utility
         $xoopsDB->queryF($sql);
         $sql = 'SELECT `uid` FROM ' . $xoopsDB->prefix('tad_discuss') . ' GROUP BY uid';
         $result = $xoopsDB->query($sql);
-        while (false !== (list($uid) = $xoopsDB->fetchRow($result))) {
+        while (list($uid) = $xoopsDB->fetchRow($result)) {
             $publisher = get_name_from_uid($uid);
             if ($publisher) {
                 $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set `publisher`='{$publisher}' where `uid`='{$uid}'";
@@ -132,7 +132,7 @@ class Utility
     {
         global $xoopsDB;
         $sql = 'select uname,name from `' . $xoopsDB->prefix('users') . "` where uid ='{$uid}'";
-        $result = $xoopsDB->queryF($sql) or die($sql);
+        $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
         list($uname, $name) = $xoopsDB->fetchRow($result);
         if (!empty($name)) {
             return $name;
@@ -237,7 +237,7 @@ class Utility
         global $xoopsDB;
         $sql = 'SELECT DiscussID,ReDiscussID FROM ' . $xoopsDB->prefix('tad_discuss') . ' WHERE BoardID=0';
         $result = $xoopsDB->query($sql);
-        while (false !== (list($DiscussID, $ReDiscussID) = $xoopsDB->fetchRow($result))) {
+        while (list($DiscussID, $ReDiscussID) = $xoopsDB->fetchRow($result)) {
             $sql2 = 'select BoardID from ' . $xoopsDB->prefix('tad_discuss') . " where DiscussID='$ReDiscussID'";
             $result2 = $xoopsDB->query($sql2);
             list($BoardID) = $xoopsDB->fetchRow($result2);

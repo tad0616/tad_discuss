@@ -26,8 +26,8 @@ function list_xforum()
 
     //轉移權限(原權限)
     $sql = 'SELECT gperm_groupid,gperm_itemid,gperm_name FROM `' . $xoopsDB->prefix('group_permission') . "` WHERE `gperm_modid` ='{$mod_id}' ";
-    $result = $xoopsDB->queryF($sql) or die($sql);
-    while (false !== (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result))) {
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    while (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result)) {
         $power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
 
@@ -35,8 +35,8 @@ function list_xforum()
     $mid = $xoopsModule->getVar('mid');
     $sql = 'SELECT gperm_groupid,gperm_itemid,gperm_name FROM `' . $xoopsDB->prefix('group_permission') . "` WHERE `gperm_modid` ='{$mid}' ";
 
-    $result = $xoopsDB->queryF($sql) or die($sql);
-    while (false !== (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result))) {
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    while (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result)) {
         $now_power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
 
@@ -119,7 +119,7 @@ function copyBoard($BoardID = '')
     $sql = 'replace into `' . $xoopsDB->prefix('tad_discuss_board') . "`
   (`BoardID`, `ofBoardID` ,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)
   values('{$forum_id}' , '{$parent_forum}' ,  '{$forum_name}' , '{$forum_desc}' , '{$BoardManager}' , '{$forum_order}' , '1')";
-    $xoopsDB->queryF($sql) or die($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     return $BoardID;
 }
@@ -170,16 +170,16 @@ function delXforum($topic_id = '')
 
     $sql = 'select post_id from  `' . $xoopsDB->prefix('xf_posts') . "` where topic_id='$topic_id'";
     $result = $xoopsDB->query($sql) or die($sql);
-    while (false !== (list($post_id) = $xoopsDB->fetchRow($result))) {
+    while (list($post_id) = $xoopsDB->fetchRow($result)) {
         $sql = 'delete from  `' . $xoopsDB->prefix('xf_posts_text') . "` where post_id='$post_id'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
         $sql = 'delete from  `' . $xoopsDB->prefix('xf_posts') . "` where post_id='$post_id'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $sql = 'delete from  `' . $xoopsDB->prefix('xf_topics') . "` where topic_id='$topic_id'";
-    $xoopsDB->queryF($sql) or die($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 function batch_del($batch_del = [])
@@ -193,7 +193,7 @@ function get_name_from_uid($uid = '')
 {
     global $xoopsDB;
     $sql = 'select uname,name from `' . $xoopsDB->prefix('users') . "` where uid ='{$uid}'";
-    $result = $xoopsDB->queryF($sql) or die($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     list($uname, $name) = $xoopsDB->fetchRow($result);
     if (!empty($name)) {
         return $name;
@@ -208,7 +208,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
     if ('force' === $mode) {
         $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where `BoardID`='$BoardID'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $sql = 'select a.`topic_id` , a.`topic_title` , a.`topic_poster` , a.`topic_time` , a.`topic_views`, a.`topic_last_post_id` , b.`post_id`  , b.`poster_ip` , c.`post_text` from `' . $xoopsDB->prefix('xf_topics') . '` as a left join `' . $xoopsDB->prefix('xf_posts') . '` as b on a.topic_id=b.topic_id and b.pid=0 left join `' . $xoopsDB->prefix('xf_posts_text') . "` as c on b.post_id=c.post_id where a.forum_id='$BoardID' order by a.topic_id";
@@ -236,7 +236,7 @@ function copyDiscuss($BoardID = '', $mode = '')
         $sql = 'replace into ' . $xoopsDB->prefix('tad_discuss') . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
     values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
 
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
         $ReDiscussID = $post_id;
 
@@ -261,7 +261,7 @@ function copyDiscuss($BoardID = '', $mode = '')
             //主題
             $sql = 'replace into ' . $xoopsDB->prefix('tad_discuss') . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher`  , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
       values('{$post_id}','{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$subject}' , '{$post_text}' , '{$post_time}' , '{$BoardID}' , '{$LastTime}' , '0', '$poster_ip')";
-            $xoopsDB->queryF($sql) or die($sql);
+            $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
         }
     }
 }
@@ -285,14 +285,14 @@ function powerSet($BoardID = '')
     foreach ($read as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_read')";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $post = explode(',', $_GET['post']);
     foreach ($post as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
 

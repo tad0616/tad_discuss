@@ -148,7 +148,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $renum = get_re_num($DiscussID);
         //$show_re_num=empty($renum)?"":sprintf(_MD_TADDISCUS_RE_DISCUSS,$renum);
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $LastTime = mb_substr($LastTime, 0, 10);
 
         $renum = _MD_TADDISCUS_DISCUSSRE . $renum;
@@ -396,9 +396,9 @@ function list_tad_discuss_m($DefBoardID = null)
         $renum = get_re_num($DiscussID);
         $renum = empty($renum) ? '0' : $renum;
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($uid, 0);
         }
 
         //最後回應者
@@ -410,9 +410,9 @@ function list_tad_discuss_m($DefBoardID = null)
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
         } else {
-            $last_uid_name = XoopsUser::getUnameFromId($last_uid, 1);
+            $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 1);
             if (empty($last_uid_name)) {
-                $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
+                $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 0);
             }
         }
 

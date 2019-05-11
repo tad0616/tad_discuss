@@ -56,9 +56,9 @@ function search_spam()
                 $all_content[$i][$k] = $v;
             }
             //以uid取得使用者名稱
-            $uid_name = XoopsUser::getUnameFromId($uid, 1);
+            $uid_name = \XoopsUser::getUnameFromId($uid, 1);
             if (empty($uid_name)) {
-                $uid_name = XoopsUser::getUnameFromId($uid, 0);
+                $uid_name = \XoopsUser::getUnameFromId($uid, 0);
             }
 
             $all_content[$i]['uid_name'] = $uid_name;

@@ -109,20 +109,20 @@ function copycbox($BoardID = '')
         $mid = $xoopsModule->getVar('mid');
         //讀取權限
         $sql = 'insert into `' . $xoopsDB->prefix('group_permission') . "` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_read'),('2', '{$BoardID}', '{$mid}', 'forum_read'),('3', '{$BoardID}', '{$mid}', 'forum_read')";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
         //寫入權限
         $sql = 'insert into `' . $xoopsDB->prefix('group_permission') . "` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_post'),('2', '{$BoardID}', '{$mid}', 'forum_post')";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     } else {
         $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='{$BoardID}'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     //讀取留言簿資料
     $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_cbox') . ' ORDER BY post_date ';
     $result = $xoopsDB->queryF($sql);
-    while (false !== (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result))) {
+    while (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result)) {
         $onlyTo = ($only_root) ? $root_uid : '';
         $DiscussTitle = xoops_substr($msg, 0, 60);
 

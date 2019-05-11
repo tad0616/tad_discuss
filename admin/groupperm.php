@@ -34,7 +34,7 @@ $perm_name = 'forum_read';
 $perm_desc = _MA_TADDISCUS_READ_POWER;
 
 //建立XOOPS權限表單
-$formi = new XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc);
+$formi = new \XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc);
 
 //將權限項目設進表單中
 foreach ($item_list as $item_id => $item_name) {
@@ -53,7 +53,7 @@ $perm_name = 'forum_post';
 $perm_desc = _MA_TADDISCUS_POST_POWER;
 
 //建立XOOPS權限表單
-$formi = new XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc);
+$formi = new \XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc);
 
 //將權限項目設進表單中
 foreach ($item_list as $item_id => $item_name) {

@@ -1,12 +1,14 @@
 <?php
+use XoopsModules\Tadtools\TadUpFiles;
+use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\FormValidator;
 /*-----------引入檔案區--------------*/
-if (file_exists('mainfile.php')) {
+if (file_exists(__DIR__ . '/mainfile.php')) {
     require_once __DIR__ . '/mainfile.php';
-} elseif ('../../mainfile.php') {
+} elseif (dirname(dirname(__DIR__)) . '/mainfile.php') {
     require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 }
 require_once __DIR__ . '/function.php';
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -32,7 +34,7 @@ function list_tad_discuss_board($show_function = 1)
     $gpermHandler = xoops_getHandler('groupperm');
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = '';
 
@@ -126,7 +128,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
     $andLimit = ($limit > 0) ? "limit 0,$limit" : '';
     $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //$main_data="<table style='width:100%'>";
     //$i=0;
@@ -139,7 +141,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $memberHandler = xoops_getHandler('member');
         $user = $memberHandler->getUser($uid);
         if (is_object($user)) {
-            $ts = MyTextSanitizer::getInstance();
+            $ts = \MyTextSanitizer::getInstance();
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
         }
 
@@ -203,7 +205,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     $memberHandler = xoops_getHandler('member');
     $user = $memberHandler->getUser($uid);
     if (is_object($user)) {
-        $ts = MyTextSanitizer::getInstance();
+        $ts = \MyTextSanitizer::getInstance();
         $uid_name = $ts->htmlSpecialChars($user->getVar('name'));
         if (empty($uid_name)) {
             $uid_name = $ts->htmlSpecialChars($user->getVar('uname'));
@@ -244,13 +246,13 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_discuss') . " where DiscussID='$DefDiscussID' or ReDiscussID='$DefDiscussID' order by ReDiscussID , DiscussDate";
 
-    //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, $xoopsModuleConfig['show_bubble_amount'], 10);
+    //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+    $PageBar = Utility::getPageBar($sql, $xoopsModuleConfig['show_bubble_amount'], 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $discuss_data = '';
     $i = $xoopsModuleConfig['show_bubble_amount'] * ($g2p - 1) + 1;
@@ -368,13 +370,13 @@ function list_tad_discuss_m($DefBoardID = null)
     $andLimit = ($limit > 0) ? "limit 0,$limit" : '';
     $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' and b.BoardEnable='1' $andBoardID  order by a.LastTime desc";
 
-    //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, $xoopsModuleConfig['show_discuss_amount'], 10);
+    //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+    $PageBar = Utility::getPageBar($sql, $xoopsModuleConfig['show_discuss_amount'], 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $main_data = '';
     $i = 1;
@@ -387,7 +389,7 @@ function list_tad_discuss_m($DefBoardID = null)
         $memberHandler = xoops_getHandler('member');
         $user = $memberHandler->getUser($uid);
         if (is_object($user)) {
-            $ts = MyTextSanitizer::getInstance();
+            $ts = \MyTextSanitizer::getInstance();
             $pic_avatar = $ts->htmlSpecialChars($user->getVar('user_avatar'));
         }
 
@@ -403,7 +405,7 @@ function list_tad_discuss_m($DefBoardID = null)
 
         //最後回應者
         $sql2 = 'select uid from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
-        $result2 = $xoopsDB->queryF($sql2) or web_error($sql2);
+        $result2 = $xoopsDB->queryF($sql2) or Utility::web_error($sql2);
         //if($isAdmin)die($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
         //if($isAdmin and $BoardID==19)die("<div>$sql2</div>\$last_uid={$last_uid}");
@@ -554,13 +556,10 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $op = (empty($DiscussID)) ? 'insert_tad_discuss' : 'update_tad_discuss';
     //$op="replace_tad_discuss";
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('pda.php', 3, _MD_NEED_TADTOOLS);
-    }
+
     $ID = empty($DiscussID) ? $BoardID : $DiscussID;
-    require_once TADTOOLS_PATH . '/formValidator.php';
-    $formValidator = new formValidator("#myForm{$ID}", true);
-    $formValidator_code = $formValidator->render('bottomLeft');
+    $FormValidator = new FormValidator("#myForm{$ID}", true);
+    $formValidator_code = $FormValidator->render('bottomLeft');
 
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
@@ -630,7 +629,7 @@ function update_tad_discuss($DiscussID = '')
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['DiscussTitle'] = $myts->addSlashes($_POST['DiscussTitle']);
     $_POST['DiscussContent'] = $myts->addSlashes($_POST['DiscussContent']);
 
@@ -651,7 +650,7 @@ function update_tad_discuss($DiscussID = '')
    `LastTime` = now(),
    `FromIP` = '$myip'
   where DiscussID='$DiscussID' $anduid";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $TadUpFiles->set_col('DiscussID', $DiscussID);
     $TadUpFiles->upload_file('upfile', 1024, 120, null, '', true);
@@ -677,7 +676,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 function login_m()

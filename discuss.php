@@ -1,9 +1,12 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\TadUpFiles;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
-$GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_discuss.tpl';
+$xoopsOption['template_main'] = 'tad_discuss_discuss.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -79,12 +82,8 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $op = (empty($DiscussID)) ? 'insert_tad_discuss' : 'update_tad_discuss';
     //$op="replace_tad_discuss";
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    require_once TADTOOLS_PATH . '/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
@@ -131,11 +130,8 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     }
 
     if ('CKEditor' === $xoopsModuleConfig['def_editor']) {
-        if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
-            redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-        }
-        require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-        $ck = new CKEditor('tad_discuss', 'DiscussContent', $DiscussContent);
+
+        $ck = new CkEditor('tad_discuss', 'DiscussContent', $DiscussContent);
         $ck->setToolbarSet('mySimple');
         $ck->setHeight(250);
         $editor = $ck->render();
@@ -218,7 +214,6 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         return $all;
     }
     $xoopsTpl->assign('display_mode', $xoopsModuleConfig['display_mode']);
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('op', $_REQUEST['op']);
     $xoopsTpl->assign('form_data', $all);
     $xoopsTpl->assign('uid', $uid);
@@ -243,7 +238,7 @@ function get_tad_discuss_board_option($default_BoardID = '0')
     $gpermHandler = xoops_getHandler('groupperm');
 
     $sql = 'SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY `BoardSort`';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $option = '';
     while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
@@ -267,7 +262,7 @@ function show_one_tad_discuss($DefDiscussID = '')
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsTpl, $xoTheme;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     if (empty($DefDiscussID)) {
         return;
     }
@@ -325,8 +320,8 @@ function show_one_tad_discuss($DefDiscussID = '')
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_discuss') . " where DiscussID='$DefDiscussID' or ReDiscussID='$DefDiscussID' order by ReDiscussID , DiscussDate";
 
-    //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, $xoopsModuleConfig['show_bubble_amount'], 10);
+    //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+    $PageBar = Utility::getPageBar($sql, $xoopsModuleConfig['show_bubble_amount'], 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
@@ -335,7 +330,7 @@ function show_one_tad_discuss($DefDiscussID = '')
         redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADDISCUS_THE_DISCUSS_EMPTY);
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $discuss_data = [];
     $i = 1;
@@ -437,7 +432,7 @@ function update_tad_discuss($DiscussID = '')
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $DiscussTitle = $myts->addSlashes($_POST['DiscussTitle']);
     $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
 
@@ -484,13 +479,13 @@ function update_tad_discuss($DiscussID = '')
   where DiscussID='$DiscussID' $anduid";
 
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     if ($OldBoardID != $BoardID) {
         $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set
      `BoardID` = '{$BoardID}'
     where ReDiscussID='$DiscussID'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 
     $TadUpFiles->set_col('DiscussID', $DiscussID);
@@ -522,7 +517,7 @@ function change_lock($lock, $BoardID, $DiscussID)
    `onlyTo` = '$onlyTo'
   where DiscussID='$DiscussID' $anduid";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $DiscussID;
 }
@@ -532,7 +527,7 @@ function add_tad_discuss_counter($DiscussID = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set `Counter`=`Counter`+1 where `DiscussID`='{$DiscussID}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/
@@ -543,8 +538,8 @@ $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
 $ReDiscussID = system_CleanVars($_REQUEST, 'ReDiscussID', 0, 'int');
 $files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
 
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 if ($xoopsUser) {
     $xoopsTpl->assign('now_uid', $xoopsUser->uid());

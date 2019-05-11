@@ -1,11 +1,5 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2012-10-23
-// $Id:$
-// ------------------------------------------------------------------------- //
 xoops_loadLanguage('modinfo_common', 'tadtools');
-
 define('_MI_TADDISCUS_NAME', 'Discussion Forum');
 define('_MI_TADDISCUS_AUTHOR', 'Tad');
 define('_MI_TADDISCUS_CREDITS', 'Tad');

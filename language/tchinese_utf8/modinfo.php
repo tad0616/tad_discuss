@@ -1,6 +1,5 @@
 <?php
 xoops_loadLanguage('modinfo_common', 'tadtools');
-
 define('_MI_TADDISCUS_NAME', '互動討論區');
 define('_MI_TADDISCUS_AUTHOR', 'tad');
 define('_MI_TADDISCUS_DESC', '簡易的討論留言模組');

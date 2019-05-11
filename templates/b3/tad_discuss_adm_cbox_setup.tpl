@@ -1,7 +1,6 @@
 <link href="<{$xoops_url}>/modules/tadtools/css/font-awesome/css/font-awesome.css" rel="stylesheet">
 <div class="container-fluid">
   <{if $now_op=="tad_discuss_cbox_setup_form"}>
-    <{$formValidator_code}>
     <h3><{$smarty.const._MA_TADDISCUS_RULE_SETUP}></h3>
     <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
 

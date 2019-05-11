@@ -1,4 +1,11 @@
 <?php
+use XoopsModules\Tadtools\FooTable;
+use XoopsModules\Tadtools\Utility;
+
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式 (最新討論(tad_discuss_new))
 function tad_discuss_new($options)
 {
@@ -9,7 +16,7 @@ function tad_discuss_new($options)
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : '';
     $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.LastTime desc $andLimit";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
@@ -28,7 +35,7 @@ function tad_discuss_new($options)
 
         //最後回應者
         $sql2 = 'select uid from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' and `DiscussDate` = '$LastTime'";
-        $result2 = $xoopsDB->query($sql2) or web_error($sql2);
+        $result2 = $xoopsDB->query($sql2) or Utility::web_error($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
@@ -68,12 +75,8 @@ function tad_discuss_new($options)
 
         $i++;
     }
-
-    if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php')) {
-        require_once XOOPS_ROOT_PATH . '/modules/tadtools/FooTable.php';
         $FooTable = new FooTable('#new_discuss');
         $block['NewFooTableJS'] = $FooTable->render();
-    }
 
     return $block;
 }
@@ -104,7 +107,7 @@ if (!function_exists('block_get_re_num')) {
         }
 
         $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($counter) = $xoopsDB->fetchRow($result);
 
         return $counter;

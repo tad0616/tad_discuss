@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copycbox.tpl';
 require_once __DIR__ . '/header.php';
@@ -37,8 +39,8 @@ function list_cbox()
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_cbox') . '` ORDER BY post_date DESC';
 
-    //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, 20, 10);
+    //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+    $PageBar = Utility::getPageBar($sql, 20, 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
@@ -86,7 +88,7 @@ function copycbox($BoardID = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
     set_time_limit(0);
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     //取得目前使用者uid
     $root_uid = $xoopsUser->uid();
@@ -100,7 +102,7 @@ function copycbox($BoardID = '')
 
         //建立討論區
         $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss_board') . " (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES(0 , '" . _MA_TADDISCUS_CBOX . "' , '" . _MA_TADDISCUS_CBOX_DESC . "' , '{$root_uid}' ,'{$sort}' , '1')";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         //取得最後新增資料的流水編號
         $BoardID = $xoopsDB->getInsertId();

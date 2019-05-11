@@ -1,10 +1,11 @@
 <?php
+use XoopsModules\Tadtools\TadUpFiles;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-$GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_spam.tpl';
+$xoopsOption['template_main'] = 'tad_discuss_adm_spam.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -30,7 +31,7 @@ function list_spam()
 
     $xoopsTpl->assign('all_keyword', $all_keyword);
     $xoopsTpl->assign('now_op', 'list_spam');
-    $xoopsTpl->assign('jquery', get_jquery());
+    $xoopsTpl->assign('jquery', Utility::get_jquery());
 }
 
 //搜尋垃圾
@@ -47,7 +48,7 @@ function search_spam()
     foreach ($all_spam_keyword as $spam_keyword) {
         $spam_keyword = trim($spam_keyword);
         $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss') . "` where `DiscussTitle` like '%{$spam_keyword}%' or `DiscussContent` like '%{$spam_keyword}%'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $i = 0;
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -72,7 +73,7 @@ function search_spam()
     if ($_POST['new_spam_keyword']) {
         $module_id = $xoopsModule->getVar('mid');
         $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= CONCAT(`conf_value`,',{$_POST['new_spam_keyword']}') where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -98,7 +99,7 @@ function update_config($item = '')
 
     $module_id = $xoopsModule->getVar('mid');
     $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/

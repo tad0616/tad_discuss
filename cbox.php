@@ -1,7 +1,10 @@
 <?php
+use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\TadUpFiles;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+
 $TadUpFiles = new TadUpFiles('tad_discuss');
 
 /*-----------執行動作判斷區----------*/
@@ -29,11 +32,10 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$jquery = get_jquery();
+Utility::get_jquery();
 
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
-$fancybox = new fancybox('.fancybox_Discuss');
-$fancybox->render();
+$FancyBox = new FancyBox('.fancybox_Discuss');
+$FancyBox->render();
 
 echo "
 <!DOCTYPE html>
@@ -42,8 +44,6 @@ echo "
   <meta charset='" . _CHARSET . "'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Post List</title>
-  $jquery
-  $fancybox_code
   <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css'>
 </head>
 <body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
@@ -77,7 +77,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         header('location:index.php');
     }
 
-    $jquery = get_jquery();
+    $jquery = Utility::get_jquery();
 
     $andBoardID = (empty($DefBoardID)) ? '' : "and a.BoardID='$DefBoardID'";
     $andLimit = ($limit > 0) ? "limit 0,$limit" : '';
@@ -142,7 +142,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
     ";
     $i = 2;
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
@@ -226,7 +226,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         ";
 
         $sql = 'select * from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' order by ReDiscussID , DiscussDate";
-        $result2 = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result2 = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $re = '';
         $f = 2;
         while (false !== ($all = $xoopsDB->fetchArray($result2))) {

@@ -3,7 +3,8 @@ use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include_once 'header.php';
+require_once __DIR__ . '/header.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -81,8 +82,8 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
         $publisher = _MD_TADDISCUS_DEFAULT_PUBLISHER;
     }
 
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         $main = "
         <h3 style='display:none;'>Post Form</h3>
         <div class='need_login'>" . sprintf(_MD_TADDISCUS_NEED_LOGIN, $BoardID, $BoardID) . '</div>';
@@ -253,7 +254,7 @@ function mkpic($num = 0)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
@@ -284,7 +285,7 @@ echo "
   <meta charset='" . _CHARSET . "'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Post Form</title>
-  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
+  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css'>
 ";
 
 if ('reload' === $op) {

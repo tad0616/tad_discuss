@@ -3,11 +3,12 @@ use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include_once 'header.php';
+require_once __DIR__ . '/header.php';
+
 $TadUpFiles = new TadUpFiles('tad_discuss');
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
@@ -43,7 +44,7 @@ echo "
   <meta charset='" . _CHARSET . "'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Post List</title>
-  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css' />
+  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css'>
 </head>
 <body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
   {$main}
@@ -71,8 +72,8 @@ function list_tad_discuss_cbox($DefBoardID = '')
         $now_uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_getHandler('groupperm');
-    if (!$gperm_handler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
+    $gpermHandler = xoops_getHandler('groupperm');
+    if (!$gpermHandler->checkRight('forum_read', $DefBoardID, $groups, $module_id)) {
         header('location:index.php');
     }
 
@@ -144,7 +145,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //原cbox為 $sn,$publisher,$msg,$post_date,$ip,$only_root,$root_msg
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
@@ -158,9 +159,9 @@ function list_tad_discuss_cbox($DefBoardID = '')
             $files .= ('img' === $ff['kind']) ? "<a href='{$ff['path']}' class='fancybox_Discuss thumb' rel='group' target='_top'><img src='{$ff['tb_path']}' alt='{$ff['description']}'></a>" : "<a href='{$ff['path']}'><img src='images/file.png'></a>";
         }
         //以uid取得使用者名稱
-        $publisher = XoopsUser::getUnameFromId($uid, 1);
+        $publisher = \XoopsUser::getUnameFromId($uid, 1);
         if (empty($publisher)) {
-            $publisher = XoopsUser::getUnameFromId($uid, 0);
+            $publisher = \XoopsUser::getUnameFromId($uid, 0);
         }
 
         $MainDiscussTitle = $DiscussTitle;
@@ -171,7 +172,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         $post_date = mb_substr(date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate))), 0, 16);
         //$post_date=substr($date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($DiscussDate))),0,16);
 
-        $show_tool = $gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id);
+        $show_tool = $gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id);
         $tool = '';
         if ($show_tool and $isAdmin) {
             $tool = "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
@@ -228,7 +229,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         $result2 = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $re = '';
         $f = 2;
-        while ($all = $xoopsDB->fetchArray($result2)) {
+        while (false !== ($all = $xoopsDB->fetchArray($result2))) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
             foreach ($all as $k => $v) {
                 $$k = $v;
@@ -242,9 +243,9 @@ function list_tad_discuss_cbox($DefBoardID = '')
             }
 
             //以uid取得使用者名稱
-            $publisher = XoopsUser::getUnameFromId($uid, 1);
+            $publisher = \XoopsUser::getUnameFromId($uid, 1);
             if (empty($publisher)) {
-                $publisher = XoopsUser::getUnameFromId($uid, 0);
+                $publisher = \XoopsUser::getUnameFromId($uid, 0);
             }
 
             $post_date = mb_substr(date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate))), 0, 16);

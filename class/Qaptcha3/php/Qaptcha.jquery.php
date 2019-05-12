@@ -1,5 +1,8 @@
 <?php
-include_once '../../../../../mainfile.php';
+
+namespace XoopsModules\Tad_discuss\Qaptcha3\Php;
+
+require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/../mainfile.php';
 
 $aResponse['error'] = false;
 $_SESSION['iQaptcha'] = false;

@@ -1,6 +1,8 @@
 <?php
 xoops_loadLanguage('main', 'tadtools');
-define('_TAD_NEED_TADTOOLS', "This module needs TadTools module. You can download TadTools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
+if (!defined('_TAD_NEED_TADTOOLS')) {
+    define('_TAD_NEED_TADTOOLS', "This module needs TadTools module. You can download TadTools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
+}
 
 define('_MD_TADDISCUS_SMNAME1', 'Discussion List');
 define('_MD_TADDISCUS_SMNAME2', 'All discussions');
@@ -44,3 +46,6 @@ define('_MD_TADDISCUS_SAVE_OK', 'Saved successfully!');
 define('_MD_TADDISCUS_TXTLOCK', 'Locked: form can\'t be submited');
 define('_MD_TADDISCUS_TXTUNLOCK', 'Unlocked: form can be submitted');
 define('_MD_TADDISCUS_CAPTCHA_ERROR', 'Did not pass validation, can not be saved.');
+
+define('_MD_TADDISCUS_NOBODY', 'Passing visitors');
+

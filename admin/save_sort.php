@@ -1,6 +1,6 @@
 <?php
-include_once 'header.php';
-include_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 $sort = 1;
 foreach ($_POST['tr'] as $BoardID) {
     $sql = 'update ' . $xoopsDB->prefix('tad_discuss_board') . " set `BoardSort`='{$sort}' where `BoardID`='{$BoardID}'";

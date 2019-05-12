@@ -3,9 +3,9 @@ use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include 'header.php';
+require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_discuss_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
@@ -25,23 +25,23 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         $uid = 0;
         $groups = XOOPS_GROUP_ANONYMOUS;
     }
-    $gperm_handler = xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
-        if (!$gperm_handler->checkRight('forum_read', $BoardID, $groups, $module_id)) {
+        if (!$gpermHandler->checkRight('forum_read', $BoardID, $groups, $module_id)) {
             continue;
         }
-        $post = $gperm_handler->checkRight('forum_post', $BoardID, $groups, $module_id);
+        $post = $gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id);
 
         //$pic=get_pic_file('BoardID' , $BoardID , 1 , 'thumb');
         $TadUpFiles->set_col('BoardID', $BoardID);
@@ -76,8 +76,8 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         return $all_content;
     }
 
-    $FooTable = new FooTable();
-    $FooTableJS = $FooTable->render();
+        $FooTable = new FooTable();
+        $FooTableJS = $FooTable->render();
 
     $xoopsTpl->assign('FooTableJS', $FooTableJS);
     $xoopsTpl->assign('all_content', $all_content);
@@ -102,7 +102,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
     $main_data = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -111,7 +111,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $renum = get_re_num($DiscussID);
         //$show_re_num=empty($renum)?"":sprintf(_MD_TADDISCUS_RE_DISCUSS,$renum);
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $LastTime = mb_substr($LastTime, 0, 10);
 
         $isPublic = isPublic($onlyTo, $uid, $BoardID);
@@ -135,7 +135,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
 $DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
@@ -151,4 +151,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

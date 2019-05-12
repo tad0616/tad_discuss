@@ -30,7 +30,7 @@
   </div>
 
 
-  <link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="reset.css">
   <{if $def_editor!="CKEditor"}>
     <script type="text/javascript" src="class/nicEdit.js"></script>
     <script type="text/javascript">
@@ -111,4 +111,4 @@
 
 <{/if}>
 
-<{include file='db:system_notification_select.html'}>
+<{include file='db:system_notification_select.tpl'}>

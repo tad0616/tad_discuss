@@ -1,9 +1,9 @@
 <?php
 //newbb 3.07
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_discuss_adm_copynewbb.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copynewbb.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*-----------function區--------------*/
 
@@ -13,8 +13,8 @@ function list_newbb()
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
 
     //取得某模組編號
-    $modhandler = xoops_getHandler('module');
-    $ThexoopsModule = $modhandler->getByDirname('newbb');
+    $moduleHandler = xoops_getHandler('module');
+    $ThexoopsModule = $moduleHandler->getByDirname('newbb');
     if ($ThexoopsModule) {
         $mod_id = $ThexoopsModule->getVar('mid');
         $xoopsTpl->assign('show_error', '0');
@@ -27,7 +27,7 @@ function list_newbb()
 
     //轉移權限(原權限)
     $sql = 'SELECT gperm_groupid,gperm_itemid,gperm_name FROM `' . $xoopsDB->prefix('group_permission') . "` WHERE `gperm_modid` ='{$mod_id}' ";
-    $result = $xoopsDB->queryF($sql) or die($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result)) {
         $power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
@@ -36,7 +36,7 @@ function list_newbb()
     $mid = $xoopsModule->getVar('mid');
     $sql = 'SELECT gperm_groupid,gperm_itemid,gperm_name FROM `' . $xoopsDB->prefix('group_permission') . "` WHERE `gperm_modid` ='{$mid}' ";
 
-    $result = $xoopsDB->queryF($sql) or die($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($gperm_groupid, $gperm_itemid, $gperm_name) = $xoopsDB->fetchRow($result)) {
         $now_power[$gperm_itemid][$gperm_name][$gperm_groupid] = $gperm_groupid;
     }
@@ -46,7 +46,7 @@ function list_newbb()
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： `forum_id`, `forum_name`, `forum_desc`, `parent_forum`, `forum_moderator`, `forum_topics`, `forum_posts`, `forum_last_post_id`, `cat_id`, `forum_type`, `allow_html`, `allow_sig`, `allow_subject_prefix`, `hot_threshold`, `forum_order`, `attach_maxkb`, `attach_ext`, `allow_polls`, `domain`, `domains`, `languages`
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -120,7 +120,7 @@ function copyBoard($BoardID = '')
     $sql = 'replace into `' . $xoopsDB->prefix('tad_discuss_board') . "`
   (`BoardID`, `ofBoardID` ,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)
   values('{$forum_id}' , '{$parent_forum}' ,  '{$forum_name}' , '{$forum_desc}' , '{$BoardManager}' , '{$forum_order}' , '1')";
-    $xoopsDB->queryF($sql) or die($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     return $BoardID;
 }
@@ -135,7 +135,7 @@ function listBoard($BoardID = '')
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數：`topic_id`, `topic_title`, `topic_poster`, `topic_time`, `topic_views`, `topic_replies`, `topic_last_post_id`, `forum_id`, `topic_status`, `topic_subject`, `topic_sticky`, `topic_digest`, `digest_time`, `approved`, `poster_name`, `rating`, `votes`, `topic_haspoll`, `poll_id`
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -173,14 +173,14 @@ function delnewbb($topic_id = '')
     $result = $xoopsDB->query($sql) or die($sql);
     while (list($post_id) = $xoopsDB->fetchRow($result)) {
         $sql = 'delete from  `' . $xoopsDB->prefix('bb_posts_text') . "` where post_id='$post_id'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
         $sql = 'delete from  `' . $xoopsDB->prefix('bb_posts') . "` where post_id='$post_id'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $sql = 'delete from  `' . $xoopsDB->prefix('bb_topics') . "` where topic_id='$topic_id'";
-    $xoopsDB->queryF($sql) or die($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 function batch_del($batch_del = [])
@@ -194,7 +194,7 @@ function get_name_from_uid($uid = '')
 {
     global $xoopsDB;
     $sql = 'select uname,name from `' . $xoopsDB->prefix('users') . "` where uid ='{$uid}'";
-    $result = $xoopsDB->queryF($sql) or die($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     list($uname, $name) = $xoopsDB->fetchRow($result);
     if (!empty($name)) {
         return $name;
@@ -209,7 +209,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
     if ('force' === $mode) {
         $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where `BoardID`='$BoardID'";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $sql = 'select a.`topic_id` , a.`topic_title` , a.`topic_poster` , a.`topic_time` , a.`topic_views`, a.`topic_last_post_id` , b.`post_id`  , b.`poster_ip` , c.`post_text` from `' . $xoopsDB->prefix('bb_topics') . '` as a left join `' . $xoopsDB->prefix('bb_posts') . '` as b on a.topic_id=b.topic_id and b.pid=0 left join `' . $xoopsDB->prefix('bb_posts_text') . "` as c on b.post_id=c.post_id where a.forum_id='$BoardID' order by a.topic_id";
@@ -218,7 +218,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
     $myts = \MyTextSanitizer::getInstance();
 
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -237,15 +237,15 @@ function copyDiscuss($BoardID = '', $mode = '')
         $sql = 'replace into ' . $xoopsDB->prefix('tad_discuss') . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
     values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
 
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
         $ReDiscussID = $post_id;
 
         //底下文章
         //`post_id`, `pid`, `topic_id`, `forum_id`, `post_time`, `uid`, `poster_name`, `poster_ip`, `subject`, `dohtml`, `dosmiley`, `doxcode`, `dobr`, `doimage`, `icon`, `attachsig`, `approved`, `post_karma`, `attachment`, `require_reply`, `tags`
         $sql2 = 'select a.`post_id` , a.`uid` , a.`subject` , a.`post_time` , a.`poster_ip` , b.`post_text` from `' . $xoopsDB->prefix('bb_posts') . '` as a left join `' . $xoopsDB->prefix('bb_posts_text') . "` as b on a.post_id=b.post_id where a.topic_id='$topic_id' and a.pid!=0 order by a.post_id";
-        $result2 = $xoopsDB->queryF($sql2) or die($sql2);
-        while ($all2 = $xoopsDB->fetchArray($result2)) {
+        $result2 = $xoopsDB->queryF($sql2) || die($sql2);
+        while (false !== ($all2 = $xoopsDB->fetchArray($result2))) {
             foreach ($all2 as $k => $v) {
                 $$k = $v;
             }
@@ -262,7 +262,7 @@ function copyDiscuss($BoardID = '', $mode = '')
             //主題
             $sql = 'replace into ' . $xoopsDB->prefix('tad_discuss') . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher`  , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
       values('{$post_id}','{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$subject}' , '{$post_text}' , '{$post_time}' , '{$BoardID}' , '{$LastTime}' , '0', '$poster_ip')";
-            $xoopsDB->queryF($sql) or die($sql);
+            $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
         }
     }
 }
@@ -271,7 +271,7 @@ function getLastTime($post_id)
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
     $sql2 = 'select `post_time`  from `' . $xoopsDB->prefix('bb_posts') . "`  where post_id='$post_id'";
-    $result2 = $xoopsDB->queryF($sql2) or die($sql2);
+    $result2 = $xoopsDB->queryF($sql2) || die($sql2);
     list($post_time) = $xoopsDB->fetchRow($result2);
     $post_time = date('Y-m-d H:i:s', $post_time);
 
@@ -286,14 +286,14 @@ function powerSet($BoardID = '')
     foreach ($read as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_read')";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $post = explode(',', $_GET['post']);
     foreach ($post as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)
     values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
-        $xoopsDB->queryF($sql) or die($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -342,4 +342,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

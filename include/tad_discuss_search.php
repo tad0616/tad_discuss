@@ -26,7 +26,7 @@ function tad_discuss_search($queryarray, $andor, $limit, $offset, $userid)
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret = [];
     $i = 0;
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[$i]['image'] = 'images/cup.png';
         $ret[$i]['link'] = 'discuss.php?DiscussID=' . $myrow['DiscussID'];
         $ret[$i]['title'] = $myrow['DiscussTitle'];

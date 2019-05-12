@@ -10,7 +10,7 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 function tad_discuss_new($options)
 {
     global $xoopsDB, $xoopsUser;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_discuss/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_discuss/function_block.php';
     $now_uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : '0';
 
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : '';
@@ -19,7 +19,7 @@ function tad_discuss_new($options)
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -28,9 +28,9 @@ function tad_discuss_new($options)
         $renum = block_get_re_num($DiscussID);
         $renum = empty($renum) ? '0' : $renum;
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         if (empty($uid_name)) {
-            $uid_name = XoopsUser::getUnameFromId($uid, 0);
+            $uid_name = \XoopsUser::getUnameFromId($uid, 0);
         }
 
         //最後回應者
@@ -40,9 +40,9 @@ function tad_discuss_new($options)
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
         } else {
-            $last_uid_name = XoopsUser::getUnameFromId($last_uid, 1);
+            $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 1);
             if (empty($last_uid_name)) {
-                $last_uid_name = XoopsUser::getUnameFromId($last_uid, 0);
+                $last_uid_name = \XoopsUser::getUnameFromId($last_uid, 0);
             }
         }
 
@@ -75,8 +75,8 @@ function tad_discuss_new($options)
 
         $i++;
     }
-    $FooTable = new FooTable('#new_discuss');
-    $block['NewFooTableJS'] = $FooTable->render();
+        $FooTable = new FooTable('#new_discuss');
+        $block['NewFooTableJS'] = $FooTable->render();
 
     return $block;
 }

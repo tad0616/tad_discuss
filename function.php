@@ -7,7 +7,21 @@ xoops_loadLanguage('main', 'tadtools');
 require_once __DIR__ . '/function_block.php';
 
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-/********************* 自訂函數 *********************/
+/********************* 自訂函數 ********************
+ * @param string $BoardID
+ * @param string $DiscussID
+ * @param string $DiscussContent
+ * @param string $dir
+ * @param string $uid
+ * @param string $publisher
+ * @param string $DiscussDate
+ * @param string $mode
+ * @param int    $Good
+ * @param int    $Bad
+ * @param int    $width
+ * @param string $onlyTo
+ * @return mixed
+ */
 
 //對話框格式
 function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir = 'left', $uid = '', $publisher = '', $DiscussDate = '', $mode = '', $Good = 0, $Bad = 0, $width = 100, $onlyTo = '')

@@ -160,7 +160,7 @@ class Update
     {
         global $xoopsDB;
 
-        $sql = "CREATE TABLE `" . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` (
+        $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` (
         `setupID` SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT,
         `setupName` VARCHAR(255) NOT NULL DEFAULT '',
         `setupRule` VARCHAR(255) NOT NULL DEFAULT '',

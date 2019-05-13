@@ -52,7 +52,7 @@ function tad_discuss_cbox_setup_form($setupID = '')
     $xoopsTpl->assign('now_op', 'tad_discuss_cbox_setup_form');
     $xoopsTpl->assign('next_op', $op);
 
-    $sql = "SELECT * FROM `" . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardEnable='1' ORDER BY BoardSort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = 0;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {

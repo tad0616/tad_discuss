@@ -34,7 +34,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
             $main = "
             <body class='error_bg'>
               <h3 style='display: none;'>POST Form</h3>
-              <div class='error_bg' style='color:#6C0000;font-size:12px;line-height:150%;padding:10px 10px;'>
+              <div class='error_bg' style='color:#6C0000;font-size: 75%;line-height:150%;padding:10px 10px;'>
               " . sprintf(_MD_TADDISCUS_NEED_BOARDID, $BoardID, $BoardID) . "
                 $formValidator_code
                 <form action='post.php' method='post'>
@@ -50,7 +50,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
             $main = "
             <body class='error_bg'>
               <h3 style='display: none;'>POST Form</h3>
-              <div class='error_bg' style='color:#6C0000;font-size:11pt;line-height:180%;padding:20px 10px;'>
+              <div class='error_bg' style='color:#6C0000;font-size: 92%;line-height:180%;padding:20px 10px;'>
               " . sprintf(_MD_TADDISCUS_NEED_BOARDID, $BoardID, $BoardID) . '
               </div>
             </body>';
@@ -202,7 +202,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
       <table class='cbox_tbl' style='width:98%'>
       <tr>
         <td class='col'>{$publisher_txt}
-        <!--div style='font-size:10px'>\$BoardID=$BoardID,\$DiscussID=$DiscussID,\$ReDiscussID=$ReDiscussID</div-->
+        <!--div style='font-size: 62.5%'>\$BoardID=$BoardID,\$DiscussID=$DiscussID,\$ReDiscussID=$ReDiscussID</div-->
         </td>
         <td>
           <img src='images/reload.png' alt='reload' align='absmiddle' hspace=2 onclick=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');\">

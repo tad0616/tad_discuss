@@ -103,7 +103,7 @@
             </td>
             <td>
               <a href="main.php?BoardID=<{$all.BoardID}>"><{$all.BoardTitle}></a>
-              <div style="width:300px;font-size:12px;color:gray;margin:8px 0px"><{$all.BoardDesc}></div>
+              <div style="width:300px;font-size: 75%;color:gray;margin:8px 0px"><{$all.BoardDesc}></div>
             </td>
             <td>
               <div style="margin:6px 0px;"><{$all.BoardNum}></div>
@@ -152,7 +152,7 @@
                 </td>
                 <td>
                   <a href="main.php?BoardID=<{$sb.BoardID}>"><{$sb.BoardTitle}></a>
-                  <div style="width:300px;font-size:12px;color:gray;margin:8px 0px"><{$sb.BoardDesc}></div>
+                  <div style="width:300px;font-size: 75%;color:gray;margin:8px 0px"><{$sb.BoardDesc}></div>
                 </td>
                 <td>
                   <div style="margin:6px 0px;"><{$sb.BoardNum}></div>

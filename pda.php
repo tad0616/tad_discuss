@@ -1,7 +1,7 @@
 <?php
+use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-use XoopsModules\Tadtools\FormValidator;
 /*-----------引入檔案區--------------*/
 if (file_exists(__DIR__ . '/mainfile.php')) {
     require_once __DIR__ . '/mainfile.php';
@@ -178,7 +178,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     if (empty($DefDiscussID)) {
         return;
     }
-    $DefDiscussID = (int)$DefDiscussID;
+    $DefDiscussID = (int) $DefDiscussID;
     $discuss = get_tad_discuss($DefDiscussID);
 
     //取得本模組編號
@@ -556,7 +556,6 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $op = (empty($DiscussID)) ? 'insert_tad_discuss' : 'update_tad_discuss';
     //$op="replace_tad_discuss";
 
-
     $ID = empty($DiscussID) ? $BoardID : $DiscussID;
     $FormValidator = new FormValidator("#myForm{$ID}", true);
     $formValidator_code = $FormValidator->render('bottomLeft');
@@ -589,7 +588,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
   $formValidator_code
   <form data-ajax='false' action='pda.php' method='post' id='myForm{$ID}' class='myForm' enctype='multipart/form-data'>
   $DiscussTitle
-  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:320px; height:150px;font-size:12px;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
+  <textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:320px; height:150px;font-size: 75%;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>
   <input type='hidden' name='BoardID' value='{$BoardID}'>
   <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>
   <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
@@ -723,10 +722,10 @@ function login_m()
 
 /*-----------執行動作判斷區----------*/
 $op = empty($_REQUEST['op']) ? '' : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? '' : (int)$_REQUEST['DiscussID'];
-$BoardID = empty($_REQUEST['BoardID']) ? '' : (int)$_REQUEST['BoardID'];
-$files_sn = empty($_REQUEST['files_sn']) ? '' : (int)$_REQUEST['files_sn'];
-$g2p = empty($_REQUEST['g2p']) ? '1' : (int)$_REQUEST['g2p'];
+$DiscussID = empty($_REQUEST['DiscussID']) ? '' : (int) $_REQUEST['DiscussID'];
+$BoardID = empty($_REQUEST['BoardID']) ? '' : (int) $_REQUEST['BoardID'];
+$files_sn = empty($_REQUEST['files_sn']) ? '' : (int) $_REQUEST['files_sn'];
+$g2p = empty($_REQUEST['g2p']) ? '1' : (int) $_REQUEST['g2p'];
 
 switch ($op) {
     //新增資料
@@ -760,7 +759,7 @@ switch ($op) {
         break;
     //下載檔案
     case 'tufdl':
-        $files_sn = isset($_GET['files_sn']) ? (int)$_GET['files_sn'] : '';
+        $files_sn = isset($_GET['files_sn']) ? (int) $_GET['files_sn'] : '';
         $TadUpFiles->add_file_counter($files_sn, $hash = false);
         exit;
         break;
@@ -790,7 +789,7 @@ echo "
   }
   h2.ui-li-heading {
     white-space: normal;
-    font-size: 15px;
+    font-size: 93.75%;
   }
   /*.ui-li .ui-btn-inner a.ui-link-inherit {
     padding: 0.4em 20px;

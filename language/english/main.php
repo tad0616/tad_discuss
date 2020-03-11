@@ -32,7 +32,7 @@ define('_MD_TADDISCUS_MSG_MIN', "Will need at least %s characters, you minimum i
 define('_MD_TADDISCUS_INPUT_CODE', 'Left figures as follows:');
 define('_MD_TADDISCUS_ADD_MSG', '"%s" message:');
 define('_MD_TADDISCUS_ONLYTO', 'Sorry, this is Private Message for "%s" ');
-define('_MD_TADDISCUS_NEED_BOARDID', 'Please select on menu from the top of the drop-down to select an appropriate forum to post messages, or press <button type=\'button\' style=\'font-size:11px;border:1px solid gray;\'>' . _MD_TADDISCUS_DISCUSSRE . '</button>  also line! <div onclick=\'window.open(\'' . XOOPS_URL . '/modules/tad_discuss/cbox.php?BoardID=%s\',\'discussCboxMain\');window.open(\'' . XOOPS_URL . '/modules/tad_discuss/post.php?BoardID=%s\', \'discussCboxForm\');\' style=\'cursor:pointer;color:#3366CC\'><img src=\'images/reload.png\' alt=\'reload\' align=\'absmiddle\' hspace=2>' . _MD_TADDISCUS_RELOAD . '</div>');
+define('_MD_TADDISCUS_NEED_BOARDID', 'Please select on menu from the top of the drop-down to select an appropriate forum to post messages, or press <button type=\'button\' style=\'font-size: 68.75%;border:1px solid gray;\'>' . _MD_TADDISCUS_DISCUSSRE . '</button>  also line! <div onclick=\'window.open(\'' . XOOPS_URL . '/modules/tad_discuss/cbox.php?BoardID=%s\',\'discussCboxMain\');window.open(\'' . XOOPS_URL . '/modules/tad_discuss/post.php?BoardID=%s\', \'discussCboxForm\');\' style=\'cursor:pointer;color:#3366CC\'><img src=\'images/reload.png\' alt=\'reload\' align=\'absmiddle\' hspace=2>' . _MD_TADDISCUS_RELOAD . '</div>');
 define('_MD_TADDISCUS_BOARD_EMPTY', 'There are no discussion forums!');
 define('_MD_TADDISCUS_THE_DISCUSS_EMPTY', 'Is empty!!');
 define('_MD_TADDISCUS_FOUND_SPAM', 'It contain inappropriate words or statements, can not add data.');
@@ -48,4 +48,3 @@ define('_MD_TADDISCUS_TXTUNLOCK', 'Unlocked: form can be submitted');
 define('_MD_TADDISCUS_CAPTCHA_ERROR', 'Did not pass validation, can not be saved.');
 
 define('_MD_TADDISCUS_NOBODY', 'Passing visitors');
-

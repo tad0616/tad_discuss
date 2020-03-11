@@ -5,7 +5,7 @@
 
   <div><{$discuss.uid_name}> <{$smarty.const._MD_TADDISCUS_TALK}></div>
 
-  <div style="font-size:11px;margin:5px 0px;color:#CC0000">
+  <div style="font-size: 68.75%;margin:5px 0px;color:#CC0000">
     <{$discuss.DiscussDate}>
   </div>
 
@@ -51,7 +51,7 @@
 
   <{if $discuss.show_sig and $discuss.user_sig}>
     <div style="clean:both;display:block;height:20px;"></div>
-    <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0px;<{/if}>">
+    <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0px;<{/if}>">
       <{$discuss.user_sig}>
     </div>
   <{/if}>

@@ -40,7 +40,7 @@
 
     <div id="msg"></div>
     <form action="spam.php" method="post" role="form">
-      <div style="display:inline-block; float: left; font-size:13px; padding:4px 8px;">
+      <div style="display:inline-block; float: left; font-size: 81.25%; padding:4px 8px;">
         <input type="checkbox" value="<{$spam.keyword}>" id="clickAll" checked>
         <label style="display: inline;" for="clickAll">
           ALL
@@ -49,7 +49,7 @@
       <{assign var="i" value=0}>
       <{foreach from=$all_keyword item=spam}>
         <{assign var="i" value=$i+1}>
-        <div id="k<{$i}>" style="display:inline-block; float: left; font-size:13px; padding:4px 8px;">
+        <div id="k<{$i}>" style="display:inline-block; float: left; font-size: 81.25%; padding:4px 8px;">
             <input name="spam_keyword[]" class="spam_keyword" id="chk<{$i}>" type="checkbox" value="<{$spam.keyword}>" <{$spam.checked}>>
             <label style="display: inline;" for="chk<{$i}>">
               <{$spam.keyword}>

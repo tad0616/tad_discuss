@@ -80,8 +80,8 @@
             <img src="images/<{if $discuss.onlyTo}>lock.png<{else}>greenpoint.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:<{if $discuss.onlyTo}>maroon<{else}>#505050<{/if}>"><{$discuss.DiscussTitle}></a>
           </td>
       		<td headers="discuss_BoardImg" class="text-center"><{$discuss.renum}></td>
-      		<td headers="discuss_uid_name"><div style="font-size:10px;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
-      		<td headers="discuss_renum"><div style="font-size:10px;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>
+      		<td headers="discuss_uid_name"><div style="font-size: 62.5%;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
+      		<td headers="discuss_renum"><div style="font-size: 62.5%;"><{$discuss.LastTime}></div><div><{$discuss.last_uid_name}></div></td>
     		</tr>
       <{/foreach}>
     <{else}>

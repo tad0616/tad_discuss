@@ -177,7 +177,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         if ($show_tool and $isAdmin) {
             $tool = "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
         }
-        $re_button = isPublic($onlyTo, $uid, $DefBoardID) ? "<button type='button' style='font-size:11px;border:1px solid gray;float:right;' onClick=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">" . _MD_TADDISCUS_DISCUSSRE . '</button>' : '';
+        $re_button = isPublic($onlyTo, $uid, $DefBoardID) ? "<button type='button' style='font-size: 68.75%;border:1px solid gray;float:right;' onClick=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">" . _MD_TADDISCUS_DISCUSSRE . '</button>' : '';
 
         $MainDiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $MainDiscussTitle);
         $MainDiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $MainDiscussTitle);
@@ -287,7 +287,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
         }
 
         $data .= "
-        <div style='width:100%;font-size:12px;line-height:150%;{$bgcss}'>
+        <div style='width:100%;font-size: 75%;line-height:150%;{$bgcss}'>
           {$mainDiscuss}
           {$re}
         </div>";

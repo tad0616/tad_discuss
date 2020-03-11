@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-2">
     <img src="<{$discuss.pic}>" width=100 class="img-rounded" alt="discuss pic">
-    <span style="font-size:10px"><{$discuss.DiscussDate}></span>
+    <span style="font-size: 62.5%"><{$discuss.DiscussDate}></span>
     <div><{if $discuss.uid}><a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a><{else}><{$discuss.uid_name}><{/if}></div>
     <{if $discuss.fun}>
       <a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);" class="btn btn-default"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a>
@@ -41,7 +41,7 @@
       <{$discuss.files}>
 
       <{if $discuss.show_sig and $discuss.user_sig}>
-        <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+        <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
           <{$discuss.user_sig}>
         </div>
       <{/if}>

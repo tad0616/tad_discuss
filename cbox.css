@@ -1,9 +1,9 @@
 font{
-  font-size:12px;
+  font-size: 75%;
 }
 
 span.f{
-  font-size:10px;
+  font-size: 62.5%;
   display:block-inline;
   color:white;border-radius: 3px;
   padding:1px 3px;
@@ -24,7 +24,6 @@ span.f{
   border-top-left-radius: 4px;
 }
 
-
 .triangle-border {
   position: relative;
   padding: 15px;
@@ -38,7 +37,6 @@ span.f{
   -moz-border-radius: 10px;
   border-radius: 10px;
 }
-
 
 /* Variant: for left positioned triangle------------------------------------------ */
 .triangle-border.left {
@@ -142,48 +140,47 @@ span.f{
   border-color: transparent #fff;
 }
 
-/************************** ±í†Î±í¸ñ˜ÓÊ½ **************************/
+/************************** ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ê½ **************************/
 div.cbox {
   background-color: #FFFFFF;
 }
 
-
-/* ÁôÑÔ²¾¡¸ÈÕÆÚ¡¹˜ÓÊ½ */
+/* ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½Ê½ */
 .cbox_date {
-  font-size: 10px;
+  font-size: 62.5%;
   text-align: right;
   font-family: Arial;
   margin: 8px 0px 2px;
   color:#a0a0a0;
 }
 
-/* ÁôÑÔ²¾¡¸IP¡¹˜ÓÊ½ */
+/* ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½IPï¿½ï¿½ï¿½ï¿½Ê½ */
 .cbox_ip {
-  font-size: 10px;
+  font-size: 62.5%;
   color: rgb(204,102,0);
   font-family: Arial;
   margin-bottom: 2px;
 }
 
-/* ÁôÑÔ²¾¡¸°lÑÕß¡¹˜ÓÊ½ */
+/* ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ß¡ï¿½ï¿½ï¿½Ê½ */
 .cbox_publisher {
   color: rgb(80,80,80);
   font-weight: normal;
   display: inline;
 }
 
-/* ÁôÑÔ²¾¡¸Ë½ÃÜÁôÑÔ¡¹˜ÓÊ½ */
+/* ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¡ï¿½ï¿½ï¿½Ê½ */
 .lock_msg {
   color: red;
 }
 
-/* ÁôÑÔ²¾¡¸»Ø¸²ÁôÑÔ¡¹˜ÓÊ½ */
+/* ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½Ô¡ï¿½ï¿½ï¿½Ê½ */
 div.remsg {
   color: rgb(102,153,0);
   display: inline;
 }
 
-/* ÁôÑÔ²¾±í¸ñ˜ÓÊ½ */
+/* ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
 table.cbox_tbl {
   width: 100%;
   padding: 0px;
@@ -191,27 +188,27 @@ table.cbox_tbl {
   background-color: #FFFFFF;
 }
 
-/* ÓĞ±í†ÎµÄƒ¦´æ¸ñ˜ÓÊ½ */
+/* ï¿½Ğ±ï¿½ÎµÄƒï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
 table.cbox_tbl td {
   padding: 1px;
-  font-size: 12px;
+  font-size: 75%;
 }
 
-/* ÓĞ±í†ÎµÄ¡¸˜Ëî}¡¹ƒ¦´æ¸ñ˜ÓÊ½ */
+/* ï¿½Ğ±ï¿½ÎµÄ¡ï¿½ï¿½ï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
 table.cbox_tbl td.title {
   background-color: transparent;
   color: rgb(0,0,0);
   text-align: right;
   vertical-align: middle;
 }
-/* ÓĞ±í†ÎµÄ¡¸İ”Èë™ÚÎ»¡¹ƒ¦´æ¸ñ˜ÓÊ½ */
+/* ï¿½Ğ±ï¿½ÎµÄ¡ï¿½İ”ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
 table.cbox_tbl td.col {
   background-color: transparent;
 }
 
-/* ÓĞ±í†ÎµÄ¡¸¹¤¾ßÁĞ¡¹ƒ¦´æ¸ñ˜ÓÊ½ */
+/* ï¿½Ğ±ï¿½ÎµÄ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
 table.cbox_tbl input.name {
-  font-size: 12px;
+  font-size: 75%;
   background-color: rgb(237,243,247);
   border: 1px solid rgb(217,223,227);
   color: rgb(80,80,80);
@@ -220,15 +217,15 @@ table.cbox_tbl input.name {
 textarea#DiscussContent {
   width: 100%;
   height: 60px;
-  font-size: 12px;
+  font-size: 75%;
   background-color: rgb(237,243,247);
   border: 1px solid rgb(217,223,227);
   color: rgb(80,80,80);
   padding: 1px 3px 1px 3px;
 }
-/* ĞèµÇÈë²ÅÄÜÁôÑÔµÄÓÏ¢¿ò */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ÓÏ¢ï¿½ï¿½ */
 .need_login {
-  font-size: 11pt;
+  font-size: 92%;
   color: rgb(51,102,0);
   border: 1px dotted #dfdfdf;
   width: 90%;
@@ -292,8 +289,6 @@ td#smile {
   background-color: rgb(240,240,240);
 }
 
-
-
 .error_bg{
   background: rgb(255,255,255); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6+ */
@@ -303,6 +298,5 @@ td#smile {
   background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* IE10+ */
   background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-
 
 }

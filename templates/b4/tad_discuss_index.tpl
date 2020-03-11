@@ -23,8 +23,8 @@
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$bb.BoardID}>" style="float:right;" class="btn btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
           <{/if}>
           <a href="discuss.php?BoardID=<{$bb.BoardID}>" style="font-size:130%"><{$bb.BoardTitle}></a> <{$bb.fun}>
-          <div style="margin:10px auto;font-size:12px;">
-            <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.BoardNum}>"><{$bb.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.DiscussNum}>"><{$bb.DiscussNum}>  / <span style="font-size:11px;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$bb.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$bb.BoardManager}></span>
+          <div style="margin:10px auto;font-size: 75%;">
+            <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.BoardNum}>"><{$bb.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.DiscussNum}>"><{$bb.DiscussNum}>  / <span style="font-size: 68.75%;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$bb.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$bb.BoardManager}></span>
           </div>
         </td>
       </tr>
@@ -33,7 +33,7 @@
           <tr>
             <td headers="discuss_BoardTitle"></td>
             <td headers="discuss_BoardImg">
-              <span nowrap style="font-size:11px;color:#8BA0A6"><{$discuss.LastTime}></span>
+              <span nowrap style="font-size: 68.75%;color:#8BA0A6"><{$discuss.LastTime}></span>
               <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
             <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
             <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>
@@ -68,9 +68,9 @@
               <{if $subBoard.post}>
                 <a href="discuss.php?op=tad_discuss_form&BoardID=<{$subBoard.BoardID}>" style="float:right;" class="btn btn-sm btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
               <{/if}>
-              <div style="margin:10px auto;font-size:12px;">
+              <div style="margin:10px auto;font-size: 75%;">
                 <a href="discuss.php?BoardID=<{$subBoard.BoardID}>" style="font-size:110%;font-weight:bold;"><{$subBoard.BoardTitle}></a> <{$subBoard.fun}>
-                <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardNum}>"><{$subBoard.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.DiscussNum}>"><{$subBoard.DiscussNum}>  / <span style="font-size:11px;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$subBoard.BoardManager}></span>
+                <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardNum}>"><{$subBoard.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.DiscussNum}>"><{$subBoard.DiscussNum}>  / <span style="font-size: 68.75%;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$subBoard.BoardManager}></span>
               </div>
             </td>
           </tr>
@@ -79,7 +79,7 @@
               <tr>
                 <td headers="discuss_BoardTitle"></td>
                 <td headers="discuss_BoardImg">
-                  <span nowrap style="font-size:11px;color:#8BA0A6"><{$discuss.LastTime}></span>
+                  <span nowrap style="font-size: 68.75%;color:#8BA0A6"><{$discuss.LastTime}></span>
                   <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
                 <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
                 <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>

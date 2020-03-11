@@ -214,7 +214,7 @@ $modversion['config'][$i]['title'] = '_MI_TADDISCUS_SIG_STYLE';
 $modversion['config'][$i]['description'] = '_MI_TADDISCUS_SIG_STYLE_DESC';
 $modversion['config'][$i]['formtype'] = 'textarea';
 $modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = 'font-size: 12px; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;';
+$modversion['config'][$i]['default'] = 'font-size: 75%; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;';
 
 $i++;
 $modversion['config'][$i]['name'] = 'show_like';

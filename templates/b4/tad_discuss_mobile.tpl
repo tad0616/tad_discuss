@@ -35,19 +35,19 @@
       </div>
 
       <div style="background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>#EEEEEF<{/if}>;width:100%;height:76px;margin-top:10px;">
-        <div style="color:#265827;text-decoration:none;font-family:Verdana;font-weight:bold;font-size:11pt;padding:10px;"><{$discuss.uid_name}></div>
-        <div style="color:black;font-weight:normal;font-size:12px;padding: 0px 0px 0px 10px;"><{$discuss.DiscussDate}> #<{$discuss.i}></div>
+        <div style="color:#265827;text-decoration:none;font-family:Verdana;font-weight:bold;font-size: 92%;padding:10px;"><{$discuss.uid_name}></div>
+        <div style="color:black;font-weight:normal;font-size: 75%;padding: 0px 0px 0px 10px;"><{$discuss.DiscussDate}> #<{$discuss.i}></div>
       </div>
     </td>
   </tr>
   <tr style="background-color:white;">
     <td colspan=2>
-    <div class="mobilesty talk" style="line-height:160%;margin:10px 10px 10px 0px;font-size:11pt;text-align:justify;"><{$discuss.DiscussContent}></div>
+    <div class="mobilesty talk" style="line-height:160%;margin:10px 10px 10px 0px;font-size: 92%;text-align:justify;"><{$discuss.DiscussContent}></div>
     <{$discuss.files}>
     <div style="clear:both;height:40px;"></div>
 
     <{if $discuss.show_sig and $discuss.user_sig}>
-      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
         <{$discuss.user_sig}>
       </div>
     <{/if}>

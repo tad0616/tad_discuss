@@ -21,11 +21,11 @@
         <{$discuss.renum}>
       </td>
       <td headers="discuss_uid">
-        <div style="font-size:10px;"><{$discuss.DiscussDate}></div>
+        <div style="font-size: 62.5%;"><{$discuss.DiscussDate}></div>
         <div><{if $discuss.uid}><a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a><{else}><{$discuss.uid_name}><{/if}></div>
       </td>
       <td headers="discuss_last_re">
-        <div style="font-size:10px;"><{$discuss.LastTime}></div>
+        <div style="font-size: 62.5%;"><{$discuss.LastTime}></div>
         <div><{if $discuss.last_uid}><a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.last_uid}>"><{$discuss.last_uid_name}></a><{else}><{$discuss.last_uid_name}><{/if}></div>
       </td>
     </tr>
@@ -33,4 +33,3 @@
 
   </tbody>
 </table>
-

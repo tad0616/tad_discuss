@@ -2,7 +2,7 @@
 <{if $discuss.dir!="top"}>
   <div class="triangle-border talk" style="line-height:150%;margin:26px 0px 16px;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
     <{$discuss.DiscussContent}>
-    <br><{$discuss.files}><span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size:12px;color:silver;text-align:right;">
+    <br><{$discuss.files}><span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size: 75%;color:silver;text-align:right;">
     <{if $discuss.fun}>
     	<a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a> |
     	<a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>
@@ -20,7 +20,7 @@
     </span><span style="clean:both;display:block;"></span>
 
     <{if $discuss.show_sig and $discuss.user_sig}>
-      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
         <{$discuss.user_sig}>
       </div>
     <{/if}>
@@ -36,7 +36,7 @@
 <{if $discuss.dir=="top"}>
   <div class="triangle-border top talk" style="line-height:150%;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
     <{$discuss.DiscussContent}>
-    <br><{$discuss.files}><span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size:12px;color:silver;text-align:right;">
+    <br><{$discuss.files}><span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size: 75%;color:silver;text-align:right;">
 
     <{if $discuss.DiscussID}>
       <{if $discuss.onlyTo}>
@@ -71,7 +71,7 @@
     </span><span style="clean:both;display:block;"></span>
 
     <{if $discuss.show_sig and $discuss.user_sig}>
-      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 12px; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
         <{$discuss.user_sig}>
       </div>
     <{/if}>

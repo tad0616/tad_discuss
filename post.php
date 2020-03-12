@@ -64,17 +64,17 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
     $upform = $TadUpFiles->upform(false, 'upfile', 100, false);
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
-        $name = $xoopsUser->getVar('name');
+        $name = $xoopsUser->name();
         if (!empty($name)) {
             $publisher = $name;
         } else {
-            $publisher = $xoopsUser->getVar('uname');
+            $publisher = $xoopsUser->uname();
         }
     } else {
         $uid = 0;
@@ -85,11 +85,12 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
     $gpermHandler = xoops_getHandler('groupperm');
     if (!$gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id)) {
         $main = "
-        <h3 style='display:none;'>Post Form</h3>
-        <div class='need_login'>" . sprintf(_MD_TADDISCUS_NEED_LOGIN, $BoardID, $BoardID) . '</div>';
+        <body>
+        <h1 style=\"display:none;\">Need Login</h1>
+        <div class='need_login'>" . sprintf(_MD_TADDISCUS_NEED_LOGIN, $BoardID, $BoardID) . '</div>
+        </body>';
 
         return $main;
-        exit;
     }
 
     $publisher_txt = (!empty($ReDiscussID)) ? "<div class='remsg'>" . sprintf(_MD_TADDISCUS_RE_MSG, $ReDiscussID) . '</div>' : "<div class='remsg'>" . sprintf(_MD_TADDISCUS_ADD_MSG, $publisher) . '</div>';
@@ -98,13 +99,6 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
     $_SESSION['cbox_use_smile'] = 1;
 
     if ('1' == $_SESSION['cbox_use_smile']) {
-        // $ver = intval(str_replace('.', '', substr(XOOPS_VERSION, 6, 5)));
-        // if ($ver >= 259) {
-        //     $migrate = '<srcipt src="' . XOOPS_URL . '/modules/tadtools/jquery/jquery-migrate-3.0.0.min.js"></srcipt>';
-        // } else {
-        //     $migrate = '<srcipt src="' . XOOPS_URL . '/modules/tadtools/jquery/jquery-migrate-1.4.1.min.js"></srcipt>';
-        // }
-
         //找出表情圖
         $dir = 'images/smiles/';
         if (is_dir($dir)) {
@@ -290,15 +284,15 @@ echo "
 
 if ('reload' === $op) {
     echo "<script type='text/javascript'>
-  window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');
-  window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');
-  </script>";
+    window.open('" . XOOPS_URL . "/modules/tad_discuss/cbox.php?BoardID={$BoardID}','discussCboxMain');
+    window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?BoardID={$BoardID}','discussCboxForm');
+    </script>";
 }
 
 if (!empty($_GET['msg'])) {
     echo "<script type='text/javascript'>alert('{$_GET['msg']}')</script>";
 }
 
-echo '</head>';
+echo "\n</head>";
 echo $main;
-echo '</html>';
+echo "\n</html>";

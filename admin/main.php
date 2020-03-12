@@ -68,7 +68,7 @@ function tad_discuss_board_form($BoardID = '')
     }
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
     $modulepermHandler = xoops_getHandler('groupperm');
     $read_group = $modulepermHandler->getGroupIds('forum_read', $BoardID, $module_id);
     $post_group = $modulepermHandler->getGroupIds('forum_post', $BoardID, $module_id);

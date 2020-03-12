@@ -11,7 +11,7 @@ function tad_discuss_new($options)
 {
     global $xoopsDB, $xoopsUser;
     require_once XOOPS_ROOT_PATH . '/modules/tad_discuss/function_block.php';
-    $now_uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : '0';
+    $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
 
     $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : '';
     $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.LastTime desc $andLimit";
@@ -75,8 +75,8 @@ function tad_discuss_new($options)
 
         $i++;
     }
-        $FooTable = new FooTable('#new_discuss');
-        $block['NewFooTableJS'] = $FooTable->render();
+    $FooTable = new FooTable('#new_discuss');
+    $block['NewFooTableJS'] = $FooTable->render();
 
     return $block;
 }

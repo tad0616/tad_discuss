@@ -16,7 +16,7 @@ function list_newbb()
     $moduleHandler = xoops_getHandler('module');
     $ThexoopsModule = $moduleHandler->getByDirname('newbb');
     if ($ThexoopsModule) {
-        $mod_id = $ThexoopsModule->getVar('mid');
+        $mod_id = $ThexoopsModule->mid();
         $xoopsTpl->assign('show_error', '0');
     } else {
         $xoopsTpl->assign('show_error', '1');
@@ -33,7 +33,7 @@ function list_newbb()
     }
 
     //轉移權限（新權限）
-    $mid = $xoopsModule->getVar('mid');
+    $mid = $xoopsModule->mid();
     $sql = 'SELECT gperm_groupid,gperm_itemid,gperm_name FROM `' . $xoopsDB->prefix('group_permission') . "` WHERE `gperm_modid` ='{$mid}' ";
 
     $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
@@ -281,7 +281,7 @@ function getLastTime($post_id)
 function powerSet($BoardID = '')
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
-    $mid = $xoopsModule->getVar('mid');
+    $mid = $xoopsModule->mid();
     $read = explode(',', $_GET['read']);
     foreach ($read as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)

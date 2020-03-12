@@ -20,7 +20,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     }
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
@@ -225,11 +225,11 @@ function get_tad_discuss_board_option($default_BoardID = '0')
     global $xoopsDB, $xoopsUser, $xoopsModule;
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid = 0;
@@ -270,7 +270,7 @@ function show_one_tad_discuss($DefDiscussID = '')
     $discuss = get_tad_discuss($DefDiscussID);
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {

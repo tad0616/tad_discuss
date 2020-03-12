@@ -10,7 +10,7 @@
 <{elseif $op=="show_one_tad_discuss"}>
   <{$js}>
   <span class="label label-info"><a href="discuss.php?BoardID=<{$BoardID}>" style="color:white;"><{$BoardTitle}></a></span>
-  <h1><{$DiscussTitle}></h1>
+  <h2><{$DiscussTitle}></h2>
   <{foreach item=discuss from=$discuss_data}>
     <{if $display_mode=="top" || $display_mode=="bottom"}>
       <{includeq file="db:tad_discuss_talk_bubble_vertical.tpl"}>
@@ -57,7 +57,7 @@
 
 <{elseif $main_data}>
 
-  <h1><{$ShowBoardTitle}></h1>
+  <h2><{$ShowBoardTitle}></h2>
 
 	<{$FooTableJS}>
 	<div class="well" style="background-color:white;">
@@ -104,11 +104,14 @@
 	</div>
   <{$bar}>
 <{else}>
-
+  <h2><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></h2>
   <div class="jumbotron">
-    <a href="admin/main.php?op=tad_discuss_board_form"><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></a>
+    <{if $isAdmin}>
+      <a href="admin/main.php?op=tad_discuss_board_form"><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></a>
+    <{else}>
+      <{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}>
+    <{/if}>
   </div>
-
 <{/if}>
 
 <{include file='db:system_notification_select.tpl'}>

@@ -46,7 +46,7 @@ function talk_bubble($BoardID = '', $DiscussID = '', $DiscussContent = '', $dir 
 
     $pic_js = $pic_css = '';
 
-    $now_uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : '0';
+    $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
 
     if ($now_uid == $uid) {
         $pic_js = "onClick=\"location.href='" . XOOPS_URL . "/edituser.php?op=avatarform'\"";
@@ -149,7 +149,7 @@ function insert_tad_discuss_cbox_setup($setupName = '', $setupRule = '', $newBor
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
     //取得使用者編號
-    $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : '';
 
     $myts = \MyTextSanitizer::getInstance();
     $setupName = $myts->addSlashes($setupName);
@@ -187,7 +187,7 @@ function tad_discuss_cbox_setup_max_sort()
 function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
     $gpermHandler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
@@ -205,14 +205,14 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 function list_tad_discuss($DefBoardID = null)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $isAdmin, $xoopsTpl;
-    $now_uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : '0';
+    $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid = 0;
@@ -444,7 +444,7 @@ function onlyMine($DiscussID = '')
     $BoardManagerArr = explode(',', $board['BoardManager']);
 
     if ($xoopsUser) {
-        $module_id = $xoopsModule->getVar('mid');
+        $module_id = $xoopsModule->mid();
         $isAdmin = $xoopsUser->isAdmin($module_id);
     }
 

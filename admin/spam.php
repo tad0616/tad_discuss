@@ -71,7 +71,7 @@ function search_spam()
     $xoopsTpl->assign('now_op', 'search_spam');
 
     if ($_POST['new_spam_keyword']) {
-        $module_id = $xoopsModule->getVar('mid');
+        $module_id = $xoopsModule->mid();
         $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= CONCAT(`conf_value`,',{$_POST['new_spam_keyword']}') where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
@@ -97,7 +97,7 @@ function update_config($item = '')
     $keys = array_diff($keys, [$item]);
     $new_spam_keyword = implode(',', $keys);
 
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
     $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }

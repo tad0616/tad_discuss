@@ -17,7 +17,7 @@ function list_cbox()
     $moduleHandler = xoops_getHandler('module');
     $ThexoopsModule = $moduleHandler->getByDirname('tad_cbox');
     if ($ThexoopsModule) {
-        $mod_id = $ThexoopsModule->getVar('mid');
+        $mod_id = $ThexoopsModule->mid();
         $xoopsTpl->assign('show_error', '0');
     } else {
         $xoopsTpl->assign('show_error', '1');
@@ -108,7 +108,7 @@ function copycbox($BoardID = '')
         $BoardID = $xoopsDB->getInsertId();
 
         //轉移權限（新權限）
-        $mid = $xoopsModule->getVar('mid');
+        $mid = $xoopsModule->mid();
         //讀取權限
         $sql = 'insert into `' . $xoopsDB->prefix('group_permission') . "` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_read'),('2', '{$BoardID}', '{$mid}', 'forum_read'),('3', '{$BoardID}', '{$mid}', 'forum_read')";
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);

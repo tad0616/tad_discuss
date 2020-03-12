@@ -15,11 +15,11 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     global $xoopsDB, $xoopsModule, $isAdmin, $xoopsUser, $xoopsTpl, $TadUpFiles, $xoopsModuleConfig;
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid = 0;
@@ -76,8 +76,8 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         return $all_content;
     }
 
-        $FooTable = new FooTable();
-        $FooTableJS = $FooTable->render();
+    $FooTable = new FooTable();
+    $FooTableJS = $FooTable->render();
 
     $xoopsTpl->assign('FooTableJS', $FooTableJS);
     $xoopsTpl->assign('all_content', $all_content);

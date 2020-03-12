@@ -18,14 +18,14 @@ function list_tad_discuss_board($show_function = 1)
     global $xoopsDB, $isAdmin, $xoopsModule, $xoopsUser, $TadUpFiles;
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
-    $module_name = $xoopsModule->getVar('name');
+    $module_id = $xoopsModule->mid();
+    $module_name = $xoopsModule->name();
 
     //$isAdmin=isAdmin();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid = 0;
@@ -182,11 +182,11 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     $discuss = get_tad_discuss($DefDiscussID);
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid = 0;
@@ -206,9 +206,9 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     $user = $memberHandler->getUser($uid);
     if (is_object($user)) {
         $ts = \MyTextSanitizer::getInstance();
-        $uid_name = $ts->htmlSpecialChars($user->getVar('name'));
+        $uid_name = $ts->htmlSpecialChars($user->name());
         if (empty($uid_name)) {
-            $uid_name = $ts->htmlSpecialChars($user->getVar('uname'));
+            $uid_name = $ts->htmlSpecialChars($user->uname());
         }
 
         $pic = $ts->htmlSpecialChars($user->getVar('user_avatar'));
@@ -351,11 +351,11 @@ function list_tad_discuss_m($DefBoardID = null)
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $isAdmin;
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->getVar('uid');
+        $uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $uid = 0;
@@ -496,7 +496,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     }
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
@@ -663,7 +663,7 @@ function isAdmin()
     global $xoopsUser, $xoopsModule;
     $isAdmin = false;
     if ($xoopsUser) {
-        $module_id = $xoopsModule->getVar('mid');
+        $module_id = $xoopsModule->mid();
         $isAdmin = $xoopsUser->isAdmin($module_id);
     }
 

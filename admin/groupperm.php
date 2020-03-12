@@ -11,7 +11,7 @@ require_once dirname(__DIR__) . '/function.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 //取得本模組編號
-$module_id = $xoopsModule->getVar('mid');
+$module_id = $xoopsModule->mid();
 
 $sql = 'SELECT BoardID,BoardTitle FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY BoardSort';
 $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);

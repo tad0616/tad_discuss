@@ -62,11 +62,11 @@ function list_tad_discuss_cbox($DefBoardID = '')
     $limit = 20;
 
     //取得本模組編號
-    $module_id = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $now_uid = $xoopsUser->getVar('uid');
+        $now_uid = $xoopsUser->uid();
         $groups = $xoopsUser->getGroups();
     } else {
         $now_uid = 0;

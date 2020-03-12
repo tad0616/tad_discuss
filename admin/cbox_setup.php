@@ -74,7 +74,7 @@ function update_tad_discuss_cbox_setup($setupID = '')
     global $xoopsDB, $xoopsUser;
 
     //取得使用者編號
-    $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : '';
+    $uid = ($xoopsUser) ? $xoopsUser->uid() : '';
 
     $myts = \MyTextSanitizer::getInstance();
     $_POST['setupName'] = $myts->addSlashes($_POST['setupName']);

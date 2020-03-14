@@ -1,9 +1,14 @@
-Tad Discuss 2.5.2 (released from 2019-05-10)
+Tad Discuss 2.5.3 (2020-03-14 released)
+===============================================
+1. Correction for accessibility 2.0 AA standard
+
+
+Tad Discuss 2.5.2 (2019-05-10 released)
 ========================================================
 1. Support XOOPS 2.5.10
 2. No longer supports PHP 5.3
 
-Tad Discuss 2.5.1 (released on 2019-01-01)
+Tad Discuss 2.5.1 (2019-01-01 released)
 ===============================================
 1.Support BootStrap4
 2.Attached support panoramic picture
@@ -11,7 +16,7 @@ Tad Discuss 2.5.1 (released on 2019-01-01)
 4. Support MySQL database strict mode
 
 
-Tad Discuss 2.5 (released on 2018-05-25)
+Tad Discuss 2.5 (2018-05-25 released)
 ===============================================
 1. Fixed the problem that the key to spam messages cannot be selected
 2. Spam messages plus unselected and matched keywords
@@ -22,7 +27,7 @@ Tad Discuss 2.5 (released on 2018-05-25)
 7. Anonymous message verification code in the forum
 8. Add CK Editor Options
 
-Tad Discuss 1.8 (released on 2014-10-13)
+Tad Discuss 1.8 (2014-10-13 released)
 ===============================================
 1. Fixed bug can not modify the reply to the article
 2. Fixed quick reply when a null value is stored BoardID problem
@@ -30,28 +35,28 @@ Tad Discuss 1.8 (released on 2014-10-13)
 The new set presents each Forum Forum Index under the number of messages of Preferences
 
 
-Tad Discuss 1.7 (released on 2014-10-02)
+Tad Discuss 1.7 (2014-10-02 released)
 ===============================================
 1. Fixed non-visitors will not be able to watch the article without written permission problem
 2. Open visitors can also function message
 3. Amendments to Guest problems pda.php page
 
 
-Tad Discuss 1.61 (released on 2014-09-25)
+Tad Discuss 1.61 (2014-09-25 released)
 ===============================================
 1. Join the discussion thread title and content to the meta, the enhanced SEO.
 2. Fixed new discussion, some hosts will be more of a slash problems.
 3. Amendments to conform to WCAG
 
 
-Tad Discuss 1.6 (released on 2014-06-25)
+Tad Discuss 1.6 (2014-06-25 released)
 ===============================================
 1. Fixed editing tools listed under certain conditions will disappear bug
 2. Fixed file upload fields, avoiding more than 60,005 one thousand messages, the file could not be uploaded situation
 3. Adjust the forum on behalf of the picture, so that it can be automatically placed.
 
 
-Tad Discuss 1.5 (released on 2014-06-16)
+Tad Discuss 1.5 (2014-06-16 released)
 ===============================================
 1. Add transfer newbb (3.0x) forum content features
 2. Fixed Private Message Unable to upload file bug
@@ -61,14 +66,14 @@ Tad Discuss 1.5 (released on 2014-06-16)
 6. fine tuning the layout to make it easier to read.
 
 
-Tad Discuss 1.4 (released on 2014-05-02)
+Tad Discuss 1.4 (2014-05-02 released)
 ===============================================
 1. Fixed part of the host can not return a message after new discussion string bug
 2. The amendment to remove the module, the bug can not be removed tad_discuss_cbox_setup
 3. When amendments are not signed, the object becomes private message Guest problems.
 4. Addressing the new version of FireFox or chrome if transparency color selection, will be showing a black problem.
 
-Tad Discuss 1.3 (released on 2014-02-20)
+Tad Discuss 1.3 (2014-02-20 released)
 ===============================================
 1. Fixed speaker name link incorrect bug
 2. Adjust the immediate guestbook model, so it does not break because the screen resolution is too low version.
@@ -81,7 +86,7 @@ Tad Discuss 1.3 (released on 2014-02-20)
 9. A message string of more than 20 amendments later article will not see the problem (added pagination tools)
 
 
-Tad Discuss 1.2 (released on 2014-01-15)
+Tad Discuss 1.2 (2014-01-15 released)
 ===============================================
 1. Fixed instant messages are not set rules if multiple rules to the same forum will be unable to correctly judge the issue
 2. Adjust instant message dialogs ways to make it easier to identify.
@@ -92,7 +97,7 @@ Question 6. Fixed emoticon displayed in the title
 7. Add sub-classification
 
 
-Tad Discuss 1.1 (released on 2013-12-23)
+Tad Discuss 1.1 (2013-12-23 released)
 ===============================================
 1. Remove unnecessary debug messages
 2. Import immediate guestbook, you can accurately catch administrator name and uid (previously been imported, it can be used to re-import feature to be amended)
@@ -101,7 +106,7 @@ Tad Discuss 1.1 (released on 2013-12-23)
 5. Add BootStrap Forum style
 6. Add refuse to discuss prevention, rapid search and management functions
 
-Tad Discuss 1.0 (released on 2013-12-19)
+Tad Discuss 1.0 (2013-12-19 released)
 ===============================================
 1. Integration Tad Cbox immediate guestbook block
 2. Add ABC functions (if checked "whisper", the default is to only own, administrator or moderators can see.)
@@ -111,7 +116,7 @@ All discussions will be deleted messages and files 5. Delete the entire discussi
 6. It is not supported publishing rights of tourists are expected to join the next edition
 
 
-Tad Discuss Version 1.0 RC4 (released on 2013-10-28)
+Tad Discuss Version 1.0 RC4 (2013-10-28 released)
 ===============================================
 1. Fixed the problem time error
 2. The members of the new system will be built when publishing statistics published several articles
@@ -119,13 +124,13 @@ Tad Discuss Version 1.0 RC4 (released on 2013-10-28)
 4. Support bootstrap
 
 
- Tad Discuss version 1.0 RC3 (released on 2012-10-31)
+ Tad Discuss version 1.0 RC3 (2012-10-31 released)
 ===============================================
 1. Fixed anyone can modify discuss major bug
 2. Join the discussion area of ​​the closing function
 
 
-Tad Discuss Version 1.0 RC2 (released on 2012-10-30)
+Tad Discuss Version 1.0 RC2 (2012-10-30 released)
 ===============================================
 1. in addition to block the completion of a higher degree, there are amended the last names of the respondents error bug
 2. Increase editor features, such as the left to the right and a list of features

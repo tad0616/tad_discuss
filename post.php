@@ -216,7 +216,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
       <tr>
         <td class='col' colspan=2 style='text-align:right;'>
           $security_images
-          <input type='checkbox' name='only_root' value='1'>" . _MD_TADDISCUS_ONLY_ROOT . "
+          <input type='checkbox' name='only_root' value='1'><span style='font-size:80%'>" . _MD_TADDISCUS_ONLY_ROOT . "</span>
           <input type='hidden' name='BoardID' value='{$BoardID}'>
           <input type='hidden' name='DiscussID' value='{$DiscussID}'>
           <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>

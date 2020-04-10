@@ -1,9 +1,5 @@
-font{
-  font-size: 75%;
-}
-
 span.f{
-  font-size: 62.5%;
+  font-size: 80%;
   display:block-inline;
   color:white;border-radius: 3px;
   padding:1px 3px;
@@ -140,12 +136,10 @@ span.f{
   border-color: transparent #fff;
 }
 
-/************************** ��α����ʽ **************************/
 div.cbox {
   background-color: #FFFFFF;
 }
 
-/* ���Բ������ڡ���ʽ */
 .cbox_date {
   font-size: 62.5%;
   text-align: right;
@@ -154,7 +148,6 @@ div.cbox {
   color:#a0a0a0;
 }
 
-/* ���Բ���IP����ʽ */
 .cbox_ip {
   font-size: 62.5%;
   color: rgb(204,102,0);
@@ -162,25 +155,21 @@ div.cbox {
   margin-bottom: 2px;
 }
 
-/* ���Բ����l���ߡ���ʽ */
 .cbox_publisher {
   color: rgb(80,80,80);
   font-weight: normal;
   display: inline;
 }
 
-/* ���Բ���˽�����ԡ���ʽ */
 .lock_msg {
   color: red;
 }
 
-/* ���Բ����ظ����ԡ���ʽ */
 div.remsg {
   color: rgb(102,153,0);
   display: inline;
 }
 
-/* ���Բ������ʽ */
 table.cbox_tbl {
   width: 100%;
   padding: 0px;
@@ -188,27 +177,22 @@ table.cbox_tbl {
   background-color: #FFFFFF;
 }
 
-/* �б�εă�����ʽ */
 table.cbox_tbl td {
   padding: 1px;
-  font-size: 75%;
 }
 
-/* �б�εġ����}��������ʽ */
 table.cbox_tbl td.title {
   background-color: transparent;
   color: rgb(0,0,0);
   text-align: right;
   vertical-align: middle;
 }
-/* �б�εġ�ݔ���λ��������ʽ */
+
 table.cbox_tbl td.col {
   background-color: transparent;
 }
 
-/* �б�εġ������С�������ʽ */
 table.cbox_tbl input.name {
-  font-size: 75%;
   background-color: rgb(237,243,247);
   border: 1px solid rgb(217,223,227);
   color: rgb(80,80,80);
@@ -217,13 +201,12 @@ table.cbox_tbl input.name {
 textarea#DiscussContent {
   width: 100%;
   height: 60px;
-  font-size: 75%;
   background-color: rgb(237,243,247);
   border: 1px solid rgb(217,223,227);
   color: rgb(80,80,80);
   padding: 1px 3px 1px 3px;
 }
-/* �����������Ե�ӍϢ�� */
+
 .need_login {
   font-size: 92%;
   color: rgb(51,102,0);

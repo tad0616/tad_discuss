@@ -148,16 +148,16 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         <script type='text/javascript' src='class/Qaptcha3/jquery/jquery.ui.touch.js'></script>
         <script type='text/javascript' src='class/Qaptcha3/jquery/QapTcha.jquery.js'></script>
         <script type='text/javascript'>
-          $(document).ready(function(){
-           $('.QapTcha').QapTcha({disabledSubmit:true , autoRevert:true , PHPfile:'class/Qaptcha3/php/Qaptcha.jquery.php', txtLock:'" . _MD_TADDISCUS_TXTLOCK . "' , txtUnlock:'" . _MD_TADDISCUS_TXTUNLOCK . "'});
-          });
+            $(document).ready(function(){
+            $('.QapTcha').QapTcha({disabledSubmit:true , autoRevert:true , PHPfile:'class/Qaptcha3/php/Qaptcha.jquery.php', txtLock:'" . _MD_TADDISCUS_TXTLOCK . "' , txtUnlock:'" . _MD_TADDISCUS_TXTUNLOCK . "'});
+            });
         </script>";
         $captcha_div = "<div class='QapTcha'></div>";
         $only_root = '';
     } else {
         $only_root = "
         <label class='checkbox-inline'>
-          <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . '
+            <input type='checkbox' name='only_root' value='1' $checked>" . _MD_TADDISCUS_ONLY_ROOT . '
         </label>';
     }
 

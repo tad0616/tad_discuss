@@ -24,7 +24,7 @@
           <{/if}>
           <a href="discuss.php?BoardID=<{$bb.BoardID}>" style="font-size:130%"><{$bb.BoardTitle}></a> <{$bb.fun}>
           <div style="margin:10px auto;font-size: 75%;">
-            <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.BoardNum}>"><{$bb.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.DiscussNum}>"><{$bb.DiscussNum}>  / <span style="font-size: 68.75%;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$bb.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$bb.BoardManager}></span>
+            <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.BoardNum}>"><{$bb.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$bb.DiscussNum}>"><{$bb.DiscussNum}>  / <img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$bb.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$bb.BoardManager}>
           </div>
         </td>
       </tr>
@@ -33,7 +33,7 @@
           <tr>
             <td headers="discuss_BoardTitle"></td>
             <td headers="discuss_BoardImg">
-              <span nowrap style="font-size: 68.75%;color:#8BA0A6"><{$discuss.LastTime}></span>
+              <span nowrap style="font-size: 80%;color:#8BA0A6"><{$discuss.LastTime}></span>
               <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
             <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
             <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>
@@ -70,7 +70,7 @@
               <{/if}>
               <div style="margin:10px auto;font-size: 75%;">
                 <a href="discuss.php?BoardID=<{$subBoard.BoardID}>" style="font-size:110%;font-weight:bold;"><{$subBoard.BoardTitle}></a> <{$subBoard.fun}>
-                <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardNum}>"><{$subBoard.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.DiscussNum}>"><{$subBoard.DiscussNum}>  / <span style="font-size: 68.75%;"><img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$subBoard.BoardManager}></span>
+                <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardNum}>"><{$subBoard.BoardNum}> / <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$subBoard.DiscussNum}>"><{$subBoard.DiscussNum}>  / <img src="images/cup.png" align="absmiddle" hspace=4 alt="<{$subBoard.BoardManager}>"><{$smarty.const._MD_TADDISCUS_BOARDMANAGER}><{$smarty.const._TAD_FOR}><{$subBoard.BoardManager}>
               </div>
             </td>
           </tr>
@@ -79,7 +79,7 @@
               <tr>
                 <td headers="discuss_BoardTitle"></td>
                 <td headers="discuss_BoardImg">
-                  <span nowrap style="font-size: 68.75%;color:#8BA0A6"><{$discuss.LastTime}></span>
+                  <span nowrap style="font-size: 80%;color:#8BA0A6"><{$discuss.LastTime}></span>
                   <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
                 <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
                 <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>

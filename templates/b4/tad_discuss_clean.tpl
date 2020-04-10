@@ -5,7 +5,7 @@
 
   <div><{$discuss.uid_name}> <{$smarty.const._MD_TADDISCUS_TALK}></div>
 
-  <div style="font-size: 68.75%;margin:5px 0px;color:#CC0000">
+  <div style="font-size: 80%;margin:5px 0px;color:#CC0000">
     <{$discuss.DiscussDate}>
   </div>
 

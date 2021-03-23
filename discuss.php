@@ -374,6 +374,7 @@ function show_one_tad_discuss($DefDiscussID = '')
             $first = $DiscussContent;
         }
 
+        $discuss['DiscussTitle'] = $myts->htmlSpecialChars($discuss['DiscussTitle']);
         $discuss['DiscussTitle'] = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $discuss['DiscussTitle']);
         $discuss['DiscussTitle'] = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $discuss['DiscussTitle']);
 

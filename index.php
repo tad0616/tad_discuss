@@ -95,6 +95,8 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsTpl;
 
+    $myts = \MyTextSanitizer::getInstance();
+
     $andBoardID = (empty($BoardID)) ? '' : "and a.BoardID='$BoardID'";
     $andLimit = null !== $limit ? "limit 0,$limit" : '';
     $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
@@ -117,7 +119,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
         $isPublic = isPublic($onlyTo, $uid, $BoardID);
         $onlyToName = getOnlyToName($onlyTo);
-        $DiscussTitle = $isPublic ? $DiscussTitle : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);
+        $DiscussTitle = $isPublic ? $myts->htmlSpecialChars($DiscussTitle) : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);
 
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
         $DiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussTitle);

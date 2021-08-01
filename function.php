@@ -163,8 +163,8 @@ function insert_tad_discuss_cbox_setup($setupName = '', $setupRule = '', $newBor
     $setupSort = tad_discuss_cbox_setup_max_sort();
 
     $sql = 'insert into `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "`
-  (`setupName` , `setupRule` , `BoardID` , `setupSort`)
-  values('{$setupName}' , '{$setupRule}' , '{$BoardID}' , '{$setupSort}')";
+    (`setupName` , `setupRule` , `BoardID` , `setupSort`)
+    values('{$setupName}' , '{$setupRule}' , '{$BoardID}' , '{$setupSort}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
@@ -206,7 +206,7 @@ function list_tad_discuss($DefBoardID = null)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $xoopsTpl;
     $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
-
+    $myts = \MyTextSanitizer::getInstance();
     //取得本模組編號
     $module_id = $xoopsModule->mid();
 
@@ -282,6 +282,7 @@ function list_tad_discuss($DefBoardID = null)
         $isPublic = isPublic($onlyTo, $uid, $DefBoardID);
         $onlyToName = getOnlyToName($onlyTo);
 
+        $DiscussTitle = $myts->htmlSpecialChars($DiscussTitle);
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
         $DiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussTitle);
 
@@ -523,7 +524,7 @@ function insert_tad_discuss($nl2br = false)
     $ReDiscussID = isset($_POST['ReDiscussID']) ? (int) $_POST['ReDiscussID'] : 0;
     //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
     $Discuss = get_tad_discuss($ReDiscussID);
-    $DiscussTitle = empty($_POST['DiscussTitle']) ? 'RE:' . $Discuss['DiscussTitle'] : $_POST['DiscussTitle'];
+    $DiscussTitle = empty($_POST['DiscussTitle']) ? 'RE:' . $Discuss['DiscussTitle'] : $myts->addSlashes($_POST['DiscussTitle']);
     $DiscussTitle = $myts->addSlashes($DiscussTitle);
     $publisher = $myts->addSlashes($_POST['publisher']);
     $BoardID = (int) $_POST['BoardID'];
@@ -551,7 +552,7 @@ function insert_tad_discuss($nl2br = false)
 
     $time = date('Y-m-d H:i:s');
     $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss') . "   (`ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP` , `onlyTo`)
-  values('{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$DiscussTitle}' , '{$DiscussContent}' , '{$time}', '{$BoardID}' , '{$time}' , '0', '$myip' , '{$onlyTo}')";
+    values('{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$DiscussTitle}' , '{$DiscussContent}' , '{$time}', '{$BoardID}' , '{$time}' , '0', '$myip' , '{$onlyTo}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
@@ -574,7 +575,7 @@ function insert_tad_discuss($nl2br = false)
     }
 
     //全局
-    $extra_tags['DISCUSS_TITLE'] = $_POST['DiscussTitle'];
+    $extra_tags['DISCUSS_TITLE'] = $myts->htmlSpecialChars($_POST['DiscussTitle']);
     $extra_tags['DISCUSS_CONTENT'] = strip_tags($_POST['DiscussContent']);
     $extra_tags['DISCUSS_URL'] = XOOPS_URL . "/modules/tad_discuss/discuss.php?DiscussID={$ToDiscussID}&BoardID={$_POST['BoardID']}";
 
@@ -584,7 +585,7 @@ function insert_tad_discuss($nl2br = false)
     //分類
     if (!empty($_POST['BoardID'])) {
         $Board = get_tad_discuss_board($_POST['BoardID']);
-        $extra_tags['BOARD_TITLE'] = $Board['BoardTitle'];
+        $extra_tags['BOARD_TITLE'] = $myts->htmlSpecialChars($Board['BoardTitle']);
         $notificationHandler = xoops_getHandler('notification');
         $notificationHandler->triggerEvent('board', $_POST['BoardID'], 'new_board_discuss', $extra_tags, null, null, 0);
     }

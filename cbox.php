@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
@@ -8,11 +9,10 @@ require_once __DIR__ . '/header.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', '', 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$files_sn = Request::getInt('files_sn');
 
 switch ($op) {
     //刪除資料
@@ -56,7 +56,7 @@ echo "
 //列出所有tad_discuss資料
 function list_tad_discuss_cbox($DefBoardID = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsUser, $TadUpFiles, $isAdmin;
+    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsUser, $TadUpFiles;
 
     //$cbox_show_num=empty($_SESSION['cbox_show_num'])?20:$_SESSION['cbox_show_num'];
     $limit = 20;
@@ -84,11 +84,11 @@ function list_tad_discuss_cbox($DefBoardID = '')
 
     $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' and b.BoardEnable='1' $andBoardID  order by a.LastTime desc limit 0,10";
 
-    $cbox_root_msg_color = system_CleanVars($_REQUEST, 'cbox_root_msg_color', '#B4C58D', 'string');
-    $bg_color = system_CleanVars($_REQUEST, 'bg_color', '#FFFFFF', 'string');
-    $font_color = system_CleanVars($_REQUEST, 'font_color', '#000000', 'string');
+    $cbox_root_msg_color = Request::getString('cbox_root_msg_color', '#B4C58D');
+    $bg_color = Request::getString('bg_color', '#FFFFFF');
+    $font_color = Request::getString('font_color', '#000000');
 
-    if ($isAdmin) {
+    if ($_SESSION['tad_discuss_adm']) {
         $del_js = "
         function delete_tad_discuss_func(DiscussID){
           var sure = window.confirm('" . _TAD_DEL_CONFIRM . "');
@@ -174,16 +174,16 @@ function list_tad_discuss_cbox($DefBoardID = '')
 
         $show_tool = $gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id);
         $tool = '';
-        if ($show_tool and $isAdmin) {
+        if ($show_tool and $_SESSION['tad_discuss_adm']) {
             $tool = "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
         }
         $re_button = isPublic($onlyTo, $uid, $DefBoardID) ? "<button type='button' style='font-size: 80%;border:1px solid gray;float:right;' onClick=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">" . _MD_TADDISCUS_DISCUSSRE . '</button>' : '';
 
         $MainDiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $MainDiscussTitle);
-        $MainDiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $MainDiscussTitle);
+        $MainDiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $MainDiscussTitle);
 
         $MainDiscussContent = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussContent);
-        $MainDiscussContent = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $MainDiscussContent);
+        $MainDiscussContent = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $MainDiscussContent);
         $MainDiscussID = $DiscussID;
 
         if ($onlyTo) {
@@ -251,12 +251,12 @@ function list_tad_discuss_cbox($DefBoardID = '')
             $post_date = mb_substr(date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate))), 0, 16);
 
             $tool = '';
-            if ($show_tool and $isAdmin) {
+            if ($show_tool and $_SESSION['tad_discuss_adm']) {
                 $tool = "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
             }
 
             $DiscussContent = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussContent);
-            $DiscussContent = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussContent);
+            $DiscussContent = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussContent);
 
             if ($onlyTo) {
                 $ContentColor = 'red';

@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copybb.tpl';
 require_once __DIR__ . '/header.php';
@@ -9,7 +10,7 @@ require_once dirname(__DIR__) . '/function.php';
 //列出所有tad_discuss_board資料
 function list_xforum()
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
+    global $xoopsDB, $xoopsModule, $xoopsTpl;
 
     //取得某模組編號
     $moduleHandler = xoops_getHandler('module');
@@ -126,7 +127,7 @@ function copyBoard($BoardID = '')
 
 function listBoard($BoardID = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
+    global $xoopsDB, $xoopsModule, $xoopsTpl;
 
     $sql = 'select a.*,b.post_time,b.poster_ip from `' . $xoopsDB->prefix('xf_topics') . '` as a left join `' . $xoopsDB->prefix('xf_posts') . "` as b on a.topic_last_post_id=b.post_id where a.forum_id='$BoardID' order by a.topic_id  ";
     //die($sql);
@@ -166,7 +167,7 @@ function listBoard($BoardID = '')
 
 function delXforum($topic_id = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
 
     $sql = 'select post_id from  `' . $xoopsDB->prefix('xf_posts') . "` where topic_id='$topic_id'";
     $result = $xoopsDB->query($sql) or die($sql);
@@ -204,7 +205,7 @@ function get_name_from_uid($uid = '')
 
 function copyDiscuss($BoardID = '', $mode = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
 
     if ('force' === $mode) {
         $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where `BoardID`='$BoardID'";
@@ -268,7 +269,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
 function getLastTime($post_id)
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
     $sql2 = 'select `post_time`  from `' . $xoopsDB->prefix('xf_posts') . "`  where post_id='$post_id'";
     $result2 = $xoopsDB->queryF($sql2) || die($sql2);
     list($post_time) = $xoopsDB->fetchRow($result2);
@@ -279,7 +280,7 @@ function getLastTime($post_id)
 
 function powerSet($BoardID = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
     $mid = $xoopsModule->mid();
     $read = explode(',', $_GET['read']);
     foreach ($read as $gperm_groupid) {
@@ -297,11 +298,10 @@ function powerSet($BoardID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$topic_id = system_CleanVars($_REQUEST, 'topic_id', 0, 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$topic_id = Request::getInt('topic_id');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -310,25 +310,26 @@ switch ($op) {
         copyBoard($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'listBoard':
         listBoard($BoardID);
         break;
+
     case 'delXforum':
         delXforum($topic_id);
         header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
         exit;
-        break;
+
     case 'copyDiscuss':
         copyDiscuss($BoardID, $_POST['mode']);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'powerSet':
         powerSet($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'batch_del':
         batch_del($_POST['batch_del']);
         header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");

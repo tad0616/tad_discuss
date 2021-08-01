@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
@@ -10,14 +11,10 @@ $TadUpFiles = new TadUpFiles('tad_discuss');
 /*-----------function區--------------*/
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$files_sn = Request::getInt('files_sn');
 
 switch ($op) {
     default:
@@ -26,4 +23,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';

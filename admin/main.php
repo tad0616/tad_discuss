@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
@@ -157,7 +158,7 @@ function update_tad_discuss_board($BoardID = '')
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl, $TadUpFiles;
+    global $xoopsDB, $xoopsModule, $xoopsTpl, $TadUpFiles;
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -244,7 +245,7 @@ function get_tad_discuss_board_menu_options($default_BoardID = '0')
 //刪除tad_discuss_board某筆資料資料
 function delete_tad_discuss_board($BoardID = '')
 {
-    global $xoopsDB, $isAdmin, $TadUpFiles;
+    global $xoopsDB, $TadUpFiles;
     $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='$BoardID' and ReDiscussID=0";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -291,12 +292,11 @@ function changeBoardStatus($BoardID = '', $act = '0')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$NewBoardID = system_CleanVars($_REQUEST, 'NewBoardID', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$NewBoardID = Request::getInt('NewBoardID');
+$files_sn = Request::getInt('files_sn');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -306,39 +306,40 @@ switch ($op) {
         replace_tad_discuss_board();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //新增資料
     case 'insert_tad_discuss_board':
         $BoardID = insert_tad_discuss_board($_POST['BoardTitle']);
         header("location: {$_SERVER['PHP_SELF']}?BoardID=$BoardID");
         exit;
-        break;
+
     //更新資料
     case 'update_tad_discuss_board':
         update_tad_discuss_board($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //輸入表格
     case 'tad_discuss_board_form':
         tad_discuss_board_form($BoardID);
         break;
+
     //刪除資料
     case 'delete_tad_discuss_board':
         delete_tad_discuss_board($BoardID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'moveToBoardID':
         moveToBoardID($BoardID, $NewBoardID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'changeBoardStatus':
         changeBoardStatus($BoardID, $_GET['act']);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //預設動作
     default:
         if (empty($BoardID)) {

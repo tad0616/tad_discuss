@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
@@ -13,7 +14,7 @@ $TadUpFiles = new TadUpFiles('tad_discuss');
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '', $dir = 'left', $mode = '')
 {
-    global $xoopsDB, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
+    global $xoopsDB, $xoopsUser, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
 
     if (empty($BoardID)) {
         return;
@@ -260,7 +261,7 @@ function get_tad_discuss_board_option($default_BoardID = '0')
 //以流水號秀出某筆tad_discuss資料內容
 function show_one_tad_discuss($DefDiscussID = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsTpl, $xoTheme;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $xoopsTpl, $xoTheme;
 
     $myts = \MyTextSanitizer::getInstance();
     if (empty($DefDiscussID)) {
@@ -375,10 +376,10 @@ function show_one_tad_discuss($DefDiscussID = '')
         }
 
         $discuss['DiscussTitle'] = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $discuss['DiscussTitle']);
-        $discuss['DiscussTitle'] = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $discuss['DiscussTitle']);
+        $discuss['DiscussTitle'] = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $discuss['DiscussTitle']);
 
         $DiscussContent = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussContent);
-        $DiscussContent = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussContent);
+        $DiscussContent = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussContent);
 
         //若無任何標籤則套用nl2br
         if (false === mb_strpos($DiscussContent, '<')) {
@@ -531,21 +532,11 @@ function add_tad_discuss_counter($DiscussID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$ReDiscussID = system_CleanVars($_REQUEST, 'ReDiscussID', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
-$xoopsTpl->assign('isAdmin', $isAdmin);
-if ($xoopsUser) {
-    $xoopsTpl->assign('now_uid', $xoopsUser->uid());
-} else {
-    $xoopsTpl->assign('now_uid', '--');
-}
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$ReDiscussID = Request::getInt('ReDiscussID');
+$files_sn = Request::getInt('files_sn');
 
 switch ($op) {
     //新增資料
@@ -553,39 +544,40 @@ switch ($op) {
         $DiscussID = insert_tad_discuss();
         redirect_header("discuss.php?DiscussID={$DiscussID}&BoardID={$BoardID}", 0, _MD_TADDISCUS_SAVE_OK);
         break;
+
     //更新資料
     case 'update_tad_discuss':
         update_tad_discuss($DiscussID);
         $ID = empty($ReDiscussID) ? $DiscussID : $ReDiscussID;
         header("location: {$_SERVER['PHP_SELF']}?DiscussID=$ID&BoardID=$BoardID");
         exit;
-        break;
+
     //刪除資料
     case 'delete_tad_discuss':
         delete_tad_discuss($DiscussID);
         header("location: {$_SERVER['PHP_SELF']}?BoardID=$BoardID");
         exit;
-        break;
+
     //輸入表格
     case 'tad_discuss_form':
         tad_discuss_form($BoardID, $DiscussID, $ReDiscussID);
         break;
+
     //下載檔案
     case 'tufdl':
-        $files_sn = isset($_GET['files_sn']) ? (int) $_GET['files_sn'] : '';
         $TadUpFiles->add_file_counter($files_sn);
         exit;
-        break;
+
     case 'unlock':
         change_lock(false, $BoardID, $DiscussID);
         header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
         exit;
-        break;
+
     case 'lock':
         change_lock(true, $BoardID, $DiscussID);
         header("location: {$_SERVER['PHP_SELF']}?DiscussID=$DiscussID&BoardID=$BoardID");
         exit;
-        break;
+
     //預設動作
     default:
         if (empty($DiscussID)) {
@@ -597,4 +589,13 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+if ($xoopsUser) {
+    $xoopsTpl->assign('now_uid', $xoopsUser->uid());
+} else {
+    $xoopsTpl->assign('now_uid', '--');
+}
+
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';

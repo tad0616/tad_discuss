@@ -1,12 +1,11 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 
-
 //悄悄話檢查
 if (!function_exists('isPublic')) {
     function isPublic($onlyTo = '', $publisher_uid = 0, $BoardID = null)
     {
-        global $xoopsUser, $isAdmin;
+        global $xoopsUser;
         if (empty($onlyTo)) {
             return true;
         }
@@ -15,7 +14,7 @@ if (!function_exists('isPublic')) {
             return false;
         }
 
-        if ($isAdmin) {
+        if ($_SESSION['tad_discuss_adm']) {
             return true;
         }
 

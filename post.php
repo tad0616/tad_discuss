@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
@@ -20,10 +21,10 @@ if ('mkpic' === $_GET['mode']) {
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModuleConfig, $xoopsModule, $TadUpFiles, $isAdmin;
+    global $xoopsDB, $xoopsUser, $xoopsModuleConfig, $xoopsModule, $TadUpFiles;
 
     if (empty($BoardID)) {
-        if ($isAdmin and '1' == $xoopsModuleConfig['display_fast_setup']) {
+        if ($_SESSION['tad_discuss_adm'] and '1' == $xoopsModuleConfig['display_fast_setup']) {
 
             $FormValidator = new FormValidator('#myForm', true);
             $formValidator_code = $FormValidator->render();
@@ -248,11 +249,12 @@ function mkpic($num = 0)
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$ReDiscussID = system_CleanVars($_REQUEST, 'ReDiscussID', 0, 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$ReDiscussID = Request::getInt('ReDiscussID');
+$boardTitle = Request::getString('boardTitle');
+$setupRule = Request::getString('setupRule');
 
 switch ($op) {
     //新增資料
@@ -262,7 +264,7 @@ switch ($op) {
         exit;
 
     case 'fast_add_borard':
-        $BoardID = insert_tad_discuss_cbox_setup($_POST['boardTitle'], $_POST['setupRule'], $_POST['boardTitle']);
+        $BoardID = insert_tad_discuss_cbox_setup($boardTitle, $setupRule, $boardTitle);
         header("location: {$_SERVER['PHP_SELF']}?op=reload&BoardID=$BoardID");
         exit;
 

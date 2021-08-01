@@ -10,7 +10,7 @@ require_once dirname(__DIR__) . '/function.php';
 //列出所有tad_discuss_board資料
 function list_newbb()
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
+    global $xoopsDB, $xoopsModule, $xoopsTpl;
 
     //取得某模組編號
     $moduleHandler = xoops_getHandler('module');
@@ -127,7 +127,7 @@ function copyBoard($BoardID = '')
 
 function listBoard($BoardID = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
+    global $xoopsDB, $xoopsModule, $xoopsTpl;
 
     $sql = 'select a.*,b.post_time,b.poster_ip from `' . $xoopsDB->prefix('bb_topics') . '` as a left join `' . $xoopsDB->prefix('bb_posts') . "` as b on a.topic_last_post_id=b.post_id where a.forum_id='$BoardID' order by a.topic_id  ";
     //die($sql);
@@ -167,7 +167,7 @@ function listBoard($BoardID = '')
 
 function delnewbb($topic_id = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
 
     $sql = 'select post_id from  `' . $xoopsDB->prefix('bb_posts') . "` where topic_id='$topic_id'";
     $result = $xoopsDB->query($sql) or die($sql);
@@ -205,7 +205,7 @@ function get_name_from_uid($uid = '')
 
 function copyDiscuss($BoardID = '', $mode = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
 
     if ('force' === $mode) {
         $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where `BoardID`='$BoardID'";
@@ -269,7 +269,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
 function getLastTime($post_id)
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
     $sql2 = 'select `post_time`  from `' . $xoopsDB->prefix('bb_posts') . "`  where post_id='$post_id'";
     $result2 = $xoopsDB->queryF($sql2) || die($sql2);
     list($post_time) = $xoopsDB->fetchRow($result2);
@@ -280,7 +280,7 @@ function getLastTime($post_id)
 
 function powerSet($BoardID = '')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
     $mid = $xoopsModule->mid();
     $read = explode(',', $_GET['read']);
     foreach ($read as $gperm_groupid) {

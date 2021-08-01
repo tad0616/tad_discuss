@@ -1,3 +1,10 @@
+Tad Discuss 2.5.5 (released on 2021-08-01)
+===============================================
+1. Fix the problem that the expressions are stretched out
+2. Comply with the new version 2021/07 AA accessibility standard
+3. Combine BootStrap3 and 4 templates
+4.Support XOOPS 2.5.11
+
 Tad Discuss 2.5.4 (released 2020-04-10)
 ===============================================
 1. Fix the problem that the text is too small in some places

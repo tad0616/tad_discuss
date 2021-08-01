@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
@@ -93,7 +94,7 @@ function update_tad_discuss_cbox_setup($setupID = '')
 //列出所有tad_discuss_cbox_setup資料
 function list_tad_discuss_cbox_setup()
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsTpl;
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . '` ORDER BY `setupSort`';
 
@@ -119,7 +120,6 @@ function list_tad_discuss_cbox_setup()
 
     //$xoopsTpl->assign('bar' , $bar);
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('isAdmin', $isAdmin);
     $xoopsTpl->assign('all_content', $all_content);
 
     $xoopsTpl->assign('jquery', Utility::get_jquery(true));
@@ -144,7 +144,7 @@ function get_tad_discuss_cbox_setup($setupID = '')
 //刪除tad_discuss_cbox_setup某筆資料資料
 function delete_tad_discuss_cbox_setup($setupID = '')
 {
-    global $xoopsDB, $isAdmin;
+    global $xoopsDB;
     $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` where `setupID` = '{$setupID}'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
@@ -152,7 +152,7 @@ function delete_tad_discuss_cbox_setup($setupID = '')
 //以流水號秀出某筆tad_discuss_cbox_setup資料內容
 function show_one_tad_discuss_cbox_setup($setupID = '')
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsTpl;
 
     if (empty($setupID)) {
         return;
@@ -179,11 +179,10 @@ function show_one_tad_discuss_cbox_setup($setupID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$setupID = system_CleanVars($_REQUEST, 'setupID', 0, 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$setupID = Request::getInt('setupID');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -193,30 +192,31 @@ switch ($op) {
         replace_tad_discuss_cbox_setup();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //新增資料
     case 'insert_tad_discuss_cbox_setup':
         insert_tad_discuss_cbox_setup($_POST['setupName'], $_POST['setupRule'], $_POST['newBorard'], $_POST['BoardID']);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //更新資料
     case 'update_tad_discuss_cbox_setup':
         update_tad_discuss_cbox_setup($setupID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //輸入表格
     case 'tad_discuss_cbox_setup_form':
         tad_discuss_cbox_setup_form($setupID);
         list_tad_discuss_cbox_setup();
         break;
+
     //刪除資料
     case 'delete_tad_discuss_cbox_setup':
         delete_tad_discuss_cbox_setup($setupID);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //預設動作
     default:
         tad_discuss_cbox_setup_form($setupID);

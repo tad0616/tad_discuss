@@ -15,13 +15,11 @@ $TadUpFiles = new TadUpFiles('tad_discuss');
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($show_function = 1)
 {
-    global $xoopsDB, $isAdmin, $xoopsModule, $xoopsUser, $TadUpFiles;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $TadUpFiles;
 
     //取得本模組編號
     $module_id = $xoopsModule->mid();
     $module_name = $xoopsModule->name();
-
-    //$isAdmin=isAdmin();
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
@@ -156,7 +154,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $renum = _MD_TADDISCUS_DISCUSSRE . $renum;
 
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
-        $DiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
+        $DiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussTitle);
         $main_data .= "
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='{$pic_avatar}' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
@@ -171,10 +169,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 //以流水號秀出某筆tad_discuss資料內容
 function show_one_tad_discuss($DefDiscussID, $g2p)
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $isAdmin, $xoopsModuleConfig;
-
-    //$isAdmin=isAdmin();
-
+    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig;
     if (empty($DefDiscussID)) {
         return;
     }
@@ -265,7 +260,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
         }
 
         $DiscussContent = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussContent);
-        $DiscussContent = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussContent);
+        $DiscussContent = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussContent);
 
         $discuss_data = talk_bubble($BoardID, $DiscussID, $DiscussContent, $dir, $uid, $publisher, $DiscussDate, 'return', $Good, $Bad, $width, $onlyTo);
 
@@ -310,7 +305,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
     $title = $discuss['DiscussTitle'];
 
     $title = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $title);
-    $title = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $title);
+    $title = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $title);
 
     $page = "
       <!-- showone -->
@@ -348,7 +343,7 @@ function show_one_tad_discuss($DefDiscussID, $g2p)
 //列出所有tad_discuss資料
 function list_tad_discuss_m($DefBoardID = null)
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $isAdmin;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig;
 
     //取得本模組編號
     $module_id = $xoopsModule->mid();
@@ -406,9 +401,7 @@ function list_tad_discuss_m($DefBoardID = null)
         //最後回應者
         $sql2 = 'select uid from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
         $result2 = $xoopsDB->queryF($sql2) or Utility::web_error($sql2);
-        //if($isAdmin)die($sql2);
         list($last_uid) = $xoopsDB->fetchRow($result2);
-        //if($isAdmin and $BoardID==19)die("<div>$sql2</div>\$last_uid={$last_uid}");
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
         } else {
@@ -424,7 +417,7 @@ function list_tad_discuss_m($DefBoardID = null)
         $renum = _MD_TADDISCUS_DISCUSSRE . $renum;
 
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
-        $DiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
+        $DiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussTitle);
         $main_data .= "
       <li class='inner-wrap ui-icon-alt'><a href='{$_SERVER['PHP_SELF']}?op=show_one&DiscussID={$DiscussID}&BoardID={$BoardID}'><img src='$pic_avatar' alt='{$uid_name}'>
         <h2>{$DiscussTitle}</h2>
@@ -489,7 +482,7 @@ function list_tad_discuss_m($DefBoardID = null)
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '', $mode = '')
 {
-    global $xoopsDB, $xoopsUser, $isAdmin, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
+    global $xoopsDB, $xoopsUser, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
 
     if (empty($BoardID)) {
         return;
@@ -661,13 +654,9 @@ function update_tad_discuss($DiscussID = '')
 function isAdmin()
 {
     global $xoopsUser, $xoopsModule;
-    $isAdmin = false;
-    if ($xoopsUser) {
-        $module_id = $xoopsModule->mid();
-        $isAdmin = $xoopsUser->isAdmin($module_id);
+    if (!isset($_SESSION['tad_discuss_adm'])) {
+        $_SESSION['tad_discuss_adm'] = ($xoopsUser) ? $xoopsUser->isAdmin() : false;
     }
-
-    return $isAdmin;
 }
 
 //新增tad_discuss計數器
@@ -680,9 +669,9 @@ function add_tad_discuss_counter($DiscussID = '')
 
 function login_m()
 {
-    global $xoopsDB, $xoopsUser, $isAdmin;
+    global $xoopsDB, $xoopsUser;
 
-    $admin_menu = $isAdmin ? "<li><a title='Administration Menu' href='" . XOOPS_URL . "/admin.php' rel='external'>Administration Menu</a></li>" : '';
+    $admin_menu = $_SESSION['tad_discuss_adm'] ? "<li><a title='Administration Menu' href='" . XOOPS_URL . "/admin.php' rel='external'>Administration Menu</a></li>" : '';
     if ($xoopsUser) {
         $main = "
 <ul data-role='listview' data-theme='c' data-divider-theme='c' style='margin-top:-16px;'>
@@ -764,8 +753,8 @@ switch ($op) {
         exit;
         break;
     default:
-        $isAdmin = isAdmin();
-        $main = list_tad_discuss_board($isAdmin);
+        isAdmin();
+        $main = list_tad_discuss_board($_SESSION['tad_discuss_adm']);
         break;
 }
 

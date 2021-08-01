@@ -52,7 +52,7 @@ function tad_discuss_hot($options)
         $class = $i % 2 ? 'odd' : 'even';
 
         $showDiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
-        $showDiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $showDiscussTitle);
+        $showDiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $showDiscussTitle);
 
         $isPublic = isPublic($onlyTo, $uid, $BoardID);
         $onlyToName = getOnlyToName($onlyTo);
@@ -76,8 +76,8 @@ function tad_discuss_hot($options)
         $i++;
     }
 
-        $FooTable = new FooTable('#hot_discuss');
-        $block['HotFooTableJS'] = $FooTable->render();
+    $FooTable = new FooTable('#hot_discuss');
+    $block['HotFooTableJS'] = $FooTable->render();
 
     return $block;
 }

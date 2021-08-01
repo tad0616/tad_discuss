@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
@@ -11,7 +12,7 @@ require_once dirname(__DIR__) . '/function.php';
 //列出所有tad_discuss_board資料
 function list_cbox()
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsTpl;
+    global $xoopsDB, $xoopsModule, $xoopsTpl;
 
     //取得某模組編號
     $moduleHandler = xoops_getHandler('module');
@@ -160,10 +161,9 @@ function copycbox($BoardID = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -172,12 +172,12 @@ switch ($op) {
         $BoardID = copycbox();
         header("location: ../discuss.php?BoardID={$BoardID}");
         exit;
-        break;
+
     case 'forceUpdate':
         copycbox($BoardID);
         header("location: ../discuss.php?BoardID={$BoardID}");
         exit;
-        break;
+
     //預設動作
     default:
         list_cbox();

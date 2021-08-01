@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
 
@@ -6,7 +7,6 @@ xoops_loadLanguage('main', 'tadtools');
 
 require_once __DIR__ . '/function_block.php';
 
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 /********************* 自訂函數 ********************
  * @param string $BoardID
  * @param string $DiscussID
@@ -120,14 +120,14 @@ function insert_tad_discuss_board($BoardTitle = '')
         $BoardManager = $xoopsUser->uid();
     }
 
-    $forum_read = system_CleanVars($_REQUEST, 'forum_read', [1, 2, 3], 'array');
-    $forum_post = system_CleanVars($_REQUEST, 'forum_post', [1, 2], 'array');
-    $BoardEnable = system_CleanVars($_REQUEST, 'BoardEnable', 1, 'int');
-    $ofBoardID = (int) $_POST['ofBoardID'];
+    $forum_read = Request::getArray('forum_read', [1, 2, 3]);
+    $forum_post = Request::getArray('forum_post', [1, 2]);
+    $BoardEnable = Request::getInt('BoardEnable', 1);
+    $ofBoardID = Request::getInt('ofBoardID');
 
     $sql = 'insert into `' . $xoopsDB->prefix('tad_discuss_board') . "`
-  (`ofBoardID` , `BoardTitle` , `BoardDesc` , `BoardManager` , `BoardEnable`)
-  values('{$ofBoardID}' , '{$BoardTitle}' , '{$BoardDesc}' , '{$BoardManager}' , '{$BoardEnable}')";
+    (`ofBoardID` , `BoardTitle` , `BoardDesc` , `BoardManager` , `BoardEnable`)
+    values('{$ofBoardID}' , '{$BoardTitle}' , '{$BoardDesc}' , '{$BoardManager}' , '{$BoardEnable}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
@@ -204,7 +204,7 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 //列出所有tad_discuss資料
 function list_tad_discuss($DefBoardID = null)
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $isAdmin, $xoopsTpl;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsModuleConfig, $xoopsTpl;
     $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
 
     //取得本模組編號
@@ -262,9 +262,7 @@ function list_tad_discuss($DefBoardID = null)
         //最後回應者
         $sql2 = 'select uid,publisher from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' order by DiscussDate desc limit 0,1";
         $result2 = $xoopsDB->queryF($sql2) or Utility::web_error($sql2);
-        //if($isAdmin)die($sql2);
         list($last_uid, $last_uid_name) = $xoopsDB->fetchRow($result2);
-        //if($isAdmin and $BoardID==19)die("<div>$sql2</div>\$last_uid={$last_uid}");
         if (empty($last_uid_name)) {
             if (empty($last_uid)) {
                 $last_uid_name = $uid_name;
@@ -285,7 +283,7 @@ function list_tad_discuss($DefBoardID = null)
         $onlyToName = getOnlyToName($onlyTo);
 
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
-        $DiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
+        $DiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussTitle);
 
         $main_data[$i]['LastTime'] = $LastTime;
         $main_data[$i]['DiscussID'] = $DiscussID;
@@ -387,7 +385,7 @@ function get_re_num($DiscussID = '')
 //是否有管理權（或由自己發布的），判斷是否要秀出管理工具
 function isMine($discuss_uid = null, $BoardID = null)
 {
-    global $xoopsUser, $isAdmin;
+    global $xoopsUser;
     if (empty($xoopsUser)) {
         return false;
     }
@@ -398,11 +396,9 @@ function isMine($discuss_uid = null, $BoardID = null)
     } else {
         $BoardManagerArr = [];
     }
-    //die("aa".var_export($board));
     $uid = $xoopsUser->uid();
 
-    //  echo "<p>{$isAdmin}?{$uid} -- {$board['BoardManager']}</p>";
-    if ($isAdmin) {
+    if ($_SESSION['tad_discuss_adm']) {
         return true;
     } elseif (in_array($uid, $BoardManagerArr)) {
         return true;
@@ -437,18 +433,13 @@ function getBoardManager($BoardID = '', $mode = '')
 //更新刪除時是否限制身份
 function onlyMine($DiscussID = '')
 {
-    global $xoopsUser, $isAdmin, $xoopsModule;
+    global $xoopsUser, $xoopsModule;
     $uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
     $Discuss = get_tad_discuss($DiscussID);
     $board = get_tad_discuss_board($Discuss['BoardID']);
     $BoardManagerArr = explode(',', $board['BoardManager']);
 
-    if ($xoopsUser) {
-        $module_id = $xoopsModule->mid();
-        $isAdmin = $xoopsUser->isAdmin($module_id);
-    }
-
-    if ($isAdmin) {
+    if ($_SESSION['tad_discuss_adm']) {
         return;
     } elseif (in_array($uid, $BoardManagerArr)) {
         return;
@@ -460,7 +451,7 @@ function onlyMine($DiscussID = '')
 //刪除tad_discuss某筆資料資料
 function delete_tad_discuss($DiscussID = '')
 {
-    global $xoopsDB, $xoopsUser, $isAdmin, $TadUpFiles;
+    global $xoopsDB, $xoopsUser, $TadUpFiles;
 
     if (!$xoopsUser) {
         return;

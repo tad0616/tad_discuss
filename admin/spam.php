@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
@@ -103,10 +104,9 @@ function update_config($item = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -115,14 +115,16 @@ switch ($op) {
         list_spam();
         search_spam();
         break;
+
     case 'del_spam':
         del_spam();
         header("location:{$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'update_config':
         update_config($_POST['item']);
         break;
+
     //預設動作
     default:
         list_spam();

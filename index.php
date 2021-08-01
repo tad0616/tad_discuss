@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
@@ -12,7 +13,7 @@ $TadUpFiles = new TadUpFiles('tad_discuss');
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 {
-    global $xoopsDB, $xoopsModule, $isAdmin, $xoopsUser, $xoopsTpl, $TadUpFiles, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsTpl, $TadUpFiles, $xoopsModuleConfig;
 
     //取得本模組編號
     $module_id = $xoopsModule->mid();
@@ -51,7 +52,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         $display_number = isset($xoopsModuleConfig['display_number']) ? (int) $xoopsModuleConfig['display_number'] : 7;
         $list_tad_discuss = list_tad_discuss_short($BoardID, $display_number);
 
-        $fun = ($isAdmin) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : '';
+        $fun = ($_SESSION['tad_discuss_adm']) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : '';
         $BoardManager = implode(' , ', getBoardManager($BoardID, 'uname'));
 
         $BoardNum = get_board_num($BoardID);
@@ -119,7 +120,7 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $DiscussTitle = $isPublic ? $DiscussTitle : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);
 
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
-        $DiscussTitle = str_replace('.gif]', ".gif' hspace=2 align='absmiddle'>", $DiscussTitle);
+        $DiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $DiscussTitle);
 
         $main_data[$i]['LastTime'] = $LastTime;
         $main_data[$i]['DiscussID'] = $DiscussID;
@@ -135,14 +136,10 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$BoardID = system_CleanVars($_REQUEST, 'BoardID', 0, 'int');
-$DiscussID = system_CleanVars($_REQUEST, 'DiscussID', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$files_sn = Request::getInt('files_sn');
 
 switch ($op) {
     default:
@@ -151,4 +148,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';

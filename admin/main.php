@@ -137,12 +137,12 @@ function update_tad_discuss_board($BoardID = '')
     $BoardManager = is_array($_POST['BoardManager']) ? implode(',', $_POST['BoardManager']) : $_POST['BoardManager'];
 
     $sql = 'update `' . $xoopsDB->prefix('tad_discuss_board') . "` set
-   `ofBoardID` = '{$_POST['ofBoardID']}' ,
-   `BoardTitle` = '{$_POST['BoardTitle']}' ,
-   `BoardDesc` = '{$_POST['BoardDesc']}' ,
-   `BoardManager` = '{$BoardManager}' ,
-   `BoardEnable` = '{$_POST['BoardEnable']}'
-  where `BoardID` = '$BoardID'";
+    `ofBoardID` = '{$_POST['ofBoardID']}' ,
+    `BoardTitle` = '{$_POST['BoardTitle']}' ,
+    `BoardDesc` = '{$_POST['BoardDesc']}' ,
+    `BoardManager` = '{$BoardManager}' ,
+    `BoardEnable` = '{$_POST['BoardEnable']}'
+    where `BoardID` = '$BoardID'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //寫入權限

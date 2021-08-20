@@ -82,10 +82,10 @@ function update_tad_discuss_cbox_setup($setupID = '')
     $_POST['setupRule'] = $myts->addSlashes($_POST['setupRule']);
 
     $sql = 'update `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` set
-   `setupName` = '{$_POST['setupName']}' ,
-   `setupRule` = '{$_POST['setupRule']}' ,
-   `BoardID` = '{$_POST['BoardID']}'
-  where `setupID` = '$setupID'";
+    `setupName` = '{$_POST['setupName']}' ,
+    `setupRule` = '{$_POST['setupRule']}' ,
+    `BoardID` = '{$_POST['BoardID']}'
+    where `setupID` = '$setupID'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $setupID;

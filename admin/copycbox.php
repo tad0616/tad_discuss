@@ -1,6 +1,7 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copycbox.tpl';
@@ -132,7 +133,9 @@ function copycbox($BoardID = '')
         $uid = get_uid_from_uname($publisher);
         $DiscussTitle = $myts->addSlashes($DiscussTitle);
         $msg = $myts->addSlashes($msg);
+        $msg = Wcag::amend($msg);
         $root_msg = $myts->addSlashes($root_msg);
+        $root_msg = Wcag::amend($root_msg);
 
         $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss') . " ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES(0 , '{$uid}', '$publisher' , '{$DiscussTitle}' , '{$msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' ,'{$onlyTo}')";
         $xoopsDB->queryF($sql);

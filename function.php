@@ -530,6 +530,7 @@ function insert_tad_discuss($nl2br = false)
     $BoardID = (int) $_POST['BoardID'];
 
     $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
+    $DiscussContent = Wcag::amend($DiscussContent);
     if ($nl2br) {
         $DiscussContent = nl2br($DiscussContent);
     }
@@ -569,7 +570,7 @@ function insert_tad_discuss($nl2br = false)
     $ToDiscussID = $DiscussID;
     if (!empty($ReDiscussID)) {
         $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set `LastTime` = '{$time}'
-    where `DiscussID` = '{$ReDiscussID}' or `ReDiscussID` = '{$ReDiscussID}'";
+        where `DiscussID` = '{$ReDiscussID}' or `ReDiscussID` = '{$ReDiscussID}'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $ToDiscussID = $ReDiscussID;
     }

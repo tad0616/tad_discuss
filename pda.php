@@ -2,6 +2,7 @@
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 /*-----------引入檔案區--------------*/
 if (file_exists(__DIR__ . '/mainfile.php')) {
     require_once __DIR__ . '/mainfile.php';
@@ -624,6 +625,7 @@ function update_tad_discuss($DiscussID = '')
     $myts = \MyTextSanitizer::getInstance();
     $_POST['DiscussTitle'] = $myts->addSlashes($_POST['DiscussTitle']);
     $_POST['DiscussContent'] = $myts->addSlashes($_POST['DiscussContent']);
+    $_POST['DiscussContent'] = Wcag::amend($_POST['DiscussContent']);
 
     if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $myip = $_SERVER['REMOTE_ADDR'];
@@ -637,11 +639,11 @@ function update_tad_discuss($DiscussID = '')
     //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
 
     $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set
-   `DiscussTitle` = '{$_POST['DiscussTitle']}' ,
-   `DiscussContent` = '{$_POST['DiscussContent']}' ,
-   `LastTime` = now(),
-   `FromIP` = '$myip'
-  where DiscussID='$DiscussID' $anduid";
+    `DiscussTitle` = '{$_POST['DiscussTitle']}' ,
+    `DiscussContent` = '{$_POST['DiscussContent']}' ,
+    `LastTime` = now(),
+    `FromIP` = '$myip'
+    where DiscussID='$DiscussID' $anduid";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $TadUpFiles->set_col('DiscussID', $DiscussID);
@@ -674,7 +676,7 @@ function login_m()
     $admin_menu = $_SESSION['tad_discuss_adm'] ? "<li><a title='Administration Menu' href='" . XOOPS_URL . "/admin.php' rel='external'>Administration Menu</a></li>" : '';
     if ($xoopsUser) {
         $main = "
-<ul data-role='listview' data-theme='c' data-divider-theme='c' style='margin-top:-16px;'>
+    <ul data-role='listview' data-theme='c' data-divider-theme='c' style='margin-top:-16px;'>
     <li data-icon='delete' style='background-color:#111;'>
       <a href='#' data-rel='close'>User Menu</a>
     </li>

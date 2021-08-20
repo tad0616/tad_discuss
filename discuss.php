@@ -4,6 +4,7 @@ use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_discuss_discuss.tpl';
@@ -437,6 +438,7 @@ function update_tad_discuss($DiscussID = '')
     $myts = \MyTextSanitizer::getInstance();
     $DiscussTitle = $myts->addSlashes($_POST['DiscussTitle']);
     $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
+    $DiscussContent = Wcag::amend($DiscussContent);
 
     if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $myip = $_SERVER['REMOTE_ADDR'];
@@ -472,21 +474,21 @@ function update_tad_discuss($DiscussID = '')
     //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
     $time = date('Y-m-d H:i:s');
     $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set
-   `BoardID` = '{$BoardID}' ,
-   `DiscussTitle` = '{$DiscussTitle}' ,
-   `DiscussContent` = '{$DiscussContent}' ,
-   `LastTime` = '$time',
-   `FromIP` = '$myip',
-   `onlyTo` = '$onlyTo'
-  where DiscussID='$DiscussID' $anduid";
+    `BoardID` = '{$BoardID}' ,
+    `DiscussTitle` = '{$DiscussTitle}' ,
+    `DiscussContent` = '{$DiscussContent}' ,
+    `LastTime` = '$time',
+    `FromIP` = '$myip',
+    `onlyTo` = '$onlyTo'
+    where DiscussID='$DiscussID' $anduid";
 
     //die($sql);
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     if ($OldBoardID != $BoardID) {
         $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set
-     `BoardID` = '{$BoardID}'
-    where ReDiscussID='$DiscussID'";
+        `BoardID` = '{$BoardID}'
+        where ReDiscussID='$DiscussID'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 
@@ -516,8 +518,8 @@ function change_lock($lock, $BoardID, $DiscussID)
     }
 
     $sql = 'update ' . $xoopsDB->prefix('tad_discuss') . " set
-   `onlyTo` = '$onlyTo'
-  where DiscussID='$DiscussID' $anduid";
+    `onlyTo` = '$onlyTo'
+    where DiscussID='$DiscussID' $anduid";
     //die($sql);
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 

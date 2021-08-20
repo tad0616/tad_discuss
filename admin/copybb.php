@@ -1,5 +1,6 @@
 <?php
 use Xmf\Request;
+use XoopsModules\Tadtools\Wcag;
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copybb.tpl';
 require_once __DIR__ . '/header.php';
@@ -118,8 +119,8 @@ function copyBoard($BoardID = '')
     $forum_name = $myts->addSlashes($forum_name);
 
     $sql = 'replace into `' . $xoopsDB->prefix('tad_discuss_board') . "`
-  (`BoardID`, `ofBoardID` ,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)
-  values('{$forum_id}' , '{$parent_forum}' ,  '{$forum_name}' , '{$forum_desc}' , '{$BoardManager}' , '{$forum_order}' , '1')";
+    (`BoardID`, `ofBoardID` ,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)
+    values('{$forum_id}' , '{$parent_forum}' ,  '{$forum_name}' , '{$forum_desc}' , '{$BoardManager}' , '{$forum_order}' , '1')";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     return $BoardID;
@@ -227,6 +228,7 @@ function copyDiscuss($BoardID = '', $mode = '')
             $topic_title = addslashes($topic_title);
             $post_text = addslashes($post_text);
         }
+        $post_text = Wcag::amend($post_text);
 
         $topic_time = date('Y-m-d H:i:s', $topic_time);
         $LastTime = getLastTime($topic_last_post_id);
@@ -235,7 +237,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
         //主題
         $sql = 'replace into ' . $xoopsDB->prefix('tad_discuss') . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher` , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
-    values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
+        values('{$post_id}','0' , '{$topic_poster}', '{$publisher}' , '{$topic_title}' , '{$post_text}' , '$topic_time' , '{$BoardID}' , '{$LastTime}' , '{$topic_views}', '$poster_ip')";
 
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
@@ -254,6 +256,7 @@ function copyDiscuss($BoardID = '', $mode = '')
                 $subject = addslashes($subject);
                 $post_text = addslashes($post_text);
             }
+            $post_text = Wcag::amend($post_text);
 
             $post_time = date('Y-m-d H:i:s', $post_time);
             $poster_ip = long2ip($poster_ip);
@@ -261,7 +264,7 @@ function copyDiscuss($BoardID = '', $mode = '')
 
             //主題
             $sql = 'replace into ' . $xoopsDB->prefix('tad_discuss') . "  (`DiscussID` , `ReDiscussID` , `uid` , `publisher`  , `DiscussTitle` , `DiscussContent` , `DiscussDate` , `BoardID` , `LastTime` , `Counter` , `FromIP`)
-      values('{$post_id}','{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$subject}' , '{$post_text}' , '{$post_time}' , '{$BoardID}' , '{$LastTime}' , '0', '$poster_ip')";
+             values('{$post_id}','{$ReDiscussID}' , '{$uid}' , '{$publisher}' , '{$subject}' , '{$post_text}' , '{$post_time}' , '{$BoardID}' , '{$LastTime}' , '0', '$poster_ip')";
             $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
         }
     }
@@ -285,14 +288,14 @@ function powerSet($BoardID = '')
     $read = explode(',', $_GET['read']);
     foreach ($read as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)
-    values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_read')";
+        values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_read')";
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 
     $post = explode(',', $_GET['post']);
     foreach ($post as $gperm_groupid) {
         $sql = 'replace into ' . $xoopsDB->prefix('group_permission') . "   (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`)
-    values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
+        values('{$gperm_groupid}','{$BoardID}' , '{$mid}' , 'forum_post')";
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }

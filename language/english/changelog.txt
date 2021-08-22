@@ -1,3 +1,8 @@
+Tad Discuss 2.5.6 (released on 2021-08-22)
+===============================================
+1. Fix the problem that the expressions are stretched out
+2. Add accessibility 2.1 AA auto-correction function
+
 Tad Discuss 2.5.5 (released on 2021-08-01)
 ===============================================
 1. Fix the problem that the expressions are stretched out

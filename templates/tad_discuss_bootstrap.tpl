@@ -17,7 +17,7 @@
 
             <{$discuss.DiscussContent}>
 
-            <div class="text-right">
+            <div class="text-right text-end">
 
                 <{if $discuss.DiscussID}>
                     <{if $discuss.onlyTo}>

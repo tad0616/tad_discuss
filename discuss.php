@@ -172,7 +172,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         <div class='col-sm-6'>
             {$captcha_div}
         </div>
-        <div class='col-sm-6 text-right'>
+        <div class='col-sm-6 text-right text-end'>
             {$only_root}
             <input type='hidden' name='OldBoardID' value='{$BoardID}'>
             <input type='hidden' name='DiscussID' value='{$DefDiscussID}'>

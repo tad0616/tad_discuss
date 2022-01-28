@@ -6,7 +6,7 @@
       <h1><{$smarty.const._MA_TADDISCUS_NO_XFORUM}></h1>
     </div>
   <{elseif $op=='listBoard'}>
-    <div class="pull-right">
+    <div class="pull-right float-right pull-end">
     <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID}>" class="btn btn-lg btn-info"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS}></a>
     <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID}>&mode=force" class="btn btn-lg btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
     </div>
@@ -50,7 +50,7 @@
     </table>
     <input type="hidden" name="BoardID" value="<{$BoardID}>">
     <input type="hidden" name="op" value="batch_del">
-    <button type="submit" class="btn btn-lg btn-danger pull-right"><{$smarty.const._MA_TADDISCUS_BATCH_DEL}></button>
+    <button type="submit" class="btn btn-lg btn-danger pull-right float-right pull-end"><{$smarty.const._MA_TADDISCUS_BATCH_DEL}></button>
     </form>
     <div class="clearfix"></div>
 

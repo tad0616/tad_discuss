@@ -1,7 +1,7 @@
 <{if $BoardTitle}>
     <h2><{$BoardTitle}></h2>
 <{else}>
-    <h2 class="sr-only">No Discuss Title</h2>
+    <h2 class="sr-only visually-hidden">No Discuss Title</h2>
 <{/if}>
 <link rel="stylesheet" type="text/css" media="screen" href="reset.css">
 <{if $def_editor!="CKEditor"}>

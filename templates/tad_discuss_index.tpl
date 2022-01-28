@@ -1,5 +1,5 @@
 <{$toolbar}>
-<h2 class="sr-only">All Discuss</h2>
+<h2 class="sr-only visually-hidden">All Discuss</h2>
 <{if $all_content}>
   <{$FooTableJS}>
   <table class="table table-hover">
@@ -35,7 +35,7 @@
             <td headers="discuss_BoardImg">
               <span nowrap style="font-size: 80%;color:#8BA0A6"><{$discuss.LastTime}></span>
               <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
-            <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
+            <td headers="discuss_uid_name" class="text-right text-end;"><{$discuss.uid_name}></td>
             <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>
           </tr>
         <{/foreach}>
@@ -81,7 +81,7 @@
                 <td headers="discuss_BoardImg">
                   <span nowrap style="font-size: 80%;color:#8BA0A6"><{$discuss.LastTime}></span>
                   <a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>"><{$discuss.DiscussTitle}></a></td>
-                <td headers="discuss_uid_name" class="text-right;"><{$discuss.uid_name}></td>
+                <td headers="discuss_uid_name" class="text-right text-end;"><{$discuss.uid_name}></td>
                 <td headers="discuss_renum" class="text-center"><{$discuss.renum}></td>
               </tr>
             <{/foreach}>

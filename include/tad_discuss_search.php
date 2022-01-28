@@ -3,12 +3,14 @@
 function tad_discuss_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    //處理許功蓋
-    if (get_magic_quotes_gpc()) {
+    $myts = \MyTextSanitizer::getInstance();
+    if (is_array($queryarray)) {
         foreach ($queryarray as $k => $v) {
-            $arr[$k] = addslashes($v);
+            $arr[$k] = $myts->addSlashes($v);
         }
         $queryarray = $arr;
+    } else {
+        $queryarray = [];
     }
     $sql = 'SELECT `DiscussID`,`DiscussTitle`,`DiscussDate`, `uid` FROM ' . $xoopsDB->prefix('tad_discuss') . ' WHERE 1';
     if (0 != $userid) {

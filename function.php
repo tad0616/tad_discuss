@@ -2,6 +2,7 @@
 use Xmf\Request;
 use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 
 xoops_loadLanguage('main', 'tadtools');
 

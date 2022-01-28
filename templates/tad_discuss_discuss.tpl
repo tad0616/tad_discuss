@@ -13,7 +13,7 @@
   <{if $DiscussTitle}>
     <h2><{$DiscussTitle}></h2>
   <{else}>
-    <h2 class="sr-only">No Discuss Title</h2>
+    <h2 class="sr-only visually-hidden">No Discuss Title</h2>
   <{/if}>
   <{foreach item=discuss from=$discuss_data}>
     <{if $display_mode=="top" || $display_mode=="bottom"}>
@@ -63,7 +63,7 @@
   <{if $ShowBoardTitle}>
     <h2><{$ShowBoardTitle}></h2>
   <{else}>
-    <h2 class="sr-only">No Discuss Title</h2>
+    <h2 class="sr-only visually-hidden">No Discuss Title</h2>
   <{/if}>
 
 	<{$FooTableJS}>

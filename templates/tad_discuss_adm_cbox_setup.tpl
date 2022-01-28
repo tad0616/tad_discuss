@@ -6,7 +6,7 @@
 
       <!--註記-->
       <div class="row">
-        <label class="col-sm-3 text-right">
+        <label class="col-sm-3 text-right text-end">
           <{$smarty.const._MA_TADDISCUS_SETUPNAME}>
         </label>
         <div class="col-sm-5">
@@ -16,7 +16,7 @@
 
       <!--偵測字串-->
       <div class="row">
-        <label class="col-sm-3 text-right">
+        <label class="col-sm-3 text-right text-end">
           <{$smarty.const._MA_TADDISCUS_SETUPRULE}>
         </label>
         <div class="col-sm-5">
@@ -25,7 +25,7 @@
       </div>
 
       <div class="row">
-        <label class="col-sm-3 text-right">
+        <label class="col-sm-3 text-right text-end">
           <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
         </label>
         <div class="col-sm-2">
@@ -113,7 +113,7 @@
 
     <div class="row">
         <!--偵測字串-->
-      <div class="col-sm-3 text-right">
+      <div class="col-sm-3 text-right text-end">
         <{$smarty.const._MA_TADDISCUS_SETUPRULE}>
       </div>
       <div class="col-sm-9">
@@ -123,7 +123,7 @@
 
     <div class="row">
       <!--討論版編號-->
-      <div class="col-sm-3 text-right">
+      <div class="col-sm-3 text-right text-end">
         <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
       </div>
       <div class="col-sm-9">

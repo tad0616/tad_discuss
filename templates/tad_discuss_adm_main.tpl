@@ -5,7 +5,7 @@
 
 
     <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <!--討論區名稱-->
         <label class="col-sm-1 col-form-label text-sm-right control-label">
           <{$smarty.const._MA_TADDISCUS_OFBOARDID}>
@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <!--討論區說明-->
         <div class="col-sm-9">
           <textarea name="BoardDesc" rows=3 id="BoardDesc" class="form-control" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDDESC}>"><{$BoardDesc}></textarea>
@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <!--讀取權限-->
         <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_READ_POWER}></label><{$enable_read_group}></div>
         <!--寫入權限-->
@@ -123,7 +123,7 @@
             </td>
             <td>
               <form action="main.php" method="post" class="form-horizontal" role="form">
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <div class="col-sm-6">
                     <select name="NewBoardID" class="form-control">
                       <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
@@ -172,7 +172,7 @@
                 </td>
                 <td>
                   <form action="main.php" method="post" class="form-horizontal" role="form">
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <div class="col-sm-6">
                         <select name="NewBoardID" class="form-control">
                           <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>

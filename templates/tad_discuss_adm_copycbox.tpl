@@ -6,7 +6,7 @@
       <{$other_msg}>
     </div>
   <{else}>
-    <a href="copycbox.php?op=copycbox" class="btn btn-lg btn-danger pull-right"><{$smarty.const._MA_TADDISCUS_IMPORT_FORM_CBOX}></a>
+    <a href="copycbox.php?op=copycbox" class="btn btn-lg btn-danger pull-right float-right pull-end"><{$smarty.const._MA_TADDISCUS_IMPORT_FORM_CBOX}></a>
     <{$bar}>
     <table class="table table-striped table-bordered table-hover">
     <tr>

@@ -131,16 +131,10 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
         $checked = !empty($RE['onlyTo']) ? 'checked' : '';
     }
 
-    if ('CKEditor' === $xoopsModuleConfig['def_editor']) {
-
-        $ck = new CkEditor('tad_discuss', 'DiscussContent', $DiscussContent);
-        $ck->setToolbarSet('mySimple');
-        $ck->setHeight(250);
-        $editor = $ck->render();
-    } else {
-        $editor = "<textarea name='DiscussContent' cols='50' rows=8 id='DiscussContent' class='validate[required,minSize[5]]' style='width:100%; height:150px;font-size: 75%;line-height:150%;border:1px dotted #B0B0B0;'>{$DiscussContent}</textarea>";
-    }
-    $xoopsTpl->assign('def_editor', $xoopsModuleConfig['def_editor']);
+    $ck = new CkEditor('tad_discuss', 'DiscussContent', $DiscussContent);
+    $ck->setToolbarSet('mySimple');
+    $ck->setHeight(250);
+    $editor = $ck->render();
 
     $captcha_js = '';
     $captcha_div = '';

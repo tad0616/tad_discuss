@@ -38,7 +38,7 @@ define('_MI_TADDISCUS_BOARD_NOTIFY_ME', '該討論區有新討論就通知我');
 define('_MI_TADDISCUS_BOARD_NOTIFY_SUBJECT', '[{X_SITENAME}] {X_MODULE} 指定的討論區下有新的討論');
 define('_MI_TADDISCUS_SPAM_KEYWORD', '控管詞彙');
 define('_MI_TADDISCUS_SPAM_KEYWORD_DESC', '將不希望出現在討論區裡的關鍵字列出，以便搜尋或防治（請用,隔開）');
-define('_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT', '交友,兼差,援交,叫妹,約茶,愛愛,好濕,胸圍,快速賺錢,網約,做愛,寫真,一夜情,約妹,叫小姐,身材,狂歡,外約,學生妹,送茶,肉棒,馬眼,口爆,顏射,小穴穴,品茶,美眉,美 眉,小模,情人,淫窖,激情,性福,美少女,大奶,好茶,雞排,茶,外送,茶坊,兼職,加盟,在家網路創業,拆裝潢,到府估價,抓漏,正妹,援/交,女/人,外/送');
+define('_MI_TADDISCUS_SPAM_KEYWORD_DEFAULT', '交友,兼差,援交,叫妹,約茶,愛愛,好濕,胸圍,快速賺錢,網約,做愛,寫真,一夜情,約妹,叫小姐,身材,狂歡,外送,茶坊,兼職,加盟,在家網路創業,拆裝潢,到府估價,抓漏,正妹,援/交,女/人,外/送,找女人,外/約,喝/茶,全套服務,tea3321,不要在能吃苦的年紀選擇了安逸,腿妹,深喉嚨,吞精,無套,內射,口爆,童顏,口交,潮吹,乳,約*妹,奶頭,鮑魚,黑暗林志玲,幼 齒,紅 牌, 正 咩, 私 房 菜, 高 挑,麻 豆,學 生 咩,多 多 網,ns6688,3p66888,jk5822,正 咩,大屌,摳逼,全裸,小穴,抽插,陰脣,溫柔鄉,DOTA,卡其丸,+/籟,左/營,/小/姐,西門町,/外/約,選妃,高 雄,約 砲,喝 茶,全 套 服 務,酒 店,柒柒,伽籟,人妻,大奶,Manaloplay,大老2,坎波斯,百家樂,大樂透,抓牌軟體,投注,娛樂城,天九牌,理財,+藾,大 奶,處 女,學 生 妹,美 魔 女,奶 水,人 妻,空 姐,模 特,敢 玩,無 套,絲 襪,色 群,自 慰 ,外匯,籃網,甜 美,可 愛,清 純,高 挑,校 花,氣 質,蘿 莉,老 師,笳 癩,甜 美 系,粉 色,小 袕,水 嫩,緊 致,會 流 水,俏 皮,初 戀,女 友,+賴,口 爆,重 口 味,熟 女,媽 媽,白 虎,爆 乳,性 感,加賴,小騷女,閨蜜,日本藤素,美國黑金,必利勁,汗馬糖,生精片,瑪卡,奇力片,威馬,黃秋葵牡蠣膠囊,保羅V8,德國必邦,必利吉,威而鋼,犀利士,樂威壯,希愛力,威格拉,德國紅魔,威而柔,艾力達,藍P,卡瑪,增大膠囊,永春糖,東革阿里咖啡,一炮到天亮,六合彩,老虎機,電子遊戲,寂寞空虛,高雄美女,找茶,叫雞,酒店,紅牌,找小姐,交際,服務賴,茶訊,茶莊,喝茶,欲火焚身,高檔茶,優質茶,叫茶,行貨,粉嫩,粉 嫩,按摩,舒壓,小仙女,防盗门,FreightAmigo,beebus,失控玩家,pvod.net,小鸭影音,inzdrama,backlinks.hk,myflowershop.com.hk,反向連結,冥想,健身教練,健身房, Chu Kevin');
 define('_MI_TADDISCUS_DISPLAY_FAST_SETUP', '在即時留言簿啟用快速新增討論區功能');
 define('_MI_TADDISCUS_DISPLAY_FAST_SETUP_DESC', '此功能僅管理員可見，可供管理員快速新增討論區及新增自動轉向設定');
 define('_MI_TADDISCUS_DISPLAY_NUMBER', '討論區首頁顯示留言數');
@@ -51,5 +51,5 @@ define('_MI_TADDISCUS_SIG_STYLE_DESC', '可以自行用CSS語法調整簽名樣�
 define('_MI_TADDISCUS_SHOW_LIKE', '顯示按讚按鈕');
 define('_MI_TADDISCUS_SHOW_LIKE_DESC', '可設定是否顯示每篇文章按讚的工具');
 
-define('_MI_TADDISCUS_DEF_EDITOR', '預設編輯器');
-define('_MI_TADDISCUS_DEF_EDITOR_DESC', '設定使用的編輯器');
+define('_MI_TADDISCUS_BAD_GROUP', '選擇封鎖用的群組');
+define('_MI_TADDISCUS_BAD_GROUP_DESC', '可以建立一個無任何權限的群組，以封鎖濫發廣告信的使用者');

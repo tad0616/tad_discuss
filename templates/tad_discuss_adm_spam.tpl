@@ -104,7 +104,14 @@
               <{$spam.DiscussDate}>
             </td>
             <td>
-              <{$spam.uid_name}>
+              <{if $spam.bad_group}>
+                <span style="color:red"><i class="fa fa-ban" aria-hidden="true"></i>
+                <{$spam.uid_name}></span>
+              <{elseif $bad_group_id > 3}>
+                <a href="spam.php?op=bad_group&bad_group_uid=<{$spam.uid}>" target="_blank"><{$spam.uid_name}></a>
+              <{else}>
+                  <{$spam.uid_name}>
+              <{/if}>
             </td>
             <td>
               <{$spam.Counter}>

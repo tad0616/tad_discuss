@@ -4,12 +4,7 @@
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
 <{/if}>
 <link rel="stylesheet" type="text/css" media="screen" href="reset.css">
-<{if $def_editor!="CKEditor"}>
-    <script type="text/javascript" src="class/nicEdit.js"></script>
-    <script type="text/javascript">
-        bkLib.onDomLoaded(function() { new nicEditor({fullPanel : true, iconsPath : 'class/nicEditorIcons.gif'}).panelInstance('DiscussContent') });
-    </script>
-<{/if}>
+
 <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
 
 <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">

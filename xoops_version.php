@@ -225,13 +225,11 @@ $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '1';
 
 $i++;
-$modversion['config'][$i]['name'] = 'def_editor';
-$modversion['config'][$i]['title'] = '_MI_TADDISCUS_DEF_EDITOR';
-$modversion['config'][$i]['description'] = '_MI_TADDISCUS_DEF_EDITOR_DESC';
-$modversion['config'][$i]['formtype'] = 'select';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = 'nicEditor';
-$modversion['config'][$i]['options'] = ['nicEditor' => 'nicEditor', 'CKEditor' => 'CKEditor'];
+$modversion['config'][$i]['name'] = 'bad_group';
+$modversion['config'][$i]['title'] = '_MI_TADDISCUS_BAD_GROUP';
+$modversion['config'][$i]['description'] = '_MI_TADDISCUS_BAD_GROUP_DESC';
+$modversion['config'][$i]['formtype'] = 'group';
+$modversion['config'][$i]['valuetype'] = 'int';
 
 //---模組通知設定---//
 $modversion['hasNotification'] = 1;

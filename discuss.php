@@ -16,7 +16,7 @@ $TadUpFiles = new TadUpFiles('tad_discuss');
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '', $dir = 'left', $mode = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
+    global $xoopsUser, $xoopsModuleConfig, $xoopsModule, $xoopsTpl, $TadUpFiles;
 
     if (empty($BoardID)) {
         return;
@@ -392,10 +392,8 @@ function show_one_tad_discuss($DefDiscussID = '')
         $i++;
     }
 
-    //if($xoopsUser){
     $dir = $i % 2 ? 'left' : 'right';
     $form_data = tad_discuss_form($discuss['BoardID'], '', $DefDiscussID, $dir, 'return');
-    //}
 
     $onlyToName = getOnlyToName($onlyTo1);
     $discuss['DiscussTitle'] = isPublic($onlyTo1, $uid, $discuss['BoardID']) ? $discuss['DiscussTitle'] : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);

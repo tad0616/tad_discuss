@@ -5,10 +5,6 @@
 // $Id:$
 // ------------------------------------------------------------------------- //
 xoops_loadLanguage('admin_common', 'tadtools');
-if (!defined('_TAD_NEED_TADTOOLS')) {
-define('_TAD_NEED_TADTOOLS', "This module needs TadTools module. You can download TadTools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
-}
-
 define('_MA_TADDISCUS_BOARDID', 'Forum ID');
 define('_MA_TADDISCUS_BOARDTITLE', 'Forum Title');
 define('_MA_TADDISCUS_BOARDDESC', 'Forum Description');

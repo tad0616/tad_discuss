@@ -8,6 +8,33 @@ $GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copycbox.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+
+switch ($op) {
+
+    case 'copycbox':
+        $BoardID = copycbox();
+        header("location: ../discuss.php?BoardID={$BoardID}");
+        exit;
+
+    case 'forceUpdate':
+        copycbox($BoardID);
+        header("location: ../discuss.php?BoardID={$BoardID}");
+        exit;
+
+    //預設動作
+    default:
+        list_cbox();
+        break;
+
+}
+
+/*-----------秀出結果區--------------*/
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 
 //列出所有tad_discuss_board資料
@@ -162,31 +189,3 @@ function copycbox($BoardID = '')
 
     return $BoardID;
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$BoardID = Request::getInt('BoardID');
-$DiscussID = Request::getInt('DiscussID');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-
-    case 'copycbox':
-        $BoardID = copycbox();
-        header("location: ../discuss.php?BoardID={$BoardID}");
-        exit;
-
-    case 'forceUpdate':
-        copycbox($BoardID);
-        header("location: ../discuss.php?BoardID={$BoardID}");
-        exit;
-
-    //預設動作
-    default:
-        list_cbox();
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-require_once __DIR__ . '/footer.php';

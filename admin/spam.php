@@ -8,6 +8,44 @@ require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
 $TadUpFiles = new TadUpFiles('tad_discuss');
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$bad_group_uid = Request::getInt('bad_group_uid');
+
+switch ($op) {
+
+    case 'bad_group':
+        bad_group($bad_group_uid);
+        header("location:" . XOOPS_URL . "/modules/system/admin.php?fct=users&op=users_edit&uid=$bad_group_uid");
+        exit;
+
+    case 'search_spam':
+        list_spam();
+        search_spam();
+        break;
+
+    case 'del_spam':
+        del_spam();
+        header("location:{$_SERVER['PHP_SELF']}");
+        exit;
+
+    case 'update_config':
+        update_config($_POST['item']);
+        break;
+
+    //預設動作
+    default:
+        list_spam();
+        break;
+
+}
+
+/*-----------秀出結果區--------------*/
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 
 //列出所有垃圾留言
@@ -156,41 +194,3 @@ function bad_group($bad_group_uid)
     $sql = "insert into `" . $xoopsDB->prefix('groups_users_link') . "` (`groupid`, `uid`) values('$bad_group_id','$bad_group_uid')";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$BoardID = Request::getInt('BoardID');
-$DiscussID = Request::getInt('DiscussID');
-$bad_group_uid = Request::getInt('bad_group_uid');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-
-    case 'bad_group':
-        bad_group($bad_group_uid);
-        header("location:" . XOOPS_URL . "/modules/system/admin.php?fct=users&op=users_edit&uid=$bad_group_uid");
-        exit;
-
-    case 'search_spam':
-        list_spam();
-        search_spam();
-        break;
-
-    case 'del_spam':
-        del_spam();
-        header("location:{$_SERVER['PHP_SELF']}");
-        exit;
-
-    case 'update_config':
-        update_config($_POST['item']);
-        break;
-
-    //預設動作
-    default:
-        list_spam();
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-require_once __DIR__ . '/footer.php';

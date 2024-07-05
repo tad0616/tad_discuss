@@ -3,8 +3,8 @@
 
 <{if $op=="tad_discuss_form"}>
 
-  <{foreach item=discuss from=$form_data}>
-    <{includeq file="db:tad_discuss_form.tpl"}>
+  <{foreach from=$form_data item=discuss}>
+    <{include file="db:tad_discuss_form.tpl"}>
   <{/foreach}>
 
 <{elseif $op=="show_one_tad_discuss"}>
@@ -15,17 +15,17 @@
   <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
   <{/if}>
-  <{foreach item=discuss from=$discuss_data}>
+  <{foreach from=$discuss_data item=discuss}>
     <{if $display_mode=="top" || $display_mode=="bottom"}>
-      <{includeq file="db:tad_discuss_talk_bubble_vertical.tpl"}>
+      <{include file="db:tad_discuss_talk_bubble_vertical.tpl"}>
     <{elseif $display_mode=="mobile"}>
-      <{includeq file="db:tad_discuss_mobile.tpl"}>
+      <{include file="db:tad_discuss_mobile.tpl"}>
     <{elseif $display_mode=="clean"}>
-      <{includeq file="db:tad_discuss_clean.tpl"}>
+      <{include file="db:tad_discuss_clean.tpl"}>
     <{elseif $display_mode=="default" || $display_mode=="left"}>
-      <{includeq file="db:tad_discuss_talk_bubble.tpl"}>
+      <{include file="db:tad_discuss_talk_bubble.tpl"}>
     <{else}>
-      <{includeq file="db:tad_discuss_bootstrap.tpl"}>
+      <{include file="db:tad_discuss_bootstrap.tpl"}>
     <{/if}>
   <{/foreach}>
 
@@ -40,15 +40,15 @@
   <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
     <{foreach item=discuss from=$form_data}>
       <{if $display_mode=="top" || $display_mode=="bottom"}>
-        <{includeq file="db:tad_discuss_talk_bubble_vertical.tpl"}>
+        <{include file="db:tad_discuss_talk_bubble_vertical.tpl"}>
       <{elseif $display_mode=="mobile"}>
-        <{includeq file="db:tad_discuss_mobile.tpl"}>
+        <{include file="db:tad_discuss_mobile.tpl"}>
       <{elseif $display_mode=="clean"}>
-        <{includeq file="db:tad_discuss_clean.tpl"}>
+        <{include file="db:tad_discuss_clean.tpl"}>
       <{elseif $display_mode=="default" || $display_mode=="left"}>
-        <{includeq file="db:tad_discuss_talk_bubble.tpl"}>
+        <{include file="db:tad_discuss_talk_bubble.tpl"}>
       <{else}>
-        <{includeq file="db:tad_discuss_bootstrap.tpl"}>
+        <{include file="db:tad_discuss_bootstrap.tpl"}>
       <{/if}>
     <{/foreach}>
   </form>
@@ -105,12 +105,12 @@
 	</div>
   <{$bar}>
 <{else}>
-  <h2><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></h2>
+  <h2><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></h2>
   <div class="jumbotron">
     <{if $smarty.session.tad_discuss_adm}>
-      <a href="admin/main.php?op=tad_discuss_board_form"><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></a>
+      <a href="discuss.php?op=tad_discuss_form&BoardID=<{$smarty.get.BoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
     <{else}>
-      <{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}>
+      <{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}>
     <{/if}>
   </div>
 <{/if}>

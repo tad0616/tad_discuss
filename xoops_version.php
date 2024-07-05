@@ -3,7 +3,8 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADDISCUS_NAME;
-$modversion['version'] = '2.58';
+$modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '3.0.0-Stable' : '3.0';
+// $modversion['version'] = '2.58';
 $modversion['description'] = _MI_TADDISCUS_DESC;
 $modversion['author'] = _MI_TADDISCUS_AUTHOR;
 $modversion['credits'] = 'geek01';
@@ -167,14 +168,6 @@ $modversion['config'][$i]['description'] = '_MI_TADDISCUS_SHOW_BUBBLE_AMOUNT_DES
 $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '20';
-
-$i++;
-$modversion['config'][$i]['name'] = 'use_pda';
-$modversion['config'][$i]['title'] = '_MI_USE_PDA_TITLE';
-$modversion['config'][$i]['description'] = '_MI_USE_PDA_TITLE_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '1';
 
 $i++;
 $modversion['config'][$i]['name'] = 'spam_keyword';

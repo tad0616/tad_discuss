@@ -6,6 +6,52 @@ $GLOBALS['xoopsOption']['template_main'] = 'tad_discuss_adm_copynewbb.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
+/*-----------執行動作判斷區----------*/
+$op = empty($_REQUEST['op']) ? '' : $_REQUEST['op'];
+$DiscussID = empty($_REQUEST['DiscussID']) ? '' : (int) $_REQUEST['DiscussID'];
+$BoardID = empty($_REQUEST['BoardID']) ? '' : (int) $_REQUEST['BoardID'];
+$topic_id = empty($_REQUEST['topic_id']) ? '' : (int) $_REQUEST['topic_id'];
+
+switch ($op) {
+
+    case 'copyBoard':
+        copyBoard($BoardID);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+        break;
+    case 'listBoard':
+        listBoard($BoardID);
+        break;
+    case 'delnewbb':
+        delnewbb($topic_id);
+        header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
+        exit;
+        break;
+    case 'copyDiscuss':
+        copyDiscuss($BoardID, $_POST['mode']);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+        break;
+    case 'powerSet':
+        powerSet($BoardID);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+        break;
+    case 'batch_del':
+        batch_del($_POST['batch_del']);
+        header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
+        exit;
+
+    //預設動作
+    default:
+        list_newbb();
+        break;
+
+}
+
+/*-----------秀出結果區--------------*/
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 
 //列出所有tad_discuss_board資料
@@ -299,50 +345,3 @@ function powerSet($BoardID = '')
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
-
-/*-----------執行動作判斷區----------*/
-$op = empty($_REQUEST['op']) ? '' : $_REQUEST['op'];
-$DiscussID = empty($_REQUEST['DiscussID']) ? '' : (int) $_REQUEST['DiscussID'];
-$BoardID = empty($_REQUEST['BoardID']) ? '' : (int) $_REQUEST['BoardID'];
-$topic_id = empty($_REQUEST['topic_id']) ? '' : (int) $_REQUEST['topic_id'];
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-
-    case 'copyBoard':
-        copyBoard($BoardID);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-        break;
-    case 'listBoard':
-        listBoard($BoardID);
-        break;
-    case 'delnewbb':
-        delnewbb($topic_id);
-        header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
-        exit;
-        break;
-    case 'copyDiscuss':
-        copyDiscuss($BoardID, $_POST['mode']);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-        break;
-    case 'powerSet':
-        powerSet($BoardID);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-        break;
-    case 'batch_del':
-        batch_del($_POST['batch_del']);
-        header("location: {$_SERVER['PHP_SELF']}?op=listBoard&BoardID=$BoardID");
-        exit;
-
-    //預設動作
-    default:
-        list_newbb();
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-require_once __DIR__ . '/footer.php';

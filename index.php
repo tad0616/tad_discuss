@@ -8,6 +8,24 @@ require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_discuss_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$BoardID = Request::getInt('BoardID');
+$DiscussID = Request::getInt('DiscussID');
+$files_sn = Request::getInt('files_sn');
+
+switch ($op) {
+    default:
+        list_tad_discuss_board(0);
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------function區--------------*/
 
 //列出所有tad_discuss_board資料
@@ -19,13 +37,8 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
-    if ($xoopsUser) {
-        $uid = $xoopsUser->uid();
-        $groups = $xoopsUser->getGroups();
-    } else {
-        $uid = 0;
-        $groups = XOOPS_GROUP_ANONYMOUS;
-    }
+    $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+
     $gpermHandler = xoops_getHandler('groupperm');
 
     $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
@@ -136,21 +149,3 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
 
     return $main_data;
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$BoardID = Request::getInt('BoardID');
-$DiscussID = Request::getInt('DiscussID');
-$files_sn = Request::getInt('files_sn');
-
-switch ($op) {
-    default:
-        list_tad_discuss_board(0);
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
-require_once XOOPS_ROOT_PATH . '/footer.php';

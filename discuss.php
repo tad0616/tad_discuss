@@ -2,6 +2,7 @@
 use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
@@ -132,7 +133,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     }
 
     $ck = new CkEditor('tad_discuss', 'DiscussContent', $DiscussContent);
-    $ck->setToolbarSet('mySimple');
+    // $ck->setToolbarSet('mySimple');
     $ck->setHeight(250);
     $editor = $ck->render();
 
@@ -288,6 +289,9 @@ function show_one_tad_discuss($DefDiscussID = '')
 
     add_tad_discuss_counter($DefDiscussID);
 
+    //高亮度語法
+    $SyntaxHighlighter = new SyntaxHighlighter();
+    $SyntaxHighlighter->render();
     $js = "
     <script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/jqueryCookie/jquery.cookie.js'></script>
     <link rel='stylesheet' type='text/css' media='screen' href='reset.css'>
@@ -587,7 +591,6 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 if ($xoopsUser) {
     $xoopsTpl->assign('now_uid', $xoopsUser->uid());
 } else {

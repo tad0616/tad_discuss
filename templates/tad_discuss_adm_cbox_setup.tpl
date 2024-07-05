@@ -1,4 +1,3 @@
-<link href="<{$xoops_url}>/modules/tadtools/css/font-awesome/css/font-awesome.css" rel="stylesheet">
 <div class="container-fluid">
   <{if $now_op=="tad_discuss_cbox_setup_form"}>
     <h3><{$smarty.const._MA_TADDISCUS_RULE_SETUP}></h3>
@@ -31,8 +30,8 @@
         <div class="col-sm-2">
           <select name="BoardID" class="form-control" size=1>
             <option value="" <{if $BoardID == ""}>selected="selected"<{/if}>></option>
-            <{foreach from=$option item=option}>
-              <option value="<{$option.BoardID}>" <{if $BoardID == $option.BoardID}>selected="selected"<{/if}>><{$option.BoardTitle}></option>
+            <{foreach from=$option item=data}>
+              <option value="<{$data.BoardID}>" <{if $BoardID == $data.BoardID}>selected="selected"<{/if}>><{$data.BoardTitle}></option>
             <{/foreach}>
           </select>
         </div>

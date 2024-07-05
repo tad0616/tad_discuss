@@ -1,4 +1,3 @@
-<link href="<{$xoops_url}>/modules/tadtools/css/font-awesome/css/font-awesome.css" rel="stylesheet">
 <div class="container-fluid">
   <{if $now_op=='list_spam' or $now_op=='search_spam'}>
     <{$jquery}>

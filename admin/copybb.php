@@ -307,7 +307,6 @@ $DiscussID = Request::getInt('DiscussID');
 $topic_id = Request::getInt('topic_id');
 
 switch ($op) {
-    /*---判斷動作請貼在下方---*/
 
     case 'copyBoard':
         copyBoard($BoardID);
@@ -342,7 +341,7 @@ switch ($op) {
     default:
         list_xforum();
         break;
-        /*---判斷動作請貼在上方---*/
+
 }
 
 /*-----------秀出結果區--------------*/

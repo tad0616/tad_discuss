@@ -66,7 +66,6 @@ $forum_post = $formi->render();
 
 $xoopsTpl->assign('forum_read', $forum_read);
 $xoopsTpl->assign('forum_post', $forum_post);
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 
 /*-----------秀出結果區--------------*/
 require_once __DIR__ . '/footer.php';

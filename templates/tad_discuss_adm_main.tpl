@@ -1,4 +1,4 @@
-<link href="<{$xoops_url}>/modules/tadtools/css/font-awesome/css/font-awesome.css" rel="stylesheet">
+
 <div class="container-fluid">
   <{if $op=="tad_discuss_board_form"}>
   <h1><{$smarty.const._MA_TAD_DISCUSS_BOARD_FORM}></h1>
@@ -26,7 +26,7 @@
           <!--狀態-->
           <div class="form-check-inline radio-inline">
               <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="BoardEnable" value="1" <{if $BoardEnable=='1'}>checked<{/if}>>
+                  <input class="form-check-input" type="radio" name="BoardEnable" value="1" <{if $BoardEnable!='0'}>checked<{/if}>>
                   <{$smarty.const._TAD_ENABLE}>
               </label>
           </div>
@@ -100,7 +100,7 @@
         </tr>
 
         <tbody id="sort">
-          <{foreach item=all from=$all_content}>
+          <{foreach from=$all_content item=all}>
           <tr id="tr_<{$all.BoardID}>" style="background-color:<{$all.color}>;">
             <td>
               <img src="<{$all.pic}>" alt="<{$all.BoardTitle}>" title="<{$all.BoardTitle}>" class="img-thumbnail" width="120">

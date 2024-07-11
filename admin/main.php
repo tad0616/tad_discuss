@@ -194,8 +194,8 @@ function update_tad_discuss_board($BoardID = '')
     global $xoopsDB, $TadUpFiles;
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['BoardDesc'] = $myts->addSlashes($_POST['BoardDesc']);
-    $_POST['BoardTitle'] = $myts->addSlashes($_POST['BoardTitle']);
+    $_POST['BoardDesc'] = $xoopsDB->escape($_POST['BoardDesc']);
+    $_POST['BoardTitle'] = $xoopsDB->escape($_POST['BoardTitle']);
 
     $BoardManager = is_array($_POST['BoardManager']) ? implode(',', $_POST['BoardManager']) : $_POST['BoardManager'];
 

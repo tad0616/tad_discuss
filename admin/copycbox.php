@@ -158,10 +158,10 @@ function copycbox($BoardID = '')
         $DiscussTitle = xoops_substr($msg, 0, 60);
 
         $uid = get_uid_from_uname($publisher);
-        $DiscussTitle = $myts->addSlashes($DiscussTitle);
-        $msg = $myts->addSlashes($msg);
+        $DiscussTitle = $xoopsDB->escape($DiscussTitle);
+        $msg = $xoopsDB->escape($msg);
         $msg = Wcag::amend($msg);
-        $root_msg = $myts->addSlashes($root_msg);
+        $root_msg = $xoopsDB->escape($root_msg);
         $root_msg = Wcag::amend($root_msg);
 
         $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss') . " ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES(0 , '{$uid}', '$publisher' , '{$DiscussTitle}' , '{$msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' ,'{$onlyTo}')";

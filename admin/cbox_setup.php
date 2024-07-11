@@ -128,8 +128,8 @@ function update_tad_discuss_cbox_setup($setupID = '')
     $uid = ($xoopsUser) ? $xoopsUser->uid() : '';
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['setupName'] = $myts->addSlashes($_POST['setupName']);
-    $_POST['setupRule'] = $myts->addSlashes($_POST['setupRule']);
+    $_POST['setupName'] = $xoopsDB->escape($_POST['setupName']);
+    $_POST['setupRule'] = $xoopsDB->escape($_POST['setupRule']);
 
     $sql = 'update `' . $xoopsDB->prefix('tad_discuss_cbox_setup') . "` set
     `setupName` = '{$_POST['setupName']}' ,

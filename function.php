@@ -113,8 +113,8 @@ function insert_tad_discuss_board($BoardTitle = '')
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
     $myts = \MyTextSanitizer::getInstance();
-    $BoardTitle = $myts->addSlashes($BoardTitle);
-    $BoardDesc = $myts->addSlashes($_POST['BoardDesc']);
+    $BoardTitle = $xoopsDB->escape($BoardTitle);
+    $BoardDesc = $xoopsDB->escape($_POST['BoardDesc']);
 
     $BoardManager = is_array($_POST['BoardManager']) ? implode(',', $_POST['BoardManager']) : $_POST['BoardManager'];
     if (empty($BoardManager)) {
@@ -153,9 +153,9 @@ function insert_tad_discuss_cbox_setup($setupName = '', $setupRule = '', $newBor
     $uid = ($xoopsUser) ? $xoopsUser->uid() : '';
 
     $myts = \MyTextSanitizer::getInstance();
-    $setupName = $myts->addSlashes($setupName);
-    $setupRule = $myts->addSlashes($setupRule);
-    $newBorard = $myts->addSlashes($newBorard);
+    $setupName = $xoopsDB->escape($setupName);
+    $setupRule = $xoopsDB->escape($setupRule);
+    $newBorard = $xoopsDB->escape($newBorard);
 
     if (!empty($newBorard)) {
         $BoardID = insert_tad_discuss_board($newBorard);
@@ -513,7 +513,7 @@ function insert_tad_discuss($nl2br = false)
     $uid = ($xoopsUser) ? $xoopsUser->uid() : (int) $_POST['uid'];
 
     $myts = \MyTextSanitizer::getInstance();
-    //$_POST['DiscussContent']=$myts->addSlashes($_POST['DiscussContent']);
+    //$_POST['DiscussContent']=$xoopsDB->escape($_POST['DiscussContent']);
 
     if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $myip = $_SERVER['REMOTE_ADDR'];
@@ -525,12 +525,12 @@ function insert_tad_discuss($nl2br = false)
     $ReDiscussID = isset($_POST['ReDiscussID']) ? (int) $_POST['ReDiscussID'] : 0;
     //$now=date('Y-m-d H:i:s',xoops_getUserTimestamp(time()));
     $Discuss = get_tad_discuss($ReDiscussID);
-    $DiscussTitle = empty($_POST['DiscussTitle']) ? 'RE:' . $Discuss['DiscussTitle'] : $myts->addSlashes($_POST['DiscussTitle']);
-    $DiscussTitle = $myts->addSlashes($DiscussTitle);
-    $publisher = $myts->addSlashes($_POST['publisher']);
+    $DiscussTitle = empty($_POST['DiscussTitle']) ? 'RE:' . $Discuss['DiscussTitle'] : $xoopsDB->escape($_POST['DiscussTitle']);
+    $DiscussTitle = $xoopsDB->escape($DiscussTitle);
+    $publisher = $xoopsDB->escape($_POST['publisher']);
     $BoardID = (int) $_POST['BoardID'];
 
-    $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
+    $DiscussContent = $xoopsDB->escape($_POST['DiscussContent']);
     $DiscussContent = Wcag::amend($DiscussContent);
     if ($nl2br) {
         $DiscussContent = nl2br($DiscussContent);

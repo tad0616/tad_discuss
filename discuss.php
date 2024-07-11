@@ -432,8 +432,8 @@ function update_tad_discuss($DiscussID = '')
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
     $myts = \MyTextSanitizer::getInstance();
-    $DiscussTitle = $myts->addSlashes($_POST['DiscussTitle']);
-    $DiscussContent = $myts->addSlashes($_POST['DiscussContent']);
+    $DiscussTitle = $xoopsDB->escape($_POST['DiscussTitle']);
+    $DiscussContent = $xoopsDB->escape($_POST['DiscussContent']);
     $DiscussContent = Wcag::amend($DiscussContent);
 
     if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {

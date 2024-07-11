@@ -161,8 +161,8 @@ function copyBoard($BoardID = '')
     $BoardManager = implode(',', $cols[1]);
 
     $myts = \MyTextSanitizer::getInstance();
-    $forum_desc = $myts->addSlashes($forum_desc);
-    $forum_name = $myts->addSlashes($forum_name);
+    $forum_desc = $xoopsDB->escape($forum_desc);
+    $forum_name = $xoopsDB->escape($forum_name);
 
     $sql = 'replace into `' . $xoopsDB->prefix('tad_discuss_board') . "`
     (`BoardID`, `ofBoardID` ,`BoardTitle` , `BoardDesc` , `BoardManager` , `BoardSort` , `BoardEnable`)

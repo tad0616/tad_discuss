@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <{if $show_error=='1'}>
   <{$error}>
-    <div class="jumbotron">
+    <div class="jumbotron bg-light p-5 rounded-lg m-3">
       <h1><{$smarty.const._MA_TADDISCUS_NO_NEWBB}></h1>
     </div>
   <{elseif $op=='listBoard'}>

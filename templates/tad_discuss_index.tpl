@@ -93,7 +93,7 @@
   </table>
 <{else}>
 
-  <div class="jumbotron">
+  <div class="jumbotron bg-light p-5 rounded-lg m-3">
     <a href="admin/main.php?op=tad_discuss_board_form"><{$smarty.const._MD_TADDISCUS_BOARD_EMPTY}></a>
   </div>
 

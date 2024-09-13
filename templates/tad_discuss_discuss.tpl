@@ -106,7 +106,7 @@
   <{$bar}>
 <{else}>
   <h2><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></h2>
-  <div class="jumbotron">
+  <div class="jumbotron bg-light p-5 rounded-lg m-3">
     <{if $smarty.session.tad_discuss_adm}>
       <a href="discuss.php?op=tad_discuss_form&BoardID=<{$smarty.get.BoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
     <{else}>

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <{if $show_error=='1'}>
-    <div class="jumbotron">
+    <div class="jumbotron bg-light p-5 rounded-lg m-3">
       <h1><{$msg}></h1>
       <{$other_msg}>
     </div>

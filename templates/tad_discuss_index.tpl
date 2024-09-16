@@ -1,6 +1,6 @@
 <{$toolbar}>
 <h2 class="sr-only visually-hidden">All Discuss</h2>
-<{if $all_content}>
+<{if $all_content|default:false}>
   <{$FooTableJS}>
   <table class="table table-hover">
   <thead>
@@ -19,7 +19,7 @@
           <div style="width:90px;height:60px;background: transparent url(<{$bb.pic}>) no-repeat center top;-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;position:relative;float:right;background-size: contain;" alt="<{$bb.BoardTitle}>" title="<{$bb.BoardTitle}>"></div>
         </td>
         <td headers="discuss_BoardImg" colspan=4>
-          <{if $bb.post}>
+          <{if $bb.post|default:false}>
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$bb.BoardID}>" style="float:right;" class="btn btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
           <{/if}>
           <a href="discuss.php?BoardID=<{$bb.BoardID}>" style="font-size:130%"><{$bb.BoardTitle}></a> <{$bb.fun}>
@@ -28,7 +28,7 @@
           </div>
         </td>
       </tr>
-      <{if $bb.list_tad_discuss}>
+      <{if $bb.list_tad_discuss|default:false}>
         <{foreach item=discuss from=$bb.list_tad_discuss}>
           <tr>
             <td headers="discuss_BoardTitle"></td>
@@ -57,7 +57,7 @@
       <{/if}>
 
       <!--子分類-->
-      <{if $bb.subBoard}>
+      <{if $bb.subBoard|default:false}>
         <{foreach item=subBoard from=$bb.subBoard}>
           <tr style="background-color:#f9f9f9;">
             <td headers="discuss_BoardTitle" style="vertical-align:top;width:100px;">
@@ -65,7 +65,7 @@
             </td>
             <td headers="discuss_BoardImg" colspan=4>
 
-              <{if $subBoard.post}>
+              <{if $subBoard.post|default:false}>
                 <a href="discuss.php?op=tad_discuss_form&BoardID=<{$subBoard.BoardID}>" style="float:right;" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}></a>
               <{/if}>
               <div style="margin:10px auto;font-size: 75%;">
@@ -74,7 +74,7 @@
               </div>
             </td>
           </tr>
-          <{if $subBoard.list_tad_discuss}>
+          <{if $subBoard.list_tad_discuss|default:false}>
             <{foreach item=discuss from=$subBoard.list_tad_discuss}>
               <tr>
                 <td headers="discuss_BoardTitle"></td>

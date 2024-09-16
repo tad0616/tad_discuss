@@ -55,7 +55,7 @@
 
 
   <!--列出所有資料-->
-  <{if $all_content}>
+  <{if $all_content|default:false}>
 
     <{$jquery}>
     <script type="text/javascript">

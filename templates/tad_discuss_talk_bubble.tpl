@@ -6,14 +6,14 @@
 
 </div>
 <div style="margin-<{$discuss.dir}>:110px;">
-  <div class="triangle-border talk <{$discuss.dir}>" style="line-height:150%;background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;">
+  <div class="triangle-border talk <{$discuss.dir}>" style="line-height:150%;background-color:<{if $discuss.onlyTo|default:false}>#FEEDD3<{else}>white<{/if}>;">
   <br>
   <{$discuss.DiscussContent}>
   <{$discuss.files}>
   <span style="width:96%;display:block;margin:10px auto 0px;padding:2px 8px;font-size: 75%;color:silver;text-align:right;">
 
-    <{if $discuss.DiscussID}>
-      <{if $discuss.onlyTo}>
+    <{if $discuss.DiscussID|default:false}>
+      <{if $discuss.onlyTo|default:false}>
         <{if $smarty.session.tad_discuss_adm or $now_uid==$discuss.uid}>
           <a href="discuss.php?op=unlock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID}>" title="<{$smarty.const._MD_TADDISCUS_LOCK}>"><img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_LOCK}>"></a>
         <{else}>
@@ -29,14 +29,14 @@
 
 
 
-    <{if $discuss.fun}>
+    <{if $discuss.fun|default:false}>
     	<a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a> |
     	<a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>
     <{/if}>
 
     <{$discuss.DiscussDate}>
 
-    <{if $discuss.like}>
+    <{if $discuss.like|default:false}>
       <div style="float:right;color:#B0B0B0;border:1px solid gray;padding:2px 6px;margin:0px 6px;">
       <span id="unlike<{$discuss.DiscussID}>" style="color:#FF6600"><{$discuss.Bad}></span>
       <img src="images/unlike.png" alt="unlike" align="absmiddle" onClick="like('unlike',<{$discuss.DiscussID}>);"> |
@@ -47,7 +47,7 @@
   <span style="clean:both;display:block;"></span>
 
     <{if $discuss.show_sig and $discuss.user_sig}>
-      <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;<{/if}>">
+      <div style="<{if $discuss.sig_style|default:false}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding: 10px 0px; margin: 10px 0xp;<{/if}>">
         <{$discuss.user_sig}>
       </div>
     <{/if}>

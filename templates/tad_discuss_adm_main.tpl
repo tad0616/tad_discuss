@@ -86,7 +86,7 @@
     }
     </script>
 
-    <{if $all_content}>
+    <{if $all_content|default:false}>
 
       <div id="save_msg"></div>
 
@@ -148,7 +148,7 @@
           </tr>
 
           <!--子分類-->
-          <{if $all.subBoard}>
+          <{if $all.subBoard|default:false}>
             <{foreach item=sb from=$all.subBoard}>
               <tr id="tr_<{$sb.BoardID}>" style="background-color:<{$sb.color}>;">
                 <td>

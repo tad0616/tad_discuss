@@ -1,4 +1,4 @@
-<{if $BoardTitle}>
+<{if $BoardTitle|default:false}>
     <h2><{$BoardTitle}></h2>
 <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>

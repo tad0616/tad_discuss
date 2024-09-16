@@ -103,7 +103,7 @@
               <{$spam.DiscussDate}>
             </td>
             <td>
-              <{if $spam.bad_group}>
+              <{if $spam.bad_group|default:false}>
                 <span style="color:red"><i class="fa fa-ban" aria-hidden="true"></i>
                 <{$spam.uid_name}></span>
               <{elseif $bad_group_id > 3}>

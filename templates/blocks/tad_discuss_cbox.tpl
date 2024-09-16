@@ -1,4 +1,4 @@
-<{if $block}>
+<{if $block|default:false}>
     <{$block.jquery_path}>
     <{$block.SelectBoard}>
 
@@ -8,7 +8,7 @@
             <br>
 
             <iframe title="discuss form" frameborder="0" title="post" width="100%" height="190" src="<{$xoops_url}>/modules/tad_discuss/post.php?BoardID=<{$block.BoardID}><{if $block.BoardID==0}>&setupRule=<{$block.setupRule}><{/if}>" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="discussCboxForm" style="border:#ababab 1px solid;border-top:0px" id="discussCboxForm"></iframe>
-            <{if $block.BoardID}>
+            <{if $block.BoardID|default:false}>
                 <p><a href="<{$xoops_url}>/modules/tad_discuss/discuss.php?BoardID=<{$block.BoardID}>"><{$snarty.const._MB_TADDISCUS_CBOX_VIEW_ALL}></a></p>
             <{/if}>
         </div>

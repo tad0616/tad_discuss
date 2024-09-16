@@ -10,7 +10,7 @@
 <{elseif $op=="show_one_tad_discuss"}>
   <{$js}>
   <span class="badge badge-info"><a href="discuss.php?BoardID=<{$BoardID}>" style="color:white;"><{$BoardTitle}></a></span>
-  <{if $DiscussTitle}>
+  <{if $DiscussTitle|default:false}>
     <h2><{$DiscussTitle}></h2>
   <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
@@ -54,7 +54,7 @@
   </form>
 
 <{elseif $main_data}>
-  <{if $ShowBoardTitle}>
+  <{if $ShowBoardTitle|default:false}>
     <h2><{$ShowBoardTitle}></h2>
   <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
@@ -74,11 +74,11 @@
 
   	<tbody>
 
-    <{if $main_data}>
+    <{if $main_data|default:false}>
       <{foreach item=discuss from=$main_data}>
         <tr>
       		<td headers="discuss_BoardTitle">
-            <img src="images/<{if $discuss.onlyTo}>lock.png<{else}>greenpoint.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:<{if $discuss.onlyTo}>maroon<{else}>#505050<{/if}>"><{$discuss.DiscussTitle}></a>
+            <img src="images/<{if $discuss.onlyTo|default:false}>lock.png<{else}>greenpoint.gif<{/if}>" alt="<{$discuss.DiscussTitle}>" title="<{$discuss.DiscussTitle}>" align="absmiddle" style="margin-right:3px;"><a href="discuss.php?DiscussID=<{$discuss.DiscussID}>&BoardID=<{$discuss.BoardID}>" style="color:<{if $discuss.onlyTo|default:false}>maroon<{else}>#505050<{/if}>"><{$discuss.DiscussTitle}></a>
           </td>
       		<td headers="discuss_BoardImg" class="text-center"><{$discuss.renum}></td>
       		<td headers="discuss_uid_name"><div style="font-size: 62.5%;"><{$discuss.DiscussDate}></div><div><{$discuss.uid_name}></div></td>
@@ -88,7 +88,7 @@
     <{else}>
       <tr>
         <td headers="discuss_BoardTitle" colspan=4 class="text-center">
-          <{if $post}>
+          <{if $post|default:false}>
             <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
           <{/if}>
@@ -107,7 +107,7 @@
 <{else}>
   <h2><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></h2>
   <div class="jumbotron bg-light p-5 rounded-lg m-3">
-    <{if $smarty.session.tad_discuss_adm}>
+    <{if $smarty.session.tad_discuss_adm|default:false}>
       <a href="discuss.php?op=tad_discuss_form&BoardID=<{$smarty.get.BoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
     <{else}>
       <{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}>

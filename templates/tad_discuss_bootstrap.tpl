@@ -3,24 +3,24 @@
         <img src="<{$discuss.pic}>" width=100 class="rounded" alt="discuss pic">
         <span style="font-size: 62.5%"><{$discuss.DiscussDate}></span>
         <div>
-            <{if $discuss.uid}>
+            <{if $discuss.uid|default:false}>
                 <a href="<{$xoops_url}>/userinfo.php?uid=<{$discuss.uid}>"><{$discuss.uid_name}></a><{else}><{$discuss.uid_name}>
             <{/if}>
         </div>
-        <{if $discuss.fun}>
+        <{if $discuss.fun|default:false}>
             <a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);" class="btn btn-outline-info btn-sm btn-xs"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a>
             <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="btn btn-outline-info btn-sm btn-xs"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>
         <{/if}>
     </div>
     <div class="col-sm-10">
-        <div class="card card-body bg-light m-1 talk" style="background-color:<{if $discuss.onlyTo}>#FEEDD3<{else}>white<{/if}>;line-height:150%;">
+        <div class="card card-body bg-light m-1 talk" style="background-color:<{if $discuss.onlyTo|default:false}>#FEEDD3<{else}>white<{/if}>;line-height:150%;">
 
             <{$discuss.DiscussContent}>
 
             <div class="text-right text-end">
 
-                <{if $discuss.DiscussID}>
-                    <{if $discuss.onlyTo}>
+                <{if $discuss.DiscussID|default:false}>
+                    <{if $discuss.onlyTo|default:false}>
                         <{if $smarty.session.tad_discuss_adm or $now_uid==$discuss.uid}>
                         <a href="discuss.php?op=unlock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID}>" class="btn btn-danger" title="<{$smarty.const._MD_TADDISCUS_LOCK}>"><img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_LOCK}>"></a>
                         <{else}>
@@ -33,12 +33,12 @@
                     <{/if}>
                 <{/if}>
 
-                <{if $discuss.fun}>
+                <{if $discuss.fun|default:false}>
                     <a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);" class="btn btn-outline-info btn-sm btn-xs"><img src="images/delete.png" alt="<{$smarty.const._TAD_DEL}>"></a>
                     <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="btn btn-outline-info btn-sm btn-xs"><img src="images/edit.png" alt="<{$smarty.const._TAD_EDIT}>"></a>
                     <{/if}>
 
-                <{if $discuss.like}>
+                <{if $discuss.like|default:false}>
                     <a href="javascript:like('unlike',<{$discuss.DiscussID}>)" id="unlike<{$discuss.DiscussID}>" class="btn btn-outline-info btn-sm btn-xs"><span style="color:#FF6600"><{$discuss.Bad}></span> <img src="images/unlike.png" alt="unlike" align="absmiddle"></a>
 
                     <a href="javascript:like('like',<{$discuss.DiscussID}>)" id="like<{$discuss.DiscussID}>" class="btn btn-outline-info btn-sm btn-xs"><img src="images/like.png" alt="like" align="absmiddle" >
@@ -49,7 +49,7 @@
             <{$discuss.files}>
 
             <{if $discuss.show_sig and $discuss.user_sig}>
-                <div style="<{if $discuss.sig_style}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
+                <div style="<{if $discuss.sig_style|default:false}><{$discuss.sig_style}><{else}>font-size: 75%; color: gray; border-top: 1px dashed gray; padding-top: 10px; margin-top: 10px;<{/if}>">
                 <{$discuss.user_sig}>
                 </div>
             <{/if}>

@@ -1,5 +1,5 @@
 <{if $BoardTitle|default:false}>
-    <h2><{$BoardTitle}></h2>
+    <h2><{$BoardTitle|default:''}></h2>
 <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
 <{/if}>
@@ -19,5 +19,5 @@
     <{else}>
         <{include file="db:tad_discuss_bootstrap.tpl"}>
     <{/if}>
-    <input type="hidden" name="uid" value="<{$uid}>">
+    <input type="hidden" name="uid" value="<{$uid|default:''}>">
 </form>

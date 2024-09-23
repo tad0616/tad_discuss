@@ -31,6 +31,9 @@ switch ($op) {
         break;
 }
 
+error_reporting(0);
+$xoopsLogger->activated = false;
+
 /*-----------秀出結果區--------------*/
 Utility::get_jquery();
 

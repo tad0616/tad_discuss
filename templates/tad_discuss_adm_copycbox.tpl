@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <{if $show_error=='1'}>
     <div class="jumbotron bg-light p-5 rounded-lg m-3">
-      <h1><{$msg}></h1>
-      <{$other_msg}>
+      <h1><{$msg|default:''}></h1>
+      <{$other_msg|default:''}>
     </div>
   <{else}>
     <a href="copycbox.php?op=copycbox" class="btn btn-lg btn-danger pull-right float-right pull-end"><{$smarty.const._MA_TADDISCUS_IMPORT_FORM_CBOX}></a>
-    <{$bar}>
+    <{$bar|default:''}>
     <table class="table table-striped table-bordered table-hover">
     <tr>
       <th>publisher</th>
@@ -35,6 +35,6 @@
 
     </tbody>
     </table>
-    <{$bar}>
+    <{$bar|default:''}>
   <{/if}>
 </div>

@@ -19,7 +19,7 @@
           </select>
         </div>
         <div class="col-sm-6">
-          <input type="text" name="BoardTitle" value="<{$BoardTitle}>" id="BoardTitle" class="form-control validate[required]" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDTITLE}>" >
+          <input type="text" name="BoardTitle" value="<{$BoardTitle|default:''}>" id="BoardTitle" class="form-control validate[required]" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDTITLE}>" >
         </div>
 
         <div class="col-sm-3">
@@ -42,24 +42,24 @@
       <div class="form-group row mb-3">
         <!--討論區說明-->
         <div class="col-sm-9">
-          <textarea name="BoardDesc" rows=3 id="BoardDesc" class="form-control" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDDESC}>"><{$BoardDesc}></textarea>
+          <textarea name="BoardDesc" rows=3 id="BoardDesc" class="form-control" placeholder="<{$smarty.const._MA_TADDISCUS_BOARDDESC}>"><{$BoardDesc|default:''}></textarea>
         </div>
         <!--討論區圖片-->
         <div class="col-sm-3">
-        <{$upform}>
+        <{$upform|default:''}>
         </div>
       </div>
 
       <div class="form-group row mb-3">
         <!--讀取權限-->
-        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_READ_POWER}></label><{$enable_read_group}></div>
+        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_READ_POWER}></label><{$enable_read_group|default:''}></div>
         <!--寫入權限-->
-        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_POST_POWER}></label><{$enable_post_group}></div>
+        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_POST_POWER}></label><{$enable_post_group|default:''}></div>
         <!--板主-->
-        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}></label><{$user_menu}></div>
+        <div class="col-sm-3"><label><{$smarty.const._MA_TADDISCUS_BOARDMANAGER}></label><{$user_menu|default:''}></div>
         <div class="col-sm-3">
-          <input type="hidden" name="BoardID" value="<{$BoardID}>">
-          <input type="hidden" name="op" value="<{$next_op}>">
+          <input type="hidden" name="BoardID" value="<{$BoardID|default:''}>">
+          <input type="hidden" name="op" value="<{$next_op|default:''}>">
           <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>

@@ -41,13 +41,13 @@
     <{if $discuss.DiscussID|default:false}>
       <{if $discuss.onlyTo|default:false}>
         <{if $smarty.session.tad_discuss_adm or $now_uid==$discuss.uid}>
-          <a href="discuss.php?op=unlock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID}>" title="<{$smarty.const._MD_TADDISCUS_LOCK}>"><img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_LOCK}>"></a>
+          <a href="discuss.php?op=unlock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID|default:''}>" title="<{$smarty.const._MD_TADDISCUS_LOCK}>"><img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_LOCK}>"></a>
         <{else}>
           <img src="images/lock.png" alt="<{$smarty.const._MD_TADDISCUS_ONLY_ROOT}>">
         <{/if}>
       <{else}>
         <{if $smarty.session.tad_discuss_adm or $now_uid==$discuss.uid}>
-          <a href="discuss.php?op=lock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID}>" title="<{$smarty.const._MD_TADDISCUS_UNLOCK}>"><img src="images/unlock.png" alt="<{$smarty.const._MD_TADDISCUS_UNLOCK}>"></a>
+          <a href="discuss.php?op=lock&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>&ReDiscussID=<{$ReDiscussID|default:''}>" title="<{$smarty.const._MD_TADDISCUS_UNLOCK}>"><img src="images/unlock.png" alt="<{$smarty.const._MD_TADDISCUS_UNLOCK}>"></a>
         <{/if}>
       <{/if}>
       |

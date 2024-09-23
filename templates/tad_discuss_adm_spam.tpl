@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <{if $now_op=='list_spam' or $now_op=='search_spam'}>
-    <{$jquery}>
+    <{$jquery|default:''}>
     <script type="text/javascript">
     $().ready(function(){
       $("#clickAll").click(function() {
@@ -48,11 +48,11 @@
       <{assign var="i" value=0}>
       <{foreach from=$all_keyword item=spam}>
         <{assign var="i" value=$i+1}>
-        <div id="k<{$i}>" style="display:inline-block; float: left; font-size: 81.25%; padding:4px 8px;">
-            <input name="spam_keyword[]" class="spam_keyword" id="chk<{$i}>" type="checkbox" value="<{$spam.keyword}>" <{$spam.checked}>>
-            <label style="display: inline;" for="chk<{$i}>">
+        <div id="k<{$i|default:''}>" style="display:inline-block; float: left; font-size: 81.25%; padding:4px 8px;">
+            <input name="spam_keyword[]" class="spam_keyword" id="chk<{$i|default:''}>" type="checkbox" value="<{$spam.keyword}>" <{$spam.checked}>>
+            <label style="display: inline;" for="chk<{$i|default:''}>">
               <{$spam.keyword}>
-              <a href="javascript:delme('<{$i}>');"><img src="../images/del2.gif" alt="<{$smarty.const._TAD_DEL}>" style="vertical-align:middle;"></a>
+              <a href="javascript:delme('<{$i|default:''}>');"><img src="../images/del2.gif" alt="<{$smarty.const._TAD_DEL}>" style="vertical-align:middle;"></a>
             </label>
         </div>
       <{/foreach}>

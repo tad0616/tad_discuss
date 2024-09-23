@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <{if $now_op=="tad_discuss_cbox_setup_form"}>
     <h3><{$smarty.const._MA_TADDISCUS_RULE_SETUP}></h3>
-    <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
+    <form action="<{$action|default:''}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
 
       <!--註記-->
       <div class="row">
@@ -9,7 +9,7 @@
           <{$smarty.const._MA_TADDISCUS_SETUPNAME}>
         </label>
         <div class="col-sm-5">
-          <input type="text" name="setupName" id="setupName" class="form-control validate[required]" value="<{$setupName}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPNAME}>">
+          <input type="text" name="setupName" id="setupName" class="form-control validate[required]" value="<{$setupName|default:''}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPNAME}>">
         </div>
       </div>
 
@@ -19,7 +19,7 @@
           <{$smarty.const._MA_TADDISCUS_SETUPRULE}>
         </label>
         <div class="col-sm-5">
-          <input type="text" name="setupRule" id="setupRule" class="form-control validate[]" value="<{$setupRule}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPRULE}>">
+          <input type="text" name="setupRule" id="setupRule" class="form-control validate[]" value="<{$setupRule|default:''}>" placeholder="<{$smarty.const._MA_TADDISCUS_SETUPRULE}>">
         </div>
       </div>
 
@@ -42,9 +42,9 @@
 
         <div class="col-sm-2">
           <!--設定流水號-->
-          <input type='hidden' name="setupID" value="<{$setupID}>">
-          <input type="hidden" name="setupSort" value="<{$setupSort}>">
-          <input type="hidden" name="op" value="<{$next_op}>">
+          <input type='hidden' name="setupID" value="<{$setupID|default:''}>">
+          <input type="hidden" name="setupSort" value="<{$setupSort|default:''}>">
+          <input type="hidden" name="op" value="<{$next_op|default:''}>">
           <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>
@@ -57,7 +57,7 @@
   <!--列出所有資料-->
   <{if $all_content|default:false}>
 
-    <{$jquery}>
+    <{$jquery|default:''}>
     <script type="text/javascript">
     $(document).ready(function(){
         $("#sort").sortable({ opacity: 0.6, cursor: "move", update: function() {
@@ -73,7 +73,7 @@
     function delete_tad_discuss_cbox_setup_func(setupID){
       var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
       if (!sure)  return;
-      location.href="<{$action}>?op=delete_tad_discuss_cbox_setup&setupID=" + setupID;
+      location.href="<{$action|default:''}>?op=delete_tad_discuss_cbox_setup&setupID=" + setupID;
     }
     </script>
 
@@ -97,7 +97,7 @@
           <td><{$data.BoardTitle}></td>
           <td>
             <a href="javascript:delete_tad_discuss_cbox_setup_func(<{$data.setupID}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
-            <a href="<{$action}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
+            <a href="<{$action|default:''}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
           </td>
         </tr>
       <{/foreach}>
@@ -107,7 +107,7 @@
 
   <!--顯示某一筆資料-->
   <{if $now_op=="show_one_tad_discuss_cbox_setup"}>
-    <h2 class="text-center"><{$title}></h2>
+    <h2 class="text-center"><{$title|default:''}></h2>
     <hr>
 
     <div class="row">
@@ -116,7 +116,7 @@
         <{$smarty.const._MA_TADDISCUS_SETUPRULE}>
       </div>
       <div class="col-sm-9">
-        <{$setupRule}>
+        <{$setupRule|default:''}>
       </div>
     </div>
 
@@ -126,7 +126,7 @@
         <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
       </div>
       <div class="col-sm-9">
-        <{$BoardID}>
+        <{$BoardID|default:''}>
       </div>
     </div>
   <{/if}>

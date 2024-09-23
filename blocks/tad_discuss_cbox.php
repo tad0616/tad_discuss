@@ -9,8 +9,7 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 //區塊主函式 (會產生一個即時留言簿區塊)
 function tad_discuss_cbox($options)
 {
-    global $xoopsUser, $xoopsDB, $xoTheme;
-
+    global $xoopsUser, $xoopsDB;
     //取得本模組編號
     $moduleHandler = xoops_getHandler('module');
     $xoopsModule = $moduleHandler->getByDirname('tad_discuss');

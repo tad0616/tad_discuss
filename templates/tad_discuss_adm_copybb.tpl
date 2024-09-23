@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <{if $show_error=='1'}>
-  <{$error}>
+  <{$error|default:''}>
     <div class="jumbotron bg-light p-5 rounded-lg m-3">
       <h1><{$smarty.const._MA_TADDISCUS_NO_XFORUM}></h1>
     </div>
   <{elseif $op=='listBoard'}>
     <div class="pull-right float-right pull-end">
-    <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID}>" class="btn btn-lg btn-info"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS}></a>
-    <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID}>&mode=force" class="btn btn-lg btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
+    <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID|default:''}>" class="btn btn-lg btn-info"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS}></a>
+    <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID|default:''}>&mode=force" class="btn btn-lg btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
     </div>
     <div class="clearfix"></div>
 
@@ -47,7 +47,7 @@
     <{/foreach}>
     </tbody>
     </table>
-    <input type="hidden" name="BoardID" value="<{$BoardID}>">
+    <input type="hidden" name="BoardID" value="<{$BoardID|default:''}>">
     <input type="hidden" name="op" value="batch_del">
     <button type="submit" class="btn btn-lg btn-danger pull-right float-right pull-end"><{$smarty.const._MA_TADDISCUS_BATCH_DEL}></button>
     </form>
@@ -92,8 +92,8 @@
 
     <tr>
       <td colspan=6 class='bar'>
-      <{$add_button}>
-      <{$bar}>
+      <{$add_button|default:''}>
+      <{$bar|default:''}>
       </td>
     </tr>
     </table>

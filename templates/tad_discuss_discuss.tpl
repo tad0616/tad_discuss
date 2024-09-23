@@ -1,4 +1,4 @@
-<{$toolbar}>
+<{$toolbar|default:''}>
 
 
 <{if $op=="tad_discuss_form"}>
@@ -8,10 +8,10 @@
   <{/foreach}>
 
 <{elseif $op=="show_one_tad_discuss"}>
-  <{$js}>
-  <span class="badge badge-info"><a href="discuss.php?BoardID=<{$BoardID}>" style="color:white;"><{$BoardTitle}></a></span>
+  <{$js|default:''}>
+  <span class="badge badge-info"><a href="discuss.php?BoardID=<{$BoardID|default:''}>" style="color:white;"><{$BoardTitle|default:''}></a></span>
   <{if $DiscussTitle|default:false}>
-    <h2><{$DiscussTitle}></h2>
+    <h2><{$DiscussTitle|default:''}></h2>
   <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
   <{/if}>
@@ -30,7 +30,7 @@
   <{/foreach}>
 
   <div class="row">
-    <div class="col-sm-12 text-center"><{$bar}></div>
+    <div class="col-sm-12 text-center"><{$bar|default:''}></div>
   </div>
 
 
@@ -55,12 +55,12 @@
 
 <{elseif $main_data}>
   <{if $ShowBoardTitle|default:false}>
-    <h2><{$ShowBoardTitle}></h2>
+    <h2><{$ShowBoardTitle|default:''}></h2>
   <{else}>
     <h2 class="sr-only visually-hidden">No Discuss Title</h2>
   <{/if}>
 
-	<{$FooTableJS}>
+	<{$FooTableJS|default:''}>
 	<div class="well card card-body bg-light m-1" style="background-color:white;">
   	<table class="table table-striped table-hover">
   	<thead>
@@ -90,20 +90,20 @@
         <td headers="discuss_BoardTitle" colspan=4 class="text-center">
           <{if $post|default:false}>
             <img src="images/add.png" align="absmiddle" hspace=4 alt="<{$smarty.const._MD_TADDISCUS_ADD_DISCUSS}>">
-            <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
+            <a href="discuss.php?op=tad_discuss_form&BoardID=<{$DefBoardID|default:''}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
           <{/if}>
         </td>
       </tr>
     <{/if}>
   	<tr>
     	<td colspan=5>
-    	<{$post_tool}>
+    	<{$post_tool|default:''}>
       </td>
     </tr>
   	</tbody>
   	</table>
 	</div>
-  <{$bar}>
+  <{$bar|default:''}>
 <{else}>
   <h2><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></h2>
   <div class="jumbotron bg-light p-5 rounded-lg m-3">

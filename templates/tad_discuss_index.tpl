@@ -1,7 +1,7 @@
-<{$toolbar}>
+<{$toolbar|default:''}>
 <h2 class="sr-only visually-hidden">All Discuss</h2>
 <{if $all_content|default:false}>
-  <{$FooTableJS}>
+  <{$FooTableJS|default:''}>
   <table class="table table-hover">
   <thead>
   <tr>

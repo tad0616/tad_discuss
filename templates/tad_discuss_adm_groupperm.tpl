@@ -11,10 +11,10 @@
       <li><a href="#tabs-2"><{$smarty.const._MA_TADDISCUS_POST_POWER}></a></li>
     </ul>
     <div id="tabs-1">
-      <{$forum_read}>
+      <{$forum_read|default:''}>
     </div>
     <div id="tabs-2">
-      <{$forum_post}>
+      <{$forum_post|default:''}>
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ Tad Discuss 3.0 (尚未釋出)
 6.支援 PHP 8.3
 7.移除 pda.php
 8.用$xoopsDB->escape()取代$myts->addSlashes()
+9.資料庫語法參數化
 
 Tad Discuss 2.5.8 (2022-01-28 釋出)
 ====================================

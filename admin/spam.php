@@ -100,12 +100,13 @@ function search_spam()
 
     foreach ($clean_spam_keyword as $spam_keyword) {
         $spam_keyword = trim($spam_keyword);
-        $sql = 'select a.DiscussID, a.ReDiscussID, a.DiscussTitle, a.uid, a.DiscussDate, a.Counter, b.name, b.uname, c.groupid from `' . $xoopsDB->prefix('tad_discuss') . "` as a
-        left join `" . $xoopsDB->prefix('users') . "` as b on a.uid=b.uid
-        left join `" . $xoopsDB->prefix('groups_users_link') . "` as c on a.uid=c.uid and c.groupid='$bad_group_id'
-        where a.`DiscussTitle` like '%{$spam_keyword}%' or a.`DiscussContent` like '%{$spam_keyword}%'
-        order by a.uid";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT a.`DiscussID`, a.`ReDiscussID`, a.`DiscussTitle`, a.`uid`, a.`DiscussDate`, a.`Counter`, b.`name`, b.`uname`, c.`groupid` FROM `' . $xoopsDB->prefix('tad_discuss') . '` AS a
+        LEFT JOIN `' . $xoopsDB->prefix('users') . '` AS b ON a.`uid` = b.`uid`
+        LEFT JOIN `' . $xoopsDB->prefix('groups_users_link') . '` AS c ON a.`uid` = c.`uid` AND c.`groupid` = ?
+        WHERE a.`DiscussTitle` LIKE ? OR a.`DiscussContent` LIKE ?
+        ORDER BY a.`uid`';
+        $result = Utility::query($sql, 'iss', [$bad_group_id, "%$spam_keyword%", "%$spam_keyword%"]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $i = 0;
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -123,17 +124,18 @@ function search_spam()
 
     if ($bad_group_id > 3) {
         $all_uid = [];
-        $sql = 'select uid from `' . $xoopsDB->prefix('groups_users_link') . "`
-        where groupid='$bad_group_id'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT `uid` FROM `' . $xoopsDB->prefix('groups_users_link') . '` WHERE `groupid` = ?';
+        $result = Utility::query($sql, 'i', [$bad_group_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         while (list($uid) = $xoopsDB->fetchRow($result)) {
             $all_uid[] = $uid;
         }
-        $sql = 'select a.DiscussID, a.ReDiscussID, a.DiscussTitle, a.uid, a.DiscussDate, a.Counter, b.name, b.uname, c.groupid from `' . $xoopsDB->prefix('tad_discuss') . "` as a
-        left join `" . $xoopsDB->prefix('users') . "` as b on a.uid=b.uid
-        left join `" . $xoopsDB->prefix('groups_users_link') . "` as c on a.uid=c.uid and c.groupid='$bad_group_id'
-        where a.`uid` in(" . implode(',', $all_uid) . ") and a.DiscussDate > '2005-01-01'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT a.`DiscussID`, a.`ReDiscussID`, a.`DiscussTitle`, a.`uid`, a.`DiscussDate`, a.`Counter`, b.`name`, b.`uname`, c.`groupid` FROM `' . $xoopsDB->prefix('tad_discuss') . '` AS a
+        LEFT JOIN `' . $xoopsDB->prefix('users') . '` AS b ON a.`uid`=b.`uid`
+        LEFT JOIN `' . $xoopsDB->prefix('groups_users_link') . '` AS c ON a.`uid`=c.`uid` AND c.`groupid`=?
+        WHERE a.`uid` IN(' . implode(',', $all_uid) . ') AND a.`DiscussDate` > ?';
+        $result = Utility::query($sql, 'is', [$bad_group_id, '2005-01-01']) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $i = 0;
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
             //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
@@ -155,8 +157,9 @@ function search_spam()
     if ($_POST['new_spam_keyword']) {
         $all_clean_spam_keyword = implode(',', $clean_spam_keyword);
         $module_id = $xoopsModule->mid();
-        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= '$all_clean_spam_keyword' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'UPDATE `' . $xoopsDB->prefix('config') . '` SET `conf_value`=? WHERE `conf_name`=\'spam_keyword\' AND `conf_modid`=?';
+        Utility::query($sql, 'si', [$all_clean_spam_keyword, $module_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     }
 }
 
@@ -181,16 +184,19 @@ function update_config($item = '')
     $new_spam_keyword = implode(',', $keys);
 
     $module_id = $xoopsModule->mid();
-    $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`= '{$new_spam_keyword}' where `conf_name`='spam_keyword' and `conf_modid`='$module_id'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('config') . '` SET `conf_value`=? WHERE `conf_name`=\'spam_keyword\' AND `conf_modid`=?';
+    Utility::query($sql, 'si', [$new_spam_keyword, $module_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 function bad_group($bad_group_uid)
 {
     global $xoopsDB, $xoopsModuleConfig;
     $bad_group_id = $xoopsModuleConfig['bad_group'];
-    $sql = 'delete from `' . $xoopsDB->prefix('groups_users_link') . "` where `uid`='$bad_group_uid'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    $sql = "insert into `" . $xoopsDB->prefix('groups_users_link') . "` (`groupid`, `uid`) values('$bad_group_id','$bad_group_uid')";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('groups_users_link') . '` WHERE `uid`=?';
+    Utility::query($sql, 'i', [$bad_group_uid]) or Utility::web_error($sql, __FILE__, __LINE__);
+
+    $sql = 'INSERT INTO `' . $xoopsDB->prefix('groups_users_link') . '` (`groupid`, `uid`) VALUES (?, ?)';
+    Utility::query($sql, 'ii', [$bad_group_id, $bad_group_uid]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }

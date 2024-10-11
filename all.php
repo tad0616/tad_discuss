@@ -8,13 +8,8 @@ require __DIR__ . '/header.php';
 
 require_once XOOPS_ROOT_PATH . '/header.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
-/*-----------function區--------------*/
-
 /*-----------執行動作判斷區----------*/
 $op = Request::getString('op');
-$BoardID = Request::getInt('BoardID');
-$DiscussID = Request::getInt('DiscussID');
-$files_sn = Request::getInt('files_sn');
 
 switch ($op) {
     default:
@@ -23,6 +18,8 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoTheme->addStylesheet('modules/tad_discuss/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';
+
+/*-----------function區--------------*/

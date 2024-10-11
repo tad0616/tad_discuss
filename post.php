@@ -44,7 +44,7 @@ echo "
   <meta charset='" . _CHARSET . "'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Post Form</title>
-  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/cbox.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/css/cbox.css'>
 ";
 
 if ('reload' === $op) {
@@ -123,8 +123,6 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 
     //取得目前使用者的群組編號
     if ($xoopsUser) {
-        $uid = $xoopsUser->uid();
-        $groups = $xoopsUser->getGroups();
         $name = $xoopsUser->name();
         if (!empty($name)) {
             $publisher = $name;
@@ -132,10 +130,10 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
             $publisher = $xoopsUser->uname();
         }
     } else {
-        $uid = 0;
-        $groups = XOOPS_GROUP_ANONYMOUS;
         $publisher = _MD_TADDISCUS_DEFAULT_PUBLISHER;
     }
+
+    $groups = $xoopsUser ? $xoopsUser->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 
     $gpermHandler = xoops_getHandler('groupperm');
     if (!$gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id)) {

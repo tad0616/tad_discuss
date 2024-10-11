@@ -13,11 +13,10 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //取得本模組編號
 $module_id = $xoopsModule->mid();
 
-$sql = 'SELECT BoardID,BoardTitle FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY BoardSort';
-$result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+$sql = 'SELECT `BoardID`,`BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY `BoardSort`';
+$result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
 while (false !== ($all = $xoopsDB->fetchArray($result))) {
-    //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
     foreach ($all as $k => $v) {
         $$k = $v;
     }

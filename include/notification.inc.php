@@ -14,8 +14,9 @@ function get_tad_discuss($category, $item_id)
     }
 
     if ('board' === $category) {
-        $sql = 'SELECT BoardTitle FROM ' . $xoopsDB->prefix('tad_discuss_board') . ' WHERE BoardID = ' . $item_id;
-        $result = $xoopsDB->query($sql); // TODO: error check
+        $sql = 'SELECT `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardID` =?';
+        $result = Utility::query($sql, 'i', [$item_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['BoardTitle'];
         $item['url'] = XOOPS_URL . '/modules/tad_discuss/discuss.php?BoardID=' . $item_id;

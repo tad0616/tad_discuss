@@ -11,11 +11,11 @@ if (!isset($_SESSION['tad_discuss_adm'])) {
 }
 
 $interface_menu[_MD_TADDISCUS_SMNAME1] = 'index.php';
+$interface_icon[_MD_TADDISCUS_SMNAME1] = 'fa-list-alt';
+
 $interface_menu[_MD_TADDISCUS_SMNAME2] = 'all.php';
+$interface_icon[_MD_TADDISCUS_SMNAME2] = 'fa-comments';
 if ($xoopsUser and !empty($_GET['BoardID'])) {
     $interface_menu[_MD_TADDISCUS_ADD_DISCUSS] = "discuss.php?op=tad_discuss_form&BoardID={$_GET['BoardID']}";
-}
-
-if ($_SESSION['tad_discuss_adm']) {
-    $interface_menu[_TAD_TO_ADMIN] = 'admin/main.php';
+    $interface_icon[_MD_TADDISCUS_ADD_DISCUSS] = "fa-plus";
 }

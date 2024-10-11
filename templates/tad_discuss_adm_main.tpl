@@ -77,13 +77,6 @@
         }
         });
     });
-
-
-    function delete_tad_discuss_board_func(BoardID){
-      var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-      if (!sure)  return;
-      location.href="main.php?op=delete_tad_discuss_board&BoardID=" + BoardID;
-    }
     </script>
 
     <{if $all_content|default:false}>

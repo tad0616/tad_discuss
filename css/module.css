@@ -2,6 +2,11 @@
     width: auto;
 }
 
+.color-picker {
+    width: 80%;
+    display: inline-block;
+}
+
 .mobile_btn {
     color: #445544;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);

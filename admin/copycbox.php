@@ -46,7 +46,6 @@ function list_cbox()
     $moduleHandler = xoops_getHandler('module');
     $ThexoopsModule = $moduleHandler->getByDirname('tad_cbox');
     if ($ThexoopsModule) {
-        $mod_id = $ThexoopsModule->mid();
         $xoopsTpl->assign('show_error', '0');
     } else {
         $xoopsTpl->assign('show_error', '1');
@@ -55,8 +54,9 @@ function list_cbox()
         return;
     }
 
-    $sql = 'SELECT BoardID FROM `' . $xoopsDB->prefix('tad_discuss_board') . "` WHERE BoardTitle = '" . _MA_TADDISCUS_CBOX . "'";
-    $result = $xoopsDB->query($sql) or die($sql);
+    $sql = 'SELECT `BoardID` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardTitle` = ?';
+    $result = Utility::query($sql, 's', [_MA_TADDISCUS_CBOX]) or die($sql);
+
     list($BoardID) = $xoopsDB->fetchRow($result);
     if (!empty($BoardID)) {
         $xoopsTpl->assign('show_error', '1');
@@ -103,10 +103,10 @@ function list_cbox()
 
 function get_uid_from_uname($publisher = '')
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB;
+    $sql = 'SELECT `uid` FROM `' . $xoopsDB->prefix('users') . '` WHERE `uname` = ? OR `name` = ?';
+    $result = Utility::query($sql, 'ss', [$publisher, $publisher]) or die($sql);
 
-    $sql = 'select uid from `' . $xoopsDB->prefix('users') . "` where uname ='$publisher' or name='{$publisher}'";
-    $result = $xoopsDB->query($sql) or die($sql);
     list($uid) = $xoopsDB->fetchRow($result);
 
     return $uid;
@@ -117,21 +117,21 @@ function copycbox($BoardID = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
     set_time_limit(0);
-    $myts = \MyTextSanitizer::getInstance();
 
     //取得目前使用者uid
     $root_uid = $xoopsUser->uid();
 
     if (empty($BoardID)) {
         //取得最大排序
-        $sql = 'SELECT max(`BoardSort`) FROM ' . $xoopsDB->prefix('tad_discuss_board') . ' GROUP BY BoardSort';
-        $result = $xoopsDB->queryF($sql);
+        $sql = 'SELECT MAX(`BoardSort`) FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` GROUP BY `BoardSort`';
+        $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($sort) = $xoopsDB->fetchRow($result);
         $sort++;
 
         //建立討論區
-        $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss_board') . " (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES(0 , '" . _MA_TADDISCUS_CBOX . "' , '" . _MA_TADDISCUS_CBOX_DESC . "' , '{$root_uid}' ,'{$sort}' , '1')";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_discuss_board') . "` (`ofBoardID`, `BoardTitle`, `BoardDesc`, `BoardManager`, `BoardSort`, `BoardEnable`) VALUES (0, ?, ?, ?, ?, ?)";
+        Utility::query($sql, 'ssiis', [_MA_TADDISCUS_CBOX, _MA_TADDISCUS_CBOX_DESC, $root_uid, $sort, '1']) or Utility::web_error($sql, __FILE__, __LINE__);
 
         //取得最後新增資料的流水編號
         $BoardID = $xoopsDB->getInsertId();
@@ -139,33 +139,34 @@ function copycbox($BoardID = '')
         //轉移權限（新權限）
         $mid = $xoopsModule->mid();
         //讀取權限
-        $sql = 'insert into `' . $xoopsDB->prefix('group_permission') . "` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_read'),('2', '{$BoardID}', '{$mid}', 'forum_read'),('3', '{$BoardID}', '{$mid}', 'forum_read')";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('group_permission') . '` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) VALUES(1, ?, ?, ?),(2, ?, ?, ?),(3, ?, ?, ?)';
+        Utility::query($sql, 'iisiisiis', [$BoardID, $mid, 'forum_read', $BoardID, $mid, 'forum_read', $BoardID, $mid, 'forum_read']) or Utility::web_error($sql, __FILE__, __LINE__);
 
         //寫入權限
-        $sql = 'insert into `' . $xoopsDB->prefix('group_permission') . "` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) values('1', '{$BoardID}', '{$mid}', 'forum_post'),('2', '{$BoardID}', '{$mid}', 'forum_post')";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('group_permission') . '` (`gperm_groupid`, `gperm_itemid`, `gperm_modid`, `gperm_name`) VALUES(1, ?, ?, ?),(2, ?, ?, ?)';
+        Utility::query($sql, 'iisiis', [$BoardID, $mid, 'forum_post', $BoardID, $mid, 'forum_post']) or Utility::web_error($sql, __FILE__, __LINE__);
+
     } else {
-        $sql = 'delete from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='{$BoardID}'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_discuss') . '` WHERE `BoardID`=?';
+        Utility::query($sql, 'i', [$BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     }
 
     //讀取留言簿資料
-    $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_cbox') . ' ORDER BY post_date ';
-    $result = $xoopsDB->queryF($sql);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_cbox') . '` ORDER BY `post_date`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($sn, $publisher, $msg, $post_date, $ip, $only_root, $root_msg) = $xoopsDB->fetchRow($result)) {
         $onlyTo = ($only_root) ? $root_uid : '';
         $DiscussTitle = xoops_substr($msg, 0, 60);
 
         $uid = get_uid_from_uname($publisher);
-        $DiscussTitle = $xoopsDB->escape($DiscussTitle);
-        $msg = $xoopsDB->escape($msg);
         $msg = Wcag::amend($msg);
-        $root_msg = $xoopsDB->escape($root_msg);
         $root_msg = Wcag::amend($root_msg);
 
-        $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss') . " ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES(0 , '{$uid}', '$publisher' , '{$DiscussTitle}' , '{$msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' ,'{$onlyTo}')";
-        $xoopsDB->queryF($sql);
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_discuss') . '` (`ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES(0, ?, ?, ?, ?, ?, ?, ?, 888, ?, "", "", ?)';
+        Utility::query($sql, 'issssisss', [$uid, $publisher, $DiscussTitle, $msg, $post_date, $BoardID, $post_date, $ip, $onlyTo]);
+
         $DiscussID = $xoopsDB->getInsertId();
 
         if ($root_msg) {
@@ -182,8 +183,9 @@ function copycbox($BoardID = '')
                 $publisher = $xoopsUser->uname();
             }
 
-            $sql = 'insert into ' . $xoopsDB->prefix('tad_discuss') . " ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad` , `onlyTo`) VALUES('{$DiscussID}' , '{$root_uid}', '{$publisher}' , 'RE:{$DiscussTitle}' , '{$root_msg}' ,'{$post_date}' ,'{$BoardID}' ,'{$post_date}' ,'888' ,'{$ip}' ,'' ,'' , '{$onlyToUid}')";
-            $xoopsDB->queryF($sql);
+            $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_discuss') . '` ( `ReDiscussID`, `uid`, `publisher`, `DiscussTitle`, `DiscussContent`, `DiscussDate`, `BoardID`, `LastTime`, `Counter`, `FromIP`, `Good`, `Bad`, `onlyTo`) VALUES (?, ?, ?, RE:?, ?, ?, ?, ?, 888, ?, ?, ?, ?)';
+            Utility::query($sql, 'iissssisssss', [$DiscussID, $root_uid, $publisher, $DiscussTitle, $root_msg, $post_date, $BoardID, $post_date, $ip, '', '', $onlyToUid]);
+
         }
     }
 

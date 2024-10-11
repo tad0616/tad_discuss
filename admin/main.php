@@ -1,8 +1,10 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_discuss\Tools;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_discuss_adm_main.tpl';
 require_once __DIR__ . '/header.php';
@@ -81,7 +83,7 @@ function tad_discuss_board_form($BoardID = '')
 
     //抓取預設值
     if (!empty($BoardID)) {
-        $DBV = get_tad_discuss_board($BoardID);
+        $DBV = Tools::get_tad_discuss_board($BoardID);
     } else {
         $DBV = [];
     }
@@ -116,7 +118,6 @@ function tad_discuss_board_form($BoardID = '')
 
     if ($usercount < 2000) {
         $select = new XoopsFormSelect('', 'BoardManager', $BoardManagerArr, 5, true);
-        $member_handler = xoops_getHandler('member');
         $criteria = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
@@ -178,8 +179,9 @@ function tad_discuss_board_form($BoardID = '')
     $notBoardID = empty($BoardID) ? '' : "and BoardID!='{$BoardID}'";
     $ofBoardArr = [];
     $i = 0;
-    $sql = 'select BoardID,BoardTitle from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`=0 $notBoardID order by BoardSort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `BoardID`, `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardEnable`=? AND `ofBoardID`=? ' . $notBoardID . ' ORDER BY `BoardSort`';
+    $result = Utility::query($sql, 'si', ['1', 0]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
         $ofBoardArr[$i]['BoardID'] = $BoardID;
         $ofBoardArr[$i]['BoardTitle'] = $BoardTitle;
@@ -193,20 +195,23 @@ function update_tad_discuss_board($BoardID = '')
 {
     global $xoopsDB, $TadUpFiles;
 
-    $myts = \MyTextSanitizer::getInstance();
-    $_POST['BoardDesc'] = $xoopsDB->escape($_POST['BoardDesc']);
-    $_POST['BoardTitle'] = $xoopsDB->escape($_POST['BoardTitle']);
-
     $BoardManager = is_array($_POST['BoardManager']) ? implode(',', $_POST['BoardManager']) : $_POST['BoardManager'];
 
-    $sql = 'update `' . $xoopsDB->prefix('tad_discuss_board') . "` set
-    `ofBoardID` = '{$_POST['ofBoardID']}' ,
-    `BoardTitle` = '{$_POST['BoardTitle']}' ,
-    `BoardDesc` = '{$_POST['BoardDesc']}' ,
-    `BoardManager` = '{$BoardManager}' ,
-    `BoardEnable` = '{$_POST['BoardEnable']}'
-    where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_discuss_board') . '` SET
+    `ofBoardID` = ?,
+    `BoardTitle` = ?,
+    `BoardDesc` = ?,
+    `BoardManager` = ?,
+    `BoardEnable` = ?
+    WHERE `BoardID` = ?';
+    Utility::query($sql, 'issssi', [
+        $_POST['ofBoardID'],
+        $_POST['BoardTitle'],
+        $_POST['BoardDesc'],
+        $BoardManager,
+        $_POST['BoardEnable'],
+        $BoardID,
+    ]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //寫入權限
     saveItem_Permissions($_POST['forum_read'], $BoardID, 'forum_read');
@@ -223,13 +228,12 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 {
     global $xoopsDB, $xoopsTpl, $TadUpFiles;
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `ofBoardID`='{$ofBoardID}' order by BoardSort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `ofBoardID`=? ORDER BY `BoardSort`';
+    $result = Utility::query($sql, 'i', [$ofBoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
-        //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -244,7 +248,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         $BoardNum = get_board_num($BoardID);
         $BoardNum2 = get_board_num($BoardID, false);
 
-        $color = ('0' == $BoardEnable) ? '#f5f5f5' : 'white';
+        $color = !$BoardEnable ? '#f5f5f5' : 'white';
 
         $BoardManagerArr = explode(',', $BoardManager);
         $manager = [];
@@ -282,18 +286,20 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     }
 
     $xoopsTpl->assign('all_content', $all_content);
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render("delete_tad_discuss_board_func", "main.php?op=delete_tad_discuss_board&BoardID=", 'BoardID');
 
 }
 
 //取得tad_discuss_board分類選單的選項（單層選單）
 function get_tad_discuss_board_menu_options($default_BoardID = '0')
 {
-    global $xoopsDB, $xoopsModule;
-    $sql = 'SELECT `BoardID` , `ofBoardID` , `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY `BoardSort`';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    global $xoopsDB;
+    $sql = 'SELECT `BoardID`, `BoardTitle` FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` ORDER BY `BoardSort`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (list($BoardID, $ofBoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
+    while (list($BoardID, $BoardTitle) = $xoopsDB->fetchRow($result)) {
         if ($BoardID == $default_BoardID) {
             continue;
         }
@@ -308,16 +314,16 @@ function get_tad_discuss_board_menu_options($default_BoardID = '0')
 function delete_tad_discuss_board($BoardID = '')
 {
     global $xoopsDB, $TadUpFiles;
-    $sql = 'select DiscussID from ' . $xoopsDB->prefix('tad_discuss') . " where BoardID='$BoardID' and ReDiscussID=0";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `DiscussID` FROM `' . $xoopsDB->prefix('tad_discuss') . '` WHERE `BoardID` =? AND `ReDiscussID`=0';
+    $result = Utility::query($sql, 'i', [$BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($DiscussID) = $xoopsDB->fetchRow($result)) {
         delete_tad_discuss($DiscussID);
     }
 
-    $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `BoardID` = '{$BoardID}'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    //del_files('' , "BoardID" , $BoardID);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardID` = ?';
+    Utility::query($sql, 'i', [$BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $TadUpFiles->set_col('BoardID', $BoardID); //若要整個刪除
     $TadUpFiles->del_files();
 }
@@ -331,11 +337,11 @@ function moveToBoardID($BoardID = '', $NewBoardID = '')
         return;
     }
 
-    $sql = 'update `' . $xoopsDB->prefix('tad_discuss') . "` set `BoardID` = '{$NewBoardID}' where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_discuss') . '` SET `BoardID` = ? WHERE `BoardID` = ?';
+    Utility::query($sql, 'ii', [$NewBoardID, $BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $sql = 'delete from `' . $xoopsDB->prefix('tad_discuss_board') . "` where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardID` = ?';
+    Utility::query($sql, 'i', [$BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $TadUpFiles->set_col('BoardID', $BoardID); //若要整個刪除
     $TadUpFiles->del_files();
@@ -349,6 +355,7 @@ function changeBoardStatus($BoardID = '', $act = '0')
         return;
     }
 
-    $sql = 'update `' . $xoopsDB->prefix('tad_discuss_board') . "` set `BoardEnable` = '{$act}' where `BoardID` = '$BoardID'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_discuss_board') . '` SET `BoardEnable` = ? WHERE `BoardID` = ?';
+    Utility::query($sql, 'si', [$act, $BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }

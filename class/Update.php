@@ -134,7 +134,7 @@ class Update
     {
         global $xoopsDB;
         $sql = 'select uname,name from `' . $xoopsDB->prefix('users') . "` where uid ='{$uid}'";
-        $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($uname, $name) = $xoopsDB->fetchRow($result);
         if (!empty($name)) {
             return $name;

@@ -3,7 +3,6 @@
 function tad_discuss_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    $myts = \MyTextSanitizer::getInstance();
     if (is_array($queryarray)) {
         foreach ($queryarray as $k => $v) {
             $arr[$k] = $xoopsDB->escape($v);

@@ -68,13 +68,6 @@
         }
         });
     });
-
-
-    function delete_tad_discuss_cbox_setup_func(setupID){
-      var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-      if (!sure)  return;
-      location.href="<{$action|default:''}>?op=delete_tad_discuss_cbox_setup&setupID=" + setupID;
-    }
     </script>
 
     <div id="save_msg"></div>

@@ -8,7 +8,20 @@
   <{/foreach}>
 
 <{elseif $op=="show_one_tad_discuss"}>
-  <{$js|default:''}>
+
+  <script>
+    function like(op,DiscussID){
+        if($.cookie('like'+DiscussID)){
+            alert('<{$smarty.const._MD_TADDISCUS_HAD_LIKE}>');
+        }else{
+        $.post('like.php',  {op: op , DiscussID: DiscussID} , function(data) {
+            $('#'+op+DiscussID).html(data);
+        });
+
+        $.cookie('like'+DiscussID , true , { expires: 7 });
+        }
+    }
+  </script>
   <span class="badge badge-info"><a href="discuss.php?BoardID=<{$BoardID|default:''}>" style="color:white;"><{$BoardTitle|default:''}></a></span>
   <{if $DiscussTitle|default:false}>
     <h2><{$DiscussTitle|default:''}></h2>
@@ -32,10 +45,6 @@
   <div class="row">
     <div class="col-sm-12 text-center"><{$bar|default:''}></div>
   </div>
-
-
-  <link rel="stylesheet" type="text/css" media="screen" href="reset.css">
-  <script src="<{$xoops_url}>/modules/tadtools/multiple-file-upload/jquery.MultiFile.js"></script>
 
   <form action="discuss.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
     <{foreach item=discuss from=$form_data}>
@@ -108,7 +117,7 @@
   <h2><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></h2>
   <div class="jumbotron bg-light p-5 rounded-lg m-3">
     <{if $smarty.session.tad_discuss_adm|default:false}>
-      <a href="discuss.php?op=tad_discuss_form&BoardID=<{$smarty.get.BoardID}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
+      <a href="discuss.php?op=tad_discuss_form&BoardID=<{$smarty.get.BoardID|intval}>"><{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}></a>
     <{else}>
       <{$smarty.const._MD_TADDISCUS_DISCUSS_EMPTY}>
     <{/if}>

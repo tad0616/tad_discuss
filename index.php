@@ -3,6 +3,7 @@ use Xmf\Request;
 use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_discuss\Tools;
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_discuss_index.tpl';
@@ -22,8 +23,8 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_discuss/css/module.css');
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoTheme->addStylesheet('modules/tad_discuss/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';
 
 /*-----------function區--------------*/
@@ -37,17 +38,16 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     $module_id = $xoopsModule->mid();
 
     //取得目前使用者的群組編號
-    $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+    $groups = $xoopsUser ? $xoopsUser->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 
     $gpermHandler = xoops_getHandler('groupperm');
 
-    $sql = 'select * from `' . $xoopsDB->prefix('tad_discuss_board') . "` where BoardEnable='1' and `ofBoardID`='$ofBoardID' order by BoardSort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardEnable`=? AND `ofBoardID`=? ORDER BY `BoardSort`';
+    $result = Utility::query($sql, 'si', ['1', $ofBoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
-        //以下會產生這些變數： $BoardID , $BoardTitle , $BoardDesc , $BoardManager , $BoardEnable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -106,15 +106,27 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 //列出所有tad_discuss資料
 function list_tad_discuss_short($BoardID = null, $limit = null)
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsTpl;
+    global $xoopsDB;
 
     $myts = \MyTextSanitizer::getInstance();
+    $andBoardID = empty($BoardID) ? '' : "AND a.BoardID = ?";
+    $andLimit = null !== $limit ? "LIMIT 0, ?" : '';
 
-    $andBoardID = (empty($BoardID)) ? '' : "and a.BoardID='$BoardID'";
-    $andLimit = null !== $limit ? "limit 0,$limit" : '';
-    $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' $andBoardID  order by a.LastTime desc $andLimit";
+    $params = [];
+    if (!empty($BoardID)) {
+        $params[] = $BoardID;
+    }
+    if (null !== $limit) {
+        $params[] = $limit;
+    }
 
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    // 抓取討論資料
+    $sql = 'SELECT a.*, b.* FROM `' . $xoopsDB->prefix('tad_discuss') . '` AS a
+    LEFT JOIN `' . $xoopsDB->prefix('tad_discuss_board') . "` AS b ON a.BoardID = b.BoardID
+    WHERE a.ReDiscussID = 0 $andBoardID
+    ORDER BY a.LastTime DESC $andLimit";
+
+    $result = Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $main_data = [];
     $i = 0;
@@ -130,8 +142,8 @@ function list_tad_discuss_short($BoardID = null, $limit = null)
         $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $LastTime = mb_substr($LastTime, 0, 10);
 
-        $isPublic = isPublic($onlyTo, $uid, $BoardID);
-        $onlyToName = getOnlyToName($onlyTo);
+        $isPublic = Tools::isPublic($onlyTo, $uid, $BoardID);
+        $onlyToName = Tools::getOnlyToName($onlyTo);
         $DiscussTitle = $isPublic ? $myts->htmlSpecialChars($DiscussTitle) : sprintf(_MD_TADDISCUS_ONLYTO, $onlyToName);
 
         $DiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);

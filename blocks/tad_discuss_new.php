@@ -1,6 +1,7 @@
 <?php
 use XoopsModules\Tadtools\FooTable;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_discuss\Tools;
 
 if (!class_exists('XoopsModules\Tadtools\Utility')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
@@ -9,14 +10,10 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 //區塊主函式 (最新討論(tad_discuss_new))
 function tad_discuss_new($options)
 {
-    global $xoopsDB, $xoopsUser;
-    require_once XOOPS_ROOT_PATH . '/modules/tad_discuss/function_block.php';
-    $now_uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
-
-    $andLimit = ($options[0] > 0) ? "limit 0,$options[0]" : '';
-    $sql = 'select a.*,b.* from ' . $xoopsDB->prefix('tad_discuss') . ' as a left join ' . $xoopsDB->prefix('tad_discuss_board') . " as b on a.BoardID = b.BoardID where a.ReDiscussID='0' order by a.LastTime desc $andLimit";
-
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    global $xoopsDB;
+    $andLimit = ($options[0] > 0) ? "LIMIT 0, $options[0]" : '';
+    $sql = 'SELECT a.*, b.* FROM `' . $xoopsDB->prefix('tad_discuss') . '` as a LEFT JOIN `' . $xoopsDB->prefix('tad_discuss_board') . '` as b ON a.`BoardID` = b.`BoardID` WHERE a.`ReDiscussID` = 0 ORDER BY a.`LastTime` DESC ' . $andLimit;
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 1;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
@@ -34,8 +31,9 @@ function tad_discuss_new($options)
         }
 
         //最後回應者
-        $sql2 = 'select uid from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID' and `DiscussDate` = '$LastTime'";
-        $result2 = $xoopsDB->query($sql2) or Utility::web_error($sql2);
+        $sql2 = 'SELECT `uid` FROM `' . $xoopsDB->prefix('tad_discuss') . '` WHERE `ReDiscussID` =? AND `DiscussDate` =?';
+        $result2 = Utility::query($sql2, 'is', [$DiscussID, $LastTime]) or Utility::web_error($sql2);
+
         list($last_uid) = $xoopsDB->fetchRow($result2);
         if (empty($last_uid)) {
             $last_uid_name = $uid_name;
@@ -54,8 +52,8 @@ function tad_discuss_new($options)
         $showDiscussTitle = str_replace('[s', "<img src='" . XOOPS_URL . '/modules/tad_discuss/images/smiles/s', $DiscussTitle);
         $showDiscussTitle = str_replace('.gif]', ".gif' alt='emoji' class='emoji'>", $showDiscussTitle);
 
-        $isPublic = isPublic($onlyTo, $uid, $BoardID);
-        $onlyToName = getOnlyToName($onlyTo);
+        $isPublic = Tools::isPublic($onlyTo, $uid, $BoardID);
+        $onlyToName = Tools::getOnlyToName($onlyTo);
         $DiscussTitle = $isPublic ? $DiscussTitle : sprintf(_MB_TADDISCUS_ONLYTO, $onlyToName);
 
         $block['discuss'][$i]['class'] = $class;
@@ -101,13 +99,14 @@ function tad_discuss_new_edit($options)
 if (!function_exists('block_get_re_num')) {
     function block_get_re_num($DiscussID = '')
     {
-        global $xoopsDB, $xoopsUser;
+        global $xoopsDB;
         if (empty($DiscussID)) {
             return 0;
         }
 
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_discuss') . " where ReDiscussID='$DiscussID'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT COUNT(*) FROM `' . $xoopsDB->prefix('tad_discuss') . '` WHERE `ReDiscussID`=?';
+        $result = Utility::query($sql, 'i', [$DiscussID]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($counter) = $xoopsDB->fetchRow($result);
 
         return $counter;

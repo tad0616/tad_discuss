@@ -2,7 +2,7 @@
 use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
-use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\SweetAlert2;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
@@ -348,7 +348,7 @@ function show_one_tad_discuss($DefDiscussID = '')
     //高亮度語法
     Utility::prism();
 
-    $SweetAlert = new SweetAlert();
+    $SweetAlert = new SweetAlert2();
     $SweetAlert->render("delete_tad_discuss_func", "discuss.php?op=delete_tad_discuss&ReDiscussID=$DefDiscussID&BoardID={$discuss['BoardID']}&DiscussID=", 'DiscussID');
     $Board = Tools::get_tad_discuss_board($discuss['BoardID']);
 

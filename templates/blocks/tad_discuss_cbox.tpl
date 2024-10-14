@@ -12,4 +12,20 @@
                 <p><a href="<{$xoops_url}>/modules/tad_discuss/discuss.php?BoardID=<{$block.BoardID}>"><{$snarty.const._MB_TADDISCUS_CBOX_VIEW_ALL}></a></p>
             <{/if}>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                window.addEventListener('message', function(event) {
+                    if (event.data.type === 'openFancybox') {
+                        $.fancybox({
+                            href: event.data.src,
+                            type: 'image',
+                            beforeShow: function() {
+                                console.log('Loading image:', this.href);
+                            }
+                        });
+                    }
+                }, false);
+            });
+        </script>
 <{/if}>

@@ -1,7 +1,7 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
-use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\SweetAlert2;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_discuss\Tools;
@@ -286,7 +286,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
     }
 
     $xoopsTpl->assign('all_content', $all_content);
-    $SweetAlert = new SweetAlert();
+    $SweetAlert = new SweetAlert2();
     $SweetAlert->render("delete_tad_discuss_board_func", "main.php?op=delete_tad_discuss_board&BoardID=", 'BoardID');
 
 }

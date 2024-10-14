@@ -1,6 +1,6 @@
 <?php
 use Xmf\Request;
-use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\SweetAlert2;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_discuss\Tools;
@@ -38,22 +38,20 @@ $xoopsLogger->activated = false;
 /*-----------秀出結果區--------------*/
 Utility::get_jquery();
 
-$FancyBox = new FancyBox('.fancybox_Discuss');
-$FancyBox->render();
-
-echo "
-<!DOCTYPE html>
-<html lang='en'>
-  <head>
-  <meta charset='" . _CHARSET . "'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Post List</title>
-  <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/css/cbox.css'>
-</head>
-<body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
-  {$main}
-</body>
-</html>";
+echo Utility::html5($main, false, true, $_SESSION['bootstrap'], true, 'container', 'Post List', "<script type='text/javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/lib/jquery.mousewheel.pack.js'></script><script type='text/javascript' language='javascript' src='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/jquery.fancybox.js'></script><link rel='stylesheet' href='" . XOOPS_URL . "/modules/tadtools/fancyBox/source/jquery.fancybox.css' type='text/css' media='screen' /><link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/css/cbox.css'>", true, true);
+// echo "
+// <!DOCTYPE html>
+// <html lang='en'>
+//   <head>
+//   <meta charset='" . _CHARSET . "'>
+//   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+//   <title>Post List</title>
+//   <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tad_discuss/css/cbox.css'>
+// </head>
+// <body bgcolor='#FFFFFF' style='scrollbar-face-color:#EDF3F7;scrollbar-shadow-color:#EDF3F7;scrollbar-highlight-color:#EDF3F7;scrollbar-3dlight-color:#FFFFFF;scrollbar-darkshadow-color:#FFFFFF;scrollbar-track-color:#FFFFFF;scrollbar-arrow-color:#232323;scrollbar-base-color:#FFFFFF;'>
+//   {$main}
+// </body>
+// </html>";
 
 /*-----------function區--------------*/
 
@@ -72,22 +70,20 @@ function list_tad_discuss_cbox($DefBoardID = '')
         header('location:index.php');
     }
 
-    $jquery = Utility::get_jquery();
+    // $jquery = Utility::get_jquery();
 
     $cbox_root_msg_color = Request::getString('cbox_root_msg_color', '#B4C58D');
     $bg_color = Request::getString('bg_color', '#FFFFFF');
     $font_color = Request::getString('font_color', '#000000');
 
+    $del_js = '';
     if ($_SESSION['tad_discuss_adm']) {
-        $del_js = "
-        function delete_tad_discuss_func(DiscussID){
-          var sure = window.confirm('" . _TAD_DEL_CONFIRM . "');
-          if (!sure)  return;
-          location.href=\"{$_SERVER['PHP_SELF']}?BoardID={$DefBoardID}&op=delete_tad_discuss&DiscussID=\" + DiscussID;
-        }";
-    } else {
-        $del_js = '';
+        $SweetAlert = new SweetAlert2();
+        $del_js = $SweetAlert->render("delete_tad_discuss_func", "{$_SERVER['PHP_SELF']}?BoardID={$DefBoardID}&op=delete_tad_discuss&DiscussID=", 'DiscussID');
     }
+
+    // $FancyBox = new FancyBox('.fancybox_Discuss');
+    // $fancy_box = $FancyBox->render();
 
     $data = "
     <style>
@@ -118,15 +114,22 @@ function list_tad_discuss_cbox($DefBoardID = '')
       -moz-border-radius: 10px;
       border-radius: 10px;
     }
-
     </style>
-    $jquery
+    $del_js
     <script type='text/javascript'>
-      $del_js
       $(document).ready(function(){
+        $('.fancybox_Discuss').on('click', function(e) {
+            e.preventDefault();
+            var imageSrc = $(this).attr('href');
+            console.log('Clicked image src:', imageSrc);
+            window.parent.postMessage({
+                type: 'openFancybox',
+                src: imageSrc
+            }, '*');
+        });
         $('img').css('max-width','100%');
         $('iframe').css('width','100%');
-      });
+    });
     </script>
     <h3 style='display: none;'>All Posts</h3>
     ";

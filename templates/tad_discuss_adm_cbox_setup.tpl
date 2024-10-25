@@ -45,7 +45,7 @@
           <input type='hidden' name="setupID" value="<{$setupID|default:''}>">
           <input type="hidden" name="setupSort" value="<{$setupSort|default:''}>">
           <input type="hidden" name="op" value="<{$next_op|default:''}>">
-          <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>
 
@@ -89,8 +89,8 @@
           <td><{$data.setupRule}></td>
           <td><{$data.BoardTitle}></td>
           <td>
-            <a href="javascript:delete_tad_discuss_cbox_setup_func(<{$data.setupID}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
-            <a href="<{$action|default:''}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
+            <a href="javascript:delete_tad_discuss_cbox_setup_func(<{$data.setupID}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+            <a href="<{$action|default:''}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
           </td>
         </tr>
       <{/foreach}>

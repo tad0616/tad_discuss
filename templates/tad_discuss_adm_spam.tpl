@@ -122,7 +122,7 @@
         <{/foreach}>
       </table>
       <input type="hidden" name="op" value="del_spam">
-      <button type="submit" class="btn btn-danger"><{$smarty.const._TAD_DEL}></button>
+      <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></button>
     </form>
   <{/if}>
 </div>

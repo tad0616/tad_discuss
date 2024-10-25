@@ -30,7 +30,7 @@
     <{foreach item=bb from=$all_content}>
       <tr>
         <td><{$bb.i}></td>
-        <td><a href="copynewbb.php?op=delnewbb&topic_id=<{$bb.topic_id}>&BoardID=<{$bb.BoardID}>" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a></td>
+        <td><a href="copynewbb.php?op=delnewbb&topic_id=<{$bb.topic_id}>&BoardID=<{$bb.BoardID}>" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a></td>
         <td><{$bb.topic_id}></td>
         <td><{$bb.topic_poster}></td>
         <td>

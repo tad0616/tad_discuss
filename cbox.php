@@ -32,7 +32,7 @@ switch ($op) {
         break;
 }
 
-error_reporting(0);
+// 關閉除錯訊息
 $xoopsLogger->activated = false;
 
 /*-----------秀出結果區--------------*/

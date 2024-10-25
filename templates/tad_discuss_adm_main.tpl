@@ -60,7 +60,7 @@
         <div class="col-sm-3">
           <input type="hidden" name="BoardID" value="<{$BoardID|default:''}>">
           <input type="hidden" name="op" value="<{$next_op|default:''}>">
-          <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>
 
@@ -129,10 +129,10 @@
                     <button type="submit" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADDISCUS_MERGE}></button>
 
                     <{if $all.BoardEnable==0}>
-                      <a href="javascript:delete_tad_discuss_board_func(<{$all.BoardID}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}>
+                      <a href="javascript:delete_tad_discuss_board_func(<{$all.BoardID}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}>
                       </a>
                     <{/if}>
-                    <a href="main.php?op=tad_discuss_board_form&BoardID= <{$all.BoardID}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}>
+                    <a href="main.php?op=tad_discuss_board_form&BoardID= <{$all.BoardID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}>
                     </a>
                   </div>
                 </div>
@@ -178,10 +178,10 @@
                         <button type="submit" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADDISCUS_MERGE}></button>
 
                         <{if $sb.BoardEnable==0}>
-                          <a href="javascript:delete_tad_discuss_board_func(<{$sb.BoardID}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}>
+                          <a href="javascript:delete_tad_discuss_board_func(<{$sb.BoardID}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}>
                           </a>
                         <{/if}>
-                        <a href="main.php?op=tad_discuss_board_form&BoardID= <{$sb.BoardID}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}>
+                        <a href="main.php?op=tad_discuss_board_form&BoardID= <{$sb.BoardID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}>
                         </a>
                       </div>
                     </div>

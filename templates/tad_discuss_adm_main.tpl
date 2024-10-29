@@ -7,11 +7,11 @@
     <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
       <div class="form-group row mb-3">
         <!--討論區名稱-->
-        <label class="col-sm-1 col-form-label text-sm-right control-label">
+        <label class="col-sm-1 col-form-label text-sm-right text-sm-end control-label">
           <{$smarty.const._MA_TADDISCUS_OFBOARDID}>
         </label>
         <div class="col-sm-2">
-          <select name="ofBoardID" class="form-control">
+          <select name="ofBoardID" class="form-select">
             <option value="0" <{if $of.BoardID==$ofBoardID}>selected<{/if}>></option>
             <{foreach from=$ofBoardArr item=of}>
               <option value="<{$of.BoardID}>" <{if $of.BoardID==$ofBoardID}>selected<{/if}>><{$of.BoardTitle}></option>
@@ -118,7 +118,7 @@
               <form action="main.php" method="post" class="form-horizontal" role="form">
                 <div class="form-group row mb-3">
                   <div class="col-sm-6">
-                    <select name="NewBoardID" class="form-control">
+                    <select name="NewBoardID" class="form-select">
                       <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
                       <{$all.board_menu_options}>
                     </select>
@@ -167,7 +167,7 @@
                   <form action="main.php" method="post" class="form-horizontal" role="form">
                     <div class="form-group row mb-3">
                       <div class="col-sm-6">
-                        <select name="NewBoardID" class="form-control">
+                        <select name="NewBoardID" class="form-select">
                           <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
                           <{$sb.board_menu_options}>
                         </select>

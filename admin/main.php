@@ -214,8 +214,8 @@ function update_tad_discuss_board($BoardID = '')
     ]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //寫入權限
-    saveItem_Permissions($_POST['forum_read'], $BoardID, 'forum_read');
-    saveItem_Permissions($_POST['forum_post'], $BoardID, 'forum_post');
+    Utility::save_perm($_POST['forum_read'], $BoardID, 'forum_read');
+    Utility::save_perm($_POST['forum_post'], $BoardID, 'forum_post');
 
     $TadUpFiles->set_col('BoardID', $BoardID);
     $TadUpFiles->upload_file('upfile', 1024, 120, null, '', true);

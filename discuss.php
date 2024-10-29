@@ -157,7 +157,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
     if (empty($ReDiscussID)) {
-        $board_option = "<select name='BoardID' class='form-control'>" . get_tad_discuss_board_option($BoardID) . '</select>';
+        $board_option = "<select name='BoardID' class='form-select'>" . get_tad_discuss_board_option($BoardID) . '</select>';
     } else {
         $board_option = "<input type='hidden' name='BoardID' value='{$BoardID}'>";
     }
@@ -498,7 +498,7 @@ function update_tad_discuss($DiscussID = '')
 
     $time = date('Y-m-d H:i:s');
 
-    $anduid = onlyMine($DiscussID);
+    $anduid = onlyMineDiscuss($DiscussID);
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_discuss') . '` SET
     `BoardID` = ? ,
     `DiscussTitle` = ? ,
@@ -525,7 +525,7 @@ function change_lock($lock, $BoardID, $DiscussID)
 {
     global $xoopsDB;
 
-    $anduid = onlyMine($DiscussID);
+    $anduid = onlyMineDiscuss($DiscussID);
 
     $onlyTo = '';
 

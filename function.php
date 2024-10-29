@@ -133,8 +133,8 @@ function insert_tad_discuss_board($BoardTitle = '')
     $BoardID = $xoopsDB->getInsertId();
 
     //寫入權限
-    saveItem_Permissions($forum_read, $BoardID, 'forum_read');
-    saveItem_Permissions($forum_post, $BoardID, 'forum_post');
+    Utility::save_perm($forum_read, $BoardID, 'forum_read');
+    Utility::save_perm($forum_post, $BoardID, 'forum_post');
 
     $TadUpFiles->set_col('BoardID', $BoardID);
     $TadUpFiles->upload_file('upfile', 1024, 120, null, '', true);
@@ -169,24 +169,6 @@ function tad_discuss_cbox_setup_max_sort()
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
-}
-
-//儲存權限
-function saveItem_Permissions($groups, $itemid, $perm_name)
-{
-    global $xoopsModule;
-    $module_id = $xoopsModule->mid();
-    $gpermHandler = xoops_getHandler('groupperm');
-
-    // First, if the permissions are already there, delete them
-    $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
-
-    // Save the new permissions
-    if (count($groups) > 0) {
-        foreach ($groups as $group_id) {
-            $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
-        }
-    }
 }
 
 //列出所有tad_discuss資料
@@ -416,7 +398,7 @@ function getBoardManager($BoardID = '', $mode = '')
 }
 
 //更新刪除時是否限制身份
-function onlyMine($DiscussID = '')
+function onlyMineDiscuss($DiscussID = '')
 {
     global $xoopsUser;
     $uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
@@ -442,7 +424,7 @@ function delete_tad_discuss($DiscussID = '')
         return;
     }
 
-    $anduid = onlyMine($DiscussID);
+    $anduid = onlyMineDiscuss($DiscussID);
 
     $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_discuss') . '` WHERE `DiscussID`=? ' . $anduid;
     if (Utility::query($sql, 'i', [$DiscussID])) {

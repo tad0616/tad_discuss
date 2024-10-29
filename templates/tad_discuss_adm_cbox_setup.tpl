@@ -28,7 +28,7 @@
           <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
         </label>
         <div class="col-sm-2">
-          <select name="BoardID" class="form-control" size=1>
+          <select name="BoardID" class="form-select" size=1>
             <option value="" <{if $BoardID == ""}>selected="selected"<{/if}>></option>
             <{foreach from=$option item=data}>
               <option value="<{$data.BoardID}>" <{if $BoardID == $data.BoardID}>selected="selected"<{/if}>><{$data.BoardTitle}></option>

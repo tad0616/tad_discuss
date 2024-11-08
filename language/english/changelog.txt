@@ -38,7 +38,6 @@ Tad Discuss 2.5.3 (2020-03-14 released)
 ===============================================
 1. Correction for accessibility 2.0 AA standard
 
-
 Tad Discuss 2.5.2 (2019-05-10 released)
 ========================================================
 1. Support XOOPS 2.5.10
@@ -50,7 +49,6 @@ Tad Discuss 2.5.1 (2019-01-01 released)
 2.Attached support panoramic picture
 3. Support PHP 7.3
 4. Support MySQL database strict mode
-
 
 Tad Discuss 2.5 (2018-05-25 released)
 ===============================================
@@ -70,13 +68,11 @@ Tad Discuss 1.8 (2014-10-13 released)
 3. Fix Instant Guestbook Instant visitors have the question of powers can not comment
 The new set presents each Forum Forum Index under the number of messages of Preferences
 
-
 Tad Discuss 1.7 (2014-10-02 released)
 ===============================================
 1. Fixed non-visitors will not be able to watch the article without written permission problem
 2. Open visitors can also function message
 3. Amendments to Guest problems pda.php page
-
 
 Tad Discuss 1.61 (2014-09-25 released)
 ===============================================
@@ -84,13 +80,11 @@ Tad Discuss 1.61 (2014-09-25 released)
 2. Fixed new discussion, some hosts will be more of a slash problems.
 3. Amendments to conform to WCAG
 
-
 Tad Discuss 1.6 (2014-06-25 released)
 ===============================================
 1. Fixed editing tools listed under certain conditions will disappear bug
 2. Fixed file upload fields, avoiding more than 60,005 one thousand messages, the file could not be uploaded situation
 3. Adjust the forum on behalf of the picture, so that it can be automatically placed.
-
 
 Tad Discuss 1.5 (2014-06-16 released)
 ===============================================
@@ -100,7 +94,6 @@ Tad Discuss 1.5 (2014-06-16 released)
 4. Remove unnecessary Archives
 5. fixed uid field is mediumint (8) Format
 6. fine tuning the layout to make it easier to read.
-
 
 Tad Discuss 1.4 (2014-05-02 released)
 ===============================================
@@ -121,7 +114,6 @@ Tad Discuss 1.3 (2014-02-20 released)
 8. Adjust the setting of the preset line spacing dialogue
 9. A message string of more than 20 amendments later article will not see the problem (added pagination tools)
 
-
 Tad Discuss 1.2 (2014-01-15 released)
 ===============================================
 1. Fixed instant messages are not set rules if multiple rules to the same forum will be unable to correctly judge the issue
@@ -131,7 +123,6 @@ Tad Discuss 1.2 (2014-01-15 released)
 5. Fixed an issue where a user can not select only the forum moderator bug when one webmaster
 Question 6. Fixed emoticon displayed in the title
 7. Add sub-classification
-
 
 Tad Discuss 1.1 (2013-12-23 released)
 ===============================================
@@ -151,7 +142,6 @@ The multi-file upload object instead TadUpFiles
 All discussions will be deleted messages and files 5. Delete the entire discussion boards
 6. It is not supported publishing rights of tourists are expected to join the next edition
 
-
 Tad Discuss Version 1.0 RC4 (2013-10-28 released)
 ===============================================
 1. Fixed the problem time error
@@ -159,12 +149,10 @@ Tad Discuss Version 1.0 RC4 (2013-10-28 released)
 3. Fix into XOOPS 2.5 format
 4. Support bootstrap
 
-
  Tad Discuss version 1.0 RC3 (2012-10-31 released)
 ===============================================
 1. Fixed anyone can modify discuss major bug
 2. Join the discussion area of ​​the closing function
-
 
 Tad Discuss Version 1.0 RC2 (2012-10-30 released)
 ===============================================

@@ -1,4 +1,4 @@
-Tad Discuss 3.0 (released on 2024-11-11)
+Tad Discuss 3.0 (released on 2024-11-18)
 ====================================
 1. Strengthen the spam message function
 2. Add blacklist group identification (preference settings required)

@@ -51,6 +51,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('tad_discuss_adm', $tad_discuss_adm);
 require_once __DIR__ . '/footer.php';
 
 /*-----------function區--------------*/

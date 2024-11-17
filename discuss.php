@@ -72,6 +72,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign('tad_discuss_adm', $tad_discuss_adm);
 if ($xoopsUser) {
     $xoopsTpl->assign('now_uid', $xoopsUser->uid());
 } else {

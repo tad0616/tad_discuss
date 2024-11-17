@@ -24,6 +24,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign('tad_discuss_adm', $tad_discuss_adm);
 $xoTheme->addStylesheet('modules/tad_discuss/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';
 
@@ -32,7 +33,7 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 //列出所有tad_discuss_board資料
 function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsTpl, $TadUpFiles, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsTpl, $TadUpFiles, $xoopsModuleConfig, $tad_discuss_adm;
 
     //取得本模組編號
     $module_id = $xoopsModule->mid();
@@ -65,7 +66,7 @@ function list_tad_discuss_board($ofBoardID = 0, $mode = 'tpl')
         $display_number = isset($xoopsModuleConfig['display_number']) ? (int) $xoopsModuleConfig['display_number'] : 7;
         $list_tad_discuss = list_tad_discuss_short($BoardID, $display_number);
 
-        $fun = ($_SESSION['tad_discuss_adm']) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : '';
+        $fun = ($tad_discuss_adm) ? "<a href='admin/main.php?op=tad_discuss_board_form&BoardID=$BoardID'><img src='images/edit.png' alt='" . _TAD_EDIT . "'></a>" : '';
         $BoardManager = implode(' , ', getBoardManager($BoardID, 'uname'));
 
         $BoardNum = get_board_num($BoardID);

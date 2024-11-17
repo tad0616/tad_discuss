@@ -6,7 +6,10 @@ use XoopsModules\Tadtools\Wcag;
 use XoopsModules\Tad_discuss\Tools;
 
 xoops_loadLanguage('main', 'tadtools');
-
+//判斷是否對該模組有管理權限
+if (!isset($tad_discuss_adm)) {
+    $tad_discuss_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+}
 /********************* 自訂函數 ********************
  * @param string $BoardID
  * @param string $DiscussID
@@ -352,7 +355,7 @@ function get_re_num($DiscussID = '')
 //是否有管理權（或由自己發布的），判斷是否要秀出管理工具
 function isMine($discuss_uid = null, $BoardID = null)
 {
-    global $xoopsUser;
+    global $xoopsUser, $tad_discuss_adm;
     if (empty($xoopsUser)) {
         return false;
     }
@@ -365,7 +368,7 @@ function isMine($discuss_uid = null, $BoardID = null)
     }
     $uid = $xoopsUser->uid();
 
-    if ($_SESSION['tad_discuss_adm']) {
+    if ($tad_discuss_adm) {
         return true;
     } elseif (in_array($uid, $BoardManagerArr)) {
         return true;
@@ -400,13 +403,13 @@ function getBoardManager($BoardID = '', $mode = '')
 //更新刪除時是否限制身份
 function onlyMineDiscuss($DiscussID = '')
 {
-    global $xoopsUser;
+    global $xoopsUser, $tad_discuss_adm;
     $uid = is_object($xoopsUser) ? $xoopsUser->uid() : '0';
     $Discuss = get_tad_discuss($DiscussID);
     $board = Tools::get_tad_discuss_board($Discuss['BoardID']);
     $BoardManagerArr = explode(',', $board['BoardManager']);
 
-    if ($_SESSION['tad_discuss_adm']) {
+    if ($tad_discuss_adm) {
         return;
     } elseif (in_array($uid, $BoardManagerArr)) {
         return;

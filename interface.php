@@ -2,8 +2,8 @@
 use Xmf\Request;
 $BoardID = Request::getInt('BoardID');
 //判斷是否對該模組有管理權限
-if (!isset($_SESSION['tad_discuss_adm'])) {
-    $_SESSION['tad_discuss_adm'] = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+if (!isset($tad_discuss_adm)) {
+    $tad_discuss_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 
 $interface_menu[_MD_TADDISCUS_SMNAME1] = 'index.php';

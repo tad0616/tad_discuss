@@ -10,7 +10,7 @@ class Tools
     //悄悄話檢查
     public static function isPublic($onlyTo = '', $publisher_uid = 0, $BoardID = null)
     {
-        global $xoopsUser;
+        global $xoopsUser, $tad_discuss_adm;
         if (empty($onlyTo)) {
             return true;
         }
@@ -19,7 +19,7 @@ class Tools
             return false;
         }
 
-        if ($_SESSION['tad_discuss_adm']) {
+        if ($tad_discuss_adm) {
             return true;
         }
 

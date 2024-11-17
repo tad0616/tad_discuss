@@ -58,7 +58,7 @@ echo Utility::html5($main, false, true, $_SESSION['bootstrap'], true, 'container
 //列出所有tad_discuss資料
 function list_tad_discuss_cbox($DefBoardID = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $TadUpFiles;
+    global $xoopsDB, $xoopsModule, $xoopsUser, $TadUpFiles, $tad_discuss_adm;
 
     //取得本模組編號
     $module_id = $xoopsModule->mid();
@@ -77,7 +77,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
     $font_color = Request::getString('font_color', '#000000');
 
     $del_js = '';
-    if ($_SESSION['tad_discuss_adm']) {
+    if ($tad_discuss_adm) {
         $SweetAlert = new SweetAlert2();
         $del_js = $SweetAlert->render("delete_tad_discuss_func", "{$_SERVER['PHP_SELF']}?BoardID={$DefBoardID}&op=delete_tad_discuss&DiscussID=", 'DiscussID');
     }
@@ -171,7 +171,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
 
         $show_tool = $gpermHandler->checkRight('forum_post', $BoardID, $groups, $module_id);
         $tool = '';
-        if ($show_tool and $_SESSION['tad_discuss_adm']) {
+        if ($show_tool and $tad_discuss_adm) {
             $tool = "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
         }
         $re_button = Tools::isPublic($onlyTo, $uid, $DefBoardID) ? "<button type='button' style='font-size: 80%;border:1px solid gray;float:right;' onClick=\"window.open('" . XOOPS_URL . "/modules/tad_discuss/post.php?DiscussID={$DiscussID}&ReDiscussID={$DiscussID}&BoardID={$BoardID}','discussCboxForm')\">" . _MD_TADDISCUS_DISCUSSRE . '</button>' : '';
@@ -248,7 +248,7 @@ function list_tad_discuss_cbox($DefBoardID = '')
             $post_date = mb_substr(date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($DiscussDate))), 0, 16);
 
             $tool = '';
-            if ($show_tool and $_SESSION['tad_discuss_adm']) {
+            if ($show_tool and $tad_discuss_adm) {
                 $tool = "<img src='" . XOOPS_URL . "/modules/tad_discuss/images/del2.gif' width=12 height=12 align=bottom hspace=2 onClick=\"delete_tad_discuss_func($DiscussID)\">";
             }
 

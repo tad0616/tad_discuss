@@ -75,10 +75,10 @@ if ('mkpic' === $_GET['mode']) {
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 {
-    global $xoopsUser, $xoopsModuleConfig, $xoopsModule, $TadUpFiles;
+    global $xoopsUser, $xoopsModuleConfig, $xoopsModule, $TadUpFiles, $tad_discuss_adm;
 
     if (empty($BoardID)) {
-        if ($_SESSION['tad_discuss_adm'] and '1' == $xoopsModuleConfig['display_fast_setup']) {
+        if ($tad_discuss_adm and '1' == $xoopsModuleConfig['display_fast_setup']) {
 
             $FormValidator = new FormValidator('#myForm', true);
             $formValidator_code = $FormValidator->render();

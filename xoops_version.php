@@ -81,9 +81,9 @@ $modversion['templates'] = [
     ['file' => 'tad_discuss_bootstrap.tpl', 'description' => 'tad_discuss_bootstrap.tpl'],
 ];
 
-//---區塊設定---//
+//---區塊設定 (索引為固定值，若欲刪除區塊記得補上索引，避免區塊重複)---//
 $modversion['blocks'] = [
-    [
+    1 => [
         'file' => 'tad_discuss_new.php',
         'name' => _MI_TADDISCUS_BNAME1,
         'description' => _MI_TADDISCUS_BDESC1,

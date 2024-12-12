@@ -158,7 +158,7 @@ function tad_discuss_form($BoardID = '', $DefDiscussID = '', $DefReDiscussID = '
     $RE = !empty($DefReDiscussID) ? get_tad_discuss($DefReDiscussID) : [];
 
     if (empty($ReDiscussID)) {
-        $board_option = "<select name='BoardID' class='form-select'>" . get_tad_discuss_board_option($BoardID) . '</select>';
+        $board_option = "<select name='BoardID' class='form-control form-select'>" . get_tad_discuss_board_option($BoardID) . '</select>';
     } else {
         $board_option = "<input type='hidden' name='BoardID' value='{$BoardID}'>";
     }

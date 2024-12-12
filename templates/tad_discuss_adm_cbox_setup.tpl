@@ -28,7 +28,7 @@
           <{$smarty.const._MA_TADDISCUS_TO_BOARDID}>
         </label>
         <div class="col-sm-2">
-          <select name="BoardID" class="form-select" size=1>
+          <select name="BoardID" class="form-control form-select" size=1>
             <option value="" <{if $BoardID == ""}>selected="selected"<{/if}>></option>
             <{foreach from=$option item=data}>
               <option value="<{$data.BoardID}>" <{if $BoardID == $data.BoardID}>selected="selected"<{/if}>><{$data.BoardTitle}></option>
@@ -45,7 +45,7 @@
           <input type='hidden' name="setupID" value="<{$setupID|default:''}>">
           <input type="hidden" name="setupSort" value="<{$setupSort|default:''}>">
           <input type="hidden" name="op" value="<{$next_op|default:''}>">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>
 
@@ -90,7 +90,7 @@
           <td><{$data.BoardTitle}></td>
           <td>
             <a href="javascript:delete_tad_discuss_cbox_setup_func(<{$data.setupID}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-            <a href="<{$action|default:''}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+            <a href="<{$action|default:''}>?op=tad_discuss_cbox_setup_form&setupID=<{$data.setupID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
           </td>
         </tr>
       <{/foreach}>

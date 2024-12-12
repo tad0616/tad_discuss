@@ -11,7 +11,7 @@
           <{$smarty.const._MA_TADDISCUS_OFBOARDID}>
         </label>
         <div class="col-sm-2">
-          <select name="ofBoardID" class="form-select">
+          <select name="ofBoardID" class="form-control form-select">
             <option value="0" <{if $of.BoardID==$ofBoardID}>selected<{/if}>></option>
             <{foreach from=$ofBoardArr item=of}>
               <option value="<{$of.BoardID}>" <{if $of.BoardID==$ofBoardID}>selected<{/if}>><{$of.BoardTitle}></option>
@@ -60,7 +60,7 @@
         <div class="col-sm-3">
           <input type="hidden" name="BoardID" value="<{$BoardID|default:''}>">
           <input type="hidden" name="op" value="<{$next_op|default:''}>">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>
 
@@ -118,7 +118,7 @@
               <form action="main.php" method="post" class="form-horizontal" role="form">
                 <div class="form-group row mb-3">
                   <div class="col-sm-6">
-                    <select name="NewBoardID" class="form-select">
+                    <select name="NewBoardID" class="form-control form-select">
                       <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
                       <{$all.board_menu_options}>
                     </select>
@@ -132,7 +132,7 @@
                       <a href="javascript:delete_tad_discuss_board_func(<{$all.BoardID}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}>
                       </a>
                     <{/if}>
-                    <a href="main.php?op=tad_discuss_board_form&BoardID= <{$all.BoardID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}>
+                    <a href="main.php?op=tad_discuss_board_form&BoardID= <{$all.BoardID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}>
                     </a>
                   </div>
                 </div>
@@ -167,7 +167,7 @@
                   <form action="main.php" method="post" class="form-horizontal" role="form">
                     <div class="form-group row mb-3">
                       <div class="col-sm-6">
-                        <select name="NewBoardID" class="form-select">
+                        <select name="NewBoardID" class="form-control form-select">
                           <option value=""><{$smarty.const._MA_TADDISCUS_MOVE}></option>
                           <{$sb.board_menu_options}>
                         </select>
@@ -181,7 +181,7 @@
                           <a href="javascript:delete_tad_discuss_board_func(<{$sb.BoardID}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}>
                           </a>
                         <{/if}>
-                        <a href="main.php?op=tad_discuss_board_form&BoardID= <{$sb.BoardID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}>
+                        <a href="main.php?op=tad_discuss_board_form&BoardID= <{$sb.BoardID}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}>
                         </a>
                       </div>
                     </div>

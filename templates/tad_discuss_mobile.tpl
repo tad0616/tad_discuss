@@ -22,7 +22,7 @@
 
 
         <{if $discuss.fun|default:false}>
-          <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="mobile_btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+          <a href="discuss.php?op=tad_discuss_form&BoardID=<{$discuss.BoardID}>&DiscussID=<{$discuss.DiscussID}>" class="mobile_btn"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
           <a href="javascript:delete_tad_discuss_func(<{$discuss.DiscussID}>);" class="mobile_btn"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
         <{/if}>
         <{if $discuss.like|default:false}>

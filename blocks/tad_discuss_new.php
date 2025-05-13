@@ -6,6 +6,9 @@ use XoopsModules\Tad_discuss\Tools;
 if (!class_exists('XoopsModules\Tadtools\Utility')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
 }
+if (!class_exists('XoopsModules\Tad_discuss\Tools')) {
+    require XOOPS_ROOT_PATH . '/modules/tad_discuss/preloads/autoloader.php';
+}
 
 //區塊主函式 (最新討論(tad_discuss_new))
 function tad_discuss_new($options)

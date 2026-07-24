@@ -28,6 +28,20 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 class Update
 {
+
+    // 新增全文檢索
+    public static function checkFulltextIndex()
+    {
+        global $xoopsDB;
+        $sql = "SHOW INDEX FROM `" . $xoopsDB->prefix('tad_discuss') . "` WHERE Index_type = 'FULLTEXT'";
+        $result = $xoopsDB->query($sql);
+
+        if ($xoopsDB->getRowsNum($result) == 0) {
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_discuss') . "` ADD FULLTEXT INDEX ft_discuss (DiscussTitle, DiscussContent) WITH PARSER ngram";
+            $xoopsDB->queryF($sql);
+        }
+    }
+
     //新增悄悄話欄位
     public static function chk_chk1()
     {

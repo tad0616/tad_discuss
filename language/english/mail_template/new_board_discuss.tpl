@@ -1,28 +1,29 @@
-嗨 {X_UNAME} 您好：
+Hi {X_UNAME} Hello:
 
-有人在「{X_SITENAME}」網站的「{BOARD_TITLE}」討論區下發布了一篇討論主題：
+Someone has posted a discussion thread under the "{BOARD_TITLE}" forum on the "{X_SITENAME}" website:
 -----------
-「{DISCUSS_TITLE}」
+"{DISCUSS_TITLE}"
 
 {DISCUSS_CONTENT}
+
+From {DISCUSS_UID} From {DISCUSS_IP}
 -----------
 
-您可以點選以下位址觀看完整討論串：
+You can view the full discussion thread by clicking on the following URL:
 {DISCUSS_URL}
 
-您可以點選以下位址觀看更多討論：
+You can click the following URL to see more discussion:
 {X_MODULE_URL}
 
 -----------
 
-您會收到這封信是因為您在本站有設定通知功能，若這是一項錯誤或您不想再接收這一類的通知，請由以下位址來更新您的訂閱狀態：
+You are receiving this letter because you have set up notifications on this site. If this is an error or you no longer wish to receive such notifications, please update your subscription status at the following address:
 {X_UNSUBSCRIBE_URL}
 
-請勿直接回覆這封信件.
+Please do not reply directly to this email.
 
 -----------
 
 {X_SITENAME} ({X_SITEURL})
-網站管理員 敬上
+Dear Webmaster
 {X_ADMINMAIL}
-

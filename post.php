@@ -8,12 +8,12 @@ require_once __DIR__ . '/header.php';
 $TadUpFiles = new TadUpFiles('tad_discuss');
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$BoardID = Request::getInt('BoardID');
-$DiscussID = Request::getInt('DiscussID');
+$op          = Request::getString('op');
+$BoardID     = Request::getInt('BoardID');
+$DiscussID   = Request::getInt('DiscussID');
 $ReDiscussID = Request::getInt('ReDiscussID');
-$boardTitle = Request::getString('boardTitle');
-$setupRule = Request::getString('setupRule');
+$boardTitle  = Request::getString('boardTitle');
+$setupRule   = Request::getString('setupRule');
 
 switch ($op) {
     //新增資料
@@ -64,15 +64,6 @@ echo "\n</html>";
 
 /*-----------function區--------------*/
 
-if ('mkpic' === $_GET['mode']) {
-    if ('1' == $xoopsModuleConfig['security_images']) {
-        $num = mt_rand(100, 999);
-        $_SESSION['security_code'] = $num;
-        mkpic($num);
-        exit;
-    }
-}
-
 //tad_discuss編輯表單
 function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 {
@@ -81,11 +72,11 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
     if (empty($BoardID)) {
         if ($tad_discuss_adm and '1' == $xoopsModuleConfig['display_fast_setup']) {
 
-            $FormValidator = new FormValidator('#myForm', true);
+            $FormValidator      = new FormValidator('#myForm', true);
             $formValidator_code = $FormValidator->render();
 
             $boardTitle = _MD_TADDISCUS_INPUT_BOARDTITLE;
-            $setupRule = $_GET['setupRule'];
+            $setupRule  = $_GET['setupRule'];
 
             $main = "
             <body class='error_bg'>
@@ -148,7 +139,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 
     $publisher_txt = (!empty($ReDiscussID)) ? "<div class='remsg'>" . sprintf(_MD_TADDISCUS_RE_MSG, $ReDiscussID) . '</div>' : "<div class='remsg'>" . sprintf(_MD_TADDISCUS_ADD_MSG, $publisher) . '</div>';
 
-    $js = $smile_all = '';
+    $js                         = $smile_all                         = '';
     $_SESSION['cbox_use_smile'] = 1;
 
     if ('1' == $_SESSION['cbox_use_smile']) {
@@ -161,7 +152,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
                         continue;
                     }
 
-                    $key = mb_substr($file, 1, -4);
+                    $key             = mb_substr($file, 1, -4);
                     $smile_gif[$key] = $file;
                 }
                 closedir($dh);
@@ -216,7 +207,8 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
     }
 
     $jquery = Utility::get_jquery();
-
+    //加入Token安全機制
+    $token            = Utility::token_form('return');
     $DiscussTitleForm = empty($ReDiscussID) ? "
   <tr>
     <td colspan=2><input type='text' name='DiscussTitle' value='' style='width:100%' placeholder='" . _MD_TADDISCUS_INPUT_TITLE . "' class='form-control validate[required]'>
@@ -268,14 +260,13 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 
     <tr>
       <td class='col' colspan=2 style='text-align:right;'>
-        $security_images
         <input type='checkbox' name='only_root' value='1'><span style='font-size:80%'>" . _MD_TADDISCUS_ONLY_ROOT . "</span>
         <input type='hidden' name='BoardID' value='{$BoardID}'>
         <input type='hidden' name='DiscussID' value='{$DiscussID}'>
         <input type='hidden' name='ReDiscussID' value='{$ReDiscussID}'>
         <input type='hidden' name='publisher' value='{$publisher}'>
         <input type='hidden' name='op' value='insert_tad_discuss'>
-
+      {$token}
         <input type='button' value='" . _TAD_SAVE . "' style='height:100%' onClick='check();'>
         $upform
       </td>
@@ -293,7 +284,7 @@ function tad_discuss_form($BoardID = '', $DiscussID = '', $ReDiscussID = '')
 function mkpic($num = 0)
 {
     header('Content-type: image/png');
-    $im = @imagecreatetruecolor(28, 18);
+    $im         = @imagecreatetruecolor(28, 18);
     $text_color = imagecolorallocate($im, 255, 255, 255);
     imagestring($im, 2, 5, 2, $num, $text_color);
     imagepng($im);

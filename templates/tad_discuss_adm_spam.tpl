@@ -40,6 +40,12 @@
     <div id="msg"></div>
     <form action="spam.php" method="post" class="form-horizontal" role="form">
       <div style="display:inline-block; float: left; font-size: 81.25%; padding:4px 8px;">
+        <input name="spam_keyword[]" type="checkbox" value="bad_group" id="bad_group">
+        <label style="display: inline;" for="bad_group">
+          秀出廣告群組發的留言
+        </label>
+      </div>
+      <div style="display:inline-block; float: left; font-size: 81.25%; padding:4px 8px;">
         <input type="checkbox" value="<{$spam.keyword}>" id="clickAll" checked>
         <label style="display: inline;" for="clickAll">
           ALL

@@ -24,7 +24,7 @@ class Tools
         }
 
         $onlyToArr = explode(',', $onlyTo);
-        $now_uid = $xoopsUser->uid();
+        $now_uid   = $xoopsUser->uid();
 
         if (in_array($now_uid, $onlyToArr)) {
             return true;
@@ -35,7 +35,7 @@ class Tools
         }
 
         if ($BoardID) {
-            $board = self::get_tad_discuss_board($BoardID);
+            $board           = self::get_tad_discuss_board($BoardID);
             $BoardManagerArr = explode(',', $board['BoardManager']);
             if (in_array($now_uid, $BoardManagerArr)) {
                 return true;
@@ -53,7 +53,7 @@ class Tools
             return;
         }
 
-        $sql = 'SELECT `name`, `uname` FROM `' . $xoopsDB->prefix('users') . '` WHERE `uid` IN(?)';
+        $sql    = 'SELECT `name`, `uname` FROM `' . $xoopsDB->prefix('users') . '` WHERE `uid` IN(?)';
         $result = Utility::query($sql, 's', [$onlyTo]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $allname = [];
@@ -73,12 +73,27 @@ class Tools
             return;
         }
 
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardID` = ?';
+        $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_discuss_board') . '` WHERE `BoardID` = ?';
         $result = Utility::query($sql, 'i', [$BoardID]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $data = $xoopsDB->fetchArray($result);
 
         return $data;
+    }
+
+    public static function getUserRealIP()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];
+        }
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // 可能有多個 IP，以逗號分隔，取第一個
+            $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            return trim($ipList[0]);
+        }
+
+        return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
 
 }

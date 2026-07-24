@@ -5,6 +5,8 @@
 「{DISCUSS_TITLE}」
 
 {DISCUSS_CONTENT}
+
+發文者：{DISCUSS_UID} From {DISCUSS_IP}
 -----------
 
 您可以點選以下位址觀看完整討論串：
@@ -25,4 +27,3 @@
 {X_SITENAME} ({X_SITEURL})
 網站管理員 敬上
 {X_ADMINMAIL}
-

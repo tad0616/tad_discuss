@@ -7,7 +7,9 @@ if (!class_exists('XoopsModules\Tad_discuss\Update')) {
 }
 function xoops_module_update_tad_discuss(&$module, $old_version)
 {
-    global $xoopsDB;
+
+    Update::checkFulltextIndex();
+
     if (Update::chk_chk1()) {
         Update::go_update1();
     }

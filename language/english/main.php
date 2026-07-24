@@ -46,3 +46,4 @@ define('_MD_TADDISCUS_TXTUNLOCK', 'Unlocked: form can be submitted');
 define('_MD_TADDISCUS_CAPTCHA_ERROR', 'Did not pass validation, can not be saved.');
 
 define('_MD_TADDISCUS_NOBODY', 'Passing visitors');
+define('_MD_TADDISCUS_PLEASE_LOGIN', 'Please login first');

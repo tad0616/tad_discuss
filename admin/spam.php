@@ -79,6 +79,21 @@ function list_spam()
     $xoopsTpl->assign('jquery', Utility::get_jquery());
 }
 
+function processKeyword($keyword)
+{
+    global $xoopsDB;
+    return 'OR ' . $xoopsDB->escape(trim($keyword));
+}
+
+function formatSearchTerms($keywords)
+{
+    $terms = array();
+    foreach ($keywords as $keyword) {
+        $terms[] = processKeyword($keyword);
+    }
+    return implode(' ', $terms);
+}
+
 //搜尋垃圾
 function search_spam()
 {
@@ -86,42 +101,65 @@ function search_spam()
     $bad_group_id = $xoopsModuleConfig['bad_group'];
     $xoopsTpl->assign('bad_group_id', $bad_group_id);
 
-    $new_spam_keyword = $clean_spam_keyword = [];
-    if (!empty($_POST['new_spam_keyword'])) {
-        $new_spam_keyword = explode(',', $_POST['new_spam_keyword']);
-        foreach ($new_spam_keyword as $value) {
+    if (in_array($bad_group_id, $_POST['spam_keyword'])) {
+        $sql = 'SELECT DISTINCT a.`DiscussID`, a.`ReDiscussID`, a.`DiscussTitle`,
+        a.`uid`, a.`DiscussDate`, a.`Counter`, b.`name`, b.`uname`, c.`groupid`
+        FROM `' . $xoopsDB->prefix('tad_discuss') . '` AS a
+        LEFT JOIN `' . $xoopsDB->prefix('users') . '` AS b ON a.`uid` = b.`uid`
+        LEFT JOIN `' . $xoopsDB->prefix('groups_users_link') . "` AS c ON a.`uid` = c.`uid`
+        AND c.`groupid` = '$bad_group_id'
+        ORDER BY a.`uid`";
+    } else {
+        $new_spam_keyword = $clean_spam_keyword = [];
+        if (!empty($_POST['new_spam_keyword'])) {
+            $new_spam_keyword = explode(',', $_POST['new_spam_keyword']);
+            foreach ($new_spam_keyword as $value) {
+                $clean_spam_keyword[$value] = $value;
+            }
+        }
+
+        $spam_keyword = explode(',', $xoopsModuleConfig['spam_keyword']);
+        foreach ($spam_keyword as $value) {
             $clean_spam_keyword[$value] = $value;
         }
-    }
 
-    $spam_keyword = explode(',', $xoopsModuleConfig['spam_keyword']);
-    foreach ($spam_keyword as $value) {
-        $clean_spam_keyword[$value] = $value;
-    }
-
-    foreach ($clean_spam_keyword as $spam_keyword) {
-        $spam_keyword = trim($spam_keyword);
-        $sql = 'SELECT a.`DiscussID`, a.`ReDiscussID`, a.`DiscussTitle`, a.`uid`, a.`DiscussDate`, a.`Counter`, b.`name`, b.`uname`, c.`groupid` FROM `' . $xoopsDB->prefix('tad_discuss') . '` AS a
-        LEFT JOIN `' . $xoopsDB->prefix('users') . '` AS b ON a.`uid` = b.`uid`
-        LEFT JOIN `' . $xoopsDB->prefix('groups_users_link') . '` AS c ON a.`uid` = c.`uid` AND c.`groupid` = ?
-        WHERE a.`DiscussTitle` LIKE ? OR a.`DiscussContent` LIKE ?
-        ORDER BY a.`uid`';
-        $result = Utility::query($sql, 'iss', [$bad_group_id, "%$spam_keyword%", "%$spam_keyword%"]) or Utility::web_error($sql, __FILE__, __LINE__);
-
-        $i = 0;
-        while (false !== ($all = $xoopsDB->fetchArray($result))) {
-            //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
-            foreach ($all as $k => $v) {
-                $$k = $v;
-                $all_content[$i][$k] = $v;
+        // 建立 LIKE 條件
+        $conditions = array();
+        foreach ($clean_spam_keyword as $keyword) {
+            $keyword = $xoopsDB->escape(trim($keyword));
+            if (!empty($keyword)) {
+                $conditions[] = "a.`DiscussTitle` LIKE '%{$keyword}%'";
+                $conditions[] = "a.`DiscussContent` LIKE '%{$keyword}%'";
             }
-
-            $all_content[$i]['uid_name'] = $name ? $name : $uname;
-            $all_content[$i]['spam_keyword'] = $spam_keyword;
-            $all_content[$i]['bad_group'] = $bad_group_id == $groupid ? true : false;
-            $i++;
         }
+
+        // $search_terms = formatSearchTerms($clean_spam_keyword);
+        $sql = 'SELECT DISTINCT a.`DiscussID`, a.`ReDiscussID`, a.`DiscussTitle`,
+        a.`uid`, a.`DiscussDate`, a.`Counter`, b.`name`, b.`uname`, c.`groupid`
+        FROM `' . $xoopsDB->prefix('tad_discuss') . '` AS a
+        LEFT JOIN `' . $xoopsDB->prefix('users') . '` AS b ON a.`uid` = b.`uid`
+        LEFT JOIN `' . $xoopsDB->prefix('groups_users_link') . "` AS c ON a.`uid` = c.`uid`
+            AND c.`groupid` = '$bad_group_id'
+        WHERE (" . implode(' OR ', $conditions) . ")
+        ORDER BY a.`uid`";
+
     }
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+    $i = 0;
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
+        //以下會產生這些變數： $DiscussID , $ReDiscussID , $uid , $DiscussTitle , $DiscussContent , $DiscussDate , $BoardID , $LastTime , $Counter
+        foreach ($all as $k => $v) {
+            $$k = $v;
+            $all_content[$i][$k] = $v;
+        }
+
+        $all_content[$i]['uid_name'] = $name ? $name : $uname;
+        $all_content[$i]['spam_keyword'] = $spam_keyword;
+        $all_content[$i]['bad_group'] = $bad_group_id == $groupid ? true : false;
+        $i++;
+    }
+    // }
 
     if ($bad_group_id > 3) {
         $all_uid = [];

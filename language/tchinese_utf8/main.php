@@ -44,3 +44,4 @@ define('_MD_TADDISCUS_NOBODY', '路過的訪客');
 define('_MD_TADDISCUS_TXTLOCK', '鎖定中，滑動解鎖後才能執行送出');
 define('_MD_TADDISCUS_TXTUNLOCK', '已可執行送出');
 define('_MD_TADDISCUS_CAPTCHA_ERROR', '未通過驗證，無法儲存。');
+define('_MD_TADDISCUS_PLEASE_LOGIN', '請先登入');

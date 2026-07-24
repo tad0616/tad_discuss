@@ -4,12 +4,13 @@
     <div class="jumbotron bg-light p-5 rounded-lg m-3">
       <h1><{$smarty.const._MA_TADDISCUS_NO_XFORUM}></h1>
     </div>
+
   <{elseif $op=='listBoard'}>
     <div class="pull-right float-right pull-end">
     <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID|default:''}>" class="btn btn-lg btn-info"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS}></a>
     <a href="copybb.php?op=copyDiscuss&BoardID=<{$BoardID|default:''}>&mode=force" class="btn btn-lg btn-warning"><{$smarty.const._MA_TADDISCUS_COPY_DISCUSS_FORCE}></a>
-    </div>
-    <div class="clearfix"></div>
+    <!-- </div>
+    <div class="clearfix"></div> -->
 
     <form action="copybb.php" method="post" class="form-horizontal" role="form">
     <table class="table table-striped table-bordered table-hover">

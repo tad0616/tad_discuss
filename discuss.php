@@ -334,6 +334,7 @@ function show_one_tad_discuss($DefDiscussID = '')
 
     $SweetAlert = new SweetAlert2();
     $SweetAlert->render("delete_tad_discuss_func", "discuss.php?op=delete_tad_discuss&ReDiscussID=$DefDiscussID&BoardID={$discuss['BoardID']}&DiscussID=", 'DiscussID');
+
     $Board = Tools::get_tad_discuss_board($discuss['BoardID']);
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_discuss') . " where DiscussID='$DefDiscussID' or ReDiscussID='$DefDiscussID' order by ReDiscussID , DiscussDate";

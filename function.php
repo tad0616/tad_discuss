@@ -430,7 +430,7 @@ function delete_tad_discuss($DiscussID = '')
     $anduid = onlyMineDiscuss($DiscussID);
 
     $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_discuss') . '` WHERE `DiscussID`=? ' . $anduid;
-    if (Utility::query($sql, 'i', [$DiscussID])) {
+    if (Utility::query($sql, 'i', [$DiscussID], true, false, null, true)) {
         $TadUpFiles->set_col('DiscussID', $DiscussID); //若要整個刪除
         $TadUpFiles->del_files();
 
@@ -467,10 +467,12 @@ function insert_tad_discuss($nl2br = false)
 {
     global $xoopsDB, $xoopsUser, $TadUpFiles;
 
-    if (strpos($_SERVER['HTTP_REFERER'], XOOPS_URL . '/modules/tad_discuss/discuss.php?op=tad_discuss_form') === false and strpos($_SERVER['HTTP_REFERER'], XOOPS_URL . '/modules/tad_discuss/post.php?BoardID=') === false) {
+    if (strpos($_SERVER['HTTP_REFERER'], XOOPS_URL . '/modules/tad_discuss/discuss.php') === false and strpos($_SERVER['HTTP_REFERER'], XOOPS_URL . '/modules/tad_discuss/post.php?BoardID=') === false) {
         //如果不是從討論區進來的，則不檢查
-        header('location:' . XOOPS_URL . '/modules/tad_discuss/index.php');
-        exit;
+        redirect_header($_SERVER['PHP_SELF'], 3, "{$_SERVER['HTTP_REFERER']} 為不合法來源，請從討論區進來");
+        return;
+        // header('location:' . XOOPS_URL . '/modules/tad_discuss/index.php');
+        // exit;
     }
 
     Utility::xoops_security_check(__FILE__, __LINE__);
